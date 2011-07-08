@@ -1,19 +1,21 @@
+% changes
+% 07/07/2011 everyglft now works in wrap glstyle
+% 07/07/2011 \rightcite (used in Manual) added
 \edef\resetatcatcode{\catcode`\noexpand\@\the\catcode`\@\relax}
 \catcode`\@11\relax
 \ifx\XKeyValLoaded\endinput \else
    \input xkeyval \fi
 \ifx\ProvidesFile\@undefined
-   \message{2011/07/07 v3.2 ExPex linguistics
+   \message{2011/07/04 v3.2 ExPex linguistics
       example formatter (JF)}
 \else
-   \ProvidesFile{expex.tex}[2011/07/07 v3.2
+   \ProvidesFile{expex.tex}[2011/07/04 v3.2
       ExPex linguistics example formatter (JF)]
    \@addtofilelist{expex.tex}
    \let\it=\itshape
 \fi
 % define eplain primitives, if necessary
 \ifx\eplain\@undefined  % eplain stuff
-\def\ep@expandonce{\expandafter\noexpand}
 \def\@futurenonspacelet#1{\def\@cs{#1}%
    \afterassignment\@stepone\let\@nexttoken= }%
 \def\@stepone{\expandafter\futurelet\@cs\@steptwo}%
@@ -41,6 +43,7 @@
 \def\gobble#1{}
 \fi
 %%%%%%%%%%%%%%%%%%%%%% end of eplain inclusions
+\def\ep@expandonce{\expandafter\noexpand}
 \def\@getoptionaltag#1{%
    \let\@@optionaltemp = #1%
    \let\@optionaltag\empty
@@ -700,11 +703,11 @@
             \let\begingl@type=\begingl@T
             \let\endgl\endgl@W
          \or
-            \let\begingl@type=\begingl@W
-            \let\endgl=\endgl@W
+            \let\begingl@type=\begingl@Wb
+            \let\endgl=\endgl@Wb
             \let\gla\gla@W
             \let\glb\glb@W
-            \let\glft\glft@W
+            \let\glft\glft@Wb
          \or
             \let\begingl@type=\begingl@L
             \let\endgl=\endgl@L
@@ -733,9 +736,9 @@
 \define@linginckey\skip{}{@}{aboveglftskip}
 %--------------- Wrap style (W) ---------------------------
 \newif\ifW@prefixbox
-\def\begingl@W{\W@prefixboxfalse
+\def\begingl@Wb{\W@prefixboxfalse
    \@ifnextchar\gla@W\begingl@W@aux\begingl@W@withprefix}
-\def\endgl@W{\egroup\egroup}
+\def\endgl@Wb{\egroup\egroup}
 \def\begingl@W@aux{%
    \leavevmode
    \ifW@prefixbox \box\W@prefixbox \fi
@@ -832,17 +835,20 @@
 \long\def\glc@W@#1\endgl{\par\leftskip=0pt
    {\ling@usearg\vskip\ling@aboveglcskip
    \ling@everyglc #1\strut\par}\egroup\egroup}
-\def\glft@W{\leavevmode\leftskip=0pt \@tildecheck\glft@W@a}
-\def\glft@W@a #1//{%
-   \if@tilde \else \vskip\ling@aboveglftskip \fi
+%\def\glft@W{\leavevmode\leftskip=0pt \@tildecheck\glft@W@a}
+%\def\glft@W@a #1//{%
+%   \if@tilde \else \vskip\ling@aboveglftskip \fi
 %   \strut #1
-   \noindent\ling@everyglft\strut #1
-}
-\def\glft@W{\@tildecheck\glft@W@a}
+%   \noindent\ling@everyglft\strut #1
+%}
+\def\glft@Wb{\@tildecheck\glft@W@a}
 \def\glft@W@a #1//{%
    \if@tilde \par \else \vskip\ling@aboveglftskip \fi
    \nobreak\prevdepth=.28\baselineskip
-   \leavevmode\leftskip=0pt\noindent\strut #1%
+   \leavevmode
+   \ling@everyglft
+   \leftskip=0pt
+   \noindent\strut #1%
 }
 \newdimen\toplinedp
 \newdimen\botlineht
@@ -1005,6 +1011,8 @@
 \lingset{everybracket=\rm,bracketsep=.15em,glufcloseup=.4ex,
    everygluf=\sc}
 \resetatcatcode
+\def\rightcite#1{\rlap{\advance\hsize by -\leftskip
+   \hbox to\hsize{\hfil #1}}\ignorespaces}
 \lingset{%
    aboveglcskip=0pt,
    aboveglftskip=1ex,
