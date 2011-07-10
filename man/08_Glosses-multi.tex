@@ -1,0 +1,222 @@
+
+\subsection Multiple gloss lines
+
+\noindent For simple glosses, it makes almost no difference
+whether |gltype| is set to |multilevel| or |wrap|, as illustrated
+below.
+
+\framedisplay
+\pex[everygl=,aboveglcextraskip=0pt,aboveglftskip=0pt]
+\a \begingl[gltype=multilevel]
+\gla Il semble au g\'en\'eral \^etre arriv\'e deux soldats
+en ville.//
+\glb there seems {to the} general {to be} arrived two soldiers
+in town//
+\glft `There seems to the general to have arrived two soldiers in
+town.'//
+\endgl
+\a \begingl[gltype=wrap]
+\gla Il semble au g\'en\'eral \^etre arriv\'e deux soldats
+en ville.//
+\glb there seems {to the} general {to be} arrived two soldiers
+in town//
+\glft `There seems to the general to have arrived two soldiers in
+town.'//
+\endgl
+\xe
+\endframedisplay
+
+\codedisplay~
+\pex[everygl=,aboveglcextraskip=0pt,aboveglftskip=0pt]
+\a \begingl[gltype=multilevel]
+\gla Il semble au g\'en\'eral \^etre arriv\'e deux soldats
+en ville.//
+\glb there seems {to the} general {to be} arrived two soldiers
+in town//
+\glft `There seems to the general to have arrived two soldiers in
+town.'//
+\endgl
+\a \begingl[gltype=wrap]
+\gla Il semble au g\'en\'eral \^etre arriv\'e deux soldats
+en ville.//
+\glb there seems {to the} general {to be} arrived two soldiers
+in town//
+\glft `There seems to the general to have arrived two soldiers in
+town.'//
+\endgl
+|endcodedisplay
+
+Multi-glosses have a drawback, but also a distinct advantage. The
+drawback is that multi-glosses do not wrap automatically.  The
+advantage is that |\gla| and |\glb| can be used multiple times,
+as shown below.
+
+\framedisplay
+\ex[gltype=multilevel,everygla=,everyglb=,everyglc=,
+   aboveglaskip=0pt,aboveglbskip=0pt,aboveglftskip=1ex]
+\begingl
+\gla k- wapm -a -s'i -m -wapunin -uk //
+\glb Cl V Agr Neg Agr Tns Agr //
+\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glft `you (pl) didn't see them'//
+\endgl
+\xe
+\endframedisplay
+\codedisplay~
+\ex[gltype=multilevel,everygla=,everyglb=,everyglc=,
+   aboveglaskip=0pt,aboveglbskip=0pt,aboveglftskip=1ex]
+\begingl
+\gla k- wapm -a -s'i -m -wapunin -uk //
+\glb Cl V Agr Neg Agr Tns Agr //
+\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glft `you (pl) didn't see them'//
+\endgl
+\xe
+|endcodedisplay
+
+It is worth noting that, in practice, it is most likely that
+a style would be defined as follows.
+\codedisplay
+\definelingstyle{glabb}{gltype=multilevel,everygla=,everyglb=,
+   everyglc=,aboveglaskip=0pt,aboveglbskip=0pt,aboveglftskip=1ex}
+|endcodedisplay
+Then \def\vd{\hbox{$\qquad \vdots$}}
+\codedisplay
+\ex[lingstyle=glabb]
+\begingl
+|vd
+\endgl
+\xe
+|endcodedisplay
+\noindent would be sufficient.
+
+Repeating |\glb| does not allow different fonts or spacing for the two
+lines.  In order to permit this, another level |\glc| is
+predefined.  For example, suppose a style is defined by
+
+\codedisplay
+\definelingstyle{glabc}{gltype=multilevel,everygl=,everygla=,
+   everyglb=\elevenpoint,aboveglbskip=.3ex,
+   everyglc=\tenpoint,aboveglcskip=-.3ex,
+   everyglft=\it,aboveglftskip=1ex}
+|endcodedisplay
+
+\noindent |\elevenpoint| and |\tenpoint| are the ways 11 point
+and 10 point type are invoked in my font setup.  This will vary
+from user to user, so no attempt is made here to detail the
+macros I rely on (which are variations on the ones in the
+TexBook).
+
+\definelingstyle{glabc}{gltype=multilevel,everygl=,everygla=,
+   everyglb=\elevenpoint,aboveglbskip=.3ex,
+   everyglc=\tenpoint,aboveglcskip=-.3ex,
+   everyglft=\it,aboveglftskip=1ex}
+\def\tenpoint{\tenrm \let\sc\eightrm}%
+\def\elevenpoint{\elevenrm}
+\definegllevels{word}
+
+Then
+
+\codedisplay
+\ex[lingstyle=glabc,gltype=multilevel]
+\begingl
+\gla k- wapm -a -s'i -m -wapunin -uk //
+\glb Cl V Agr Neg Agr Tns Agr //
+\glc 2 see {3\sc ACC} {} 2pl preterit 3pl //
+\glft {`you (pl) didn't see them'}//
+\endgl
+\xe
+|endcodedisplay
+
+produces
+
+\framedisplay
+\ex[lingstyle=glabc,gltype=multilevel]
+\begingl
+\gla k- wapm -a -s'i -m -wapunin -uk //
+\glb Cl V Agr Neg Agr Tns Agr //
+\glc 2 see {3\sc ACC} {} 2pl preterit 3pl //
+\glft {`you (pl) didn't see them'}//
+\endgl
+\xe
+\endframedisplay
+
+\noindent (The settings for the style |glabc| are chosen for
+illustrative purposes, not because this is a particularly
+attractive display.)
+
+
+
+
+\font\ips=xipasl10 at 12pt
+\font\ipss=xipasl10 at 7pt
+\def\mroot{$\surd$}
+\def\L{\char'354}
+\def\v#1{{\accent"07 #1}}
+\def\C{{\accent"07 c}}
+\def\W{$^{\hbox{\ipss w}}\mskip-2mu$}
+
+\subsection  Line breaking (non-automatic)
+
+Macros:\quad \idx{|\moregl|}
+
+\parinventory
+& \idx{|moregloffset|}& dimension& 1em\cr
+& \idx{|abovemoreglskip|}& skip& .5ex plus .2ex\cr
+\endparinventory
+
+
+
+Assuming that |\ips| selects the tipa slant font and |\mroot|, |\L|,
+and |\W| are appropriately defined, the code below produces the
+display below it.
+
+\codedisplay
+\definelingstyle{ips-gloss}%
+   {gltype=multilevel,glspace=1em,everygla=\ips,moregloffset=1.5em,
+   abovemoreglskip=1ex,aboveglftskip=1.5ex}
+
+\ex[lingstyle=ips-gloss]
+\begingl
+\gla hoi Ekn {\L}E {x\W}ElEP t{g\W}El' st{\'\i}m//
+\gla hoi {\mroot}PEkn {\L}E {x\W}ElEP t{g\W}El' {s + \mroot t\'\i m}//
+\glb then {\mroot}say det Meadowlark why
+   {nomlz + \mroot what}//
+\glb then {she said} det Meadowlark why {what is it}//
+\moregl
+\gla {hE\L} {kuPEcx\W ist} {\L a} Pa{\v c}sEtqEt//
+\gla {hE\L} ku-PEc-\mroot{x\W}ist {\L}a Pa{\v c}sEtqEt//
+\glb conn 2nom-cust-{\mroot}one.travels det {day time}//
+\glb conn {you travel about} det {day time}//
+\glft Then Meadowlark said, ``Why do you travel about in the day
+time?''//
+\endgl
+\xe
+|endcodedisplay
+
+\definelingstyle{ips-gloss}%
+   {gltype=multilevel,glspace=1em,everygla=\ips,moregloffset=1.5em,
+   abovemoreglskip=1ex,aboveglftskip=1.5ex}
+
+\framedisplay~
+\ex[lingstyle=ips-gloss]
+\begingl
+\gla hoi Ekn {\L}E {x\W}ElEP t{g\W}El' st{\'\i}m//
+\gla hoi {\mroot}PEkn {\L}E {x\W}ElEP t{g\W}El' {s + \mroot t\'\i m}//
+\glb then {\mroot}say det Meadowlark why
+   {nomlz + \mroot what}//
+\glb then {she said} det Meadowlark why {what is it}//
+\moregl
+\gla {hE\L} {kuPEcx\W ist} {\L a} Pa{\v c}sEtqEt//
+\gla {hE\L} ku-PEc-\mroot{x\W}ist {\L}a Pa{\v c}sEtqEt//
+\glb conn 2nom-cust-{\mroot}one.travels det {day time}//
+\glb conn {you travel about} det {day time}//
+\glft Then Meadowlark said, ``Why do you travel about in the day
+time?''//
+\endgl
+\xe
+\endframedisplay
+
+\noindent This example was contributed by Shannon Bischoff.
+
+

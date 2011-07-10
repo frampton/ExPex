@@ -1,0 +1,522 @@
+
+\edef\resetatcatcode{\catcode`\noexpand\@\the\catcode`\@\relax}%
+\catcode`\@11\relax
+\ifx\XKeyValLoaded\endinput \else
+   \input xkeyval \fi
+\ifx\ProvidesFile\@undefined
+   \message{2008/05/08 v1.0(beta) ExPex linguistics
+      example formatter (JF)}
+\else
+   \ProvidesFile{expex.tex}[2008/05/08 v1.0(beta)
+      ExPex linguistics example formatter (JF)]
+   \@addtofilelist{expex.tex}
+\fi
+% define eplain primitives, if necessary
+\ifx\eplain\@undefined  % eplain stuff
+\def\@futurenonspacelet#1{\def\@cs{#1}%
+   \afterassignment\@stepone\let\@nexttoken= }%
+\def\@stepone{\expandafter\futurelet\@cs\@steptwo}%
+\def\@steptwo{\expandafter\ifx\@cs\@sptoken\let\@@next=\@stepthree
+   \else\let\@@next=\@nexttoken\fi \@@next}%
+\def\@stepthree{\afterassignment\@stepone\let\@@next= }%
+\def\@getoptionalarg#1{%
+   \let\@optionaltemp = #1%
+   \let\@optionalnext = \relax
+   \@futurenonspacelet\@optionalnext\@bracketcheck
+}%
+\def\@bracketcheck{%
+   \ifx [\@optionalnext
+      \expandafter\@@getoptionalarg
+   \else
+      \let\@optionalarg = \empty
+      \expandafter\@optionaltemp
+   \fi
+}%
+\def\@@getoptionalarg[#1]{%
+   \def\@optionalarg{#1}%
+   \@optionaltemp
+}%
+\def\identity#1{#1}%
+\fi
+% end of eplain inclusions
+\def\@getoptionaltag#1{%
+   \let\@optionaltemp = #1%
+   \@ifnextcharacter<\@@gettag
+      {\let\@optionaltag\empty \@optionaltemp}%
+}
+\def\@@gettag<#1>{\def\@optionaltag{#1}\@optionaltemp}
+
+\newif\if@tilde
+\def\@tildecheck#1{%
+   \@ifnextcharacter~%
+      {\@tildetrue\expandafter#1\@gobble}%
+      {\@tildefalse#1}%
+}
+% ------ XKV parametrization ------
+\def\define@lingkey{\define@key{ling}}
+\def\define@ling@inckey#1{%
+   \define@key{ling}{#1}%
+      {\expandafter\@setinckey\csname ling@#1\endcsname##1\@nil}%
+}
+% user friendly inc keys
+\def\define@linginckey#1{%
+   \define@key{ling}{#1}%
+      {\expandafter\@setinckey\csname ling#1\endcsname##1\@nil}%
+}
+\def\define@ling@cmdkeys{\define@cmdkeys{ling}[ling@]}
+\def\define@lingcmdkeys{\define@cmdkeys{ling}[ling]}
+\def\@setinckey#1#2#3\@nil{%
+   \ifx#2!%
+      \dimen0=#1
+      \advance\dimen0 by #3
+   \else
+      \dimen0=#2#3
+   \fi
+   \edef#1{\the\dimen0}%
+}
+\def\lingset#1{\setkeys{ling}{#1}\ignorespaces}
+% \Lingset first sets ling keys, if there are non-ling keys
+% remaining, these are then passed to \psset
+\def\Lingset#1{\setkeys*{ling}{#1}%
+   \ifx\XKV@rm\@empty \else
+   \expandafter\psset\expandafter{\XKV@rm}\fi}
+\def\Ling@usearg{\expandafter\Lingset\expandafter{\@optionalarg}}
+\def\ling@usearg{\expandafter\lingset\expandafter{\@optionalarg}}
+% styles
+\define@lingkey{lingstyle}{%
+   \edef\temp{\csname ling@#1style\endcsname}%
+      \expandafter\Lingset\expandafter{\temp}}
+\def\definelingstyle#1#2{%
+   \expandafter\def\csname ling@#1style\endcsname{#2}}
+% if PST available, allow \psset to set ling parameters,
+% otherwise cancel \Lingset's ability to set PST parameters
+\ifx\PSTricksLoaded\endinput
+   \pst@addfams{ling}
+\else
+   \let\Lingset=\lingset
+\fi
+% ----- \ex -----
+\newcount\excnt
+\excnt=0
+\define@linginckey{numoffset}
+\define@linginckey{textoffset}
+\define@ling@cmdkeys{Everyex,everyex,
+   aboveexskip,belowexskip,
+   exnosplitfil,
+   exnosplitpenalty,
+   goodparpenalty,
+   goodparfil
+}
+\define@lingkey{exskip}%
+   {\edef\ling@aboveexskip{#1}%
+   \edef\ling@belowexskip{#1}%
+}
+\lingset{%
+   numoffset=0pt,
+   textoffset=1em,
+   Everyex=,
+   everyex=,
+   aboveexskip=2.7ex plus .4ex minus .4ex,
+   belowexskip=2.7ex plus .4ex minus .4ex,
+   exnosplitfil=0pt plus .3\vsize,
+   exnosplitpenalty=300,
+   goodparfil=0pt plus .15\vsize,
+   goodparpenalty=-10
+}
+\newif\if@judge
+\newif\if@specialexno
+\newcount\ex@type
+\def\ex{\bgroup \ex@type=0
+   \@tildecheck\ex@a}
+\def\ex@a{\@getoptionalarg\ex@aa}
+\def\ex@aa{\@getoptionaltag\ex@d}
+%\def\ex@aa{\@getoptionaltag\ex@b}
+%\def\ex@b{\@ifnextchar({\@judgetrue\ex@c}{\@judgefalse\ex@d}}
+%\def\ex@c(#1){\def\@judgment{#1}\ex@d}
+\def\ex@d{%
+   \ex@setup
+   \setbox0=\hbox{%
+      \hskip\lingnumoffset
+      \if@specialexno \specialexnoprint\else\exnoprint\fi
+      \hskip\lingtextoffset}%
+   \leftskip=\wd0
+   \par\nobreak
+   \leavevmode\llap{\unhbox0}%
+%   \if@judge\ljudge{\@judgment}\fi
+   \ignorespaces
+}
+\def\exnoprint{(\the\excnt)}
+\def\specialexnoprint{(\ling@specialexno)}
+\def\ex@setup{%
+   \@specialexnofalse
+   \global\advance\excnt by 1
+   \ling@Everyex
+   \Ling@usearg
+   \ifx\@optionaltag\empty
+      \let\@localextag=\empty
+   \else
+      \edef\@localextag{\@optionaltag}%
+      \deftag{\the\excnt}{\@optionaltag}%
+   \fi
+   \if@specialexno \global\advance\excnt by -1 \fi
+   \if@tilde \else \vskip\ling@aboveexskip \fi
+   \skip255=\ling@exnosplitfil
+   \vskip\skip255
+   \penalty\ling@exnosplitpenalty
+   \vskip-\skip255
+   \parindent=0pt
+   \ling@everyex
+}
+\def\noexno{\global\advance\excnt by -1}
+\def\goodpar{\endgraf
+   \skip255=\ling@goodparfil
+   \vskip\skip255
+   \penalty\ling@goodparpenalty
+   \multiply\skip255 by -1
+   \vskip\skip255
+}
+\def\xe{\expandafter\vskip\ling@belowexskip
+   \allowbreak \egroup \prevdepth\dp\strutbox \noindent}
+\def\exdisplay{\bgroup\@tildecheck\exdisplay@a}
+\def\exdisplay@a{\@getoptionalarg\exdisplay@b}
+\def\exdisplay@b{\let\@optionaltag=\empty \ex@setup}
+% ----- \pex -----
+\newcount\pexcnt
+\newdimen\@pexoffset
+\newif\if@ispreamble
+\define@ling@inckey{preambleoffset}
+\define@linginckey{labelwidth}
+\define@linginckey{labeloffset}
+\define@ling@cmdkeys{belowpreambleskip,interpartskip,splitexpenalty}
+\define@choicekey{ling}{labeltype}[\ling@labeltype\@@labeltype]%
+   {alpha,numeric,caps}{%
+      \ifnum\@@labeltype=1
+            \def\@@label{\the\pexcnt}%
+            \lingset{labelalign=right}%
+         \else
+            \def\@@label{\char\the\pexcnt}%
+            \lingset{labelalign=left}%
+         \fi
+}
+\define@choicekey{ling}{labelalign}[\ling@labelalign\nr]%
+   {left,center,right}{%
+      \ifcase\nr
+            \def\@labelprint{\@@label.\hss}%
+         \or
+            \def\@labelprint{\hss\@@label.\hss}%
+         \or
+            \def\@labelprint{\hss\@@label.}%
+         \fi
+}
+\define@key{ling}{samplelabel}{%
+   \setbox0=\hbox{#1}%
+   \lingset{labelwidth=\wd0}%
+}
+\lingset{%
+   labeltype=alpha,
+   labelalign=left,
+   labeloffset=1em,
+   labelwidth=.78em,
+   preambleoffset=1em,
+   belowpreambleskip=1ex,        % vskip after the preamble
+   interpartskip=1ex,            % vskip between parts
+   splitexpenalty=200,
+}
+\let\nopreamble=\ignorespaces
+\def\pex{\bgroup\@tildecheck\pex@a}
+\def\pex@a{\@getoptionalarg\pex@ab}
+\def\pex@ab{\@getoptionaltag\pex@b}
+\def\pex@b{\@ispreamblefalse\@futurenonspacelet\temp\pex@c}
+\def\pex@c{%
+   \ifx\temp\a
+      \else \ifx\temp\nopreamble
+         \else \@ispreambletrue \fi\fi
+   \pex@d
+}
+\newif\if@firstlabel
+\def\pex@d{%
+   \ex@setup
+   \@pexoffset=\linglabeloffset
+   \advance\@pexoffset by \linglabelwidth
+   \advance\@pexoffset by \lingtextoffset
+   \pexcnt@init
+   \@firstlabeltrue
+   \let\a\put@label
+   \ling@everyex
+   \setbox0=\hbox{%
+      \hskip\lingnumoffset
+      \if@specialexno \specialexnoprint\else\exnoprint\fi
+      \if@ispreamble
+         \hskip\ling@preambleoffset
+      \else
+         \hskip\@pexoffset
+      \fi }%
+   \leftskip=\wd0
+   \leavevmode\llap{\unhbox0}%
+}
+\def\pexcnt@init{%
+   \ifcase\@@labeltype
+      \pexcnt=96 \or \pexcnt=0 \or \pexcnt=64
+      \fi
+}
+\def\put@label{%
+   \if@firstlabel
+      \if@ispreamble
+         \par
+         \vskip\ling@belowpreambleskip
+         \advance\leftskip by -\ling@preambleoffset
+         \advance\leftskip by \@pexoffset
+         \fi
+      \@firstlabelfalse
+   \else
+      \vskip\ling@interpartskip
+   \fi
+   \put@label@a
+}
+\def\put@label@a{\@getoptionaltag\put@label@d}
+%\def\put@label@a{\@getoptionaltag\put@label@b}
+\def\put@label@b{\@ifnextchar(%
+   {\@judgetrue\put@label@c}{\@judgefalse\put@label@d}}
+\def\put@label@c(#1){\def\@judgment{#1}\put@label@d}
+\define@choicekey{ling}{labelanchor}[\ling@labelanchor\@@labelanchor]%
+   {numright,numleft,margin}[numright]{}
+\lingset{labelanchor}
+\def\put@label@d{%
+   \advance\pexcnt by 1
+   \ifx\@optionaltag\empty
+      \else
+         \deftaglabel{\@optionaltag}%
+      \fi
+   \ifnum\@@labelanchor>0
+      \par
+      \leftskip=\@pexoffset
+      \ifnum\@@labelanchor=1
+         \advance\leftskip by \lingnumoffset \fi
+   \fi
+   \leavevmode
+   \llap{\hbox to\linglabelwidth{\@labelprint}%
+      \hskip\lingtextoffset}%
+%   \if@judge \ljudge{\@judgment}\fi
+   \ignorespaces
+}
+%----- judgments -----
+\def\judge#1{\rm #1\kern .1em \ignorespaces}
+\def\ljudge#1{\llap{\judge{#1}}\ignorespaces}
+\define@key{ling}{*}[*]%
+   {\setbox0=\hbox{#1}%
+   \lingset{textoffset=!\wd0}%
+}
+%----- local reference to example numbers -----
+\def\nextx{\@printref{\advance\excnt by 1 \number\excnt}}
+\def\anextx{\@printref{\advance\excnt by 2 \number\excnt}}
+\def\lastx{\@printref{\number\excnt}}
+\def\currx{\the\excnt\relax}
+\def\blastx{\@printref{\advance\excnt by -1 \number\excnt}}
+\def\bblastx{\@printref{\advance\excnt by -2 \number\excnt}}
+%----- gloss tools
+\define@ling@inckey{glspace}
+\define@ling@inckey{abovemoreglskip}
+\define@ling@inckey{aboveglcskip}
+\define@ling@inckey{moregloffset}
+\define@ling@cmdkeys{everygla,everyglb,everyglc}
+\lingset{glspace=.6em,everygla=\it,everyglb=,everyglc=,
+   aboveglcskip=.5ex,moregloffset=0pt,abovemoreglskip=.25ex}
+\def\begingl{\leavevmode\vtop\bgroup
+   \@getoptionalarg\begingl@ss}
+\def\begingl@ss{%
+   \ling@usearg
+   \vtop\bgroup
+      \let\ling@@everygl\ling@everygla
+      \halign\bgroup ##\hfil &&
+         \kern\ling@glspace ##\hfil\cr
+}
+\def\moregl{%
+   \egroup\egroup \vskip\ling@abovemoreglskip
+   \vtop\bgroup
+      \halign\bgroup \kern\ling@moregloffset ##\hfil &&
+         \kern\ling@glspace ##\hfil\cr
+}
+\def\endgl{\egroup\egroup\egroup}
+\def\gla{\global\let\@everygl\ling@everygla \gl@ss}
+\def\glb{\global\let\@everygl\ling@everyglb \gl@ss}
+\def\gl@ss#1 {\@everygl #1\@ifnextchar/{\strut\cr\@gobble}{& \gl@ss}}
+\def\glc{\noalign\bgroup\@tildecheck\glc@}
+\def\glc@#1{%
+   \if@tilde \else \vskip\ling@aboveglcskip \fi \egroup
+   \omit \ling@everyglc #1\strut\hidewidth\cr
+}
+%  table building tools
+\define@lingcmdkeys{dima,dimb,dimc}
+\define@ling@cmdkeys{everylabel}
+\lingset{dima=2.4em,everylabel=}
+\def\tspace{\@getoptionalarg\tsp@ce}
+\def\tsp@ce{\hskip \ifx\@optionalarg\empty
+   \lingdima \else \csname ling\@optionalarg\endcsname\fi}
+% labels
+\def\labels{\@getoptionalarg\expex@labels}
+\def\expex@labels{%
+   \ling@usearg
+   \dimen0\lingtextoffset
+   \advance\dimen0 \linglabelwidth
+   \edef\ling@labelskip{\the\dimen0}%
+   \pexcnt@init
+   \let\tl\@inserttabellabel
+   \let\nl\@omitlabel
+   \ignorespaces
+}
+\def\pexcnt@init{%
+   \ifcase\@@labeltype
+      \pexcnt=96 \or \pexcnt=0 \or \pexcnt=64
+      \fi
+}
+\def\@inserttabellabel{%
+   \global\advance\pexcnt by 1
+   {\ling@everylabel\@@label.}%
+}
+\def\@omitlabel{\omit\hskip\linglabeloffset\hfil}
+\def\endpextable{\egroup\egroup \par \prevdepth=\dp\strutbox}
+%------??
+%\def\omitlabel{\omit\hskip\ling@labelskip}
+\def\hwit#1{\hidewidth \it #1\hidewidth}
+\define@ling@inckey{crskip}
+\lingset{crskip=.6em}
+\def\crs{\cr\noalign{\vskip\ling@crskip}}
+\def\crnb{\cr\noalign{\par\nobreak}}
+
+% ----- tags and references -----
+% ----- defining tags -----
+\def\deftagex#1{\edef\@localextag{#1}\deftag{\the\excnt}{#1}}
+\def\deftag#1#2{%
+   {\let\@printref=\identity
+   \let\getref=\@baregetref
+   \expandafter\xdef\csname lingtag@#2\endcsname{#1}%
+   \if@g@thertags
+      \immediate\write@tags{\noexpand\@fd@f #2 #1 }%
+      \fi}%
+   \ignorespaces
+}
+\def\deftagpage#1{%
+   \if@g@thertags
+      \write@tags{\noexpand\@fd@f #1 {\the\pageno}}%
+   \fi
+   \ignorespaces
+}
+\def\lastlabel{{\@@label}}
+\def\deftaglabel#1{%
+   \ifx\@localextag\empty
+      \@expexwarn{Example number for [#1] is not tagged}%
+   \else
+      \expandafter\xdef\csname lingtag@\@localextag.#1\endcsname
+         {\lastlabel}%
+      \if@g@thertags
+         \immediate\write@tags
+            {\noexpand\@fd@f \@localextag.#1 {\@@label}}\fi
+   \fi
+   \ignorespaces
+}
+% ----- getting references from tags -----
+\def\getref#1{%
+   \@getref{#1}\temp
+   \ifx\temp\empty
+   \else
+      \@printref{\temp}%
+   \fi
+}
+\def\@getref#1#2{%
+   \@setupreadtags
+   \expandafter\ifx\csname lingtag@#1\endcsname\relax
+      \let#2\empty
+      \@expexwarn{The tag [#1] is not defined}%
+      {\tt $\bullet$#1}%
+   \else
+      \expandafter\let\expandafter#2\csname lingtag@#1\endcsname
+   \fi
+}
+\def\@expexwarn#1{\immediate\write16{====> ExPex WARNING: #1.}}
+\def\getfullref#1{%
+   \@getref{#1}\temp@ak
+   \ifx\temp@ak\empty \else \@getfullref #1\@nil \fi
+}
+\def\@getfullref #1.#2\@nil{%
+   \@getref{#1}\temp@bk
+   \ifx\temp@bk\relax
+   \else
+      \@printref{\temp@bk\expandafter\@ling@putperiod\temp@ak}%
+   \fi
+}
+
+% ----- ref proofing -----
+\let\@printref\relax
+\def\refproofing{%
+   \ifx\PSTricksLoaded\endinput
+      \let\@printref\@psthighlightref
+   \else
+      \let\@printref\@highlightref
+   \fi\relax
+}
+\def\@psthighlightref{%
+   \leavevmode
+   \psframebox[boxsep=false,framesep=4pt,linewidth=.24ex]%
+}
+\def\@highlightref#1{$\overline{\underline{\hbox{#1}}}$}
+\def\@ling@putperiod #1{\@ling@pp#1}
+\def\@ling@pp#1{\ifx#1\char \else .\fi #1}
+% ----- specialexno=reference -----
+\def\@baregetref#1{\csname lingtag@#1\endcsname}
+\def\@baregetfullref #1{%
+   \@baregetfullref@a #1\@nil
+   \expandafter\expandafter
+      \expandafter\@ling@putperiod\csname lingtag@#1\endcsname
+}
+\def\@baregetfullref@a #1.#2\@nil{\@baregetref{#1}}
+\define@key{ling}{specialexno}{%
+   \@specialexnotrue
+   \@setupreadtags
+   {\let\getfullref=\@baregetfullref
+   \let\getref=\@baregetref
+   \expandafter\xdef\csname ling@specialexno\endcsname{#1}}%
+}
+% ----- opening the tag file -----
+\newif\if@g@thertags
+\@g@thertagsfalse
+\newwrite\ling@tagsfile
+\def\write@tags{\write\ling@tagsfile}
+\def\tagfilesuffix#1{\edef\@tagfilesuffix{#1}}
+\def\@tagfilesuffix{-tags}
+\def\gathertags{%
+   \@setupreadtags
+   \@g@thertagstrue
+   \immediate\openout\ling@tagsfile=\jobname\@tagfilesuffix\relax
+}
+% ----- reading the tag file and defining the tags it encodes -----
+\newread\ling@tagsin
+\def\@fd@f#1 #2 {%
+   \expandafter\ifx\csname lingtag@#1\endcsname \relax
+      \expandafter\xdef\csname lingtag@#1\endcsname{#2}\fi
+}
+\newif\if@readtags
+\@readtagstrue
+\def\@setupreadtags{\if@readtags
+   \do@readtags \global\@readtagsfalse \fi}
+\def\do@readtags{%
+   \immediate\openin\ling@tagsin=\jobname\@tagfilesuffix\relax
+   \ifeof\ling@tagsin \else
+      \closein\ling@tagsin
+      {\catcode`@=11 \input \jobname\@tagfilesuffix\relax}%
+   \fi
+}
+% ----- tagging sections, adapt to your needs -----
+% If \tagsec is used with section macros that do not define
+% counters \secno,\subsecno,\subsubsecno, and \subsubsubsecno,
+% then \currsec must be redefined to whatever is appropriate.
+%\def\chapscurrsec{\ifnum\chapno>0 \the\chapno
+%   \ifnum\secno>0 .\the\secno
+%   \ifnum\subsecno>0 .\the\subsecno
+%   \ifnum\subsubsecno>0 .\the\subsubsecno \fi\fi\fi\fi}
+%\def\nochapscurrsec{\ifnum\secno>0 .\the\secno
+%   \ifnum\subsecno>0 .\the\subsecno
+%   \ifnum\subsubsecno>0 .\the\subsubsecno \fi\fi\fi}
+%\let\currsec\nochapscurrsec
+%\def\deftagsec#1{\deftag\currsec{#1}}
+\resetatcatcode
+

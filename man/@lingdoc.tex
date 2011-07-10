@@ -1,0 +1,283 @@
+
+\makeatletter
+%
+% ------ headline, footline, \psteverypage ------
+%
+\def\jfoutput{%
+   \shipout\vbox{%
+      \hbox to0pt{\the\psteverypage\hss}\pagebody}
+      \advancepageno
+      \ifnum\outputpenalty>-20000 \else\dosupereject\fi}
+\let\plainoutput=\jfoutput
+\newtoks\psteverypage
+% only commands with dimensionless results allowed in \psteverypage
+\psteverypage={\mkheadline}
+%\psteverypage={\mkheadline\showindexproofs}
+%\def\showindexproofs{\showbox\@indexproof}
+\def\mkheadline{\rput[Bl](0,\ling@headlinelevel)%
+   {\hbox to\hsize{\spaceskip=0pt \ling@headline}}}
+\define@ling@cmdkeys{headline}
+\define@linginckey\dimen{}{@}{headlinelevel}
+%\define@ling@inckey{headlinelevel}
+\lingset{headline=\HLfilename,headlinelevel=.5truein}
+\def\HLfilename{%
+   \fulldate\qquad
+   \edef\temp{\topmark}\edef\Temp{\botmark}%
+   [ {\ifx\temp\Temp\else
+      \ifx\temp\@empty\else
+         \temp\ / \fi\fi\Temp} ]\hfill Page \the\pageno
+}
+\def\fulldate{%
+   {\the\day} {%
+      \ifcase\month \or January\or February\or March\or
+      April\or May\or June\or July\or August\or September\or
+      October\or November\or December\fi} \the\year
+}
+\def\HLpageonly{\hfil\ifnum\pageno>1 \the\pageno\fi}
+\def\HLpageonlybb{%
+   \ifodd\pageno\hfill\fi
+   \ifnum\pageno>1 Page \the\pageno\fi \hfil
+}
+\def\HLdateandpage{%
+   \ifnum\pageno>1
+   \fulldate\hfil \the\pageno \else \hfil\fulldate\fi
+}
+\def\bottomnumbers{%
+   \ifnum\pageno>1
+      {\advance\vsize by3em
+       \rput(.5\hsize,-\vsize){\tenrm\the\pageno}}\fi
+}
+%
+% ------ sections ------
+%
+
+\newcount\secno
+\secno=0
+\newcount\subsecno
+\newcount\subsubsecno
+\newcount\subsubsubsecno
+\define@ling@cmdkeys{secno,subsecno,subsubsecno,subsubsubsecno}
+\outer\def\section #1\par{%
+   \global\advance\secno by 1  \global\subsecno=0
+   \vskip0pt plus.3\vsize\penalty0
+   \vskip0pt plus-.3\vsize\bigskip\vskip\parskip
+   {\noindent \titlefont{sec}
+       \the\secno.\enskip #1}\par\nobreak
+   \medskip\noindent
+}
+\def\subsection{\@getoptionalarg\@subsection}
+\def\@subsection{%
+   \global\advance \subsecno by 1 \global\subsubsecno=0
+   \vskip0pt plus.1\vsize\penalty0
+   \vskip0pt plus-.1\vsize\bigskip\vskip\parskip
+   \noindent \@optionalarg \bgroup\titlefont{sub}
+      \the\secno .\the\subsecno. \enskip
+   \@@subsection
+}
+\def\@@subsection #1\par{#1\egroup\par\nobreak
+   \medskip\noindent
+}
+\outer\def\subsubsection #1 \par{%
+   \global\advance \subsubsecno by 1 \global\subsubsubsecno=0
+   \vskip0pt plus.1\vsize\penalty0
+   \vskip0pt plus-.1\vsize\bigskip\vskip\parskip
+   {\noindent \titlefont{subsub}
+      \the\secno .\the\subsecno.\the\subsubsecno \enskip #1}\par\nobreak
+   \medskip\nobreak\noindent
+}
+\def\subsubsubsection #1 \par{\advance\subsubsubsecno by 1
+   \vskip0pt plus.1\vsize\penalty0
+   \vskip0pt plus-.1\vsize\medskip
+   \noindent {\it \the\secno.\the\subsecno.\the\subsubsecno
+      .\the\subsubsubsecno\enspace #1}:\hskip.5em
+}
+\def\bulletsection #1\par{%
+   \vskip0pt plus.1\vsize\penalty0
+   \vskip0pt plus-.1\vsize\medskip
+   \noindent $\bullet$\enspace
+      {\it #1}\par\nobreak\medskip\nobreak\noindent
+}
+%
+% ------ index ------
+%
+\newif\ifgatherindex
+\gatherindexfalse
+\newwrite\ling@indexfile
+\def\write@index{\write\ling@indexfile}
+\def\gatherindex{%
+   \gatherindextrue
+   \immediate\openout\ling@indexfile=G-index
+}
+%
+% ------ contents
+%
+\newif\ifgathercontents
+\gathercontentsfalse
+\newwrite\ling@contentsfile
+\def\write@contents{\write\ling@contentsfile}
+\def\gathercontents{%
+   \gathercontentstrue
+   \immediate\openout\ling@contentsfile=\jobname.toc
+}
+%
+% ----- title, disclaimer ------
+%
+\def\title{%
+   \bgroup
+   \leftskip=0pt plus 1fil \rightskip=0pt plus 1fil
+   \parindent=0pt \parfillskip=0pt
+   \titlefont{main}%
+}
+\def\author{\vskip.7em \titlefont{subsub}}
+\def\endtitle{\vskip1.6em \egroup}
+\def\disclaimer{%
+   \leavevmode
+   \bgroup \parindent=0pt
+   \baselineskip=13pt
+   \vskip-.8truein
+   \hrule
+   \medskip
+}
+\def\enddisclaimer{%
+   \medskip
+   \egroup
+   \hrule
+   \vskip2.5em plus 2em minus .2em
+}
+%
+% ------  footnotes ------
+%
+\newif\ifgathernotes
+\gathernotesfalse
+\newwrite\ling@notesfile
+\def\write@notes{\write\ling@notesfile}
+\def\gathernotes{%
+   \gathernotestrue
+   \immediate\openout\ling@notesfile=G-notes.tex
+}
+\def\footnote{\footsetup \footbody}
+\def\footsetup{%
+   \edef\fntempsf{\the\spacefactor}%
+   \putfnno
+   \spacefactor=\fntempsf
+}
+\def\putfnno{%
+   \global\advance\fnno by 1
+   ${}^{\the\fnno}$%
+}
+\newcount\fnno
+\fnno=0
+\def\footbody{%
+   \ifgathernotes\immediate\write\ling@notesfile{}\fi
+   \edef\n@xt{\noexpand\noexpand\noexpand \note\the\fnno}%
+   \ifgathernotes
+      \immediate\write\ling@notesfile{\n@xt}\fi
+   \fnverbatim
+}
+\def\fnverbatim{\begingroup\setupcopyfn\copyfnfirst}
+\def\setupcopyfn{%
+   \def\do##1{\catcode`##1=12 }%
+   \dospecials
+   \obeylines%
+}
+{\obeylines
+\gdef\copyfnfirst#1
+  {\def\n@xt{#1}%
+   \ifx\n@xt\empty%
+      \else%
+         \ifgathernotes\immediate\write\ling@notesfile{\n@xt}\fi%
+      \fi%
+   \copyfn%
+}
+\gdef\copyfn#1
+  {\def\n@xt{#1}%
+   \ifx\n@xt\endfn%
+         \ifgathernotes\immediate\write\ling@notesfile{}\fi%
+         \let\n@xt=\endgroup%
+      \else%
+         \ifgathernotes\immediate\write\ling@notesfile{\n@xt}\fi%
+         \let\n@xt=\copyfn%
+      \fi%
+   \n@xt }%
+}
+\def\endfn{"endfootnote}
+\def\raisedasterisk{\raise3pt\rlap{\twelverm *}}
+\def\ackmark{$\,{}^1$ \global\fnno=1}
+%% ???? check code below
+\long\def\acknowledgement#1{%
+   \global\advance\fnno by 1
+   {\edef\next{%
+      \immediate\write@notes{\noexpand\note\the\fnno}}\next}%
+  \immediate\write\ling@notesfile{#1}%
+  \immediate\write\ling@notesfile{}}
+\def\dumpnotes{%
+   \immediate\closeout\ling@notesfile
+   \vskip30pt
+   \vskip.3\vsize\penalty-30\vskip-.3\vsize
+   \centerline{\normaltext Notes}
+   \medskip
+   \def\note ##1 {%
+      \smallskip\penalty10\noindent ##1.\quad}%
+   \smalltext
+   \input G-notes.tex
+}
+%
+% ------ references ------
+%
+\def\dumprefs{%
+   \vskip30pt
+   \vskip.3\vsize\penalty-30\vskip-.3\vsize
+   \smalltext
+   \parindent=0pt
+   \parskip=0pt plus 1pt
+   \rightskip=0pt
+   \tolerance=350 \interlinepenalty=400
+   \centerline{\normaltext References}
+   \bigskip
+   \input @@refs.tex
+}
+\def\dump{%
+   \ifling@printnotes \dumpnotes \fi
+   \ifling@printrefs \dumprefs \fi
+}
+%
+% ------ right arrows ------
+%
+\def\to{%
+   \ifmmode \rightarrow \else
+      \hskip\ling@toskip$\rightarrow$\hskip\ling@toskip \fi
+}
+\define@ling@cmdkeys{toskip}
+\def\normaltoskip{\lingset{toskip=1em minus .5em}}
+\normaltoskip
+\def\lingbuildrel#1#2{%
+   \hskip\ling@toskip
+   \hbox{$\buildrel {\rm #2}
+      \vrule width0pt depth\ling@torise height0pt
+      \over#1$}%
+   \hskip\ling@toskip
+}
+\def\tooby #1 {\lingbuildrel\longrightarrow{#1}}
+%   \hskip\ling@toskip
+%   \hbox{$\buildrel {\rm #1}
+%      \vrule width0pt depth\ling@torise height0pt
+%      \over\longrightarrow$}%
+%   \hskip\ling@toskip
+%}
+\define@linginckey\dimen{}{@}{torise}
+\def\normaltorise{\lingset{torise=1ex}}
+\normaltorise
+%
+% ------ utilities ------
+%
+\def\clap#1{\hbox to 0pt{\hss#1\hss}}
+
+\resetatcatcode
+
+\everymath={\rm}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\expandafter\def\expandafter\dospecials\expandafter{\dospecials\do\|}
+
+

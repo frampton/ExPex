@@ -1,0 +1,472 @@
+
+%%%%%%%%%%% fonts
+% Cork encoding is used so that accents work properly with
+%  tipa fonts.  Accents must be redefined (below).
+% rm
+\font\twelverm=t1xr at 12pt
+\font\elevenrm=t1xr at 11pt
+\font\tenrm=t1xr at 10pt
+\font\ninerm=t1xr at 9pt
+\font\eightrm=t1xr at 8pt
+\font\sevenrm=t1xr at 7pt
+\font\sixrm=t1xr at 6pt
+\font\fiverm=t1xr at 5pt
+% mit
+\font\twelvei=txmi at 12pt
+\font\eleveni=txmi at 11pt
+\font\teni=txmi at 10pt
+\font\eighti=txmi at 8pt
+\font\seveni=txmi at 7pt
+\font\sixi=txmi at 6pt
+\font\fivei=txmi at 5pt
+% bold mit
+\font\sevenbi=txbmi at 7pt
+% mita
+\font\twelveia=txmia at 12pt
+\font\elevenia=txmia at 11pt
+\font\tenia=txmia at 10pt
+% symbol
+\font\twelvesy=txsy at 12pt
+\font\elevensy=txsy at 11pt
+\font\tensy=txsy at 10pt
+\font\eightsy=txsy at 8pt
+\font\sevensy=txsy at 7pt
+\font\sixsy=txsy at 6pt
+\font\fivesy=txsy at 5pt
+% extended symbol
+\font\twelveex=txex at 12pt
+\font\elevenex=txex at 11pt
+\font\tenex=txex at 10pt
+\font\eightex=txex at 8pt
+\font\sevenex=txex at 7pt
+\font\sixex=txex at 6pt
+\font\fiveex=txex at 5pt
+% sl
+\font\twelvesl=t1xsl at 12pt
+\font\elevensl=t1xsl at 11pt
+\font\tensl=t1xsl at 10pt
+\font\eightsl=t1xsl at 8pt
+\font\sevensl=t1xsl at 7pt
+\font\sixsl=t1xsl at 6pt
+\font\fivesl=t1xsl at 5pt
+% bf
+\font\twelvebf=t1xb at 12pt
+\font\elevenbf=t1xb at 11pt
+\font\tenbf=t1xb at 10pt
+\font\eightbf=t1xb at 8pt
+\font\sevenbf=t1xb at 7pt
+\font\sixbf=t1xb at 6pt
+\font\fivebf=t1xb at 5pt
+% tt
+\font\twelvett=txtt at 12pt
+\font\eleventt=txtt at 11pt
+\font\tentt=txtt at 10pt
+\font\eighttt=txtt at 8pt
+\font\seventt=txtt at 7pt
+\font\sixtt=txtt at 6pt
+% it
+\font\twelveit=t1xi at 12pt
+\font\elevenit=t1xi at 11pt
+\font\tenit=t1xi at 10pt
+\font\eightit=t1xi at 8pt
+\font\sevenit=t1xi at 7pt
+\font\sixit=t1xi at 6pt
+\font\fiveit=t1xi at 5pt
+% bold symbol
+\font\twelvebsy=txbsy at 12pt
+\font\elevensy=txbsy at 11pt
+\font\tenbsy=txbsy at 10pt
+\font\ninebsy=txbsy at 9pt
+\font\eightbsy=txbsy at 8pt
+\font\sevenbsy=txbsy at 7pt
+\font\sixbsy=txbsy at 6pt
+\font\fivebsy=txbsy at 5pt
+% bold slant
+\font\twelvebsl=t1xbsl at 12pt
+\font\tenbsl=t1xbsl at 10pt
+\font\eightbsl=t1xbsl at 8pt
+\font\sevenbsl=t1xbsl at 7pt
+\font\sixbsl=t1xbsl at 6pt
+% ipr
+\font\twelveipr=xipa10 at 12pt
+\font\tenipr=xipa10 at 10pt
+\font\eightipr=xipa10 at 8pt
+\font\sevenipr=xipa10 at 7pt
+\font\sixipr=xipa10 at 6pt
+\font\fiveipr=xipa10 at 5pt
+% ips
+\font\twelveips=xipasl10 at 12pt
+\font\tenips=xipasl10 at 10pt
+\font\eightips=xipasl10 at 8pt
+\font\sevenips=xipasl10 at 7pt
+\font\sixips=xipasl10 at 6pt
+\font\fiveips=xipasl10 at 5pt
+% ipb
+\font\twelveipb=xipab10 at 12pt
+\font\tenipb=xipab10 at 10pt
+\font\eightipb=xipab10 at 8pt
+\font\sevenipb=xipab10 at 7pt
+\font\sixipb=xipab10 at 6pt
+\font\fiveipb=xipab10 at 5pt
+% ipbs
+\font\twelveipbs=xipabs10 at 12pt
+\font\tenipbs=xipabs10 at 10pt
+\font\eightipbs=xipabs10 at 8pt
+\font\sevenipbs=xipabs10 at 7pt
+\font\sixipbs=xipabs10 at 6pt
+\font\fiveipbs=xipabs10 at 5pt
+
+\makeatletter
+\define@ling@cmdkeys{titles}
+%%%% title fonts
+\def\settitlefont[#1,#2,#3]#4={%
+   \expandafter\def\expandafter\temp\expandafter
+      {\csname #2titlefont#1#3\endcsname}%
+   \@ifnextchar={\expandafter\let\temp}{\expandafter\font\temp}%
+}
+\def\notitles{\def\titlefont##1{\sl}}
+\def\sstitles{%
+   \settitlefont[ss,main,]       =t1xss at 16pt
+   \settitlefont[ss,main,sl]     =t1xsssl at 16pt
+   \settitlefont[ss,sec,]        =t1xss at 12.5pt
+   \settitlefont[ss,sec,sl]      =t1xsssl at 13pt
+   \settitlefont[ss,sec,tt]      =txtt at 14pt
+   \settitlefont[ss,sub,]        =t1xss at 12pt
+   \settitlefont[ss,sub,sl]      =t1xsssl at 12pt
+   \settitlefont[ss,sub,tt]      =txtt at 13pt
+   \settitlefont[ss,subsub,]     =t1xss at 12pt
+   \settitlefont[ss,subsubsub,]  =t1xsssl at 12pt
+   \def\titlefont##1{\csname ##1titlefontss\endcsname
+      \expandafter\let\expandafter\sl
+         \csname ##1titlefontsssl\endcsname
+      \expandafter\let\expandafter\tt
+         \csname ##1titlefontsstt\endcsname
+         \ignorespaces}}
+\def\rmtitles{%
+   \settitlefont[rm,main,]       =txb at 16pt
+   \settitlefont[rm,main,sl]     =txbsl at 16pt
+   \settitlefont[rm,sec,]        =txb at 14pt
+   \settitlefont[rm,sec,sl]      =txbsl at 14pt
+   \settitlefont[rm,sub,]        =txb at 13pt
+   \settitlefont[rm,sub,sl]      =txbsl at 13pt
+   \settitlefont[rm,subsub,]     \twelvebf
+   \settitlefont[rm,subsub,sl]   \twelvebs
+   \def\titlefont##1{\csname ##1titlefontrm\endcsname
+      \expandafter\let\expandafter\sl
+         \csname ##1titlefontrmsl\endcsname
+      \expandafter\let\expandafter\tt
+         \csname ##1titlefontrmtt\endcsname \ignorespaces}%
+}
+%%%% title fonts
+\def\settitlefont[#1,#2,#3]#4={%
+   \expandafter\def\expandafter\temp\expandafter
+      {\csname #2@TF#1@#3\endcsname}%
+   \@ifnextchar={\expandafter\let\temp}{\expandafter\font\temp}%
+}
+\def\notitles{\def\titlefont##1{\sl}}
+\def\sstitles{%
+   \settitlefont[ss,main,]       =t1xss at 16pt
+   \settitlefont[ss,main,sl]     =t1xsssl at 16pt
+   \settitlefont[ss,sec,]        =t1xss at 12.5pt
+   \settitlefont[ss,sec,sl]      =t1xsssl at 13pt
+   \settitlefont[ss,sec,tt]      =txtt at 14pt
+   \settitlefont[ss,sub,]        =t1xss at 12pt
+   \settitlefont[ss,sub,sl]      =t1xsssl at 12pt
+   \settitlefont[ss,sub,tt]      =txtt at 13pt
+   \settitlefont[ss,subsub,]     =t1xss at 12pt
+   \settitlefont[ss,subsubsub,]  =t1xsssl at 12pt
+   \def\titlefont##1{%
+      \csname ##1@TFss@\endcsname
+      \expandafter\let\expandafter\sl
+         \csname ##1@TFss@sl\endcsname
+      \expandafter\let\expandafter\tt
+         \csname ##1@TFss@tt\endcsname
+         \ignorespaces}%
+}
+\def\rmtitles{%
+   \settitlefont[rm,main,]       =txb at 16pt
+   \settitlefont[rm,main,sl]     =txbsl at 16pt
+   \settitlefont[rm,sec,]        =txb at 14pt
+   \settitlefont[rm,sec,sl]      =txbsl at 14pt
+   \settitlefont[rm,sub,]        =txb at 13pt
+   \settitlefont[rm,sub,sl]      =txbsl at 13pt
+   \settitlefont[rm,subsub,]     ==\twelvebf
+   \settitlefont[rm,subsub,sl]   ==\twelvebs
+   \def\titlefont##1{\csname ##1@TFrm@\endcsname
+      \expandafter\let\expandafter\sl
+         \csname ##1@TFrm@sl\endcsname
+      \expandafter\let\expandafter\tt
+         \csname ##1@TFrm@tt\endcsname \ignorespaces}%
+}
+\ifx\ling@titles\undefined \lingset{titles=ss}\fi
+\csname \ling@titles titles\endcsname
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% already allocated 0,1,2,3,\itfam (4), \slfam (5),
+%     \bffam (6), \ttfam (7)
+
+\newfam\bcalfam        % 8    bold math symbol
+\newfam\smallcalfam    % 9    small math symbol
+\newfam\smallrmfam     % A
+\newfam\mitafam        % B    alternate math symbol
+\newfam\iprfam         % C
+\newfam\ipsfam         % D
+\newfam\ipbfam         % E
+\newfam\ipbsfam        % F
+
+\newtoks\everysizechange    \everysizechange={}
+
+\def\twelvepoint{%
+   \textfont0=\twelverm
+      \scriptfont0=\eightrm
+      \scriptscriptfont0=\sixrm
+   \textfont1=\twelvei
+      \scriptfont1=\eighti
+      \scriptscriptfont1=\sixi
+   \textfont2=\twelvesy
+      \scriptfont2=\eightsy
+      \scriptscriptfont2=\sixsy
+   \textfont3=\twelveex
+      \scriptfont3=\eightex
+      \scriptscriptfont3=\sixex
+   \textfont\itfam=\twelveit
+      \scriptfont\itfam=\eightit
+   \textfont\slfam=\twelvesl
+      \scriptfont\slfam=\eightsl
+      \scriptscriptfont\slfam=\sixsl
+   \textfont\bffam=\twelvebf
+      \scriptfont\bffam=\eightbf
+      \scriptscriptfont\bffam=\sixbf
+   \textfont\ttfam=\twelvett
+      \scriptfont\ttfam=\eighttt
+   \textfont\bcalfam=\twelvebsy
+      \scriptfont\bcalfam=\eightbsy
+   \textfont\smallcalfam=\tensy
+      \scriptfont\smallcalfam=\sevensy
+   \textfont\smallrmfam=\tenrm
+      \scriptfont\smallrmfam=\sevenrm
+   \textfont\mitafam=\twelveia
+   \textfont\iprfam=\twelveipr
+   \textfont\ipsfam=\twelveips
+   \textfont\ipbfam=\twelveipb
+   \textfont\ipbsfam=\twelveipbs
+   \def\rmr{\fam0           \twelverm   }%
+   \def\rms{\fam\slfam      \twelvesl   }%
+   \def\rmb{\fam\bffam      \twelvebf   }%
+   \def\rmbsl{\fam\bslfam   \twelvebsl  }%
+   \def\rm{\rmr \let\sl\rms \let\bf\rmb \let\bsl\rmbs}
+   \let\ipr=\twelveipr
+   \let\ips=\twelveips
+   \let\ipb=\twelveipb
+   \let\ipbs=\twelveipbs
+   \def\ip{\ipr \let\sl\ips \let\bsl\ipbs}
+   \def\tt{\fam\ttfam     \twelvett   }%
+   \def\it{\fam\itfam     \twelveit   }%
+   \let\mita=\twelveia
+   \normalbaselineskip=14pt
+   \def\examplebaselines{%
+      \baselineskip=\normalbaselineskip
+      \lineskip=\normallineskip
+      \lineskiplimit=\normallineskiplimit}%
+   \bigskipamount=12pt plus4pt  minus4pt
+   \setbox\strutbox=\hbox{\vrule height10pt depth4pt width0pt}%
+   \def\sc{\tenrm \fam\smallrmfam}%
+   \let\big=\twelvebig
+   \normalbaselines
+   \rm
+   \the\everysizechange
+}
+
+%% fix the baselineskip
+\def\elevenpoint{\def\jf@fontsize{eleven}%
+   \textfont0=\elevenrm \scriptfont0=\eightrm \scriptscriptfont0=\sixrm
+   \textfont1=\eleveni	 \scriptfont1=\eighti  \scriptscriptfont1=\sixi
+   \textfont2=\elevensy \scriptfont2=\eightsy \scriptscriptfont2=\sixsy
+   \textfont3=\elevenex \scriptfont3=\eightex \scriptscriptfont3=\sixex
+   \textfont\slfam=\elevensl	  \scriptfont\slfam=\eightsl
+      \scriptscriptfont\slfam=\sixsl
+   \textfont\bffam=\elevenbf	  \scriptfont\bffam=\eightbf
+      \scriptscriptfont\bffam=\sixbf
+   \textfont\ttfam=\eleventt	  \scriptfont\ttfam=\eighttt
+   \textfont\itfam=\elevenit	  \scriptfont\itfam=\eightit
+   \def\rm{\fam0          \elevenrm }%
+   \def\tt{\fam\ttfam     \eleventt }%
+   \def\it{\fam\itfam     \elevenit }%
+   \def\sl{\fam\slfam     \elevensl }%
+   \def\bf{\fam\bffam     \elevenbf }%
+   \let\mita=\elevenia
+   \normalbaselineskip=13pt
+   \bigskipamount=13pt plus2pt  minus2pt
+   \def\examplebaselines{%
+      \baselineskip=13pt plus 2pt minus 1pt
+      \lineskiplimit=2pt
+      \lineskip=2pt plus 1pt
+   }%
+   \setbox\strutbox=\hbox{\vrule height10pt depth3pt width0pt}%
+   \normalbaselines
+   \rm
+   \the\everysizechange
+}
+
+\def\tenpoint{\def\jf@fontsize{ten}%
+   \textfont0=\tenrm \scriptfont0=\sevenrm \scriptscriptfont0=\fiverm
+   \textfont1=\teni	 \scriptfont1=\seveni  \scriptscriptfont1=\fivei
+   \textfont2=\tensy \scriptfont2=\sevensy \scriptscriptfont2=\fivesy
+   \textfont3=\tenex \scriptfont3=\sevenex \scriptscriptfont3=\fiveex
+   \textfont\slfam=\tensl	  \scriptfont\slfam=\sevensl
+   \textfont\bffam=\tenbf	  \scriptfont\bffam=\sevenbf
+   \textfont\ttfam=\tentt	  \scriptfont\ttfam=\seventt
+   \textfont\itfam=\tenit	  \scriptfont\itfam=\sevenit
+   \textfont\bslfam=\tenbsl \scriptfont\bslfam=\sevenbsl
+   \textfont\bcalfam=\tenbsy
+      \scriptfont\bcalfam=\sevenbsy
+   \textfont\smallrmfam=\eightrm
+      \scriptfont\smallrmfam=\sixrm
+   \textfont\smallcalfam=\eightsy
+      \scriptfont\smallcalfam=\sevensy
+   \textfont\iprfam=\tenipr \scriptfont\iprfam=\sevenipr
+      \scriptscriptfont\iprfam=\fiveipr
+   \textfont\ipsfam=\tenips \scriptfont\ipsfam=\sevenips
+      \scriptscriptfont\ipsfam=\fiveips
+   \textfont\ipbfam=\tenipb \scriptfont\ipbfam=\sevenipb
+      \scriptscriptfont\ipbfam=\fiveipb
+   \textfont\ipbsfam=\tenipbs \scriptfont\ipbsfam=\sevenipbs
+      \scriptscriptfont\ipbsfam=\fiveipbs
+   \def\rm{\fam0          \tenrm   }%
+   \def\tt{\fam\ttfam     \tentt   }%
+   \def\it{\fam\itfam     \tenit   }%
+   \def\sl{\fam\slfam     \tensl   }%
+   \def\bf{\fam\bffam     \tenbf   }%
+   \def\bsl{\fam\bslfam   \tenbsl  }%
+   \def\ipr{\fam\iprfam   \tenipr  }%
+   \def\ips{\fam\ipsfam   \tenips  }%
+   \def\ipb{\fam\ipbfam   \tenipb  }%
+   \def\ipbs{\fam\ipbsfam \tenipbs }%
+   \let\mita=\tenia
+   \normalbaselineskip=11.2pt
+   \def\examplebaselines{\baselineskip=11.2pt plus 1pt
+      \lineskiplimit=1.5pt \lineskip=1.5pt plus 1pt}%
+   \bigskipamount=10pt plus3pt minus3pt
+   \setbox\strutbox=\hbox{\vrule height8.5pt depth3.7pt width0pt}%
+   \let\sc=\eightrm
+   \let\big=\tenbig
+   \normalbaselines
+   \rm
+   \the\everysizechange
+}
+
+\gdef\twelvebig#1{{\hbox{$\left#1\vbox to 9.5pt{}\right.\n@space$}}}
+\gdef\tenbig#1{{\hbox{$\left#1\vbox to 8pt{}\right.\n@space$}}}
+
+\let\normaltext=\twelvepoint
+\let\smalltext=\tenpoint
+
+\normaltext
+
+%% encoding is Cork throughout
+\def\'#1{{\accent "01 #1}}
+\def\`#1{{\accent "00 #1}}
+\def\"#1{{\accent "04 #1}}
+\def\^#1{{\accent "02 #1}}
+\def\=#1{{\accent "09 #1}}
+\def\~#1{{\accent "03 #1}}
+\def\v#1{{\accent "07 #1}}
+\def\u#1{{\accent "08 #1}}
+\chardef\i='031
+\chardef\j='032
+\chardef\ae='346
+\chardef\AE="C6
+\chardef\oe="F7
+\chardef\OE="D7
+\chardef\o="F8
+\chardef\O="D8
+\chardef\aa="E5
+\chardef\AA="C5
+\def\.#1{\oalign{#1\crcr\hidewidth\the\textfont0.\hidewidth}}
+\def\c#1{{\edef\temp{\the\font}\setbox0=\hbox{\temp #1}%
+   \ifdim\ht0=1ex \accent"0B #1\else
+      {\ooalign{\hidewidth\char"0B\hidewidth\crcr \unhbox0}}\fi}}
+\def\h#1{{\edef\temp{\the\font}\setbox0=\hbox{\temp #1}%
+   \ifdim\ht0=1ex \accent"0C #1\else
+      {\ooalign{\hidewidth\char"0C\hidewidth\crcr \unhbox0}}\fi}}
+\def\GreekCap#1{\ifmmode\mathchar"0C0#1\else{\mita\char"0#1}\fi}
+\mathchardef\Gamma"0B00
+\mathchardef\Delta"0B01
+\mathchardef\Theta"0B02
+\mathchardef\Lambda"0B03
+\mathchardef\Xi"0B04
+\mathchardef\Pi"0B05
+\mathchardef\Sigma"0B06
+\mathchardef\Upsilon"0B07
+\mathchardef\Phi"0B08
+\mathchardef\Psi"0B09
+\mathchardef\Omega"0B0A
+
+\def\grave{\mathaccent"000}
+\def\acute{\mathaccent"001}
+\def\hat{\mathaccent"002}
+\def\breve{\mathaccent"008}
+\def\tilde{\mathaccent"003}
+\def\bar{\mathaccent"009}
+%
+
+\def\iffslant#1#2{\ifdim\the\fontdimen1\font > 0pt #1\else #2\fi}
+
+\def\nmathchardef#1[#2,#3#4,#5]{{%
+   \ifnum\the\catcode`#3=11
+      \count0=\expandafter\the\csname #3#4fam\endcsname
+      \else
+         \count0=#3#4
+         \fi
+   \multiply\count0 by 256
+   \advance\count0 by #5
+   \count1=#2 \multiply\count1 by 4096
+   \advance\count1 by \count0
+   \global\mathchardef#1\count1}\ignorespaces}
+
+%% ordinary characters
+% rm
+\nmathchardef\mhyphen[0,0,"2D]               % mathmode hyphen
+% symbol
+\nmathchardef\ts[0,2,"02]                    % timing slot (\times)
+% bf
+\nmathchardef\colonb[0,bf,"3A]               % bold colon
+\nmathchardef\ldup[0,bf,"5B]                 % bold left bracket
+\nmathchardef\rdup[0,bf,"5D]                 % bold right bracket
+% bold symbol
+\nmathchardef\oplusb[2,bcal,"08]
+\nmathchardef\otimesb[2,bcal,"0A]
+\nmathchardef\timesb[2,bcal,"02]
+\nmathchardef\ltrunc[0,bcal,"68]
+\nmathchardef\rtrunc[0,bcal,"69]
+\nmathchardef\triangleb[2,bcal,"34]          % bold triangle
+% small symbol
+\nmathchardef\nothing[0,smallcal,"3B]        % smaller \emptyset
+\nmathchardef\smallbullet[0,smallcal,"0F]    % smaller \bullet
+\nmathchardef\gm[0,smallcal,"02]             % grid mark
+% small rm
+\nmathchardef\start[0,smallrm,"23]           % smaller \#
+\nmathchardef\stop[0,smallrm,"25]            % smaller \%
+\nmathchardef\smallplus[0,smallrm,"2B]       % smaller +
+
+\def\-{\ifmmode \mhyphen \else -\fi}
+
+
+%% the following put ipa supers and presupers on ipa symbols (or
+%% on rm or sl symbols): ipsl is chosen if there is a non-zero
+%% font slant dimension, else iprm is chosen
+%%%%%%%%%
+
+%% \O b puts w superscript on b,  \O[y]b puts y superscript on b
+%\newcount\currfam
+%\catcode`@=11
+%\def\O{\expandafter\currfam=\fam\the\font
+%   \futurelet\temp\O@}
+%\def\O@{\ifx\temp[\let\next\O@@\else\let\next\O@@@\fi\next}
+%\def\O@@[#1]#2{$\fam\currfam #2^{\scriptscriptstyle #1}$%
+%   \dimtempa=-5\fontdimen1\font \advance\dimtempa by -.06ex
+%   \kern\dimtempa}
+%\def\O@@@{\O@@[w]}
+
+\resetatcatcode

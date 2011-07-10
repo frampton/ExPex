@@ -1,0 +1,6 @@
+
+1. \expandonce -> \ep@expandonce
+2. fixes errant space intoduced by \@setinckey
+3. \let\it=\itshape in LaTex
+4. changes \glft@M to allow multiline free translations
+

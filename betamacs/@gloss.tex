@@ -1,0 +1,38 @@
+
+\makeatletter
+% gloss parameters
+\definelinginckeys{glspace,beforeglcskip,continuegloffset}
+\definelingcmdkeys{everygla,everyglb,everyglc}
+\lingset{glspace=1.4ex,everygla=\it,everyglb=,everyglc=,
+   beforeglcskip=.5ex,continuegloffset=0pt}
+\define@key[jXKV]{ling}{textoffsetadjust}{%
+   \setbox0=\hbox{#1}%
+   \lingset{textoffset=!\wd0}%
+}
+%%%%%%%%%%%%%%%%%%
+\def\begingl{\leavevmode\vtop\bgroup
+   \@getoptionalarg\begingl@ss}
+\def\begingl@ss{%
+   \ling@usearg
+   \vtop\bgroup
+      \let\ling@@everygl\ling@everygla
+      \halign\bgroup ##\hfil &&
+         \kern\ling@glspace ##\hfil\cr
+}
+\def\continuegl{%
+   \egroup\egroup
+   \vtop\bgroup
+      \halign\bgroup \kern\ling@continuegloffset ##\hfil &&
+         \kern\ling@glspace ##\hfil\cr
+}
+\def\endgl{\egroup\egroup\egroup}
+\def\gla{\global\let\@everygl\ling@everygla \gl@ss}
+\def\glb{\global\let\@everygl\ling@everyglb \gl@ss}
+\def\gl@ss#1 {\@everygl #1\@ifnextchar/{\strut\cr\gobble}{& \gl@ss}}
+\def\glc{\noalign\bgroup\pst@ifstar\glc@}
+\def\glc@#1{%
+   \if@star \else \vskip\ling@beforeglcskip \fi \egroup
+   \omit \ling@everyglc #1\strut\hidewidth\cr
+}
+\resetatcatcode
+

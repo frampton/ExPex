@@ -1,0 +1,118 @@
+\makeatletter
+
+% ----- reading tags -----
+\def\g@tr@f#1#2{%
+   \@setupreadtags
+   \expandafter\ifx\csname lingtag@#1\endcsname\relax
+      \let#2\relax
+      \writeln{WARNING: The tag [#1] is not defined.}%
+      {\tt $\bullet$#1}%
+   \else
+      \edef#2{\csname lingtag@#1\endcsname}%
+   \fi
+}
+\def\baregetref#1{\csname lingtag@#1\endcsname}
+\def\getref#1{%
+   \g@tr@f{#1}\temp
+   \ifx\temp\relax
+   \else
+      \@printref{\temp}%
+   \fi
+}
+\def\getfullref#1{%
+   \g@tr@f{#1}\temp
+   \ifx\temp\relax \else \get@fullref #1\@nil \fi
+}
+\def\get@fullref #1.#2\@nil{%
+   \g@tr@f{#1}\tempa
+   \ifx\tempa\relax
+   \else
+      \@printref{\tempa\expandafter\@ling@putperiod\temp}%
+   \fi
+}
+\let\@printref\relax
+\def\refproofing{%
+   \ifx\PSTricksLoaded\endinput
+      \let\@printref\@psthighlightref
+   \else
+      \let\@printref\@highlightref
+   \fi\relax
+}
+\def\@psthighlightref{%
+   \leavevmode
+   \psframebox[boxsep=false,framesep=4pt,linewidth=.24ex]%
+}
+\def\@highlightref#1{$\overline{\underline{\hbox{#1}}}$}
+\def\@ling@putperiod#1{\ifx#1\char \else .\fi #1}
+% ----- opening the tag file -----
+\newif\if@g@thertags
+\@g@thertagsfalse
+\newwrite\ling@tagsfile
+\def\write@tags{\write\ling@tagsfile}
+%\edef\@@tagfilename{\jobname-tags.tex}
+\def\tagfilesuffix#1{\edef\@tagfilesuffix{#1}}
+\def\@tagfilesuffix{-tags}
+\def\gathertags{%
+   \@g@thertagstrue
+   \immediate\openout\ling@tagsfile=\jobname\@tagfilesuffix\relax
+}
+% ----- reading the tag file and defining the tags it encodes -----
+\newread\ling@tagsin
+\def\@fd@f#1 #2 {\expandafter\xdef\csname lingtag@#1\endcsname{#2}}
+\def\@setupreadtags{%
+   \immediate\openin\ling@tagsin=\jobname\@tagfilesuffix\relax
+   \ifeof\ling@tagsin \else
+      \closein\ling@tagsin \input \jobname\@tagfilesuffix\relax
+   \fi
+   \global\let\@setupreadtags=\relax
+}
+%\@setupreadtags
+% ----- making entries in the tag file -----
+%\def\currex{\the\excnt}
+\define@key[jXKV]{ling}{tag}{%
+   \deftagex{#1}%
+   \edef\@localextag{#1}%
+}
+\def\deftagex#1{\edef\@localextag{#1}\@isextagtrue\deftag{\the\excnt}{#1}}
+\def\deftag#1#2{%
+   {\let\@printref=\identity
+   \expandafter\xdef\csname lingtag@#2\endcsname{#1}%
+   \if@g@thertags
+      \immediate\write@tags{\noexpand\@fd@f #2 #1 }%
+      \fi}%
+   \ignorespaces
+}
+\def\deftagpage#1{%
+   \if@g@thertags
+      \write@tags{\noexpand\@fd@f #1 {\the\pageno}}%
+   \fi
+   \ignorespaces
+}
+\def\deftaglabel#1{%
+   \if@isextag
+      \expandafter\xdef\csname lingtag@\@localextag.#1\endcsname
+         {\@@label}%
+      \if@g@thertags
+         \immediate\write@tags
+            {\noexpand\@fd@f \@localextag.#1 {\@@label}}\fi
+      \else
+         \writeln{[#1] needs an ex tag}%
+      \fi
+   \ignorespaces
+}
+% If \tagsec is used with section macros that do not define
+% counters \secno,\subsecno,\subsubsecno, and \subsubsubsecno,
+% then \currsec must be redefined to whatever is appropriate.
+\def\chapscurrsec{\ifnum\chapno>0 \the\chapno
+   \ifnum\secno>0 .\the\secno
+   \ifnum\subsecno>0 .\the\subsecno
+   \ifnum\subsubsecno>0 .\the\subsubsecno \fi\fi\fi\fi}
+\def\nochapscurrsec{\ifnum\secno>0 .\the\secno
+   \ifnum\subsecno>0 .\the\subsecno
+   \ifnum\subsubsecno>0 .\the\subsubsecno \fi\fi\fi}
+\let\currsec\nochapscurrsec
+\def\deftagsec#1{\deftag\currsec{#1}}
+
+\newif\iftracingtagrefs
+\resetatcatcode
+

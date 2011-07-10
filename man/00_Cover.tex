@@ -1,0 +1,59 @@
+\global\pageno=1
+\font\namefont=t1xr at 16pt
+\font\namefontsl=t1xsl at 16pt
+\Lingsetkeys{headline=}
+\parindent=0pt \leftskip=0pt plus 1fil
+\rightskip=0pt plus 1fil  \parfillskip=0pt
+
+\leavevmode\vskip2em
+\psscalebox{6}{\titlefont{sub}pst-asr}
+\vskip3em
+\psscalebox{2}{Tex macros for typesetting}
+\vskip1ex
+\psscalebox{2}{autosegmental representations}
+\vfil
+%
+\newtier{softpal,ant,dist,nasal}%
+\newpsstyle{crossing}{xed=true,xedtype=\xedcirc,style=dotted}
+\psset{xgap=1.5in,yunit=3em,ts=0 (Pg),sy=1 ([),
+   ph=-1 (Cg),softpal=.3 (Sg),
+   nasal=-.4 ([),ant=-2 ([),dist=-3 ([),
+   tssym=Place,sysym=\feat{+cons},everyph=Coronal}
+\DefList{\softpalA{2.5},\antoffset{-.22},\distoffset{.36}}
+%
+\asr \1{}\1{}\1{}|
+% softpal features
+\@(\softpalA,softpal){Soft Palate}
+   \-(2,sy)
+\@(\softpalA,nasal){\feat{+nas}}
+   \-(\softpalA,softpal)
+% ant features
+\@(\antoffset,ant){\feat{-ant}}
+   \-(0,ph)
+   \-[style=crossing](2,ph)
+\@[1](\antoffset,ant){\feat{\alpha ant}}
+   \-(1,ph)
+\@[2](\antoffset,ant){\feat{-ant}}
+   \-(2,ph)
+% dist features
+\@(\distoffset,dist){\feat{-dist}}
+   \-(0,ph)
+   \-[style=crossing](2,ph)
+\@[1](\distoffset,dist){\feat{\beta dist}}
+   \-(1,ph)
+\@[2](\distoffset,dist){\feat{+dist}}
+   \-(2,ph)
+|\endasr
+\vfil
+\psscalebox{3}{User's Guide}
+\vskip1ex
+
+\openup4pt
+\parindent=0pt \namefont
+John Frampton\par
+{\namefontsl j.frampton@neu.edu}\vskip14pt
+20 April 2006\par
+Version 1.0\par
+
+\break
+

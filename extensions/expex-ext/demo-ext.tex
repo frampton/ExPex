@@ -1,0 +1,62 @@
+\documentclass{article}
+\usepackage{/ling/tex/expex/core/expex,
+   /ling/tex/expex/core/expex-ext}
+\listfiles
+\begin{document}
+
+\lingset{glstyle=wrap,glhangstyle=none,everygl=\openup.5ex,
+   everyglword=\normalbaselines,everyglft=\normalbaselines}
+
+\def\hmao{%
+\noexpand\gla
+Hmao sa co po tha  nu nao nga hmua. Nu dja ga, nu dja cog nu laih
+gui reo ne. Todang bboi rok jolan nu nao hma, nu bboh sa droi mra
+do bboi gah, a, hruh nu.//
+\noexpand\glb
+exist one {clf} person old 3s go do field 3s hold machete 3s hold
+hoe 3s pst carry.on.back back.basket 3s while at {along} trail 3s
+go field 3s see one clf peacock stay at drct {?} nest 3s//
+\noexpand\glft
+`There was an old person who went to work in the field. He took
+along his machete, he took along his hoe, and he carried his
+basket on his back. While he was on his way to the farm, he saw a
+peacock beside its nest.'//
+}
+
+\edef\mkgloss#1\hmao{\noexpand\noindent\noexpand\begingl#1\hmao
+\noexpand\endgl}
+\lingset{aboveexskip=0pt}
+
+\begin{verbatim}\ex[glpos=below,glhangstyle=none] \begingl ... \endgl \xe\end{verbatim}
+\ex[glpos=below,glhangstyle=none] \mkgloss\hmao \xe
+
+\begin{verbatim}\ex[glpos=right,glhangstyle=none] \begingl ... \endgl \xe\end{verbatim}
+\ex[glpos=right,glhangstyle=none] \mkgloss\hmao \xe
+
+\begin{verbatim}\ex[glpos=below,glhangstyle=normal] \begingl ... \endgl \xe\end{verbatim}
+\ex[glpos=below,glhangstyle=normal] \mkgloss\hmao \xe
+
+\begin{verbatim}\ex[glpos=right,glhangstyle=normal] \begingl ... \endgl \xe\end{verbatim}
+\ex[glpos=right,glhangstyle=normal] \mkgloss\hmao \xe
+
+\begin{verbatim}\ex[glpos=below,glhangstyle=cascade] \begingl ... \endgl \xe\end{verbatim}
+\ex[glpos=below,glhangstyle=cascade] \mkgloss\hmao \xe
+
+\vfil\break
+\begin{verbatim}\ex[glpos=right,glhangstyle=cascade] \begingl ... \endgl \xe\end{verbatim}
+\ex[glpos=right,glhangstyle=cascade] \mkgloss\hmao \xe
+
+\mkgloss\relax[A]\quad\hmao
+
+\bigskip
+\mkgloss\hmao
+
+\bigskip
+\mkgloss[glpos=right][A]\quad\hmao
+
+\bigskip
+\mkgloss[glhangstyle=normal,glpos=right]\hmao
+
+
+\end{document}
+

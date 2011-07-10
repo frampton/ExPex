@@ -1,0 +1,95 @@
+
+\vfil
+\eject
+\global\pageno=1
+\section Introduction
+
+Many of the needs of linguists who wish to produce
+typographically attractive papers using \Tex\/ or {\sl Latex\/}
+are not specific to linguistic papers.  There are therefore many
+macro packages which deal with tables of contents, references,
+section headings, font selection, indexing, etc. But linguistics
+does have some special typographic needs. I addressed two of
+these with the macro packages {\sl PST-JTree\/} and {\sl
+PST-ASR\/}, which typeset syntactic trees and autosegmental
+representations. \Expex\/ addresses the main remaining special
+\Tex\/ need in linguistics: formatting examples, examples with
+multiple parts, glosses, and the like, and referring to examples
+and parts of examples. The name comes from the two central
+macros, |\ex| and |\pex|, used to typeset examples and examples
+with labeled parts.
+
+{\sl PST-JTree\/} and {\sl PST-ASR\/} rely heavily on Hendri
+Adriaens' \Xkeyval\/ package, which has become the standard for
+\Pstricks\/ based macro packages.  Although \Expex\/ is not based
+on \Pstricks, it does handle parameterization in the same way that
+{\sl PST-JTree\/} and {\sl PST-ASR\/} do. When {\sl expex.tex\/}
+is loaded, it immediately checks to see whether {\sl
+xkeyval.tex\/} has already been loaded.  If not, it does so.
+
+The goal in writing a macro package for general use is to make it
+simple to use if only simple things need to be done, but powerful
+enough so that users who have complex needs can get those needs
+satisfied if they are willing to deal with the complexities that
+complex needs inevitably involve.  If you think there are simple
+things that are not simple to do, or complex things that cannot
+be done, please write to me at {\sl j.frampton@neu.edu}.  The
+{\sl ExPex\/} macros have evolved over the last 15 or so years
+and like anything which evolves, various features of the current
+state may have more to do with history than with optimal design.
+Please let me know about departures from optimal design.  Perhaps
+the next version can be improved.
+
+This User's Guide begins with four examples which demonstrate
+{\sl ExPex\/} in action.  It serves as a ``A Quick Guide to {\sl
+Expex\/}''.  Each page gives some code at the top, with the
+product of this code below. Its main purpose is to give a sense
+of how {\sl ExPex\/} works, so that curious readers have some
+basis for determining whether they want to proceed with the
+details.  It is possible to begin to use {\sl ExPex\/} solely on
+the basis of the four demo pages and learn the more subtle
+capabilities as needed.  A quick survey of the index and the table
+of contents should give you some idea of what is available, if
+you need it.
+
+\subsection  Changes
+
+There are a number of changes in {\sl ExPex\/} from Version 1.0
+(Beta) that was circulated two years ago.
+
+\medskip
+\noindent 1.  The macros for creating glosses have been
+substantially revised.  There are four different gloss styles
+available, selected by the parameter |glstyle|. Line breaking in
+glosses is automatic if |glstyle| is set to |wrap|.
+
+\medskip
+\noindent 2. It is now possible to specify the labels in
+multipart examples by giving an explicit sequence of labels. This
+allows labels to be drawn from a font set in which sequential
+alphabetical order does not correspond to sequential character
+code order in the font set.
+
+\medskip
+\noindent 3. The macros to control page breaking inside examples
+have been revised.
+
+\medskip
+On the whole, this version of \Expex\ is backwards compatibility
+with the earlier version.  There are some minor differences. Some
+default settings have changed and the macro |\goodpar| has been
+renamed |\exbreak| to be consistent with \Tex's naming habits.
+The old version will be available as {\sl expex2007.tex\/} and
+{\sl expex2007.sty\/} in case you have old documents that you
+want to be able to run with only trivial modification.
+
+An early version of the new gloss macros has had limited
+circulation as {\sl ExPexGL}.  Those macros have been modified in
+some details in the present \Expex\ on the basis of user's
+experience with them.
+
+
+
+
+
+

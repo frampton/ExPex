@@ -1,0 +1,775 @@
+
+\section Referring to examples and labeled parts of examples
+
+\vskip-1ex
+\subsection Unnamed reference
+
+Macros:\quad \idx{|\lastx|}, \idx{|\nextx|}, \idx{|\blastx|},
+\idx{|\anextx|}, \idx{|\bblastx|}\bigskip
+
+\noindent These produce the last, next, before last, after next,
+and before last example numbers.  The example number is
+set early in the expansion of |\ex| and |\pex|, so these macros can
+be used inside an example, with ``last example'' taking on the
+meaning of ``current example'' and the others similarly
+interpreted.
+
+It is dangerous to use macros like |\bblastx| or |\anextx| for
+reference to an example because later additions or deletions in
+the document can throw off the reference.  This kind of
+misreference is easy to overlook in proofing a document. It is
+better to assign names to the things you want to refer to and to
+refer to them by name. If an intervening example is deleted or
+added, no problem arises. If the example which is referred to is
+deleted, then \Tex\/ can report a missing reference.
+
+\subsection Named reference
+
+\deftagsec{named-reference}
+\halign{& #\hfil\cr
+Macros:\quad & |\deftag|, |\deftagex|, |\deftaglabel|,
+   |\deftagpage|, |\a<>|, |\getref|\cr
+&  |\getfullref|, |\refproofing|\cr}
+\bigskip
+
+\noindent The core macros are \idx{|\deftag|} and
+\idx{|\getref|}. |\deftag| takes two (obligatory) arguments.
+After |\deftag{«reference»}{«tag»}| is executed, |\getref{«tag»}|
+expands to {\sl reference}, where the value of the reference is
+determined at the point the |\deftag| command was evaluated.
+\idx{|\deftagex|}|{«tag»}| expands to
+|\deftag{\the\exno}{«tag»}|. \idx{|\deftagpage|}|{«tag»}| expands
+to |\deftag{\the\pageno}{«tag»}|, but the expansion is delayed
+until after \Tex's page breaking mechanism has decided what page
+the |\deftag| command appears on.  The tag/page pair which is
+generated in this case is written to a file only, so |\getref|
+cannot recover a page number until a tag-ref file is read.
+
+The evaluation of \idx{|\deftaglabel|}|{«tag»}| is more complex.
+|\pexcnt|, the setting of |labeltype|, and the setting of
+|everylabel| are used to construct the reference (either a letter
+or a number).  The tag which is submitted to |\deftag| is $\sl
+tag'\!|.|tag$, where $\sl tag'$ is the example number tag.
+
+The code below produces (\nextx), with the deftag commands
+invisible.
+
+\codedisplay
+\pex[interpartskip=0pt]
+\a First\deftag{the first part of example \lastx}{FP}
+\a Second\deftagex{snoopy}\deftaglabel{dog}
+\a Third\deftaglabel{a}
+\xe|endcodedisplay
+
+\framedisplay~
+\pex[interpartskip=0pt]
+\a First\deftag{the first part of example \lastx}{FP}
+\a Second\deftagex{snoopy}\deftaglabel{dog}
+\a Third\deftaglabel{a}
+\xe
+\endframedisplay
+
+\noindent Afterwards, assuming that the tag |snoopy| has not been
+redefined in the interim\par\nobreak\medskip
+
+\hskip3em
+\sidx{|\getfullref|}%
+\vtop{\openup1pt
+\halign{#\hfil& \quad$\to$\quad #\hfil\cr
+|\getref{snoopy}|& \getref{snoopy}\cr
+|\getref{snoopy.dog}|& \getref{snoopy.dog}\cr
+|\getfullref{snoopy.dog}|& \getfullref{snoopy.dog}\cr
+|\getref{snoopy.a}|& \getref{snoopy.a}\cr
+|\getfullref{snoopy.a}|& \getfullref{snoopy.a}\cr
+|\getref{dog}|& \it undefined tag warning, or spurious reference\cr
+|\getref{FP}|& \getref{FP}\cr
+}}
+
+\medskip
+\noindent A spurious reference is produced if the tag |dog| is
+defined somewhere else in your document. |\deftaglabel| must
+know, at the point that it is expanded, what tag has been
+attached to the example number. If the example number has not
+been tagged at that point, a warning message is issued.
+
+There are shortcuts for tagging example numbers and labels, which,
+unlike most shortcuts, make the code easier to read as well.
+One can write:
+
+\codedisplay
+\pex[interpartskip=0pt,labeltype=alpha]<snoopy>
+\a First
+\a<dog> Second
+\a<A> Third
+\xe |endcodedisplay
+
+\noindent |<«\dots»>| delimits an optional argument which is
+interpreted as either a tag of the example number, or of the
+label, depending on where it occurs.
+
+If |\getref{sometag}| is evaluated and the tag is undefined, a
+warning message to this effect is generated
+and~\hbox{$\bullet$|sometag|} is typeset instead of the intended
+reference.
+
+It is tedious to check that references to example numbers and the
+like are correct (i.e. refer to what you think they refer to).
+\Expex\ provides a little help. If you execute
+\idx{|\refproofing|}, then all the references that are generated
+by |\bblastx|, |\blastx|, |\lastx|, |\nextx|, |\anextx|,
+|\getref|, and |\getfullref| are highlighted.  If \Pstricks\/ is
+loaded at the point that |\refproofing| is evaluated, the
+highlighting consists of a box around the reference.  If not, the
+reference is under- and overlined. Highlighting is a significant
+aid in copy editing.  The difference is illustrated below.
+
+\pex
+\a Consider (\getfullref{snoopy.dog}), for
+example.\qquad default behavior
+\refproofing
+\a Consider (\getfullref{snoopy.dog}), for example.\qquad
+|\refproofing|, \Pstricks\/ available
+\a {\let\PSTricksLoaded\relax \refproofing
+\makeatletter
+\let\@highlightprint\mathhigh@lightref
+\resetatcatcode
+Consider (\getfullref{snoopy.dog}), for example.}\qquad
+|\refproofing|, \Pstricks\/ not available
+\xe
+
+
+
+\subsection The tag/reference file
+
+Macros:\quad |\gathertags|, |tagfilesuffix|\bigskip
+
+\noindent Forward references require writing tag/reference
+associations to a file in one run, then reading this file in a
+second run. Forward reference is only one reason for such a
+system.  If you work on a document in pieces, say one section at
+a time, and need to refer to things in prior sections, then the
+tag/reference pairs from previous sections must be stored in a
+file so that they can be used in the section that you are working
+on. If you say \idx{|\gatherftags|}, the tag/reference pairs will
+be written to a file as they are established.  If your main file
+is named {\sl foop.tex}, for example, the default is to write the
+tag/ref pairs to {\sl foop-tags.tex}.  But you can modify this by
+using the command \idx{|\tagfilesuffix|}.  {\sl expex.tex\/}
+contains |\tagfilesuffix{-tags}|, but you can overrule this with
+|\tagfilesuffix{«your suffix»}|.
+
+When the first |\getref|, |\getfullref|, or |\gathertags| command
+is encountered, \Expex\/ checks to see if there is a tag file.  If
+the file does exist, it is read and all the tag/reference pairs
+it encodes are established.  No testing is done for conflicting
+tag/reference pairs with the same tag, so it is the
+responsibility of the user to see that this does not occur to a
+bad effect.  If the user wants to be absolutely sure that bad
+references have not accidentally occurred because of using the
+same tag twice, he/she can look directly at the tag file in a
+text editor.  If the lines are alphabetized, it is relatively
+easy to find tags for which multiple references have been
+established.  If you are a careful copy editor, this may be worth
+doing in a complex project (a book length manuscript) during
+final copy editing.  Of course, the printed final manuscript
+should be checked in any event to make sure that the references
+refer to what you want them to refer to.
+
+For what it is worth, my own style of work is to break up
+projects into multiple pieces and have a main file which calls
+the various pieces.  Then I simply comment out the calls to
+pieces that I am not working on.  From time to time I will run
+the main file calling on all the various pieces, invoking
+|\gathertags|. Then I comment out |\gathertags|.  The tag-ref
+file which is created then remains intact until |\gathertags| is
+invoked at some future time.  All of the tag/reference pairs it
+encodes are available in subsequent work until a new tags file is
+created.
+
+\subsection References to references, references as values
+
+Macro:\quad |\lastlabel|\bigskip
+
+\noindent If, for some reason, you want to refer to a specific
+part of a multipart example without tagging the example number,
+it can be done as follows.
+
+\sidx{|\lastlabel|}\codedisplay
+\pex[everylabel=\it]
+\a First Example.
+\a Second Example.\deftag{\lastx\lastlabel}{snoopy}
+\a Third Example.
+\xe
+
+\noindent You can then refer to (\getref{snoopy}) later in your
+document.|endcodedisplay
+
+\framedisplay~[fdcorrect=top]
+\sidx{|\lastx|}
+\pex[everylabel=\it]
+\a First Example.
+\a Second Example.\deftag{\lastx\lastlabel}{snoopy}
+\a Third Example.
+\xe
+
+\noindent You can then refer to (\getref{snoopy}) later in your
+document.
+\endframedisplay
+
+\noindent |\lastlabel| expands to the most recent label, in
+the form in which it is printed (i.e. containing the expansion of
+|\everylabel|).
+
+You can also say:
+
+\sidx{|exno|}%
+\codedisplay
+\ex[exno=\getref{snoopy}] Second example.\xe|endcodedisplay
+
+\framedisplay~
+\ex[exno=\getref{snoopy}] Second example.\xe
+\endframedisplay
+
+An alternative is:
+
+\codedisplay
+\ex[exno={\getref{snoopy}, repeated}]
+Second example.\xe|endcodedisplay
+
+\framedisplay~
+\ex[exno={\getref{snoopy}, repeated}]
+Second example.\xe
+\endframedisplay
+
+\noindent Note that braces must hide the comma in the value which
+sets the key.
+
+If you say
+
+\codedisplay
+\pex[labeltype=numeric]<dog>
+\a First Example.
+\a<G> Second Example.
+\a Third Example.
+\xe|endcodedisplay
+
+\framedisplay~
+\pex[labeltype=numeric]<dog>
+\a First Example.
+\a<G> Second Example.
+\a Third Example.
+\xe\endframedisplay
+
+\noindent then, if you want to repeat (\getfullref{dog.G}) at
+some point, you can use:
+
+\codedisplay
+\ex[exno=\getfullref{dog.G}] Second example\xe|endcodedisplay
+
+\framedisplay~
+\ex[exno=\getfullref{dog.G}] Second example\xe
+\endframedisplay
+
+\subsection Extensions of the tag/reference mechanism
+
+The tag/reference mechanism can easily be extended to reference
+to chapters, sections, and subsections.  Suppose, for example,
+that there are counters for the chapter number, section number,
+subsection number, and subsubsection number.  One might define:
+
+\codedisplay
+\def\currsec{\the\chapterno
+   \ifnum\secno>0 .\the\secno
+   \ifnum\subsecno>0 .\the\subsecno
+   \ifnum\subsubsecno>0 .\the\subsubsecno \fi\fi\fi}
+\def\deftagsec#1{\deftag\currsec{#1}}|endcodedisplay
+
+\noindent This assumes that there are counters |\chapterno|,
+|\secno|, |\subsecno|, and |\subsecsecno| and that when a chapter
+is initiated, |\secno| is set to 0, when a section is initiated,
+|\secsecno| is set to 0, and that when a subsection is initiated,
+|\subsubsecno| is set to 0.  (Lines 1--5, commented out,
+are included at the end of {\sl expex.tex\/} for the user to
+use, modify, or ignore.)
+
+
+\subsection The parameter {\tt fullreformat}
+
+\parinventory
+& \idx{|labelformat|}& format string (see discussion)& |A|\cr
+& \idx{|fullrefformat|}& format string (see discussion)& |XA|\cr
+\endparinventory
+
+\begingroup
+\parindent=0pt \leftskip=1.2em
+
+1. |labelformat| determines how the labels are formatted.
+Generally they are followed by a period, but this parameter
+allows other possibilities.
+\smallskip
+
+2. |fullrefformat| determines how references retrieved by
+|\getfullref| are formatted.  Generally, example numbers and
+labels are concatenated if the labels are characters and
+separated by a period if the labels are numbers.  This parameter
+allows other possibilities.  The format specification is
+primitive.  The value of |fullrefformat| is analyzed as
+|#1X#2A#3|, with |X| preceding |A|.  Then the full reference is
+found by substituting the example number for |X| and the part
+label for |A|.
+\smallskip
+\endgroup
+
+Consider the artificial example below, with unusual formatting
+for illustrative purposes.
+
+\begingroup
+\setss .65 .35
+\beginss
+\pex[labeltype=numeric,labelformat={[A]},
+   fullrefformat=X-A,samplelabel={[1]}]<K>
+\a first
+\a<A> second
+\xe|midss
+\pex[labeltype=numeric,labelformat={[A]},
+   fullrefformat=X-A,samplelabel={[1]}]<K>
+\a first
+\a<A> second
+\xe
+\endss
+\endgroup
+|\getref{K.A}| produces \getref{K.A} and |\getfullref{K.A}|
+produces \getfullref{K.A}.
+
+\subsection Reference to a part of a multipart example
+
+Suppose there is a multipart example which you want to partially
+repeat at a later point, giving only some of the parts. There are
+many opportunities to make a mistake.  The reference to the
+example number may be wrong, the references to the part labels my
+be wrong, or a particular part may not be repeated the way it
+originally appeared.  Here is one way to (partially) automate the
+references to avoid most of the possible reference
+errors.
+
+\exbreak[15ex]
+%\vskip 0pt plus 20ex \penalty0 \vskip 0pt plus -20ex
+
+\begingroup
+\setss .53 .43
+\beginss
+\deftag{Someone loves everyone.}{1st}
+\deftag{Everyone loves someone.}{2nd}
+
+\pex<A>
+\a   \dots
+\a<X> \getref{1st}
+\a  \dots
+\a<Z> \getref{2nd}
+\xe
+
+\ex An intervening example.\xe
+
+The two crucial examples in
+(\getref{A}) are repeated below:
+
+\pex[exno=\getref{A}]
+\a[label=\getref{A.X}]  \getref{1st}
+\a[label=\getref{A.Z}]  \getref{2nd}
+\xe
+
+\ex Numbering resumes.\xe|midss
+\deftag{Someone loves everyone.}{1st}
+\deftag{Everyone loves someone.}{2nd}
+
+\pex<A>
+\a   \dots
+\a<X> \getref{1st}
+\a  \dots
+\a<Z> \getref{2nd}
+\xe
+
+\bigskip
+\ex An intervening example.\xe
+
+\bigskip
+The two crucial examples in
+(\getref{A}) are repeated below:
+
+\bigskip
+\deftag{\the\secno.\the\subsecno}{explicit-sec}%
+\pex[exno=\getref{A}]<explicit>
+\a[label=\getref{A.X}]  \getref{1st}
+\a[label=\getref{A.Z}]  \getref{2nd}
+\xe
+
+\bigskip
+\ex Numbering resumes.\xe
+\endss
+{\bf Important limitation}:\enspace Inside an example that sets
+|exno| to a nonempty value, the use of |\deftaglabel| or
+|\deftagex|, or their implicit versions using the |<|\dots|>|
+notation, or |\label|, will result in an error or (more
+dangerously) an unexpected outcome.  This is a minor limitation
+because there should be no need to tag items which themselves are
+referenced by tags.  It is important only because violating it
+can generate Tex errors.\endgroup
+
+\subsection Support for the LaTex \ttcs{label} and
+\ttcs{ref} commands%
+
+\deftag{\the\secno.\the\subsecno}{labelsec}
+
+\sidx{|\label|, use of the LaTex macro}
+\sidx{|\ref|, use of the LaTex macro}
+\noindent LaTex users, if so inclined, may wish to use the LaTex
+|\label|-|\ref| mechanism to tag example numbers and example part
+labels.
+
+Assuming that LaTex is in use,
+
+\beginss
+\pex \label{A}
+\a Tom\label{B}
+\a Dick\label{C}
+\a Harry\label{D}, etc.
+\xe
+
+\ex~ Intervening example.\xe
+
+\noindent Consider example (\ref{A}).
+Tom is in example (\ref{B}), Dick is
+in example (\ref{C}), and Harry is in
+example (\ref{D}).|midss
+%%%%
+\pex[aboveexskip=1ex,nopreamble]\deftagex{A}
+\a Tom\deftaglabel{B}
+\a Dick\deftaglabel{C}
+\a Harry\deftaglabel{D}, etc.
+\xe
+
+\bigskip
+\ex~ Intervening example\xe
+
+\bigskip
+\noindent Consider example (\getref{A}). Tom is in example
+(\getfullref{A.B}), Dick is in example (\getfullref{A.C}), and
+Harry is in example (\getfullref{A.D}).
+\medskip
+%%%%
+\endss
+
+There are important differences between the LaTex mechanism and
+the |\deftag|-|\getref| mechanism.
+
+\smallskip
+\noindent 1.\enspace
+|\ref{|{\it tag}|}| cannot be used as a
+special example number, nor can it be given as an optional
+argument to |\a|.
+
+\smallskip
+\noindent 2.\enspace
+The |\label| name space is flat.  No distinction is made between
+names of examples and names of parts of examples. This makes it
+much harder to remember and manage the names, at least for me.
+
+\smallskip
+\noindent 3.\enspace
+LaTex provides no control over the generation of the file
+containing the tag-reference pairs.  One cannot work on Chapter 5
+(for example) and have all the tag-reference information for the
+earlier chapters available without actually submitting all of the
+Chapters 1 to 4 to LaTex while you are working on Chapter 5.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\endinput
+
+
+
+\endinput
+
+\ex dog days\xe
+
+\ex[everylabel=\it,
+   exno={\getref{dog}\getref{dog.B}, repeated}]<dog2>
+Second example.
+\xe
+
+\ex happy days\xe
+
+\deftag{\getref{dog}.\getref{dog.A}}{coreexample}
+
+\refproofing
+\getfullref{dog.A}\qquad
+\getref{snoopy}\qquad
+\getref{coreexample}
+
+\endinput
+Although |\lastx| and |\getref{«tag»}| (with the reference of the
+tag an example number) usually produce integers, their expansions
+are actually complex.  The expansion of |\lastx| contains the
+code for highlighting the result if |\refproofing| has been
+executed. The expansion of |\getref{«tag»}| has this code and
+also code to warn the user if the tag is undefined.  Because of
+this, |\lastx| and |\getref| cannot be used in most contexts
+that expect a number.
+
+
+
+\Expex\/ makes special provisions to allow |\lastx| and |\getref|
+to be used in certain contexts where it is convenient to be able
+to use them, but would not be allowed without special provisions.
+The following illustrates one such context. Suppose you want to
+refer to (\nextx b) at some later point in your document.  You
+can tag the needed reference using |\deftag{\lastx b}{mi-ti}|.
+Then |\getref{mi-ti}| will recover the needed reference.
+Recall that |\lastx| gives the current example number inside
+|\ex| \dots|\xe|.  Inside the first argument of |\deftag|,
+|\lastx| is redefined to strip off the highlighting code, which
+would otherwise cause problems in this context.  \sidx{|\deftag|,
+using |\lastx| in}
+
+\framedisplay\ex[dima=1em]
+a.\tspace
+\judge*\begingl
+\gla Te mostr\'o a m\'\i/nosotros /
+\glb you showed-3sg to me/us /
+\glc{`He showed you to me/us'}
+\endgl
+\hfil
+b.\tspace
+\deftag{\lastx b}{mi-ti}
+\judge*\begingl
+\gla Me mostr\'o a t\'\i/vosotros /
+\glb me showed-3sg to you/you-pl /
+\glc{`He showed me to you/you guys'}
+\endgl
+\xe\endframedisplay
+
+\codedisplay~
+\ex[dima=1em]
+a.\tspace
+\judge*\begingl
+\gla Te mostr\'o a m\'\i/nosotros /
+\glb you showed-3sg to me/us /
+\glc{`He showed you to me/us'}
+\endgl
+\hfil
+b.\tspace
+\deftag{\lastx b}{mi-ti}           % \lastx inside \deftag
+\judge*\begingl
+\gla Me mostr\'o a t\'\i/vosotros /
+\glb me showed-3sg to you/you-pl /
+\glc{`He showed me to you/you guys'}
+\endgl
+\xe |endcodedisplay
+
+Although you can use |\lastx| inside the first argument of
+|\deftag|, don't try to use |\nextx|, |\blastx|, etc. or
+|\getref| in this context. The result is not likely to be what
+you want.
+
+Another case in which it is useful to use |\getref{«tag»}| as if
+it were simply a number is in repeating earlier examples.
+Suppose that an example number has been given the tag |foo|,
+either through using |\deftagex{foo}| or |tag=foo| and that
+later in your paper you want to repeat this example with its
+original number.  It is sufficient to use
+
+\sidx{|exno|, setting using |\getref|}%
+\codefragment
+|\ex[exno=\getref{foo}]| \dots
+\endcodefragment
+In this context, |\getref| is redefined to strip away testing for
+tag definition and highlighting, so that it is usable as a value
+associated with |exno|.  Since no testing is done to first
+check if the tag is defined, an undefined tag will not produce a
+user friendly warning message, simply a \Tex\/ crash of the
+familiar kind.  If the tag |foo| is undefined, you will be
+informed that |\lingtag@foo| is undefined.
+
+
+
+\ex[exno=12] example\xe
+
+\refproofing
+
+\ex[exno=\getref{clitics}] example\xe
+
+\getref{mi-ti}\quad \getref{clitics}
+\endinput
+
+
+\subsection A complex example
+
+|\deftaglabel| works only for tables which use the
+|\labels|-|\tl| system of assigning labels.  In many complex
+tables which are ``handmade'', the labels are most conveniently
+inserted directly.  In this case, |\deftag| must be used to
+assign references to tags.  Consider the table below, from a paper by
+Juan Uriagereka\footnote goop
+"endfootnote
+.  All the examples are ungrammatical, by the way.  Aside from
+the use of |\deftag| and |\getref|, the example illustrates table
+construction and glosses.
+
+\framedisplay
+\vbox{At various points in the paper, reference must be made to
+(\nextx), (\nextx.1c), and (\nextx.2b).
+
+\exdisplay[dimb=2em,dima=.6em,aboveglcskip=0pt,
+   labeloffset=.8em,textoffset=.6em]
+\deftagex{Juan-example}
+\halign{#\hfil& \tspace[labeloffset]#\hfil& \tspace#\hfil&&
+   \tspace[textoffset]#\hfil& \tspace[dimb]#\hfil\cr
+\exnoprint& 1.& a.&
+\begingl
+\gla Me mostr\'o a m\'\i/nosotros /
+\glb me showed-3sg to me/us /
+\glc{`He showed me to me/us'}
+\endgl
+& b.&
+\begingl
+\gla Te mostr\'o a m\'\i/nosotros /
+\glb you showed-3sg to me/us /
+\glc{`He showed you to me/us'}
+\endgl
+\cr
+\noalign{\medskip}
+&& c.&
+\begingl
+\gla Nos mostr\'o a m\'\i/nosotros /
+\glb us showed-3sg to me/us /
+\glc{`He showed us to me/us'}
+\endgl
+\deftag{\lastx.1c}{mi/nos}
+& d.&
+\begingl
+\gla Os mostr\'o a m\'\i/nosotros /
+\glb you-pl showed-3sg to me/us /
+\glc{`He showed you guys to me/us'}
+\endgl
+\cr
+\noalign{\medskip}
+&2.& a.&
+\begingl
+\gla Me mostr\'o a t\'\i/vosotros /
+\glb me showed-3sg to you/you-pl /
+\glc{`He showed me to you/you guys'}
+\endgl
+& b.&
+\begingl
+\gla Te mostr\'o a t\'\i/vosotros /
+\glb you showed-3sg to you/you-pl /
+\glc{`He showed you to you/you guys'}
+\endgl
+\deftag{\lastx.2b}{ti/vos}
+\cr
+\noalign{\medskip}
+&& c.&
+\begingl
+\gla Nos mostr\'o a t\'\i/vosotros /
+\glb us showed-3sg to you/you-pl /
+\glc{`He showed us to you/you guys'}
+\endgl
+& d.&
+\begingl
+\gla Os mostr\'o a t\'\i/vosotros /
+\glb you-pl showed-3sg to you/you-pl /
+\glc{`He showed you guys to you/you guys'}
+\endgl
+\cr
+}
+\xe
+
+\noindent You should be able to refer by name to the example
+number (\getref{Juan-example}), and the labeled parts
+(\getref{mi/nos}) and (\getref{ti/vos}).}\endframedisplay
+
+\codedisplay~
+At various points in the paper, reference must be made to
+(\nextx), (\nextx.1c), and (\nextx.2b).
+
+\exdisplay[dimb=2em,dima=.6em,aboveglcskip=0pt,
+   labeloffset=.8em,textoffset=.6em]
+% dima is the width of the gutter between the number labels and
+%   the letter labels to the right
+% dimb is the width of the gutter between the two columns
+\deftagex{Juan-example}
+\halign{#\hfil& \tspace[labeloffset]#\hfil& \tspace#\hfil&&
+   \tspace[textoffset]#\hfil& \tspace[dimb]#\hfil\cr
+\exnoprint& 1.& a.&
+\begingl
+\gla Me mostr\'o a m\'\i/nosotros /
+\glb me showed-3sg to me/us /
+\glc{`He showed me to me/us'}
+\endgl
+& b.&
+\begingl
+\gla Te mostr\'o a m\'\i/nosotros /
+\glb you showed-3sg to me/us /
+\glc{`He showed you to me/us'}
+\endgl
+\cr
+\noalign{\medskip}|exbreak
+&& c.&
+\begingl
+\gla Nos mostr\'o a m\'\i/nosotros /
+\glb us showed-3sg to me/us /
+\glc{`He showed us to me/us'}
+\endgl
+\deftag{\lastx.1c}{mi/nos}
+& d.&
+\begingl
+\gla Os mostr\'o a m\'\i/nosotros /
+\glb you-pl showed-3sg to me/us /
+\glc{`He showed you guys to me/us'}
+\endgl
+\cr
+\noalign{\medskip}|exbreak
+&2.& a.&
+\begingl
+\gla Me mostr\'o a t\'\i/vosotros /
+\glb me showed-3sg to you/you-pl /
+\glc{`He showed me to you/you guys'}
+\endgl
+& b.&
+\begingl
+\gla Te mostr\'o a t\'\i/vosotros /
+\glb you showed-3sg to you/you-pl /
+\glc{`He showed you to you/you guys'}
+\endgl
+\deftag{\lastx.2b}{ti/vos}
+\cr
+\noalign{\medskip}|exbreak
+&& c.&
+\begingl
+\gla Nos mostr\'o a t\'\i/vosotros /
+\glb us showed-3sg to you/you-pl /
+\glc{`He showed us to you/you guys'}
+\endgl
+& d.&
+\begingl
+\gla Os mostr\'o a t\'\i/vosotros /
+\glb you-pl showed-3sg to you/you-pl /
+\glc{`He showed you guys to you/you guys'}
+\endgl
+\cr
+}
+\xe
+
+\noindent You should be able to refer by name to the example
+number (\getref{Juan-example}), and the labeled parts
+(\getref{mi/nos}) and (\getref{ti/vos}).|endcodedisplay
+
+
+
+
+
+
+
+
+
+

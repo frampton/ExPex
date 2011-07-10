@@ -1,0 +1,57 @@
+
+\documentclass{article}
+\usepackage{/ling/tex/expex/core/expex,expex-msword}
+\begin{document}
+
+\lingset{glstyle=wrap}
+\begingroup
+\lingset{numoffset=0pt,textoffset=.5in,labeloffset=.25in,
+   interpartskip=1ex,belowpreambleskip=1ex,mswordstyle=true}
+
+\ex This is an example.\xe
+
+\pex
+This is the preamble.
+\a part one
+\a part two
+\xe
+
+\pex
+this should work
+\xe
+
+\pex
+\a part one
+\a part two
+\xe
+
+%\pex
+%\a
+%\begingl
+%\gla one two//
+%\glb three four//
+%\glft translation//
+%\endgl
+%\xe
+
+
+\endgroup
+
+\ex This is an example.\xe
+
+\pex
+This is the preamble.
+\a part one
+\a part two
+\xe
+
+\pex
+\a part one
+\a part two
+\xe
+
+\end{document}
+
+
+
+

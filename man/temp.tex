@@ -1,0 +1,81 @@
+
+%\input @pexsub
+\catcode`@=11
+\define@linginckey\dimen{}{}{sublabeloffset}
+\define@linginckey\dimen{}{}{subtextoffset}
+\define@linginckey\dimen{}{}{sublabelwidth}
+\lingset{sublabeloffset=-.7em,subtextoffset=1em,
+   sublabelwidth=\linglabelwidth}
+\newcount\pexsubcnt
+\newdimen\aa@add
+\def\aa{\par
+   \if@firstaalabel
+      \ifdim\ep@aaleftskip=0pt
+         \ep@aaleftskip=\leftskip
+%         \advance\ep@aaleftskip by -\lingtextoffset
+%         \advance\ep@aaleftskip by -\linglabelwidth
+         \advance\ep@aaleftskip by \lingsublabeloffset
+         \aa@add=\lingsubtextoffset
+         \advance\aa@add by \lingsublabelwidth
+         \advance\ep@aaleftskip by \aa@add
+         \fi
+      \@firstaalabelfalse
+      \pexsubcnt=0
+      \fi
+   \leftskip=\ep@aaleftskip
+   \leavevmode
+   \advance\pexsubcnt by 1
+   \llap{\hbox to \aa@add{\the\pexsubcnt.\hfil}}%
+}
+\catcode`@=12
+
+\pex
+\a  one
+\aa aa
+\aa bb
+\a  two
+\aa aa
+\aa bb
+\a  three
+\xe
+
+
+\bye
+
+\vsize=3.6in
+\hsize=3in
+
+\leavevmode
+\vskip2.1in
+%\lingset{exbreakfil=0pt plus 1.5in}
+
+\ex[exbreakfil=0pt plus 1.6in]
+Now is the time for all good men to come to the aid of the party.
+Now is the time for all good men to come to the aid of the party.
+Now is the time for all good men to come to the aid of the party.
+Now is the time for all good men to come to the aid of the party.
+Now is the time for all good men to come to the aid of the party.
+Now is the time for all good men to come to the aid of the party.
+\xe
+\endinput
+
+\pex
+\a
+Now is the time for all good men to come to the aid of the
+party.
+\a
+Now is the time for all good men to come to the aid of the party.
+\a
+Now is the time for all good men to come to the aid of the party.
+\a
+Now is the time for all good men to come to the aid of the party.
+\a
+Now is the time for all good men to come to the aid of the party.
+\a
+Now is the time for all good men to come to the aid of the party.
+\a
+Now is the time for all good men to come to the aid of the party.
+\xe
+
+
+

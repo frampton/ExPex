@@ -1,0 +1,15 @@
+
+\edef\resetatcatcode{\catcode`\noexpand\@\the\catcode`\@\relax}
+\catcode`\@11\relax
+
+%\def\glft@M{\noalign\bgroup\@tildecheck\glft@M@a}
+%\def\glft@M@a #1//{%
+%   \if@tilde \else \vskip\ling@aboveglftskip \fi
+%   \vtop{\advance\hsize by -\leftskip
+%      \leftskip=0pt \rightskip=0pt \ling@everyglft  #1}\egroup}
+\define@ling@cmdkeys{mincitesep}
+\def\givecite{\hskip\ling@mincitesep plus 1fill
+   \penalty100\null\nobreak \hskip 0pt plus 1fill}
+
+\resetatcatcode
+

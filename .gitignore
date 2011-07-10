@@ -1,0 +1,15 @@
+*.aux
+*.dat
+*.lnk
+*.log
+*.mac
+*.pdf
+*.ps
+*.dvi
+*.LSD
+*.bak
+*.ini
+man-old/
+.*/JUNK/
+JUNK/
+TG/

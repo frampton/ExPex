@@ -1,0 +1,105 @@
+
+\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% various strategies for typesetting \tt material
+
+\chardef\other=12
+\def\allnormal{\catcode`\\=\other \catcode`\{=\other
+   \catcode`\}=\other \catcode`\$=\other  \catcode`\&=\other
+   \catcode`\#=\other  \catcode`\%=\other  \catcode`\~=\other
+   \catcode`\_=\other \catcode`\^=\other}
+\def\ttverbatim{\begingroup
+   \allnormal \obeyspaces\obeylines \tt}
+{\obeyspaces\gdef {\ }}
+
+\catcode`\|=\active
+\catcode`\¦=\active   % for | in \tt territory
+\catcode`\»=\active   % escape inside | ... |
+\catcode`\«=\active   % resume
+{\obeylines %
+\gdef\begintt{\ttverbatim %
+   \let^^M=\ \let|=\endgroup}%
+}
+\let|\begintt
+\def¦{\char"7C\relax}
+\def«{\endgroup \kern1.2pt\bgroup\sl}
+\def»{\egroup\kern.4pt\begintt}
+
+{\catcode`\^^M=\active
+\gdef\CL{%  (codelines)
+   \vskip\lingaboveexskip
+   \par \begingroup \parindent=0pt \leftskip=1em
+   \allnormal \tt %
+   \catcode`^^M=\active \let^^M=\par %
+   \catcode`\|=0 \obeyspaces \@gobble}%
+\gdef\CLboxed{%
+   \leavevmode\vtop \bgroup \begingroup \allnormal \tt
+   \catcode`^^M=\active \let^^M=\cr %
+   \catcode`\|=0 %
+   \obeyspaces\halign\bgroup ##}%
+\gdef\@CLnum{%
+   \parindent=0pt
+   \catcode`\^^M=\active \let^^M=\specialpar %
+   \catcode`\|=0 }%
+}
+\def\endCL{\endgroup \vskip\lingbelowexskip}%
+\def\endCLboxed{\egroup \endgroup\egroup}%
+\def\specialpar{%
+   \par
+   \@specialpar
+}
+\def\@specialpar{%
+   \leavevmode
+   \hbox to1.8em{\hbox to10pt{\hfil\tenrm \the\pexcnt}%
+      \hfil
+      \global\advance\pexcnt by 1}%
+}
+\def\CLnum{\smallskip\pexcnt=1 \morecode}
+\def\morecode{%
+   \smallskip \begingroup
+   \allnormal\obeyspaces\@CLnum\tt%
+}
+\def\endCLnum{\endgroup\medskip}
+
+
+\def\exCL{\ex \tt \pexcnt=1 \allnormal
+   \catcode`\|=0
+   \@exCL
+}
+{\catcode`\^^M=\active %
+   \gdef\@exCL{%
+      \catcode`\^^M=\active %
+      \let^^M=\sp@cialpar %
+      }%
+}%
+\def\sp@cialpar{%
+   \ifnum\pexcnt>1 \obeyspaces\par \fi
+   \@specialpar
+%   \leavevmode
+%   \hbox to1.8em{\hbox to10pt{\hfil\tenrm \the\pexcnt}%
+%      \hfil
+%      \global\advance\pexcnt by 1}%
+}
+%
+\def\@#1{$^{\>#1}$} % |@ for footnotes inside \CL
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\CLframed{%
+   \medskip
+   \line\bgroup
+      \vrule\hss
+         \vbox\bgroup\leftskip=1em
+            \hrule
+            \medskip
+            \CL\relax}
+\def\endCLframed{%
+            \endCL
+            \medskip
+            \hrule
+         \egroup
+      \hss\vrule
+   \egroup
+   \medskip
+}
+\resetatcatcode
+
+

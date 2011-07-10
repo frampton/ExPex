@@ -1,0 +1,157 @@
+\edef\resetatcatcode{\catcode`\noexpand\@\the\catcode`\@\relax}
+\catcode`\@11\relax
+\ifx\ProvidesFile\@undefined
+      \message{2011/07/08 v1.0 ExPex extensions (JF)}
+   \else
+      \ProvidesFile{expex-ext.sty}%
+         [2011/07/08 v1.0 ExPex extensions (JF)]
+   \fi
+
+%\define@choicekey{ling}{glftpos}[\temp\ep@glftpos]%
+%   {below,right}{}
+%\define@choicekey{ling}{glhang}[\temp\ep@glhang]%
+%   {none,normal,cascade}{}
+
+\define@choicekey{ling}{glstyle}[\scrap\ep@glstyle]%
+   {3level,wrap,oldstyle,multilevel}{%
+      \ifcase\ep@glstyle
+            \let\begingl@type=\begingl@T
+            \let\endgl\endgl@W
+         \or
+            \let\begingl@type=\begingl@W
+            \let\endgl=\endgl@W
+            \let\gla\gla@W
+            \let\glb\glb@W
+            \let\glft\glft@W
+         \or
+            \let\begingl@type=\begingl@L
+            \let\endgl=\endgl@L
+            \let\gla=\gla@L
+            \let\glb=\glb@L
+            \let\glc=\glc@L
+         \or
+            \let\begingl@type=\begingl@L
+            \let\endgl=\endgl@L
+            \let\gla=\gla@M
+            \let\glb=\glb@M
+            \let\glc=\glc@M
+            \let\glft=\glft@M
+         \fi
+}
+\lingset{glstyle=wrap}
+\define@choicekey{ling}{glpos}[\scrap\ep@glpos]%
+   {right,below}{%
+      \ifcase\ep@glpos
+            \let\begingl@W=\begingl@Wss
+            \let\endgl@W=\endgl@Wss
+            \let\glft@W=\glft@Wss
+         \or
+            \let\begingl@W=\begingl@Wb
+            \let\endgl@W=\endgl@Wb
+            \let\glft@W=\glft@Wb
+         \fi
+      \def\temp{wrap}%
+      \ifnum\ep@glstyle=1 \lingset{glstyle=wrap}\fi
+}
+\lingset{glpos=below}
+\define@lingcmdkeys{sssep,ssratio,ssrightskip}
+\lingset{sssep=3em,ssratio=.6,ssrightskip=0pt plus 2em}
+\newdimen\ssleftwd
+\newdimen\ssrightwd
+\def\begingl@Wss{%
+   \dimen0 =\hsize
+   \advance\dimen0 by -\leftskip
+   \advance\dimen0 by -\lingsssep
+   \ssleftwd=\lingssratio\dimen0
+   \ssrightwd=\dimen0
+   \advance\ssrightwd by -\ssleftwd
+   \hbox\bgroup
+      \lingset{glwidth=\ssleftwd}
+      \begingl@Wb
+}
+\def\endgl@Wss{\egroup\egroup}
+\def\glft@Wss #1// {%
+   \egroup
+   \hskip\lingsssep
+   \vtop{%
+      \leftskip=0pt
+      \rightskip=\lingssrightskip
+      \parindent=0pt
+      \hsize=\ssrightwd
+      \ling@everyglft
+      #1}%
+}
+%%% cascade wrap
+\newdimen\ep@pshapeindent
+\newdimen\ep@pshapelinewd
+\def\ep@parshapetarget{}
+\def\ep@mkshapeaux{%
+   \edef\ep@parshapetarget
+      {\ep@parshapetarget\space
+         \the\ep@pshapeindent\space\the\ep@pshapelinewd}%
+   \advance\ep@pshapeindent by \ling@glhangindent
+   \advance\ep@pshapelinewd by -\ling@glhangindent
+}
+\def\ep@mkshapeauxaux{\ep@mkshapeaux\ep@mkshapeaux\ep@mkshapeaux}
+\def\ep@makeshape{%
+   \ep@pshapeindent=0pt
+   \ep@pshapelinewd=\hsize
+   \ep@mkshapeaux\ep@mkshapeaux\ep@mkshapeaux\ep@mkshapeaux
+}
+\def\ep@makeshape{%
+   \ep@pshapeindent=0pt
+   \ep@pshapelinewd=\hsize
+   \ep@mkshapeauxaux\ep@mkshapeauxaux\ep@mkshapeauxaux
+}
+\define@ling@cmdkeys{glhangrightskip}
+\define@choicekey{ling}{glhangstyle}[\temp\ep@glhangstyle]%
+   {normal,cascade,none}{}
+\lingset{glhangstyle=normal,glhangrightskip=.2}
+\def\begingl@W@aux{%
+   \leavevmode
+   \ifW@prefixbox \box\W@prefixbox \fi
+   \vtop\bgroup \parindent=0pt
+      \ling@usearg
+      \ling@everygl
+      \ifdim\ling@glwidth=0pt
+            \advance\hsize by -\leftskip
+            \advance\hsize by -\rightskip
+         \else
+            \hsize=\ling@glwidth
+         \fi
+      \ifW@prefixbox \advance\hsize by -\W@prefixboxwd \fi
+%      \ifdim\ling@glhangindent>0pt
+         \ifcase\ep@glhangstyle
+               \rightskip=0pt plus \hsize
+               \leftskip=\ling@glhangindent
+               \hskip -\ling@glhangindent
+            \or
+               \leavevmode
+               \parindent=0pt
+               \leftskip=0pt
+               \rightskip=0pt plus \ling@glhangrightskip\hsize
+               \ep@makeshape
+               \parshape 9
+            \or
+               \leftskip=0pt
+               \rightskip=0pt plus 3em
+            \fi
+      \ep@parshapetarget
+%      \fi
+}
+\def\glft@W{\leavevmode\leftskip=0pt \@tildecheck\glft@W@a}
+\def\glft@W@a #1//{%
+   \if@tilde \else \vskip\ling@aboveglftskip \fi
+%   \strut #1
+   \noindent\ling@everyglft\strut #1
+}
+\def\glft@W{\@tildecheck\glft@W@a}
+\def\glft@W@a #1//{%
+   \if@tilde \par \else \vskip\ling@aboveglftskip \fi
+   \nobreak\prevdepth=.28\baselineskip
+   \leavevmode
+   \ling@everyglft
+   \leftskip=0pt\noindent\strut #1%
+}
+\resetatcatcode
+

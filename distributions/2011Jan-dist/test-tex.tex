@@ -1,0 +1,109 @@
+\input expex
+\let\small=\sevenrm
+\begingroup
+\catcode`@=11
+\def\@nil{\relax}
+\endgroup
+
+\pex Multipart examples often have a title or preamble of some kind.
+\a This is the first example.
+\a This is the second example.
+\xe
+
+\ex
+\begingl
+\gla Il semble au g\'en\'eral \^etre arriv\'e deux soldats en
+ville. /
+\glb there seems {to the} general {to be} arrived two soldiers in
+town /
+\glc{`There seem to the general to have arrived two soldiers in
+town.'}
+\endgl
+\xe
+
+\def\suff#1{{-\small #1}}%
+
+\ex[abovemoreglskip=.5ex,moregloffset=1em,aboveglcskip=1ex]
+\begingl
+\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde /
+\glb Mary is sure that it the\suff{ACC} Hans not annoy would /
+\moregl
+\gla seiner Freundin ihr$_i$ Herz auszusch\"utten. /
+\glb his\suff{DAT} girlfriend\suff{DAT} her\suff{ACC} heart\suff{ACC}
+{out to throw} /
+\glc{`Mary is sure that it would not annoy John to reveal her
+heart to his girlfriend.'}
+\endgl
+\xe
+
+\lingset{glstyle=wrap}
+\let\sc=\tenrm
+\ex
+\begingl
+\gla wiye kepi e- @ ca//
+\glb two whitemen \sc1P:3D- found//
+\glft `XXX.'//
+\endgl
+\xe
+
+
+\ex
+\begingl
+\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
+seiner Freundin ihr$_i$ Herz auszusch\"utten.//
+\glb Mary is sure that it the\suff{ACC} Hans not annoy would
+his\suff{DAT} girlfriend\suff{DAT} her\suff{ACC} heart\suff{ACC} {out to
+throw}//
+\glft  `Mary is sure that it would not annoy John to reveal her
+heart to his girlfriend.'//
+\endgl
+\xe
+
+\ex
+\begingl
+\gla Mary$_i$ ist sicher, + dass es den Hans nicht st\"oren w\"urde
++ seiner Freundin ihr$_i$ Herz auszusch\"utten.//
+\glb Mary is sure that it the\suff{ACC} Hans not annoy would
+his\suff{DAT} girlfriend\suff{DAT} her\suff{ACC} heart\suff{ACC} {out to
+throw}//
+\glft  `Mary is sure that it would not annoy John to reveal her
+heart to his girlfriend.'//
+\endgl
+\xe
+
+\ex
+a.\quad
+\begingl[glwidth=.4\hsize]
+\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
+seiner Freundin ihr$_i$ Herz auszusch\"utten.//
+\glb Mary is sure that it the\suff{ACC} Hans not annoy would
+his\suff{DAT} girfriend\suff{DAT} her\suff{ACC} heart\suff{ACC} {out to
+throw}//
+\glft  `Mary is sure that it would not annoy John to reveal her
+heart to his girlfriend.'//
+\endgl
+\hfil
+b.\quad
+\begingl[glwidth=.4\hsize]
+\gla Mary$_i$ ist sicher, dass seiner Freunden ihr$_i$ Herz
+auszuch\"utten dem Hans nicht schaden w\"urde.//
+\glb Mary is sure that his\suff{DAT} girlfriend\suff{DAT} her\suff{ACC}
+heart\suff{ACC} {out to throw} the\suff{DAT} Hans not damage would//
+\glft `Mary is sure that to reveal her heart to his girlfriend
+would not damage John.'//
+\endgl
+\xe
+
+
+
+\ex[glstyle=multilevel,everygla=,everyglb=,everyglc=,
+   aboveglaskip=0pt,aboveglbskip=0pt,aboveglftskip=1ex]
+\begingl
+\gla k- wapm -a -s'i -m -wapunin -uk //
+\glb Cl V Agr Neg Agr Tns Agr //
+\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glft `you (pl) didn't see them'//
+\endgl
+\xe
+
+\bye

@@ -1,0 +1,214 @@
+
+\makeatletter
+%----- \ex -----
+\newcount\exno
+\exno=0
+\definelinginckeys{numindent,textoffset}
+\definelingcmdkeys{everyex,exhsize,
+   aboveexskip,belowexskip,
+   exnosplitfil,
+   exnosplitpenalty,
+   exgoodparpenalty,
+   splitexfil
+}
+\definelingkey{exskip}%
+   {\edef\ling@aboveexskip{#1}%
+   \edef\ling@belowexskip{#1}%
+}
+\lingset{%
+   numindent=0pt,
+   textoffset=1em,
+   everyex=,
+   exhsize=\the\hsize,
+   aboveexskip=1.2em plus .2em minus .2em,
+   belowexskip=1.2em plus .2em minus .2em,
+   exnosplitfil=0pt plus .3\vsize,
+   exnosplitpenalty=300,
+   splitexfil=0pt plus .15\vsize,
+   exgoodparpenalty=-100
+}
+\def\ex{\pst@ifstar{\@getoptionalarg\ex@@}}
+\def\ex@@{%
+   \bgroup
+   \ex@setup
+   \setbox0=\hbox{\hskip\ling@numindent
+      (\rm\the\exno)\hskip\ling@textoffset}%
+   \leftskip=\wd0
+   \par\nobreak
+   \leavevmode\llap{\unhbox0}%
+}
+\def\ex@setup{%
+   \examplebaselines
+   \global\advance\exno by 1
+   \Ling@usearg
+   \hsize=\ling@exhsize
+   \if@star \else \vskip\ling@aboveexskip \fi
+   \skippuba=\ling@exnosplitfil
+   \vskip\skippuba
+   \penalty\ling@exnosplitpenalty
+   \multiply\skippuba by -1
+   \vskip\skippuba
+   \let\goodpar=\smallpenaltypar
+   \parindent=0pt
+   \ling@everyex
+}
+\def\exsetup{\@starfalse\bgroup\ex@setup}
+\let\aboveexskip\ling@aboveexskip  % public name
+\def\smallpenaltypar{\endgraf
+   \skippuba=\ling@splitexfil
+   \vskip\skippuba
+   \penalty\ling@exgoodparpenalty
+   \multiply\skippuba by -1
+   \vskip\skippuba
+}
+\def\xe{\expandafter\vskip\ling@belowexskip
+   \allowbreak \egroup \prevdepth\dp\strutbox \noindent}
+\def\xenb{\par\nobreak\expandafter\vskip\ling@belowexskip
+   \allowbreak \egroup \prevdepth\dp\strutbox \noindent}
+%\def\exnumbered#1{%
+%   \edef\TheExno{\noexpand\global\noexpand\exno=\the\exno}%
+%   \exno=#1\relax  \advance\exno by -1 \ex}
+%\def\endexnumbered{\xe \TheExno}
+%\def\oldexnumber#1{%
+%   \edef\TheExno{\noexpand\global\noexpand\exno=\the\exno}%
+%   \exno=#1\relax  \advance\exno by -1
+%   \ignorespaces
+%}
+%\def\endoldexnumber{\TheExno}
+
+\def\makeexnumber#1{%
+   \edef\restoreexnumber{\noexpand\global\noexpand\exno=\the\exno}%
+   \exno=#1\relax  \advance\exno by -1
+   \ignorespaces
+}
+%----- \pex -----
+\definelinginckeys{labeloffset,preambleoffset,labelwidth}
+\definelingcmdkeys{belowpreambleskip,interpartskip,splitexpenalty}
+\define@choicekey[jXKV]{ling}{labeltype}[\ling@labeltype\@@labeltype]%
+   {alpha,numeric,caps}{%
+      \ifnum\@@labeltype=1
+            \def\@@label{\the\pexcnt.}%
+         \else
+            \def\@@label{\char\the\pexcnt.}%
+         \fi
+}
+\define@choicekey[jXKV]{ling}{labelalign}[\ling@labelalign\nr]%
+   {left,center,right}{%
+      \ifcase\nr
+            \def\@insertlabel{\@@label\hss}%
+         \or
+            \def\@insertlabel{\hss\@@label\hss}%
+         \or
+            \def\@insertlabel{\hss\@@label}%
+         \fi
+}
+\define@choicekey[jXKV]{ling}{pexpreamble}[\temp\@@ppcase]%
+   {true,false}{}
+\define@key[jXKV]{ling}{samplelabel}{%
+   \setbox0=\hbox{#1}%
+   \lingset{labelwidth=\wd0}%
+}
+\lingset{%
+   labeltype=alpha,
+   labelalign=left,
+   labeloffset=1em,
+   labelwidth=.8em,
+   preambleoffset=1em,
+   belowpreambleskip=1ex,        % vskip after the preamble
+   interpartskip=1ex,       % vskip between parts
+   splitexpenalty=200,
+   pexpreamble=true,
+}
+\newcount\pexcnt
+\def\pex{\pst@ifstar\pex@a}
+\def\pex@a{\@getoptionalarg\pex@A}
+\def\pex@A{\bgroup\@ifnextchar\a{\def\@@ppcase{1}\pex@b}{\pex@b}}
+\def\pex@b{%
+   \ex@setup
+   \ifcase\@@labeltype
+      \pexcnt=96 \or \pexcnt=0 \or \pexcnt=64
+      \fi
+   \let\a\put@firstlabel
+   \ifnum\@@ppcase=0
+         \pst@dima=\ling@preambleoffset
+      \else
+         \pst@dima=\ling@labeloffset
+         \advance\pst@dima by\ling@labelwidth
+         \advance\pst@dima by\ling@textoffset
+      \fi
+   \setbox0=\hbox{\hskip\ling@numindent
+      (\rm\the\exno)\hskip\pst@dima}%
+   \leftskip=\wd0
+   \leavevmode\llap{\unhbox0}%
+}
+\def\put@firstlabel{%
+   \ifnum\@@ppcase=0
+      \par\penalty\ling@exnosplitpenalty
+      \vskip\ling@belowpreambleskip
+      \advance\leftskip by -\ling@preambleoffset
+      \advance\leftskip by \ling@labeloffset
+      \advance\leftskip by\ling@labelwidth
+      \advance\leftskip by\ling@textoffset
+      \fi
+   \let\a=\put@otherlabel
+   \put@label@b
+}
+\def\put@otherlabel{%
+   \par\penalty\ling@exnosplitpenalty
+   \vskip\ling@interpartskip
+   \put@label@b
+}
+\def\put@label@b{%
+   \advance\pexcnt by 1
+   \leavevmode
+   \llap{\hbox to\ling@labelwidth{\@insertlabel}\hskip\ling@textoffset}%
+}
+%----- glosses -----
+\definelinginckeys{glspace,beforeglcskip,continuegloffset}
+\definelingcmdkeys{everygla,everyglb,everyglc}
+\lingset{glspace=1.4ex,everygla=\it,everyglb=,everyglc=,
+   beforeglcskip=.5ex,continuegloffset=0pt}
+\def\begingl{\leavevmode\vtop\bgroup
+   \@getoptionalarg\begingl@ss}
+\def\begingl@ss{%
+   \ling@usearg
+   \vtop\bgroup
+      \let\ling@@everygl\ling@everygla
+      \halign\bgroup ##\hfil &&
+         \kern\ling@glspace ##\hfil\cr
+}
+\def\continuegl{%
+   \egroup\egroup
+   \vtop\bgroup
+      \halign\bgroup \kern\ling@continuegloffset ##\hfil &&
+         \kern\ling@glspace ##\hfil\cr
+}
+\def\endgl{\egroup\egroup\egroup}
+\def\gla{\global\let\@everygl\ling@everygla \gl@ss}
+\def\glb{\global\let\@everygl\ling@everyglb \gl@ss}
+\def\gl@ss#1 {\@everygl #1\@ifnextchar/{\strut\cr\gobble}{& \gl@ss}}
+\def\glc{\noalign\bgroup\pst@ifstar\glc@}
+\def\glc@#1{%
+   \if@star \else \vskip\ling@beforeglcskip \fi \egroup
+   \omit \ling@everyglc #1\strut\hidewidth\cr
+}
+
+
+
+%----- judgements -----
+\define@key[jXKV]{ling}{textoffsetadjust}{%
+   \setbox0=\hbox{#1}%
+   \lingset{textoffset=!\wd0}%
+}
+\def\judge#1{\rm #1\thinspace \ignorespaces}
+\def\ljudge#1{\llap{\judge{#1}}\ignorespaces}
+%----- local reference to example numbers -----
+\def\nextx{{\advance\exno by 1 \number\exno}}
+\def\anextx{{\advance\exno by 2 \number\exno}}
+\def\lastx{\number\exno}
+\def\blastx{{\advance\exno by -1 \number\exno}}
+\def\bblastx{{\advance\exno by -2 \number\exno}}
+
+\resetatcatcode
+
+

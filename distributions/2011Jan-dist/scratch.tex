@@ -1,0 +1,162 @@
+\input gl2007
+
+\everymath={}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\makeatletter
+
+\section Glosses
+
+\inventory
+Macros:& \idx{|\begingl|}|[]|, \idx{|\endgl|}, \idx{|\gla|},
+   \idx{|\glb|}, \idx{|\glc|}|~|, |\moregl|\hidewidth\cr
+Parameters:&
+   \idx{|glspace|}|=.6em|& command\cr
+& \idx{|everygla|}|=\it|& command\cr
+& \idx{|everyglb|}|=|& command\cr
+& \idx{|everyglc|}|=|& command\cr
+& \idx{|aboveglcskip|}|=.5ex|& command\cr
+& \idx{|moregloffset|}|=0pt|& command\cr
+& \idx{|aboveglhangskip|}|=.25ex|& command\cr
+\endinventory
+
+\noindent The keys |everyglb| and |everyglc| are initially set to
+empty.  This is accomplished by
+
+\codedisplay \lingset{everyglb=,everyglc=}|endcodedisplay
+
+We start with a straightforward example.
+
+\framedisplay
+\ex
+\begingl
+\gla Il semble au g\'en\'eral \^etre arriv\'e deux soldats en
+ville. /
+\glb there seems {to the} general {to be} arrived two soldiers in
+town /
+\glc{`There seem to the general to have arrived two soldiers in
+town.'}
+\endgl
+\xe
+\endframedisplay
+
+\codedisplay~
+\ex
+\begingl
+\gla Il semble au g\'en\'eral \^etre arriv\'e deux soldats en ville. /
+\glb there seems {to the} general {to be} arrived two soldiers in
+town /
+\glc{`There seem to the general to have arrived two soldiers in
+town.'}
+\endgl
+\xe |endcodedisplay
+
+|\begingl| \dots|endgl| constructs a table, using |\halign|.
+|glspace| is the column separation.  |\gla| and |\glb| parse the
+line up to the slash as a sequence of space delimited items.
+Note that a space must precede the slash to terminate the parse
+and that multiple word glosses like ``to the'' and ``to be'' must
+be grouped to hide the internal space from the parsing process.
+|\glc| takes an argument which it puts into a single cell, hiding
+its width. Extra vertical skip determined by |aboveglcskip| is
+inserted above the |\glc| line.  |\ling@everygla| is inserted in
+the |\gla| line cells, |ling@everyglb| in the |\glb| line cells,
+and |ling@everyglc| in the single |\glc| line cell.
+
+If the code above is preceded by:
+
+\codedisplay
+\lingset{glspace=1.2em,everygla=\rm,everyglb=\sl,everyglc=\it,
+   aboveglcskip=1ex}|endcodedisplay
+
+\noindent then we get
+
+\framedisplay
+\ex
+\begingl[glspace=1.2em,everygla=\rm,everyglb=\sl,everyglc=\it,
+   aboveglcskip=1ex]
+\gla Il semble au g\'en\'eral \^etre arriv\'e deux soldats en
+ville. /
+\glb there seems {to the} general {to be} arrived two soldiers in
+town /
+\glc{`There seem to the general to have arrived two soldiers in
+town.'}
+\endgl
+\xe
+\endframedisplay
+
+The next example illustrates the use of the macro \idx{|\moregl|}
+and the parameters \hbox{\idx{|moregloffset|}} and
+\hbox{\idx{|aboveglhangskip|}.}
+
+\begingroup
+\framedisplay
+\pex[moregloffset=1em,aboveglhangskip=1ex]
+\nopreamble
+\def\\#1{-{\tenrm #1}}%
+\a
+\begingl
+\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde /
+\glb Mary is sure that it the\\{ACC} Hans not annoy would /
+\moregl
+\gla seiner Freundin ihr$_i$ Herz auszusch\"utten. /
+\glb his\\{DAT} girlfriend\\{DAT} her\\{ACC} heart\\{ACC}
+{out to throw} /
+\glc{`Mary is sure that it would not annoy John to reveal her
+heart to his girlfriend.'}\endgl
+\a
+\begingl
+\gla Mary$_i$ ist sicher, dass seiner Freunden ihr$_i$ Herz /
+\glb Mary is sure that his\\{DAT} girlfriend\\{DAT} her\\{ACC}
+heart\\{ACC} /
+\moregl
+\gla auszuch\"utten dem Hans nicht schaden w\"urde. /
+\glb {out to throw} the\\{DAT} Hans not damage would /
+\glc {`Mary is sure that to reveal her heart to his girlfriend
+would not damage John.'}
+\endgl
+\xe
+\endframedisplay
+\endgroup
+%  from NLLT 19.1, p. 116
+
+\begingroup
+\codedisplay~
+\pex[moregloffset=1em,aboveglhangskip=1ex]\nopreamble
+\def\\#1{-{\tenrm #1}}%
+\a
+\begingl
+\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde /
+\glb Mary is sure that it the\\{ACC} Hans not annoy would /
+\moregl
+\gla seiner Freundin ihr$_i$ Herz auszusch\"utten. /
+\glb his\\{DAT} girlfriend\\{DAT} her\\{ACC} heart\\{ACC}
+{out to throw} /
+\glc {`Mary is sure that it would not annoy John to reveal her
+heart to his girlfriend.'}\endgl
+\a
+\begingl
+\gla Mary$_i$ ist sicher, dass seiner Freunden ihr$_i$ Herz /
+\glb Mary is sure that his\\{DAT} girlfriend\\{DAT} her\\{ACC}
+heart\\{ACC} /
+\moregl
+\gla auszuch\"utten dem Hans nicht schaden w\"urde. /
+\glb {out to throw} the\\{DAT} Hans not damage would /
+\glc{`Mary is sure that to reveal her heart to his girlfriend
+would not damage John.'}
+\endgl
+\xe |endcodedisplay
+\endgroup
+
+\noindent The example is from an article by Idan Landau (NLLT,
+19.1, 2001).
+
+If you need more than one line for the translation in a gloss,
+using |\glc| for both lines of the translation will insert an
+unfortunate vertical skip above the second line.
+Following the convention established for |\ex| and |\pex|, no
+skip is inserted if |\glc| is followed by tilde.  So use |\glc|
+for the first line and |\glc~| for the second.
+
+

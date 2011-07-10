@@ -1,0 +1,430 @@
+
+\section Tables in examples
+
+Macros:\quad |\tspace[]|, |\exnoprint|, |\crnb|
+\bigskip
+
+\noindent Most of the difficulty of formatting example displays
+which contain tables comes from formatting the table itself. This
+manual will not teach the reader how to use \Tex\/ to format
+tables. It will be assumed that the reader knows how to use the
+\Tex\/ primitive |\halign|.
+
+Many tabular examples have the form
+
+\codefragment
+|\ex \vtop{\halign{|\quad\dots\quad |}}\xe|
+\endcodefragment
+
+For example:
+
+\framedisplay
+\ex
+\vtop{\halign{#\hfil&& \qquad #\hfil\cr
+baudh& bu-baudh& know, wake\cr
+smai& si-smai& smile\cr
+suap& su-suap& sleep\cr
+miaks& mi-miaks& glitter\cr
+auc& u-auc& please\cr
+}}
+\xe\endframedisplay
+
+\codedisplay
+\ex \vtop{\halign{%
+#\hfil&& \qquad #\hfil\cr
+baudh& bu-baudh& know, wake\cr
+smai& si-smai& smile\cr
+suap& su-suap& sleep\cr
+miaks& mi-miaks& glitter\cr
+auc& u-auc& please\cr
+}}\xe|endcodedisplay
+
+A more elaborate version of (\lastx), with a title and labeled
+columns, is given below. |\hwit| is described below.
+
+\framedisplay
+\ex  The perfect stems of some roots with a
+high vowel in their nucleus\par\nobreak\medskip
+\quad\vbox{\halign{%
+#\hfil&& \hskip3em #\hfil\cr
+\hfil\hwit{root}& \hfil\hwit{perfect stem}&
+   \hfil\hwit{gloss}\cr
+\noalign{\smallskip}
+baudh& bu-baudh& `know, wake'\cr
+smai& si-smai& `smile'\cr
+suap& su-suap& `sleep'\cr
+miaks& mi-miaks& `glitter'\cr
+auc& u-auc& `please'\cr
+}}\xe
+\endframedisplay
+
+\codedisplay~
+\ex  The perfect stems of some roots with a
+high vowel in their nucleus\par\nobreak\medskip
+\quad\vbox{\halign{%
+#\hfil&& \hskip3em #\hfil\cr
+\hfil\hwit{root}& \hfil\hwit{perfect stem}&
+   \hfil\hwit{gloss}\cr
+\noalign{\smallskip}
+baudh& bu-baudh& `know, wake'\cr
+smai& si-smai& `smile'\cr
+suap& su-suap& `sleep'\cr
+miaks& mi-miaks& `glitter'\cr
+auc& u-auc& `please'\cr
+}}\xe |endcodedisplay
+
+\noindent \idx{|\hwit|} (hidewidth italics) inserts the italicized
+label into the alignment in such a way that it is centered over
+the nonwhite portion of the column it heads.  It hangs over
+equally on both sides if necessary. Hiding the width of column
+labels is often important so that the column labels do not affect
+the column widths.
+
+|\par\nobreak| appears after the title so that page breaking does
+not detach the title from the table that follows.
+
+\subsection Tables with labeled lines
+
+Macros:\quad  |\labels[]|, |\tl|, |\nl|
+\bigskip
+
+\noindent If reference must be made to particular lines in
+(\lastx), the lines need labels of some sort.  One approach is to
+explicitly enter the line labels a--e:
+
+\framedisplay
+\ex  The perfect stems of some roots with a
+high vowel in their nucleus\par\nobreak\medskip
+\quad\vbox{\halign{%
+#\hfil& \quad #\hfil&& \hskip3em #\hfil\cr
+& \hfil\hwit{root}& \hfil\hwit{perfect stem}&
+   \hfil\hwit{gloss}\cr
+\noalign{\smallskip}
+a.& baudh& bu-baudh& `know, wake\cr
+b.& smai& si-smai& `smile'\cr
+c.& suap& su-suap& `sleep'\cr
+d.& miaks& mi-miaks& `glitter'\cr
+e.& auc& u-auc& `please'\cr
+}}\xe
+\endframedisplay
+
+\codedisplay
+\ex  The perfect stems of some roots with a
+high vowel in their nucleus\par\nobreak\medskip
+\quad\vbox{\halign{%
+#\hfil& \quad #\hfil&& \hskip3em #\hfil\cr
+& \hfil\hwit{root}& \hfil\hwit{perfect stem}&
+   \hfil\hwit{gloss}\cr
+\noalign{\smallskip}
+a.& baudh& bu-baudh& `know, wake'\cr
+b.& smai& si-smai& `smile'\cr
+c.& suap& su-suap& `sleep'\cr
+d.& miaks& mi-miaks& `glitter'\cr
+e.& auc& u-auc& `please'\cr
+}}\xe |endcodedisplay
+
+\noindent If a line is deleted or added, or if lines are
+interchanged for some reason, considerable relabeling may be
+required.
+
+\Expex\/  provides some macros which simplify this code and make
+it easier to manipulate.  They are used in the alternate code for
+(\lastx) below and described below. \idx{|\labels|} initializes
+the counter |\pexcnt|, which is then used to generate the labels.
+It also activates the macros \idx{|\tl|} (table label) and
+\idx{|\nl|} (no label). |\tl| inserts the appropriate label, with
+following period, and increments the counter. |\nl| abbreviates
+|\omit\hfil|, so that it can be used to prevent the appearance of
+a label in a cell. |\labels| takes parameters, so you can say
+things like |\labels[labeltype=caps,everylabel=\it]|.  Of course,
+these parameters can also be set at the |\ex| level, if desired, or
+even globally.
+
+\codedisplay
+\ex  The perfect stems of some roots with a
+high vowel in their nucleus\par\nobreak\medskip
+\quad\vbox{\labels\halign{%
+\tl #\hfil& #\hfil& \quad #\hfil&& \hskip3em #\hfil\cr
+\nl & \hfil\hwit{root}& \hfil\hwit{perfect stem}&
+   \hfil\hwit{gloss}\cr
+\noalign{\smallskip}
+& baudh& bu-baudh& `know, wake'\cr
+& smai& si-smai& `smile'\cr
+& suap& su-suap& `sleep'\cr
+& miaks& mi-miaks& `glitter'\cr
+& auc& u-auc& `please'\cr
+}}\xe |endcodedisplay
+
+The advantages of implicit line label insertion should be
+obvious.  One often decides to insert another entry, or to delete
+an entry.  If the labels are inserted explicitly, this usually
+requires changing multiple labels.  If the table has many lines,
+this is particularly onerous.  References in the text to
+particular lines also need to changed to match the new labeling.
+We will see in Section \getref{named-reference} that lines in
+tables can be named and reference made by name, using
+implicit line numbering.
+
+\exbreak
+\subsection Tagging implicit labels in tables
+
+\sidx{|\deftaglabel| inside tables}
+|\deftaglabel| can be used to associate a tag with a label that is
+introduced into a table by |\tl|~(``table label'').  |\tl| can
+read an optional tag using the |<|\dots|>| mechanism.
+
+\codedisplay
+\ex<Washo>
+\vtop{\labels\halign{\tl #\hfil&& \quad #\hfil\cr
+\nl & \hwit{Root}& \hwit{Plural}& \hwit{Gloss}\cr
+& baloxat& baloxaxat& bows\cr
+& moya& moyaya& shoulder\cr
+<A>& nent'us& net'unt'us& old women\cr
+<B>& mokgo& mogokgo& shoes\cr
+}}
+\xe
+Examples (\getfullref{Washo.A}) and (\getfullref{Washo.B}) are the most
+complex, and therefore the most revealing. Examples
+(\getref{Washo}\getref{Washo.A},\getref{Washo.B}) are the most complex,
+and therefore the most revealing.
+|endcodedisplay
+
+\framedisplay~[fdcorrect=top]
+\ex<Washo>
+\vtop{\labels\halign{\tl #\hfil&& \quad #\hfil\cr
+\nl & \hwit{Root}& \hwit{Plural}& \hwit{Gloss}\cr
+& baloxat& baloxaxat& bows\cr
+& moya& moyaya& shoulder\cr
+\deftaglabel{A}& nent'us& net'unt'us& old women\cr
+\deftaglabel{B}& mokgo& mogokgo& shoes\cr
+}}\xe
+Examples (\getfullref{Washo.A}) and (\getfullref{Washo.B}) are
+the most complex, and therefore the most revealing.
+Examples (\getref{Washo}\getref{Washo.A},\getref{Washo.B}) are
+the most complex, and therefore the most revealing.
+\endframedisplay
+\medskip
+\noindent
+
+\subsection Some useful table making tools
+
+Macros: \idx{|\lingdima|}, \idx{|\lingdimb|},
+   \idx{|\lingdimc|}, \idx{|\tspace|}|[]|
+\parinventory
+& \idx{|dima|}& dimension& |2.4em|\cr
+& \idx{|dimb|}& dimension&\cr
+& \idx{|dimc|}& dimension&\cr
+& \idx{|crskip|}& skip& |1.2ex|\cr
+\endparinventory
+
+\noindent Tables often need considerable adjustment in order to
+balance the needs of readability, space limitations, and matching
+the typographic structure to the conceptual structure.
+Sometimes this requires a delicate balancing act. \Expex\/
+provides three parameters (scratch dimensions) |dima|, |dimb|,
+and |dimc|, and corresponding macros which expand to their
+settings, which can be used for this.  Additionally,
+|\tspace[«key»]| expands to |\hskip\ling«tag»|, so that
+horizontal skip like |\tspace[dima]| or |\tspace[textoffset]| can
+be easily used in table construction.  The code for (\lastx)
+could be written:
+
+\codedisplay
+\ex[textoffset=1em,dima=1em,dimb=3em]
+The perfect stems of some roots with a high vowel in their
+nucleus\par\nobreak\medskip
+\tspace[dima]\vbox{\labels\halign{%
+\tl #\hfil& \tspace[textoffset]#\hfil&& \tspace[dimb]#\hfil\cr
+\nl & \hfil\hwit{root}& \hfil\hwit{perfect stem}&
+   \hfil\hwit{gloss}\cr |endcodedisplay
+\removelastskip
+\hskip.7in $\vdots$
+\vskip1em
+
+\noindent Localizing all the parameters which might need
+adjustment in the optional argument of |\ex| helps organize the
+adjustment process.
+
+If no optional argument is supplied to |\tspace|, it expands to
+|\hskip\lingdima|.
+
+The macro \idx{|\crs|} and command key \idx{|crskip|} are
+provided to assist in fine tuning the vertical spacing inside an
+alignment. |\ling@crskip| expands to the setting of |crskip|, and
+\codefragment |\crs|\quad $\to$\quad |\cr \noalign{\vskip\ling@crskip}|
+\endcodefragment
+
+\exbreak
+\subsection Tables that can break between pages
+
+Macros:\quad |\exdisplay|, |\noexno|, |\exnoprint|, |\crnb|
+\par\nobreak\bigskip
+
+\noindent Up to this point, only tables that are typeset in a
+vbox have been considered.  The \Tex\/ page breaking algorithm
+does not split a box between pages.  Sometimes, an especially
+tall table is needed and one has the choice of floating the table
+to the top of the next page (using \Tex's |\topinsert|) or
+constructing a breakable table.  The latter choice is often
+preferable and can be implemented using \Tex's primitive
+|\halign|.
+
+The example number must be part of the |\halign|, not inserted by
+|\ex|.  \idx{|\exdisplay|} is designed to accommodate an unboxed
+|\halign|. Like |\ex|, |\exdisplay| must be closed by |\xe|.
+|\exdisplay| \dots|\xe| is just like |\ex| \dots|\xe| except that
+an example number is not printed and the horizontal dimensions
+|\numoffset| and |\textoffset| are irrelevant. |aboveexskip| and
+|belowexskip| play the same role, paragraph indentation is
+cancelled, |\ling@everyex| and |\ling@Everyex| are executed, and
+|\excnt| is advanced.
+
+|\noexno| is provided in case the user wants to use |\exdisplay|
+for something other than a numbered example.  It cancels the
+automatic advancement of |\excnt|.  You can say
+|\exdisplay|\idx{|\noexno|}\ or |\exdisplay[« \dots»]\noexno| to
+cancel |\excnt| advancement.
+
+Now consider the `tall display' (\nextx).  It is sufficiently
+tall that it either must be put in an insertion or typeset so
+that it can be split by a page break.
+
+\exdisplay[labeloffset=2em,dima=2em,dimb=1em,dimc=-.8em]
+\def\\#1-{{\bf #1}-}%
+\labels
+\openup1pt
+\halign{%
+   #\tspace[labeloffset]\hfil&    % example number
+   #\tl\tspace[textoffset]\hfil&  % line label
+   #\tspace \hfil&                % root
+   #\tspace \hfil&                % perfect stem
+   `#'\hfil\cr                    % gloss
+(\the\excnt)& \omit\tspace[dimc] High vowel in the nucleus of the
+   root\hidewidth\crnb
+& \nl & \hwit{root}& \hwit{perfect stem}&
+   \omit\tspace\hwit{gloss}\crnb
+&& baudh& \\bu-baudh& know, wake\cr
+&& stau& \\tu-stau& praise\cr
+&& smai& \\si-smai& smile\cr
+\noalign{\exbreak}
+&& suap& \\su-suap& sleep\cr
+&& miaks& \\mi-miaks& glitter\cr
+&& auc& \\u-auc& please\cr
+\noalign{\exbreak\smallskip}
+& \omit\tspace[dimc] No high vowel in the nucleus of the
+   root\hidewidth\crnb
+&& suaj& \\sa-suaj& embrace\cr
+&& krand& \\ka-krand& cry out\cr
+\noalign{\exbreak}
+&& skand& \\ka-skand& leap\cr
+&& mard& \\ma-mard& rub, crush\cr
+&& mnaa& \\ma-mnaa& note\cr
+}\xe
+
+The example number in the code below is inserted by
+\idx{|\exnoprint|}, which is how |\ex| inserts example numbers.
+If, by the way, you don't like the way example numbers are
+inserted (surrounded by parentheses), you can redefine
+|\exnoprint|. The code uses \idx{|\crnb|}, which expands to
+|\cr\noalign{\par\nobreak}| to prevent a page
+break between a heading and the remainder of the table which
+follows. Page breaks are encouraged by |\exbreak| at a few points
+where it is judged that the logic of the table can tolerate it. A
+negative horizontal skip |\tspace[dimc]| is used to highlight the
+subheadings (and to show the reader that it is a possibility, if
+you need it).\exbreak[.2\vsize]
+
+\vbox{\codedisplay
+\exdisplay[labeloffset=2em,dima=2em,dimb=1em,dimc=-.8em]
+\def\\#1-{{\bf #1}-}%
+\labels
+\openup1pt
+\halign{%
+   #\tspace[labeloffset]\hfil&    % example number
+   #\tl\tspace[textoffset]\hfil&  % line label
+   #\tspace \hfil&                % root
+   #\tspace \hfil&                % perfect stem
+   `#'\hfil\cr                    % gloss
+(\the\excnt)& \omit\tspace[dimc] High vowel in the nucleus of the
+   root\hidewidth\crnb
+& \nl & \hwit{root}& \hwit{perfect stem}&
+   \omit\tspace\hwit{gloss}\crnb
+&& baudh& \\bu-baudh& know, wake\cr
+&& stau& \\tu-stau& praise\cr
+&& smai& \\si-smai& smile\cr
+\noalign{\exbreak}
+&& suap& \\su-suap& sleep\cr
+&& miaks& \\mi-miaks& glitter\cr
+&& auc& \\u-auc& please\cr
+\noalign{\exbreak\smallskip}
+& \omit\tspace[dimc] No high vowel in the nucleus of the
+   root\hidewidth\crnb
+&& suaj& \\sa-suaj& embrace\cr
+&& krand& \\ka-krand& cry out\cr|par|nobreak
+\noalign{\exbreak}|par|nobreak
+&& skand& \\ka-skand& leap\cr|par|nobreak
+&& mard& \\ma-mard& rub, crush\cr|par|nobreak
+&& mnaa& \\ma-mnaa& note\cr|par|nobreak
+}\xe |endcodedisplay
+\vskip-2ex}
+
+\subsection Squeezing tables into tight places
+
+Foregoing |\ex| and directly using |\halign| inside |\exdisplay|
+\dots|\xe| has other uses besides constructing tables in numbered
+examples which can be broken between pages.  The technique is
+also sometimes useful in fitting a table in a numbered example
+into a narrow page width. The table below was constructed to fit
+on a page of width $4.3\,\rm in$, with no room to spare. It gives
+the present indicative conjunction of the Sanskrit verb root {\sl
+dve\.s\kern.6pt/dvi\.s\/} `hate'.
+
+\framedisplay
+\hsize=4.3in
+\exdisplay[labeloffset=.5em,dima=.6em,textoffset=.6em]
+\def\\#1{$\acute{\hbox{\=#1}}$}%
+\tabskip=0pt \openup1pt
+\halign to \hsize{\tspace[labeloffset]#\tspace[textoffset]\hfil&
+   # \hfil\tabskip=0pt plus 1fil&
+   # \hfil& # \hfil& \tspace # \hfil&
+   # \hfil &  #\hfil\tabskip=0pt\cr
+\omit\exnoprint\hidewidth&
+   \multispan6 \hwit{Present Indicative}\crnb
+&\multispan3 \hwit{active}& \multispan3 \hwit{middle}\cr
+& \hwit{sg}& \hwit{du}& \hwit{pl}&
+   \hwit{sg}& \hwit{du}& \hwit{pl}\cr
+\it 1& {\bf dv\'e\.s}-mi& dvi\.s-v\'as& dvi\.s-m\'as&
+   dvi\.s-\'e& dvi\.s-v\'ahe& dvi\.s-m\'ahe\cr
+\it 2& {\bf dv\'ek}-\.si& dvi\.s-\.th\'as& dvi\.s-\.th\'a&
+   dvik\.s-\'e& dvi\.s-\\athe& dvi\.d-\.dhv\'e\cr
+\it 3& {\bf dv\'e\.s}-\.ti& dvi\.s-\.t\'as& dvi\.s-\'anti&
+   dvi\.s-\.t\'e& dvi\.s-\\ate& dvi\.s-\'ate\cr
+}\xe
+\endframedisplay
+
+Assuming that the page width has been set to $4.3\,\rm in$
+(|\hsize=4.3in|), the following code produces (\lastx), which is
+precisely $4.3\,\rm in$ wide.
+
+\codedisplay
+\exdisplay[labeloffset=.5em,dima=.6em,textoffset=.6em]
+\def\\#1{$\acute{\hbox{\=#1}}$}%
+\tabskip=0pt \openup1pt
+\halign to \hsize{\tspace[labeloffset]#\tspace[textoffset]\hfil&
+   # \hfil\tabskip=0pt plus 1fil&
+   # \hfil& # \hfil& \tspace # \hfil&
+   # \hfil &  #\hfil\tabskip=0pt\cr
+\omit\exnoprint\hidewidth&
+   \multispan6 \hwit{Present Indicative}\crnb
+&\multispan3 \hwit{active}& \multispan3 \hwit{middle}\cr
+& \hwit{sg}& \hwit{du}& \hwit{pl}&
+   \hwit{sg}& \hwit{du}& \hwit{pl}\cr
+\it 1& {\bf dv\'e\.s}-mi& dvi\.s-v\'as& dvi\.s-m\'as&
+   dvi\.s-\'e& dvi\.s-v\'ahe& dvi\.s-m\'ahe\cr
+\it 2& {\bf dv\'ek}-\.si& dvi\.s-\.th\'as& dvi\.s-\.th\'a&
+   dvik\.s-\'e& dvi\.s-\\athe& dvi\.d-\.dhv\'e\cr
+\it 3& {\bf dv\'e\.s}-\.ti& dvi\.s-\.t\'as& dvi\.s-\'anti&
+   dvi\.s-\.t\'e& dvi\.s-\\ate& dvi\.s-\'ate\cr
+}\xe |endcodedisplay
+
+

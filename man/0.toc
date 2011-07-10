@@ -1,0 +1,39 @@
+\sec {1} {Introduction } \writefill 1\par 
+\subsec {1.1} {Changes } \writefill 1\par 
+\sec {2} {ExPex in action } \writefill 3\par 
+\sec {3} {XKV parameterization } \writefill 8\par 
+\sec {4} {Examples without parts } \writefill 10\par 
+\subsec {4.1} {Explicit example numbers } \writefill 13\par 
+\sec {5} {Examples with labeled parts } \writefill 15\par 
+\subsec {5.1} {Formatting the preamble } \writefill 16\par 
+\subsec {5.2} {Formatting the labels } \writefill 18\par 
+\subsec {5.3} {Aligning the labels } \writefill 19\par 
+\subsec {5.4} {Anchoring the labels } \writefill 20\par 
+\subsec {5.5} {User designed labeling } \writefill 22\par 
+\subsec {5.6} {Stipulated labels } \writefill 23\par 
+\sec {6} {User defined styles } \writefill 24\par 
+\sec {7} {Judgment marks } \writefill 26\par 
+\sec {8} {Glosses } \writefill 28\par 
+\subsec {8.1} {Glosses which wrap, ({\fam \ttfam \twelvett glstyle=wrap}) } \writefill 28\par 
+\subsec {8.2} {Changing the gloss parameters } \writefill 31\par 
+\subsec {8.3} {Multiple gloss lines ({\fam \ttfam \twelvett glstyle=multilevel}) } \writefill 32\par 
+\subsec {8.4} {An alternate gloss description syntax ({\fam \ttfam \twelvett glstyle=3level}) } \writefill 37\par 
+\sec {9} {Referring to examples and labeled parts of examples } \writefill 39\par 
+\subsec {9.1} {Unnamed reference } \writefill 39\par 
+\subsec {9.2} {Named reference } \writefill 39\par 
+\subsec {9.3} {The tag/reference file } \writefill 40\par 
+\subsec {9.4} {References to references, references as values } \writefill 41\par 
+\subsec {9.5} {Extensions of the tag/reference mechanism } \writefill 42\par 
+\subsec {9.6} {The parameter {\fam \ttfam \twelvett fullreformat} } \writefill 43\par 
+\subsec {9.7} {Reference to a part of a multipart example } \writefill 43\par 
+\subsec {9.8} {Support for the LaTex {\fam \ttfam \twelvett \char "5C label} and {\fam \ttfam \twelvett \char "5C ref} commands} \writefill 44\par 
+\sec {10} {Tables in examples } \writefill 46\par 
+\subsec {10.1} {Tables with labeled lines } \writefill 47\par 
+\subsec {10.2} {Tagging implicit labels in tables } \writefill 48\par 
+\subsec {10.3} {Some useful table making tools } \writefill 49\par 
+\subsec {10.4} {Tables that can break between pages } \writefill 50\par 
+\subsec {10.5} {Squeezing tables into tight places } \writefill 51\par 
+\sec {11} {ExPex and PSTricks } \writefill 53\par 
+\sec {12} {Control over page breaking inside examples } \writefill 55\par 
+\subsec {12.1} {Discouraging page breaks in examples } \writefill 55\par 
+\subsec {12.2} {Controlling where page breaks occur in examples (if they must) } \writefill 56\par 

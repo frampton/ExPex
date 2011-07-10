@@ -1,0 +1,52 @@
+
+\makeatletter
+
+% keys
+%\definelinginckey{Tskip}
+\defineuserlinginckeys{dima,dimb}
+\definelingcmdkeys{everylabel}
+%\lingset{Tskip=2.4em,dima=2.4em,everylabel=}
+\lingset{dima=2.4em,everylabel=}
+%%%%%
+\def\tspace{\@getoptionalarg\tsp@ce}
+\def\tsp@ce{\hskip \ifx\@optionalarg\empty
+   \lingdima \else \csname ling\@optionalarg\endcsname\fi}
+%\def\Tspace{\hskip\ling@Tskip}
+\def\labels{\@getoptionalarg\@labels}
+\def\@labels{%
+   \ling@usearg
+   \dimen0\lingtextoffset
+   \advance\dimen0 \ling@labelwidth
+   \edef\ling@labelskip{\the\dimen0}%
+   \pexcnt@init
+   \let\tl\@inserttabellabel
+   \let\nl\@omitlabel
+   \ignorespaces
+}
+\def\@inserttabellabel{%
+   \global\advance\pexcnt by 1
+   \@@label\hskip\lingtextoffset
+}
+\def\@omitlabel{\omit\hskip\linglabeloffset\hfil}
+\def\pextable{\@getoptionalarg\pext@ble}
+\def\pext@ble{%
+   \leavevmode\vtop\bgroup
+      \ling@usearg
+      \labels
+      \halign\bgroup
+      \tl \hfil ##&%
+}%
+\def\endpextable{\egroup\egroup \par \prevdepth=\dp\strutbox}
+
+\def\omitlabel{\omit\hskip\ling@labelskip}
+\def\hwit#1{\hidewidth \it #1\hidewidth}
+
+\definelinginckey{crskip}
+\lingset{crskip=.6em}
+\def\crs{\cr\noalign{\vskip\ling@crskip}}
+\def\crnb{\cr\noalign{\par\nobreak}}
+
+\resetatcatcode
+
+
+

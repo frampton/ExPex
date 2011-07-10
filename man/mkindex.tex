@@ -1,0 +1,59 @@
+
+\vfil\break
+
+\def\indexentry#1#2{#1\hfill #2}
+
+
+\newbox\indexbox
+\newbox\leftcol
+\newbox\rightcol
+
+
+\def\beginindexbox{%
+   \setbox\indexbox=\vbox\bgroup\parskip=0pt plus .4pt
+      \everypar={\hangindent=1em \hangafter=1}%
+      \linepenalty=200 \hsize=.45\hsize \rightskip=0pt plus 1em
+      \parindent=0pt
+      \obeylines}
+\let\endindexbox\egroup
+
+\beginindexbox%
+\obeylines\input 0-index
+\endindexbox
+
+\splittopskip=0pt
+\dimpubb=\dimexpr \vsize -55pt \relax
+\dimpuba=\dimexpr \vsize -10pt \relax
+
+\def\firstpage{\setbox\leftcol=\vsplit\indexbox to \dimpubb
+   \setbox\rightcol=\vsplit\indexbox to \dimpubb
+   \line{\vtop{\vskip\splittopskip\unvbox\leftcol}\hfil
+      \vtop{\unvbox\rightcol}}%
+   \vfil\break
+}
+\def\fullpage{\setbox\leftcol=\vsplit\indexbox to \dimpuba
+   \setbox\rightcol=\vsplit\indexbox to \dimpuba
+   \line{\vtop{\vskip\splittopskip\unvbox\leftcol}\hfil
+      \vtop{\unvbox\rightcol}}
+   \vfil\break
+}
+\def\lastpage{%
+   \setbox\leftcol=\vsplit\indexbox to .54\ht\indexbox
+   \setbox\rightcol=\vsplit\indexbox to \ht\indexbox
+   \line{\vtop{\vskip\splittopskip\unvbox\leftcol}\hfil
+      \vtop{\unvbox\rightcol}}%
+}
+
+
+\vfil\eject
+\xdef\sectiontitle{Index}%
+\leavevmode\vskip-1ex
+\centerline{\sectiontitlefont Index of control sequences,
+parameters, and special symbols\qquad}
+\bigskip
+
+\firstpage
+\lastpage
+
+\endinput
+

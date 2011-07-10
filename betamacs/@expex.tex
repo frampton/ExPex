@@ -1,0 +1,275 @@
+
+\makeatletter
+%%%%%%%%%
+%% \ex
+\defineuserlinginckeys{numoffset,textoffset}
+\definelingcmdkeys{Everyex,everyex,
+   aboveexvskip,belowexvskip,
+   exnosplitfil,
+   exnosplitpenalty,
+   goodparpenalty,
+   goodparfil
+}
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+\definelingkey{exvskip}%
+   {\edef\ling@aboveexvskip{#1}%
+   \edef\ling@belowexvskip{#1}%
+}
+\lingset{%
+   numoffset=0pt,
+   textoffset=1em,
+   Everyex=,
+   everyex=,
+   aboveexvskip=1.2em plus .2em minus .2em,
+   belowexvskip=1.2em plus .2em minus .2em,
+   exnosplitfil=0pt plus .3\vsize,
+   exnosplitpenalty=300,
+   goodparfil=0pt plus .15\vsize,
+   goodparpenalty=-10
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% ex
+\newcount\excnt
+\excnt=0
+\def\ex{\@tildecheck\ex@a}
+\def\ex@a{\@getoptionalarg\ex@@}
+\def\ex@@{%
+   \bgroup
+   \ex@setup
+   \setbox0=\hbox{%
+      \hskip\lingnumoffset\rm \exnumberprint\hskip\lingtextoffset}%
+   \leftskip=\wd0
+   \par\nobreak
+   \leavevmode\llap{\unhbox0}%
+   \ignorespaces
+}
+\def\exnumberprint{(\the\excnt)}
+\def\ex@setup{%
+   \@isextagfalse
+   \global\advance\excnt by 1
+   \ling@Everyex
+   \Ling@usearg
+   \if@tilde \else \vskip\ling@aboveexvskip \fi
+   \skip255=\ling@exnosplitfil
+   \vskip\skip255
+   \penalty\ling@exnosplitpenalty
+   \multiply\skip255 by -1
+   \vskip\skip255
+   \let\goodpar=\smallpenaltypar
+   \parindent=0pt
+   \ling@everyex
+}
+\newif\if@isextag
+\let\examplebaselines=\normalbaselines
+\def\exdisplay{\@getoptionalarg\exd@splay}
+\def\exd@splay{\@tildefalse\bgroup\ex@setup}
+\def\nonumber{\global\advance\excnt by -1}
+\let\aboveexvskip\ling@aboveexvskip  % public name  NEEDED??
+\def\smallpenaltypar{\endgraf
+   \skip255=\ling@goodparfil
+   \vskip\skip255
+   \penalty\ling@goodparpenalty
+   \multiply\skip255 by -1
+   \vskip\skip255
+}
+\def\xe{\expandafter\vskip\ling@belowexvskip
+   \allowbreak \egroup \prevdepth\dp\strutbox \noindent}
+\def\xenb{\par\nobreak\expandafter\vskip\ling@belowexvskip
+   \allowbreak \egroup \prevdepth\dp\strutbox \noindent}
+
+\def\makeexnumber#1{%
+   \edef\restoreexnumber{\noexpand\global\noexpand\excnt=\the\excnt}%
+   \excnt=#1\relax  \advance\excnt by -1
+   \ignorespaces
+}
+\define@key[jXKV]{ling}{specialexno}{%
+   \advance\excnt by -1
+   \xdef\@restoreexnumbering{\noexpand\excnt=\the\excnt}%
+   \aftergroup\@restoreexnumbering
+   {\let\getref\baregetref
+    \xdef\temp{\excnt=#1}\aftergroup\temp}%
+}
+%   \@spex#1\@nil
+%\def\@spex{\futurelet\temp\@spex@a}
+%\def\@spex@a{\ifx\temp\getref \let\next\@spex@b\else
+%   \let\next\@spex@c \fi \next}
+%\def\@spex@b#1#2\@nil{\excnt=\csname lingtag@#2\endcsname}
+%\def\@spex@c#1#2\@nil{\excnt=#1#2\relax}
+%\def\@spex{\@ifnextchar\getref\@spex@b\@spex@c}
+
+
+
+%\def\@spex{\@ifnextchar(\@spex@a\@spex@b}
+%\def\@spex@a(#1)#2\@nil{\excnt=\csname lingtag@#1\endcsname}
+%\def\@spex@b{\@ifnextchar\getref\@spex@c\@spex@d}
+%\def\@spex@c#1#2\@nil{\excnt=\csname lingtag@#2\endcsname}
+%\def\@spex@c#1#2\@nil{\excnt=#1#2\relax}
+
+%----- \pex -----
+\definelinginckey{preambleoffset}
+\definelinginckey{labelwidth}
+\defineuserlinginckey{labeloffset}
+\definelingcmdkeys{belowpreambleskip,interpartskip,splitexpenalty}
+\define@choicekey[jXKV]{ling}{labeltype}[\ling@labeltype\@@labeltype]%
+   {alpha,numeric,caps}{%
+      \ifnum\@@labeltype=1
+            \def\@@label{\the\pexcnt}%
+            \lingset{labelalign=right}%
+         \else
+            \def\@@label{\char\the\pexcnt}%
+            \lingset{labelalign=left}%
+         \fi
+}
+\define@choicekey[jXKV]{ling}{labelalign}[\ling@labelalign\nr]%
+   {left,center,right}{%
+      \ifcase\nr
+            \def\@labelprint{\@@label.\hss}%
+         \or
+            \def\@labelprint{\hss\@@label.\hss}%
+         \or
+            \def\@labelprint{\hss\@@label.}%
+         \fi
+}
+\definelingboolkey{pexpreamble}
+\define@key[jXKV]{ling}{samplelabel}{%
+   \setbox0=\hbox{#1}%
+   \lingset{labelwidth=\wd0}%
+}
+\lingset{%
+   labeltype=alpha,
+   labelalign=left,
+   labeloffset=1em,
+   labelwidth=.8em,
+   preambleoffset=1em,
+   belowpreambleskip=1ex,        % vskip after the preamble
+   interpartskip=1ex,       % vskip between parts
+   splitexpenalty=200,
+   pexpreamble=true,
+}
+\newcount\pexcnt
+\def\pex{\@tildecheck\pex@a}
+\def\pex@a{\@getoptionalarg\pex@A}
+\def\pex@A{%
+   \bgroup
+   \@ifnextchar\a{\lingset{pexpreamble=false}\pex@b}{\pex@b}%
+}
+\def\pexcnt@init{%
+   \ifcase\@@labeltype
+      \pexcnt=96 \or \pexcnt=0 \or \pexcnt=64
+      \fi
+}
+\newdimen\@pexoffset
+\def\pex@b{%
+   \ex@setup
+   \@pexoffset=\linglabeloffset
+   \advance\@pexoffset by \ling@labelwidth
+   \advance\@pexoffset by \lingtextoffset
+   \pexcnt@init
+   \let\a\put@firstlabel
+   \ling@everyex
+   \setbox0=\hbox{%
+      \hskip\lingnumoffset
+      \rm (\the\excnt)%
+      \ifling@pexpreamble
+            \hskip\ling@preambleoffset
+         \else
+            \hskip\@pexoffset
+         \fi }%
+   \leftskip=\wd0
+   \leavevmode\llap{\unhbox0}%
+}
+%\def\putpexno{%
+%   \hskip\lingnumoffset
+%   \global\advance\excnt by 1
+%   \rm (\the\excnt)%
+%   \ifling@pexpreamble
+%         \hskip\ling@preambleoffset
+%      \else
+%         \hskip\@pexoffset
+%      \fi
+%}
+%
+\def\put@firstlabel{%
+   \ifling@pexpreamble
+      \par
+      \vskip\ling@belowpreambleskip
+      \advance\leftskip by -\ling@preambleoffset
+      \advance\leftskip by \@pexoffset
+      \fi
+   \let\a=\put@otherlabel
+   \put@label@b
+}
+\def\put@otherlabel{%
+   \par
+   \vskip\ling@interpartskip
+   \put@label@b
+}
+\def\put@label@b{\@getoptionalarg\put@label@c}
+\def\put@label@c{%
+   \advance\pexcnt by 1
+   \ifx\@optionalarg\empty
+      \else
+         \deftaglabel{\@optionalarg}%
+      \fi
+   \leavevmode
+   \llap{\hbox to\ling@labelwidth{\@labelprint}\hskip\lingtextoffset}%
+   \ignorespaces
+}
+\def\goodpar{%
+   \skip0=\ling@goodparfil
+   \vskip\skip0
+   \penalty-100
+   \vskip-\skip0
+}
+\def\goodpar{%
+   \vskip\ling@goodparfil
+   \penalty\ling@goodparpenalty
+   \vskip-\ling@goodparfil
+}
+%----- glosses -----
+\definelinginckeys{glspace,beforeglcskip,continuegloffset}
+\definelingcmdkeys{everygla,everyglb,everyglc}
+\lingset{glspace=1.4ex,everygla=\it,everyglb=,everyglc=,
+   beforeglcskip=.5ex,continuegloffset=0pt}
+\def\begingl{\leavevmode\vtop\bgroup
+   \@getoptionalarg\begingl@ss}
+\def\begingl@ss{%
+   \ling@usearg
+   \vtop\bgroup
+      \let\ling@@everygl\ling@everygla
+      \halign\bgroup ##\hfil &&
+         \kern\ling@glspace ##\hfil\cr
+}
+\def\continuegl{%
+   \egroup\egroup
+   \vtop\bgroup
+      \halign\bgroup \kern\ling@continuegloffset ##\hfil &&
+         \kern\ling@glspace ##\hfil\cr
+}
+\def\endgl{\egroup\egroup\egroup}
+\def\gla{\global\let\@everygl\ling@everygla \gl@ss}
+\def\glb{\global\let\@everygl\ling@everyglb \gl@ss}
+\def\gl@ss#1 {\@everygl #1\@ifnextchar/{\strut\cr\@gobble}{& \gl@ss}}
+\def\glc{\noalign\bgroup\@tildecheck\glc@}
+\def\glc@#1{%
+   \if@tilde \else \vskip\ling@beforeglcskip \fi \egroup
+   \omit \ling@everyglc #1\strut\hidewidth\cr
+}
+%----- judgements -----
+\def\judge#1{\rm #1\kern .1em \ignorespaces}
+\def\ljudge#1{\llap{\judge{#1}}\ignorespaces}
+\define@key[jXKV]{ling}{textoffsetadjust}{%
+   \setbox0=\hbox{#1}%
+   \lingset{textoffset=!\wd0}%
+}
+%----- local reference to example numbers -----
+\def\nextx{\@printref{\advance\excnt by 1 \number\excnt}}
+\def\anextx{\@printref{\advance\excnt by 2 \number\excnt}}
+\def\lastx{\@printref{\number\excnt}}
+\def\blastx{\@printref{\advance\excnt by -1 \number\excnt}}
+\def\bblastx{\@printref{\advance\excnt by -2 \number\excnt}}
+
+\resetatcatcode
+
+
