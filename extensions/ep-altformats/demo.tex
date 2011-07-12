@@ -1,0 +1,162 @@
+
+\documentclass{article}
+\usepackage{/ling/tex/expex/core/expex,ep-altformats}
+\begin{document}
+
+\def\specialexno#1{%
+   \edef\resetexcnt{\noindent\excnt=\the\excnt}%
+   \excnt=#1 \advance\excnt by -1
+   \ignorespaces}
+\lingset{exskip=0pt,interpartskip=.5ex,belowpreambleskip=.5pt}
+\begingroup
+\definelingstyle{normalformat}{altformat=none,
+   numoffset=0pt,textoffset=1em,labeloffset=1em}
+\definelingstyle{IJALformat}{altformat=IJAL,
+   numoffset=0pt,textoffset=1em,labeloffset=1em}
+\definelingstyle{tabularformat}{altformat=tabular,
+   numoffset=0pt,textoffset=.5in,labeloffset=.25in}
+
+\hfil
+
+\begin{verbatim}\lingset{lingstyle=normalformat}
+
+\ex This is an example.\xe
+
+\pex This is the preamble.
+\a part one
+\a part two
+\xe\end{verbatim}
+\lingset{lingstyle=normalformat}
+
+\ex This is an example.\xe
+
+\bigskip
+\pex This is the preamble.
+\a part one
+\a part two
+\xe
+
+\specialexno{237}
+\ex This is an example.\xe
+
+\bigskip
+\pex[belowexskip=0pt] This is the preamble.
+\a part one
+\a part two
+\xe
+\resetexcnt
+\hfil
+
+\begin{verbatim}\lingset{lingstyle=tabularformat}
+\ex This is an example.\xe
+
+\bigskip
+\pex This is the preamble.
+\a part one
+\a part two
+\xe\end{verbatim}
+
+\lingset{lingstyle=tabularformat}
+
+\ex This is an example.\xe
+
+\bigskip
+\pex This is the preamble.
+\a part one
+\a part two
+\xe
+
+\specialexno{237}
+\ex~ This is an example.\xe
+
+\pex~ This is the preamble.
+\a part one
+\a part two
+\xe
+\resetexcnt
+\hfil
+\end{document}
+\lingset{altformat=tabular,numoffset=0pt,textoffset=.5in,labeloffset=.25in}
+
+\ex This is an example.\xe
+
+\pex
+This is the preamble.
+\a part one
+\a part two
+\xe
+
+\hfil
+
+\lingset{altformat=IJAL,numoffset=\parindent,textoffset=1em,labeloffset=1em}
+
+\ex This is an example.\xe
+
+\pex
+This is the preamble.
+\a part one
+\a part two
+\xe
+
+\hfil
+
+\lingset{lingstyle=IJAL}
+\ex This is an example.\xe
+
+\pex
+This is the preamble.
+\a part one
+\a part two
+\xe
+
+
+
+
+
+\specialexno{231}
+\pex
+This is the preamble.
+\a part one
+\a part two
+\xe
+
+\resetexcnt
+\pex
+this should work
+\xe
+
+\pex
+\a part one
+\a part two
+\xe
+
+%\pex
+%\a
+%\begingl
+%\gla one two//
+%\glb three four//
+%\glft translation//
+%\endgl
+%\xe
+
+
+\endgroup
+
+\ex This is an example.\xe
+
+\pex
+This is the preamble.
+\a part one
+\a part two
+\xe
+
+\pex
+\a part one
+\a part two
+\xe
+
+\end{document}
+
+
+
+
