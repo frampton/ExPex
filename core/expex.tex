@@ -139,25 +139,38 @@
    exbreakpenalty=-50,
    splitpartspenalty=200
 }
+\def\settosum#1#2#3{#1=#2\relax \advance#1 by#3}
 \newif\if@specialexno
 \def\exns{\bgroup\@tildetrue\ex@a}
+\newdimen\exdimnumright
+%\define@boolkey{ling}[ling@]{anchortextmargin}{}
+%\lingset{anchortextmargin=false}
+\def\normalexstart{%
+   \setbox0=\hbox{\hskip\lingnumoffset(\actualexno)}%
+   \ifcase\ep@textanchor
+         \leftskip=\lingtextoffset
+      \or
+         \exdimnumright=\wd0
+         \settosum\leftskip\exdimnumright\lingtextoffset
+      \fi
+   \llap{\hbox to\leftskip{\hskip\lingnumoffset \unhbox0 \hfil}}%
+}
+\let\exstart=\normalexstart
 \def\ex{\bgroup \@tildecheck\ex@a}
 \def\ex@a{\def\@optionaltag{}\def\@specialexno{}%
    \@getoptionalarg\ex@b}
 \def\ex@b{\@getoptionaltag\ex@c}
 \def\ex@c{%
    \ex@setup
-   \setbox0=\hbox{%
-      \hskip\lingnumoffset
-      \if@specialexno \specialexnoprint\else\exnoprint\fi
-      \hskip\lingtextoffset}%
-   \leftskip=\wd0
    \par\nobreak
-   \leavevmode\llap{\unhbox0}%
+   \leavevmode
+   \exstart
    \ling@everyex
    \latex@tagex
    \ignorespaces
 }
+\def\actualexno
+   {\if@specialexno \ling@specialexno \else \the\excnt \fi}
 \def\exnoprint{(\the\excnt)}
 \def\specialexnoprint{(\ling@specialexno)}
 \def\ex@setup{%
@@ -215,6 +228,10 @@
 \newcount\pexcnt
 \newdimen\@pexoffset
 \define@linginckey\dimen{}{@}{preambleoffset}
+\define@choicekey{ling}{preambleanchor}
+   [\scratch\ep@preambleanchor]%
+   {numright,labelleft,text}{}
+\lingset{preambleanchor=numright}
 \newif\if@ispreamble
 \define@linginckey\dimen{}{}{labelwidth}
 \define@linginckey\dimen{}{}{labeloffset}
@@ -235,11 +252,18 @@
 }
 \newif\if@firstlabel
 \define@boolkey{ling}[ling@]{nopreamble}[true]{}
+\newdimen\pexdimpreamble
+\newdimen\pexdimlabelleft
+\newdimen\pexdimlabelright
+% \exdimnumright also used
 \def\pex{\bgroup\@tildecheck\pex@a}
 \def\pexns{\bgroup \@tildetrue\pex@a}
 \def\pex@a{\def\@optionaltag{}\def\@specialexno{}%
    \@getoptionalarg\pex@b}
-\def\pex@b{\@getoptionaltag\pex@c}
+\def\pex@b{%
+   \ifx\ling@appendtolocalarg\empty \else
+      \XKV@addtolist@o\@optionalarg{\ling@appendtolocalpexarg}\fi
+   \@getoptionaltag\pex@c}
 \def\pex@c{\ling@nopreambletrue
    \@futurenonspacelet\temp\pex@d}
 \def\pex@d{%
@@ -250,32 +274,82 @@
    \ex@setup
    \nextpex@
 }
-\def\pex@e{%
-   \@pexoffset=\linglabeloffset
-   \advance\@pexoffset by \linglabelwidth
-   \advance\@pexoffset by \lingtextoffset
-   \pexcnt@init
-   \@firstlabeltrue
-   \let\a\put@label
-   \setbox0=\hbox{\if@specialexno
-      \specialexnoprint\else\exnoprint\fi a}%
-   \edef\lingexnoprintwidth{\the\wd0}%
-   \setbox0=\hbox{%
-      \hskip\lingnumoffset
-      \if@specialexno \specialexnoprint\else\exnoprint\fi
-      \ifling@nopreamble
-         \hskip\@pexoffset
-      \else
-         \hskip\ling@preambleoffset
-      \fi }%
-   \leftskip=\wd0
-   \leavevmode\llap{\unhbox0}%
-   \ling@everyex
-}
 \def\pex@f#1#2{\label{#2}\@futurenonspacelet\temp\pex@g}
 \def\pex@g{\ifx\temp\a \let\next\pex@h
    \else \let\next\pex@e \ling@nopreamblefalse \fi \next}
 \def\pex@h#1\a{\pex@e\a}
+% \pex@e is the main event
+\newdimen\pexdimpreamble
+\newdimen\pexdimlabelleft
+\newdimen\pexdimlabelright
+\newdimen\ep@preambleadjust
+%\def\normalpexstart{%
+%   \setbox0=\hbox{\hskip\lingnumoffset(\actualexno)}%
+%   \exdimnumright=\wd0
+%   \ep@setdimlabelleft
+%   \settosum\pexdimlabelright\pexdimlabelleft\linglabelwidth
+%   \ifling@anchortextmargin
+%         \leftskip=\lingtextoffset
+%      \else
+%         \settosum\leftskip\pexdimlabelright\lingtextoffset
+%      \fi
+%   \pexcnt@init
+%   \@firstlabeltrue
+%   \let\a\put@label
+%   \leavevmode
+%   \llap{\hbox to\leftskip{\unhbox0 \hfil}}%
+%   \ifling@nopreamble \else \ep@setpreambleskip \fi
+%}
+\define@boolkey{ling}[ling@]{numlabelclash}{}
+\lingset{numlabelclash=false}
+\define@ling@cmdkeys{appendtolocalpexarg}
+\define@choicekey{ling}{textanchor}[\scratch\ep@textanchor]%
+   {margin,normal}{}
+\lingset{textanchor=normal}
+\def\normalpexstart{%
+   \setbox0=\hbox{\hskip\lingnumoffset(\actualexno)}%
+   \exdimnumright=\wd0
+   \ep@setdimlabelleft
+   \settosum\pexdimlabelright\pexdimlabelleft\linglabelwidth
+   \ifcase\ep@textanchor
+         \leftskip=\lingtextoffset
+      \or
+         \settosum\leftskip\pexdimlabelright\lingtextoffset
+      \fi
+   \pexcnt@init
+   \@firstlabeltrue
+   \let\a\put@label
+   \leavevmode
+   \def\next{\llap{\hbox to\leftskip{\unhbox0 \hfil}}}%
+   \ifling@nopreamble
+      \ifling@numlabelclash
+         \let\next=\relax \fi\fi
+   \next
+}
+\def\ep@setdimlabelleft{%
+  \ifcase\ep@labelanchor
+         \pexdimlabelleft=\exdimnumright
+      \or
+         \pexdimlabelleft=\lingnumoffset
+      \or
+         \pexdimlabelleft=0pt
+      \fi
+   \advance\pexdimlabelleft by \linglabeloffset
+ }
+\def\ep@setpreambleskip{%
+      \ifcase\ep@preambleanchor
+            \ep@preambleadjust=\exdimnumright
+         \or
+            \ep@preambleadjust=\pexdimlabelleft
+         \or
+            \ep@preambleadjust=\leftskip
+         \fi
+      \advance\ep@preambleadjust by -\leftskip
+      \advance\ep@preambleadjust by \ling@preambleoffset
+      \hskip\ep@preambleadjust
+}
+\let\pexstart=\normalpexstart
+\def\pex@e{\pexstart \ling@everyex }
 \def\pexcnt@init{\ifnum\ep@labelgen=2\else
    \pexcnt=\ling@pexcnt
    \advance\pexcnt by -1 \fi}
@@ -291,16 +365,14 @@
 %
 \def\put@label{%
    \if@firstlabel
-      \ifling@nopreamble \else
-         \vskip\ling@belowpreambleskip
-         \advance\leftskip by -\ling@preambleoffset
-         \advance\leftskip by \@pexoffset
-         \fi
-      \@firstlabelfalse
-   \else
-      \par\penalty\ling@splitpartspenalty
-      \vskip\ling@interpartskip
-   \fi
+         \ifling@nopreamble \else
+            \vskip\ling@belowpreambleskip
+            \fi
+         \@firstlabelfalse
+      \else
+         \par\penalty\ling@splitpartspenalty
+         \vskip\ling@interpartskip
+      \fi
    \def\@specialexno{}\def\@optionaltag{}%
    \@getoptionalarg\put@label@a
 }
@@ -326,17 +398,23 @@
    \ifx\@optionaltag\empty \else
       \deftaglabel{\@optionaltag}%
       \fi
-   \ifnum\ep@labelanchor>0
-      \par
-      \leftskip=\@pexoffset
-      \ifnum\ep@labelanchor=1
-         \advance\leftskip by \lingnumoffset \fi
-      \fi
    \leavevmode
-   \llap{\hbox to\linglabelwidth{\@labelprint}%
-      \hskip\lingtextoffset}%
+   \llap{\hbox to\leftskip{\hskip\pexdimlabelleft \@labelprint
+   \hfil}}%
    \latex@tagexlabel
    \ignorespaces
+}
+% !!!! erase after use
+\def\reportdims{%
+   \writeln{lingnumoffset: \lingnumoffset}
+   \writeln{exdimnumright: \the\exdimnumright}
+   \writeln{labeloffset: \linglabeloffset}
+   \writeln{pexdimlabelleft: \the\pexdimlabelleft}
+   \writeln{labelwidth: \linglabelwidth}
+   \writeln{pexdimlabelright: \the\pexdimlabelright}
+   \writeln{textoffset: \lingtextoffset}
+   \writeln{pexdimpreamble: \the\pexdimpreamble}
+   \writeln{leftskip: \the\leftskip}
 }
 %
 \define@choicekey{ling}{labelanchor}[\ling@labelanchor\ep@labelanchor]%
