@@ -283,23 +283,6 @@
 \newdimen\pexdimlabelleft
 \newdimen\pexdimlabelright
 \newdimen\ep@preambleadjust
-%\def\normalpexstart{%
-%   \setbox0=\hbox{\hskip\lingnumoffset(\actualexno)}%
-%   \exdimnumright=\wd0
-%   \ep@setdimlabelleft
-%   \settosum\pexdimlabelright\pexdimlabelleft\linglabelwidth
-%   \ifling@anchortextmargin
-%         \leftskip=\lingtextoffset
-%      \else
-%         \settosum\leftskip\pexdimlabelright\lingtextoffset
-%      \fi
-%   \pexcnt@init
-%   \@firstlabeltrue
-%   \let\a\put@label
-%   \leavevmode
-%   \llap{\hbox to\leftskip{\unhbox0 \hfil}}%
-%   \ifling@nopreamble \else \ep@setpreambleskip \fi
-%}
 \define@boolkey{ling}[ling@]{numlabelclash}{}
 \lingset{numlabelclash=false}
 \define@ling@cmdkeys{appendtolocalpexarg}
