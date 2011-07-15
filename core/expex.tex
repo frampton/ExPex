@@ -142,18 +142,19 @@
 \def\settosum#1#2#3{#1=#2\relax \advance#1 by#3}
 \newif\if@specialexno
 \def\exns{\bgroup\@tildetrue\ex@a}
-\newdimen\exdimnumright
-%\define@boolkey{ling}[ling@]{anchortextmargin}{}
-%\lingset{anchortextmargin=false}
+\define@choicekey{ling}{textanchor}%           % NEW
+   [\scratch\ep@textanchor]{numleft,normal}{}
+\newdimen\epd@numright                         % NEW
+%
 \def\normalexstart{%
    \setbox0=\hbox{\hskip\lingnumoffset(\actualexno)}%
-   \ifcase\ep@textanchor
-         \leftskip=\lingtextoffset
-      \or
-         \exdimnumright=\wd0
-         \settosum\leftskip\exdimnumright\lingtextoffset
+   \epd@numright=\wd0
+   \ifcase\ep@textanchor      % numleft
+         \settosum\leftskip\lingnumoffset\lingtextoffset
+      \or                     % normal
+         \settosum\leftskip\epd@numright\lingtextoffset
       \fi
-   \llap{\hbox to\leftskip{\hskip\lingnumoffset \unhbox0 \hfil}}%
+   \llap{\hbox to\leftskip{\unhbox0 \hss}}%
 }
 \let\exstart=\normalexstart
 \def\ex{\bgroup \@tildecheck\ex@a}
@@ -226,13 +227,16 @@
 \def\exdisplay@b{\let\@optionaltag=\empty \ex@setup}
 % ----- \pex -----
 \newcount\pexcnt
-\newdimen\@pexoffset
+\newdimen\epd@labelleft                               % NEW
+\newdimen\epd@labelright                              % NEW
+\newdimen\lingpreambleadjust                          % NEW
 \define@linginckey\dimen{}{@}{preambleoffset}
-\define@choicekey{ling}{preambleanchor}
-   [\scratch\ep@preambleanchor]%
-   {numright,labelleft,text}{}
-\lingset{preambleanchor=numright}
-\newif\if@ispreamble
+\define@choicekey{ling}{preambleanchor}               % NEW
+   [\scratch\ep@preambleanchor]{numright,labelleft,text}{}
+\define@boolkey{ling}[ling@]{numlabelclash}{}         % NEW
+\define@ling@cmdkeys{appendtopexarg}                  % NEW
+\lingset{numlabelclash=false,textanchor=normal,       % NEW
+   appendtopexarg=,preambleanchor=numright}
 \define@linginckey\dimen{}{}{labelwidth}
 \define@linginckey\dimen{}{}{labeloffset}
 \define@ling@cmdkeys{belowpreambleskip,interpartskip,splitexpenalty}
@@ -252,17 +256,14 @@
 }
 \newif\if@firstlabel
 \define@boolkey{ling}[ling@]{nopreamble}[true]{}
-\newdimen\pexdimpreamble
-\newdimen\pexdimlabelleft
-\newdimen\pexdimlabelright
-% \exdimnumright also used
+% \epd@numright used
 \def\pex{\bgroup\@tildecheck\pex@a}
 \def\pexns{\bgroup \@tildetrue\pex@a}
 \def\pex@a{\def\@optionaltag{}\def\@specialexno{}%
    \@getoptionalarg\pex@b}
 \def\pex@b{%
-   \ifx\ling@appendtolocalarg\empty \else
-      \XKV@addtolist@o\@optionalarg{\ling@appendtolocalpexarg}\fi
+   \ifx\ling@appendtopexarg\empty \else
+      \XKV@addtolist@o\@optionalarg{\ling@appendtopexarg}\fi
    \@getoptionaltag\pex@c}
 \def\pex@c{\ling@nopreambletrue
    \@futurenonspacelet\temp\pex@d}
@@ -279,63 +280,63 @@
    \else \let\next\pex@e \ling@nopreamblefalse \fi \next}
 \def\pex@h#1\a{\pex@e\a}
 % \pex@e is the main event
-\newdimen\pexdimpreamble
-\newdimen\pexdimlabelleft
-\newdimen\pexdimlabelright
-\newdimen\ep@preambleadjust
-\define@boolkey{ling}[ling@]{numlabelclash}{}
-\lingset{numlabelclash=false}
-\define@ling@cmdkeys{appendtolocalpexarg}
-\define@choicekey{ling}{textanchor}[\scratch\ep@textanchor]%
-   {margin,normal}{}
-\lingset{textanchor=normal}
+%
 \def\normalpexstart{%
    \setbox0=\hbox{\hskip\lingnumoffset(\actualexno)}%
-   \exdimnumright=\wd0
+   \epd@numright=\wd0
    \ep@setdimlabelleft
-   \settosum\pexdimlabelright\pexdimlabelleft\linglabelwidth
+   \settosum\epd@labelright\epd@labelleft\linglabelwidth
    \ifcase\ep@textanchor
-         \leftskip=\lingtextoffset
+         \settosum\leftskip\lingnumoffset\lingtextoffset
       \or
-         \settosum\leftskip\pexdimlabelright\lingtextoffset
+         \settosum\leftskip\epd@labelright\lingtextoffset
       \fi
    \pexcnt@init
    \@firstlabeltrue
    \let\a\put@label
    \leavevmode
-   \def\next{\llap{\hbox to\leftskip{\unhbox0 \hfil}}}%
+   \def\next{\llap{\hbox to\leftskip{\unhbox0 \hss}}}%
    \ifling@nopreamble
-      \ifling@numlabelclash
-         \let\next=\relax \fi\fi
+         \ifling@numlabelclash \let\next=\relax \fi
+         \lingpreambleadjust=0pt
+      \else
+         \@setpreambleadjust
+      \fi
    \next
+   \hskip\lingpreambleadjust
+}
+\def\@setpreambleadjust{%
+   \settosum\lingpreambleadjust{-\leftskip}\ling@preambleoffset
+   \ifcase\ep@preambleanchor
+         \advance\lingpreambleadjust by \epd@numright
+      \or
+         \advance\lingpreambleadjust by \epd@labelleft
+      \or
+         \advance\lingpreambleadjust by \leftskip
+      \fi
 }
 \def\ep@setdimlabelleft{%
   \ifcase\ep@labelanchor
-         \pexdimlabelleft=\exdimnumright
+         \epd@labelleft=\epd@numright
       \or
-         \pexdimlabelleft=\lingnumoffset
+         \epd@labelleft=\lingnumoffset
       \or
-         \pexdimlabelleft=0pt
+         \epd@labelleft=0pt
       \fi
-   \advance\pexdimlabelleft by \linglabeloffset
+   \advance\epd@labelleft by \linglabeloffset
  }
-\def\ep@setpreambleskip{%
-      \ifcase\ep@preambleanchor
-            \ep@preambleadjust=\exdimnumright
-         \or
-            \ep@preambleadjust=\pexdimlabelleft
-         \or
-            \ep@preambleadjust=\leftskip
-         \fi
-      \advance\ep@preambleadjust by -\leftskip
-      \advance\ep@preambleadjust by \ling@preambleoffset
-      \hskip\ep@preambleadjust
-}
 \let\pexstart=\normalpexstart
 \def\pex@e{\pexstart \ling@everyex }
 \def\pexcnt@init{\ifnum\ep@labelgen=2\else
    \pexcnt=\ling@pexcnt
    \advance\pexcnt by -1 \fi}
+\def\multilinepreamble#1{%
+   \vtop{%
+      \advance\hsize by -\leftskip
+      \advance\hsize by -\lingpreambleadjust
+      \leftskip=0pt
+      #1\strut}%
+}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % labels
 \define@key[ep@]{labels}{tag}{\def\@optionaltag{#1}}
@@ -382,22 +383,10 @@
       \deftaglabel{\@optionaltag}%
       \fi
    \leavevmode
-   \llap{\hbox to\leftskip{\hskip\pexdimlabelleft \@labelprint
+   \llap{\hbox to\leftskip{\hskip\epd@labelleft \@labelprint
    \hfil}}%
    \latex@tagexlabel
    \ignorespaces
-}
-% !!!! erase after use
-\def\reportdims{%
-   \writeln{lingnumoffset: \lingnumoffset}
-   \writeln{exdimnumright: \the\exdimnumright}
-   \writeln{labeloffset: \linglabeloffset}
-   \writeln{pexdimlabelleft: \the\pexdimlabelleft}
-   \writeln{labelwidth: \linglabelwidth}
-   \writeln{pexdimlabelright: \the\pexdimlabelright}
-   \writeln{textoffset: \lingtextoffset}
-   \writeln{pexdimpreamble: \the\pexdimpreamble}
-   \writeln{leftskip: \the\leftskip}
 }
 %
 \define@choicekey{ling}{labelanchor}[\ling@labelanchor\ep@labelanchor]%
@@ -670,8 +659,8 @@
 %   \ignorespaces
 %}
 % Uncomment and use the following for debugging if needed
-%\def\reporttag#1{\writeln{----->
-%   \expandafter\meaning\csname lingtag@#1\endcsname}}
+%\def\reporttag#1%
+%  {\writeln{\expandafter\meaning\csname lingtag@#1\endcsname}}
 \def\getref@aa#1#2{#1}%
 \def\getref@ab#1#2{#2}%
 \def\getref#1{\getref@a{#1}\getref@aa}

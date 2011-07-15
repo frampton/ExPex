@@ -1,0 +1,22 @@
+07/07/2011 (bug fix) everyglft now works in wrap glstyle
+
+07/07/2011 (bug fix) \rightcite (mentioned in manual) added
+
+07/14/2011 - introduced 4 new parameters in order to provide more
+options for the formats of \ex and \pex and a macro to allow
+typesetting a multiline preamble that not aligned with the text
+
+\define@choicekey{ling}{preambleanchor}[...]{numright,labelleft,text}
+\define@choicekey{ling}{textanchor}[...]{margin,normal}
+   normal is labelright in \pex and numright in \ex
+\define@ling@cmdkeys{appendtopexarg}
+   this allows keys to be set in a \pex dynamically,
+   i.e. global appendtopexarg={samplelabel=\actualexno a} will set
+   the label width in each \pex according to the width of the
+   local example number.  This is used in formats which print the
+   example number as part of each label.
+\define@boolkey{ling}[ling@]{numlabelclash}{}
+   if set to true, \pex does not print the example number if
+   there is no preamble
+\def\multilinepreamble{...}
+

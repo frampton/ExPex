@@ -1,0 +1,212 @@
+
+\definelingstyle{IJAL}{%
+   numlabelclash=true,
+   labelanchor=numleft,labeloffset=0pt,
+   textanchor=normal,textoffset=1.5em,
+   preambleanchor=text,preambleoffset=0pt,
+   labelformat=(A),
+   everylabel=\actualexno,
+   appendtopexarg={samplelabel=(\actualexno a)}
+   }
+\definelingstyle{UBC}{%
+   numlabelclash=false,
+   textanchor=numleft,textoffset=50pt,
+   labelanchor=numleft,labeloffset=25pt,
+   everylabel=,
+   preambleanchor=text,preambleoffset=0pt,
+   appendtopexarg=
+}
+\definelingstyle{frampton}{%
+   numlabelclash=false,
+   textanchor=normal,textoffset=1em,
+   labelanchor=numright,labeloffset=1em,
+   everylabel=,
+   preambleanchor=numright,preambleoffset=1em,
+   appendtopexarg=
+}
+\def\bullsec{\noindent$\bullet$\enspace}
+
+\lingset{numoffset=1em}
+
+\bullsec |lingstyle=frampton|
+\lingset{lingstyle=frampton}
+
+
+\pex[exno=65,preambleanchor=text,preambleoffset=0pt]
+This paper must be at least 10 pages long,
+so it is useful to this end to write long wordy introductions to
+all examples.  Please note that the first example comes before
+the second example.  It could be done othewise, but this
+convention is adopted for the benefit of the reader.
+\a first
+\a second
+\xe
+
+\pex[exno=65,preambleanchor=labelleft,preambleoffset=0pt]
+This paper must be at least 10 pages long,
+so it is useful to this end to write long wordy introductions to
+all examples.  Please note that the first example comes before
+the second example.  It could be done othewise, but this
+convention is adopted for the benefit of the reader.
+\a first
+\a second
+\xe
+
+\pex[exno=65,preambleanchor=labelleft,preambleoffset=0pt]
+\multilinepreamble{This paper must be at least 10 pages long,
+so it is useful to this end to write long wordy introductions to
+all examples.  Please note that the first example comes before
+the second example.  It could be done othewise, but this
+convention is adopted for the benefit of the reader.}
+\a first
+\a second
+\xe
+
+\pex
+\a first
+\a second
+\xe
+
+\bullsec |lingstyle=UBC|
+\lingset{lingstyle=UBC}
+\pex[exno=65]
+Preamble
+\a first
+\a second
+\xe
+
+\pex
+\a first
+\a second
+\xe
+
+\bullsec |lingstyle=IJAL|
+\lingset{lingstyle=IJAL}
+\pex[exno=65]
+Preamble
+\a first
+\a second
+\xe
+
+\pex
+\a first
+\a second
+\xe
+
+\bye
+\definelingstyle{UBC}{numoffset=0pt,
+   textanchor=numleft,
+%   anchortextmargin=true,
+   labelanchor=margin,labeloffset=.3in,textoffset=.7in,
+   preambleanchor=text,preambleoffset=0pt}
+
+\pex[lingstyle=UBC]
+Preamble
+\a first
+\a second
+\xe
+
+\pex[exno=300,lingstyle=UBC]
+Preamble
+\a first
+\a second
+\xe
+
+\bye
+
+\pex[numoffset=!2em] preamble
+\a first
+\a second
+\xe
+
+\ex example\xe
+
+\lingset{anchortextmargin=true,textoffset=.5in}
+\ex example\xe
+
+\excnt=400
+\ex example\xe
+
+\bye
+
+
+
+
+%\input @pexsub
+\catcode`@=11
+\define@linginckey\dimen{}{}{sublabeloffset}
+\define@linginckey\dimen{}{}{subtextoffset}
+\define@linginckey\dimen{}{}{sublabelwidth}
+\lingset{sublabeloffset=-.7em,subtextoffset=1em,
+   sublabelwidth=\linglabelwidth}
+\newcount\pexsubcnt
+\newdimen\aa@add
+\def\aa{\par
+   \if@firstaalabel
+      \ifdim\ep@aaleftskip=0pt
+         \ep@aaleftskip=\leftskip
+         \advance\ep@aaleftskip by \lingsublabeloffset
+         \aa@add=\lingsubtextoffset
+         \advance\aa@add by \lingsublabelwidth
+         \advance\ep@aaleftskip by \aa@add
+         \fi
+      \@firstaalabelfalse
+      \pexsubcnt=0
+      \fi
+   \leftskip=\ep@aaleftskip
+   \leavevmode
+   \advance\pexsubcnt by 1
+   \llap{\hbox to \aa@add{\the\pexsubcnt.\hfil}}%
+}
+\catcode`@=12
+
+\pex
+\a  one
+\aa aa
+\aa bb
+\a  two
+\aa aa
+\aa bb
+\a  three
+\xe
+
+
+\bye
+
+\vsize=3.6in
+\hsize=3in
+
+\leavevmode
+\vskip2.1in
+%\lingset{exbreakfil=0pt plus 1.5in}
+
+\ex[exbreakfil=0pt plus 1.6in]
+Now is the time for all good men to come to the aid of the party.
+Now is the time for all good men to come to the aid of the party.
+Now is the time for all good men to come to the aid of the party.
+Now is the time for all good men to come to the aid of the party.
+Now is the time for all good men to come to the aid of the party.
+Now is the time for all good men to come to the aid of the party.
+\xe
+\endinput
+
+\pex
+\a
+Now is the time for all good men to come to the aid of the
+party.
+\a
+Now is the time for all good men to come to the aid of the party.
+\a
+Now is the time for all good men to come to the aid of the party.
+\a
+Now is the time for all good men to come to the aid of the party.
+\a
+Now is the time for all good men to come to the aid of the party.
+\a
+Now is the time for all good men to come to the aid of the party.
+\a
+Now is the time for all good men to come to the aid of the party.
+\xe
+
+
+
