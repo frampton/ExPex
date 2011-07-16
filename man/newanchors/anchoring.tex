@@ -1,4 +1,3 @@
-
 \definelingstyle{IJAL}{%
    numlabelclash=true,
    labelanchor=numleft,labeloffset=0pt,
@@ -18,15 +17,324 @@
 }
 \definelingstyle{frampton}{%
    numlabelclash=false,
-   textanchor=normal,textoffset=1em,
-   labelanchor=numright,labeloffset=1em,
+   textanchor=normal,textoffset=1.4em,
+   labelanchor=numright,labeloffset=1.4em,
    everylabel=,
-   preambleanchor=numright,preambleoffset=1em,
-   appendtopexarg=
+   preambleanchor=labelleft,preambleoffset=0pt,
+   appendtopexarg=,
 }
-\def\bullsec{\noindent$\bullet$\enspace}
 
-\lingset{numoffset=1em}
+\centerline{\titlefont{main} User's Manual, Supplement}
+\hfil
+
+\noindent This document explains the new features incorporated in
+ExPex version 3.4.  The major additions were made in order to
+make it possible to typeset examples in formats rather different
+that ``standard ExPex''.  For example, the University of British
+Columbia Working Papers specify that the text and label offset
+are measured from the left margin.  ExPex 3.3 measures the label
+offset from the right edge of the example number and the
+textoffset from the right edge of the ``label gutter'' (the slot
+which labels are typeset in). ExPex already had a parameter
+|labelanchor| (with values |margin|, |numleft|, and |numright|)
+which determined how the value of |labeloffset| was used to set
+the position of the labels. A parameter has |textanchor| been
+introduced, with obvious meaning.  In multipart examples in ExPex
+3.3, the position of a preamble in multipart examples was
+measured with respect to the right edge of the typeset example
+number.  The preamble is the stuff (if any) which appears before
+the first labeled part of a multipart example.  ExPex introduces
+the parameter |preambleanchor| (with possible values |numright|,
+|numleft|, and |text|), with obvious meaning.
+
+For example,
+\begingroup
+\codedisplay
+\lingset{%
+   textanchor=numleft,textoffset=50pt,
+   labelanchor=numleft,labeloffset=25pt,
+   preambleanchor=text,preambleoffset=0pt,
+}
+\pex[exno=137]
+\a first
+\a second
+\xe
+
+\pex~[labelwidth=2in]
+Preamble
+\a first
+\a[label=bb] second
+\xe
+|endcodedisplay
+
+\noindent produces
+
+\lingset{%
+   textanchor=numleft,textoffset=5em,
+   labelanchor=numleft,labeloffset=2.5em,
+   preambleanchor=text,preambleoffset=0pt,
+}
+\pex[exno=137]
+\a first
+\a second
+\xe
+
+\pex~[labelwidth=2in]
+Preamble
+\a first
+\a[label=bb] second
+\xe
+The position of the labels and text is unaffected by the
+width of the typeset example numer, the specified labelwidth, or
+the actual label width.
+\endgroup
+
+The formatted demanded by the International Journal of American
+Linguistics (IJAL) poses even more problems for ExPex.  Examples
+are given below.
+
+\begingroup
+\lingset{lingstyle=IJAL}
+\pex<nonum>
+\a first
+\a second
+\xe
+
+\pex~[exno=65]
+Preamble
+\a first
+\a second
+\xe
+
+\pex~[exno=1026]
+Preamble
+\a first
+\a second
+\xe
+
+Clearly, we must set |labelanchor| to |numleft| and |labeloffset|
+to |0pt| (or |0in|, or \dots).
+
+The first issue is that the labelwidth depends
+on the example number.
+ExPex can deal with this by |\pex[samplelabel=(\actualexno
+a)]|.  But it is considerably less than elegant to
+have to write this in every |\pex| example.  It will not produce
+the desired result to put |\lingset{samplelabel=(\actualexno a)}|
+at the beginning of the document.  |labelwidth| will be set to
+whatever the current width of |(\actualexno a)| is, which is
+not likely to be what you want for the entire document even if
+|\actualexno| happens to be defined (which is unlikely) at the
+point the |\lingset| is executed.  To circumvent the global/local
+problem, ExPex now provides the parameter |appendtopexarg|.  Its
+value is appended to whatever other arguments are given to
+|\pex| and evaluated locally.  So\smallskip
+
+|\lingset{appendtopexarg=(labelwidth=\actualexno a)}|\smallskip
+\noindent accomplishes what we
+want.
+
+There is another issue.  The example number does not appear in
+(\getref{nonum}).  ExPex now provides the boolean (true or false
+values only) parameter |numlabelclash|.  If it is set to |true|,
+the example number is not typeset in |\pex| examples with no
+preamble.
+
+The code used for the IJAL examples above was:
+\codedisplay
+\definelingstyle{IJAL}{%
+   numlabelclash=true,
+   labelanchor=numleft,labeloffset=0pt,
+   preambleanchor=text,preambleoffset=0pt,
+   labelformat=(A),
+   everylabel=\actualexno,
+   appendtopexarg={samplelabel=(\actualexno a)}
+   }
+
+\pex
+\a first
+\a second
+\xe
+
+\pex~[exno=65]
+Preamble
+\a first
+\a second
+\xe
+
+\pex~[exno=1026]
+Preamble
+\a first
+\a second
+\xe
+|endcodedisplay
+
+\endgroup
+
+\subsection Other additions to version 3.4
+
+\def\\{\noindent$\bullet$\enspace\ignorespaces}
+
+\\ |\multilinepreamble|\smallskip
+
+\noindent Preambles were not properly formatted in ExPex 3.3 if they
+extended over more than one line.  For example:
+
+\codedisplay
+\pex[preambleoffset=1.5ex,preambleanchor=numright]
+This paper must be at least 10 pages long,
+so it is useful to this end to write long wordy introductions to
+all examples.  Please note that the first example comes before
+the second example.  It could be done otherwise, but this
+convention is adopted for the benefit of the reader.
+\a first
+\a second
+\xe
+|endcodedisplay
+gives
+\framedisplay
+\pex[preambleoffset=1.5ex,preambleanchor=numright]
+This paper must be at least 10 pages long,
+so it is useful to this end to write long wordy introductions to
+all examples.  Please note that the first example comes before
+the second example.  It could be done otherwise, but this
+convention is adopted for the benefit of the reader.
+\a first
+\a second
+\xe
+\endframedisplay
+
+The same problem extends to Expex 3.4, except in the case that
+|preambleanchor=text| and |preambleoffset=0pt| (and other
+accidental situations which turn out to be equivalent).  The use
+of |\multilinepreamble| circumvents the problem by putting the
+preamble into an appropriate vbox.
+
+\codedisplay
+\pex[preambleoffset=0pt,preambleanchor=labelleft]
+\multilinepreamble{This paper must be at least 10 pages long,
+so it is useful to this end to write long wordy introductions to
+all examples.  Please note that the first example comes before
+the second example.  It could be done otherwise, but this
+convention is adopted for the benefit of the reader.}
+\a first
+\a second
+\xe
+|endcodedisplay
+produces
+\framedisplay
+\pex[preambleoffset=0pt,preambleanchor=labelleft]
+\multilinepreamble{This paper must be at least 10 pages long,
+so it is useful to this end to write long wordy introductions to
+all examples.  Please note that the first example comes before
+the second example.  It could be done otherwise, but this
+convention is adopted for the benefit of the reader.}
+\a first
+\a second
+\xe
+\endframedisplay
+
+
+\bigskip
+\\ |\rightcomment and \leftcomment|\medskip
+
+You might want to produce a display like the following.
+
+\framedisplay
+\ex[glstyle=multilevel,textoffset=1in]
+\begingl
+\gla \rightcomment{\rm [Potawatami]}k- wapm -a -s'i -m -wapunin -uk //
+\glb \leftcomment{\hfill\rm (negation)\quad}%
+   Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
+\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glft \leavevmode\rightcomment{(Hockett 1948, p. 143)}
+   `you (pl) didn't see them'//
+\endgl
+\xe
+\endframedisplay
+The code is:
+\codedisplay
+\ex[glstyle=multilevel,textoffset=1.5in]
+\begingl
+\gla \rightcomment{\rm [Potawatami]}k- wapm -a -s'i -m -wapunin -uk //
+\glb \leftcomment{\hfill\rm (negation)\qquad}%
+   Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
+\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glft \leavevmode\rightcomment{(Hockett 1948, p. 143)}
+   `you (pl) didn't see them'//
+\endgl
+\xe
+|endcodedisplay
+
+These macros are very primitive, but sometimes very useful.  They
+do not check to see that there is enough space for the material
+they place at the margins.
+
+\bigskip
+\\ |\pushciteright|\medskip
+
+\ex~[glstyle=multilevel]
+\begingl
+\gla xxxx xxxxx xxxxxx//
+\glb aaa aa a//
+\glft this is a very wordy free translation
+of a very very very
+very very very
+simple sentence\hfill (Anonymous)//
+\endgl
+\xe
+
+\lingset{glstyle=multilevel,mincitesep=1.5em}
+
+\ex
+\begingl
+\gla xxxx xxxxx xxxxxx//
+\glb aaa aa a//
+\glft this is a very wordy free translation
+of a simple sentence\pushciteright (Anonymous)//
+\endgl
+\xe
+
+\ex~[mincitesep=3em]
+\begingl
+\gla xxxx xxxxx xxxxxx//
+\glb aaa aa a//
+\glft this is a very wordy free translation
+of a simple sentence\pushciteright (Anonymous)//
+\endgl
+\xe
+
+\ex~
+\begingl
+\gla xxxx xxxxx xxxxxx//
+\glb aaa aa a//
+\glft this is a very wordy free translation
+of a very simple sentence\pushciteright (Anonymous)//
+\endgl
+\xe
+
+\ex~
+\begingl
+\gla xxxx xxxxx xxxxxx//
+\glb aaa aa a//
+\glft this is a very wordy free translation
+of a very very very
+very very very
+simple sentence\pushciteright (Anonymous)//
+\endgl
+\xe
+
+
+
+
+
+
+
+
+
+\bye
+
+
 
 \bullsec |lingstyle=frampton|
 \lingset{lingstyle=frampton}
@@ -36,7 +344,7 @@
 This paper must be at least 10 pages long,
 so it is useful to this end to write long wordy introductions to
 all examples.  Please note that the first example comes before
-the second example.  It could be done othewise, but this
+the second example.  It could be done otherwise, but this
 convention is adopted for the benefit of the reader.
 \a first
 \a second
@@ -46,7 +354,7 @@ convention is adopted for the benefit of the reader.
 This paper must be at least 10 pages long,
 so it is useful to this end to write long wordy introductions to
 all examples.  Please note that the first example comes before
-the second example.  It could be done othewise, but this
+the second example.  It could be done otherwise, but this
 convention is adopted for the benefit of the reader.
 \a first
 \a second
@@ -56,157 +364,11 @@ convention is adopted for the benefit of the reader.
 \multilinepreamble{This paper must be at least 10 pages long,
 so it is useful to this end to write long wordy introductions to
 all examples.  Please note that the first example comes before
-the second example.  It could be done othewise, but this
+the second example.  It could be done otherwise, but this
 convention is adopted for the benefit of the reader.}
 \a first
 \a second
 \xe
 
-\pex
-\a first
-\a second
-\xe
-
-\bullsec |lingstyle=UBC|
-\lingset{lingstyle=UBC}
-\pex[exno=65]
-Preamble
-\a first
-\a second
-\xe
-
-\pex
-\a first
-\a second
-\xe
-
-\bullsec |lingstyle=IJAL|
-\lingset{lingstyle=IJAL}
-\pex[exno=65]
-Preamble
-\a first
-\a second
-\xe
-
-\pex
-\a first
-\a second
-\xe
-
 \bye
-\definelingstyle{UBC}{numoffset=0pt,
-   textanchor=numleft,
-%   anchortextmargin=true,
-   labelanchor=margin,labeloffset=.3in,textoffset=.7in,
-   preambleanchor=text,preambleoffset=0pt}
-
-\pex[lingstyle=UBC]
-Preamble
-\a first
-\a second
-\xe
-
-\pex[exno=300,lingstyle=UBC]
-Preamble
-\a first
-\a second
-\xe
-
-\bye
-
-\pex[numoffset=!2em] preamble
-\a first
-\a second
-\xe
-
-\ex example\xe
-
-\lingset{anchortextmargin=true,textoffset=.5in}
-\ex example\xe
-
-\excnt=400
-\ex example\xe
-
-\bye
-
-
-
-
-%\input @pexsub
-\catcode`@=11
-\define@linginckey\dimen{}{}{sublabeloffset}
-\define@linginckey\dimen{}{}{subtextoffset}
-\define@linginckey\dimen{}{}{sublabelwidth}
-\lingset{sublabeloffset=-.7em,subtextoffset=1em,
-   sublabelwidth=\linglabelwidth}
-\newcount\pexsubcnt
-\newdimen\aa@add
-\def\aa{\par
-   \if@firstaalabel
-      \ifdim\ep@aaleftskip=0pt
-         \ep@aaleftskip=\leftskip
-         \advance\ep@aaleftskip by \lingsublabeloffset
-         \aa@add=\lingsubtextoffset
-         \advance\aa@add by \lingsublabelwidth
-         \advance\ep@aaleftskip by \aa@add
-         \fi
-      \@firstaalabelfalse
-      \pexsubcnt=0
-      \fi
-   \leftskip=\ep@aaleftskip
-   \leavevmode
-   \advance\pexsubcnt by 1
-   \llap{\hbox to \aa@add{\the\pexsubcnt.\hfil}}%
-}
-\catcode`@=12
-
-\pex
-\a  one
-\aa aa
-\aa bb
-\a  two
-\aa aa
-\aa bb
-\a  three
-\xe
-
-
-\bye
-
-\vsize=3.6in
-\hsize=3in
-
-\leavevmode
-\vskip2.1in
-%\lingset{exbreakfil=0pt plus 1.5in}
-
-\ex[exbreakfil=0pt plus 1.6in]
-Now is the time for all good men to come to the aid of the party.
-Now is the time for all good men to come to the aid of the party.
-Now is the time for all good men to come to the aid of the party.
-Now is the time for all good men to come to the aid of the party.
-Now is the time for all good men to come to the aid of the party.
-Now is the time for all good men to come to the aid of the party.
-\xe
-\endinput
-
-\pex
-\a
-Now is the time for all good men to come to the aid of the
-party.
-\a
-Now is the time for all good men to come to the aid of the party.
-\a
-Now is the time for all good men to come to the aid of the party.
-\a
-Now is the time for all good men to come to the aid of the party.
-\a
-Now is the time for all good men to come to the aid of the party.
-\a
-Now is the time for all good men to come to the aid of the party.
-\a
-Now is the time for all good men to come to the aid of the party.
-\xe
-
-
 

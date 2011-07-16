@@ -1,6 +1,4 @@
 % changes
-% 07/07/2011 everyglft now works in wrap glstyle
-% 07/07/2011 \rightcite (used in Manual) added
 \edef\resetatcatcode{\catcode`\noexpand\@\the\catcode`\@\relax}
 \catcode`\@11\relax
 \ifx\XKeyValLoaded\endinput \else
@@ -128,17 +126,17 @@
    {\edef\lingaboveexskip{#1}%
    \edef\lingbelowexskip{#1}%
 }
-\lingset{%
-   numoffset=0pt,
-   textoffset=1em,
-   Everyex=,
-   everyex=,
-   aboveexskip=2.7ex plus .8ex minus .8ex,
-   belowexskip=2.7ex plus .8ex minus .8ex,
-   exbreakfil=0pt plus 4ex,
-   exbreakpenalty=-50,
-   splitpartspenalty=200
-}
+%\lingset{%
+%   numoffset=0pt,
+%   textoffset=1em,
+%   Everyex=,
+%   everyex=,
+%   aboveexskip=2.7ex plus .8ex minus .8ex,
+%   belowexskip=2.7ex plus .8ex minus .8ex,
+%   exbreakfil=0pt plus 4ex,
+%   exbreakpenalty=-50,
+%   splitpartspenalty=200
+%}
 \def\settosum#1#2#3{#1=#2\relax \advance#1 by#3}
 \newif\if@specialexno
 \def\exns{\bgroup\@tildetrue\ex@a}
@@ -235,8 +233,6 @@
    [\scratch\ep@preambleanchor]{numright,labelleft,text}{}
 \define@boolkey{ling}[ling@]{numlabelclash}{}         % NEW
 \define@ling@cmdkeys{appendtopexarg}                  % NEW
-\lingset{numlabelclash=false,textanchor=normal,       % NEW
-   appendtopexarg=,preambleanchor=numright}
 \define@linginckey\dimen{}{}{labelwidth}
 \define@linginckey\dimen{}{}{labeloffset}
 \define@ling@cmdkeys{belowpreambleskip,interpartskip,splitexpenalty}
@@ -286,34 +282,16 @@
    \epd@numright=\wd0
    \ep@setdimlabelleft
    \settosum\epd@labelright\epd@labelleft\linglabelwidth
-   \ifcase\ep@textanchor
-         \settosum\leftskip\lingnumoffset\lingtextoffset
-      \or
-         \settosum\leftskip\epd@labelright\lingtextoffset
-      \fi
+   \ep@setleftskip
    \pexcnt@init
    \@firstlabeltrue
    \let\a\put@label
-   \leavevmode
    \def\next{\llap{\hbox to\leftskip{\unhbox0 \hss}}}%
    \ifling@nopreamble
-         \ifling@numlabelclash \let\next=\relax \fi
-         \lingpreambleadjust=0pt
-      \else
-         \@setpreambleadjust
-      \fi
+         \ifling@numlabelclash \let\next\relax \fi\fi
+   \leavevmode
    \next
-   \hskip\lingpreambleadjust
-}
-\def\@setpreambleadjust{%
-   \settosum\lingpreambleadjust{-\leftskip}\ling@preambleoffset
-   \ifcase\ep@preambleanchor
-         \advance\lingpreambleadjust by \epd@numright
-      \or
-         \advance\lingpreambleadjust by \epd@labelleft
-      \or
-         \advance\lingpreambleadjust by \leftskip
-      \fi
+   \ifling@nopreamble \else \ep@preambleskip \fi
 }
 \def\ep@setdimlabelleft{%
   \ifcase\ep@labelanchor
@@ -325,6 +303,24 @@
       \fi
    \advance\epd@labelleft by \linglabeloffset
  }
+\def\ep@setleftskip{%
+   \ifcase\ep@textanchor
+         \settosum\leftskip\lingnumoffset\lingtextoffset
+      \or
+         \settosum\leftskip\epd@labelright\lingtextoffset
+      \fi
+}
+\def\ep@preambleskip{%
+   \settosum\lingpreambleadjust{-\leftskip}\ling@preambleoffset
+   \ifcase\ep@preambleanchor
+         \advance\lingpreambleadjust by \epd@numright
+      \or
+         \advance\lingpreambleadjust by \epd@labelleft
+      \or
+         \advance\lingpreambleadjust by \leftskip
+      \fi
+   \hskip\lingpreambleadjust
+}
 \let\pexstart=\normalpexstart
 \def\pex@e{\pexstart \ling@everyex }
 \def\pexcnt@init{\ifnum\ep@labelgen=2\else
@@ -337,15 +333,15 @@
       \leftskip=0pt
       #1\strut}%
 }
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % labels
 \define@key[ep@]{labels}{tag}{\def\@optionaltag{#1}}
-%\define@key[ep@]{labels}{specialexno}{\def\@specialexno{#1}}
 \define@key[ep@]{labels}{label}{\def\@specialexno{#1}}
 \def\setlabelkeys{\setkeys[ep@]{labels}}
 \def\useoptionallabelarg{%
    \expandafter\setlabelkeys\expandafter{\@optionalarg}}
 \define@lingkey{tag}{\def\@optionaltag{#1}}
+\newtoks\ep@everylabel  % \ep@everylabel is a token list
+\define@lingkey{everylabel}{\ep@everylabel{#1}}
 %
 \def\put@label{%
    \if@firstlabel
@@ -389,9 +385,22 @@
    \ignorespaces
 }
 %
-\define@choicekey{ling}{labelanchor}[\ling@labelanchor\ep@labelanchor]%
-   {numright,numleft,margin}[numright]{}
-\lingset{labelanchor}
+\define@choicekey{ling}{labelanchor}[\scratch\ep@labelanchor]%
+   {numright,numleft,margin}[]{}
+%% parameters
+%\lingset{%
+%   textanchor=normal,
+%   labelanchor=numright,
+%   labeloffset=1em,
+%   labelwidth=.78em,
+%   preambleanchor=numright,
+%   preambleoffset=1em,
+%   numlabelclash=false,
+%   appendtopexarg=
+%}
+\define@lingkey{pexcnt}{\edef\ling@pexcnt{#1}}
+% parameters dealing with the internal of labels are below
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %----- judgments -----
 \def\judge#1{\rm #1\kern .1em \ignorespaces}
 \def\ljudge#1{\llap{\judge{#1}}\ignorespaces}
@@ -401,9 +410,7 @@
 }
 % ----- table support -----
 \define@lingcmdkeys{dima,dimb,dimc}
-\newtoks\ep@everylabel  % \ep@everylabel is a token list
-\define@lingkey{everylabel}{\ep@everylabel{#1}}
-\lingset{dima=2.4em,everylabel=}
+\lingset{dima=2.4em}
 \def\tspace{\@getoptionalarg\tsp@ce}
 \def\tsp@ce{\hskip
    \ifx\@optionalarg\empty
@@ -443,7 +450,72 @@
 \lingset{crskip=.6em}
 \def\crs{\cr\noalign{\vskip\ling@crskip}}
 \def\crnb{\cr\noalign{\par\nobreak}}
-%
+% LL is "label list"
+\define@lingkey{labellist}{%
+   \edef\ling@LL{#1,}%
+   \edef\@currLL{#1,}%  current LL
+}
+\def\ep@popLL{%
+   \ifx\@currLL\empty
+      \@expexwarn{Not enough labels in labellist}%
+      \let\@currLL=\ling@LL  % start over
+      \ep@popLL
+   \else
+      \expandafter\ep@popLL@a\@currLL\@nil
+   \fi
+}
+\def\ep@popLL@a#1,#2\@nil{%
+   \def\ep@label{\the\ep@everylabel #1}\def\@currLL{#2}}
+\define@choicekey{ling}{labelgen}[\ling@labelgen\ep@labelgen]%
+   {char,number,list}{}
+\define@choicekey{ling}{labeltype}[\ling@labeltype\@N]%
+   {alpha,caps,numeric}{%
+      \ifcase\@N
+            \lingset{labelgen=char,pexcnt=97,labelformat=A.,
+               fullrefformat=XA,labelalign=left}%
+         \or
+            \lingset{labelgen=char,pexcnt=65,labelformat=A.,
+               fullrefformat=XA,labeloffset=!.3em,labelalign=left}%
+         \or
+            \lingset{labelgen=number,pexcnt=1,labelformat=A.,
+               fullrefformat=X.A,labelalign=right}%
+         \fi
+}
+\def\definelabeltype#1#2{%
+   \expandafter\def\csname ling@#1labeltype\endcsname{#2}}
+\define@lingkey{labeltype}{%
+   \e@let\temp{ling@#1labeltype}%
+   \expandafterafter\Lingset{\temp}}
+\define@lingkey{labelformat}{\@labelformat #1\@nil}
+\def\@labelformat #1A#2\@nil{%
+   \def\labelformat##1{#1{##1}#2}}
+\define@lingkey{fullrefformat}{\@fullrefformat #1\@nil}
+\def\@fullrefformat #1X#2A#3\@nil{%
+   \def\fullrefformat##1##2{#1##1#2##2#3}}
+% ----- support for LaTex \label macro -----
+\let\latex@tagex\relax
+\let\latex@tagexlabel\relax
+\ifx\label\relax \else    % else = LaTex is loaded
+   \def\latex@tagexlabel{\def\@currentlabel
+      {\fullrefformat{{\the\excnt}}{\ep@label}}}%
+   \def\latex@tagex{\edef\@currentlabel{\the\excnt}}%
+   \fi
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\definelabeltype{alpha}{labelgen=char,pexcnt=`a,labelformat=A.,
+               fullrefformat=XA,labelalign=left}
+\definelabeltype{caps}{labelgen=char,pexcnt=`A,labelformat=A.,
+               fullrefformat=XA,labeloffset=!.06em,labelalign=left}
+\definelabeltype{numeric}{labelgen=number,pexcnt=1,labelformat=A.,
+               fullrefformat=X.A,labelalign=right}
+%%%%%
+%\lingset{%
+%   labeltype=alpha,
+%   everylabel=,
+%   labelalign=left,
+%   belowpreambleskip=1ex,        % vskip after the preamble
+%   interpartskip=1ex,            % vskip between parts
+%   splitexpenalty=200,
+%}
 % ----- tags and reference -----
 %
 %----- local reference to example numbers -----
@@ -491,7 +563,6 @@
    \ignorespaces
 }
 \def\lastlabel{{\ep@label}}
-
 \def\@expexwarn#1{\immediate\write16{====> ExPex WARNING: #1.}}
 \newif\if@highlightref
 \@highlightreffalse
@@ -564,78 +635,6 @@
       {\catcode`@=11 \input \jobname\@tagfilesuffix\relax}%
    \fi
 }
-
-\define@lingkey{fullrefformat}{\@fullrefformat #1\@nil}
-\def\@fullrefformat #1X#2A#3\@nil{%
-   \def\fullrefformat##1##2{#1##1#2##2#3}}
-\define@lingkey{labelformat}{\@labelformat #1\@nil}
-\def\@labelformat #1A#2\@nil{%
-   \def\labelformat##1{#1{##1}#2}}
-\define@lingkey{pexcnt}{\edef\ling@pexcnt{#1}}
-% LL is "label list"
-\define@lingkey{labellist}{%
-   \edef\ling@LL{#1,}%
-   \edef\@currLL{#1,}%  current LL
-}
-\def\ep@popLL{%
-   \ifx\@currLL\empty
-      \@expexwarn{Not enough labels in labellist}%
-      \let\@currLL=\ling@LL  % start over
-      \ep@popLL
-   \else
-      \expandafter\ep@popLL@a\@currLL\@nil
-   \fi
-}
-\def\ep@popLL@a#1,#2\@nil{%
-   \def\ep@label{\the\ep@everylabel #1}\def\@currLL{#2}}
-\define@choicekey{ling}{labelgen}[\ling@labelgen\ep@labelgen]%
-   {char,number,list}{}
-\define@choicekey{ling}{labeltype}[\ling@labeltype\@N]%
-   {alpha,caps,numeric}{%
-      \ifcase\@N
-            \lingset{labelgen=char,pexcnt=97,labelformat=A.,
-               fullrefformat=XA,labelalign=left}%
-         \or
-            \lingset{labelgen=char,pexcnt=65,labelformat=A.,
-               fullrefformat=XA,labeloffset=!.3em,labelalign=left}%
-         \or
-            \lingset{labelgen=number,pexcnt=1,labelformat=A.,
-               fullrefformat=X.A,labelalign=right}%
-         \fi
-}
-\def\definelabeltype#1#2{%
-   \expandafter\def\csname ling@#1labeltype\endcsname{#2}}
-\define@lingkey{labeltype}{%
-   \e@let\temp{ling@#1labeltype}%
-   \expandafterafter\Lingset{\temp}}
-% ----- support for LaTex \label macro -----
-\let\latex@tagex\relax
-\let\latex@tagexlabel\relax
-\ifx\label\relax \else    % else = LaTex is loaded
-   \def\latex@tagexlabel{\def\@currentlabel
-      {\fullrefformat{{\the\excnt}}{\ep@label}}}%
-   \def\latex@tagex{\edef\@currentlabel{\the\excnt}}%
-   \fi
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\definelabeltype{alpha}{labelgen=char,pexcnt=`a,labelformat=A.,
-               fullrefformat=XA,labelalign=left}
-\definelabeltype{caps}{labelgen=char,pexcnt=`A,labelformat=A.,
-               fullrefformat=XA,labeloffset=!.06em,labelalign=left}
-\definelabeltype{numeric}{labelgen=number,pexcnt=1,labelformat=A.,
-               fullrefformat=X.A,labelalign=right}
-%%%%%
-\lingset{%
-   labeltype=alpha,
-   everylabel=,
-   labelalign=left,
-   labeloffset=1em,
-   labelwidth=.78em,
-   preambleoffset=1em,
-   belowpreambleskip=1ex,        % vskip after the preamble
-   interpartskip=1ex,            % vskip between parts
-   splitexpenalty=200,
-}
-
 % ----- tagging sections, adapt to your needs -----
 % If \tagsec is used with section macros that do not define
 % counters \secno,\subsecno,\subsubsecno, and \subsubsubsecno,
@@ -735,18 +734,9 @@
 }
 \def\chooseref@a#1#2{#2}
 \def\chooseref@g#1#2{#1}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% glosses
-
-% addons can be put in expex-add.tex
-\newread\expexsupp
-\openin\expexsupp = expex-add.tex
-\ifeof\expexsupp \else
-   \closein\expexsupp
-   \input expex-add
-   \fi
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% glosses
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \define@choicekey{ling}{glstyle}[\ling@glstyle\nr]%
    {3level,wrap,oldstyle,multilevel}{%
       \ifcase\nr
@@ -885,12 +875,6 @@
 \long\def\glc@W@#1\endgl{\par\leftskip=0pt
    {\ling@usearg\vskip\ling@aboveglcskip
    \ling@everyglc #1\strut\par}\egroup\egroup}
-%\def\glft@W{\leavevmode\leftskip=0pt \@tildecheck\glft@W@a}
-%\def\glft@W@a #1//{%
-%   \if@tilde \else \vskip\ling@aboveglftskip \fi
-%   \strut #1
-%   \noindent\ling@everyglft\strut #1
-%}
 \def\glft@Wb{\@tildecheck\glft@W@a}
 \def\glft@W@a #1//{%
    \if@tilde \par \else \vskip\ling@aboveglftskip \fi
@@ -922,12 +906,6 @@
    \hskip\ling@glspace
    \mk@pairline@a                % and goes back for more
 }
-%\def\glft@W{\leavevmode\leftskip=0pt\@tildecheck\glft@W@a}
-%\def\glft@W@a #1//{%
-%   \if@tilde \else \vskip\ling@aboveglftskip \fi
-%   \strut #1
-%   \noindent\ling@everyglft\strut #1
-%}
 %------------------- multilevel style (M) ---------------------
 \def\define@gl@level#1{%
    \define@ling@cmdkeys{everygl#1}
@@ -946,12 +924,6 @@
    {\expandafter\define@gl@level\expandafter{\@X}}}
 \def\gl@parser #1//{\tla={#1 /}\expandafter\gloss@L\the\tla}
 \definegllevels{a,b,c}
-%\def\glft@M{\noalign\bgroup\@tildecheck\glft@M@a}
-%\def\glft@M@a #1//{%
-%   \if@tilde \else \vskip\ling@aboveglftskip \fi \egroup
-%   \omit \ling@everyglft #1\strut\hidewidth\cr
-%}
-% 07/07/ replaces old version of \glft@M
 \def\glft@M{\noalign\bgroup\@tildecheck\glft@M@a}
 \def\glft@M@a #1//{%
    \if@tilde \else \vskip\ling@aboveglftskip \fi
@@ -962,7 +934,6 @@
 \define@linginckey\skip{}{@}{abovemoreglskip}
 \define@linginckey\skip{}{@}{aboveglcskip}
 \define@linginckey\dimen{}{@}{moregloffset}
-\lingset{aboveglcskip=.5ex,moregloffset=0pt,abovemoreglskip=.25ex}
 \def\begingl@L{%
    \leavevmode
    \vtop\bgroup
@@ -987,7 +958,6 @@
    \if@tilde \else \vskip\ling@aboveglcskip \fi \egroup
    \omit \ling@everyglc #1\strut\hidewidth\cr
 }
-\lingset{everyglft=,aboveglftskip=2ex}
 %---------------------- 3 level style (T) ---------------------
 \def\T@addtoline#1#2{\ifx#1\empty\tla={{#2}}\else\tla={&{#2}}\fi
    \tlb=\expandafter{#1}%
@@ -1028,9 +998,22 @@
    }}%
 \egroup
 }
-%FIX
-%1) Make // the terminator
-%2) \moregl should work
+%\lingset{%                          the main glossing parameters
+%   aboveglcskip=0pt,
+%   aboveglftskip=1ex,
+%   glhangindent=1em,
+%   moregloffset=0pt,
+%   abovemoreglskip=.25ex,
+%   glspace=.6em,
+%   everygla=\it,
+%   everyglb=,
+%   everyglc=,
+%   everyglft=,
+%   everygl=,
+%   everyglword=,
+%   glwidth=0pt,
+%   glstyle=oldstyle,
+%}
 % ----- underfixes -----
 \def\gluf#1#2{%
    \vtop{\offinterlineskip\halign{\hfil##\hfil\cr
@@ -1040,7 +1023,7 @@
 }}}
 \define@ling@cmdkeys{everygluf}
 \define@linginckey\dimen{}{@}{glufcloseup}
-\lingset{glufcloseup=2pt}
+\lingset{glufcloseup=.4ex,everygluf=\sc}    % underfix parameters
 %
 % ----- brackets in glosses -----
 \newtoks\ep@everybracket
@@ -1058,22 +1041,77 @@
    \edef\bracketwd{\hskip\the\wd0}%
 }
 \define@key{ling}{glbrackets}[\glbrackets]{#1}%
-\lingset{everybracket=\rm,bracketsep=.15em,glufcloseup=.4ex,
-   everygluf=\sc}
-\resetatcatcode
-\def\rightcite#1{\rlap{\advance\hsize by -\leftskip
+\lingset{everybracket=\rm,bracketsep=.15em,} % gl bracket parameters
+\def\rightcomment#1{\rlap{\advance\hsize by -\leftskip
    \hbox to\hsize{\hfil #1}}\ignorespaces}
-\lingset{%
+\let\rightcite=\rightcomment % for backwards compatability
+\def\leftcomment#1{\llap{\hbox to\leftskip{#1\hfil}}}
+\define@ling@cmdkeys{mincitesep}
+%\lingset{mincitesep=1.5em}
+\def\pushciteright#1{%
+   \hskip\ling@mincitesep plus 1fill
+   \penalty100\null\nobreak \hskip 0pt plus 1fill
+   \hbox{#1}%
+}
+\resetatcatcode
+\definelingstyle{factorysettings}{%
+   aboveexskip=2.7ex plus .8ex minus .8ex,
+   belowexskip=2.7ex plus .8ex minus .8ex,
+   Everyex=,
+   everyex=,
+   numoffset=0pt,
+   labelanchor=numright,
+   labeloffset=1em,
+   labelwidth=.78em,
+   textanchor=normal,
+   textoffset=1em,
+   preambleanchor=numright,
+   preambleoffset=1em,
+   numlabelclash=false,
+   appendtopexarg=,
+   labeltype=alpha,
+   everylabel=,
+   labelalign=left,
+   belowpreambleskip=1ex,
+   interpartskip=1ex,
+   splitexpenalty=200,
+   exbreakfil=0pt plus 4ex,
+   exbreakpenalty=-50,
+   splitpartspenalty=200,
+% parameters used in glosses
+   glspace=.6em,
    aboveglcskip=0pt,
    aboveglftskip=1ex,
    glhangindent=1em,
-   glspace=.6em,
    everygla=\it,
    everyglb=,
    everyglc=,
+   everyglft=,
    everygl=,
    everyglword=,
    glwidth=0pt,
-   glstyle=oldstyle
+   glufcloseup=.4ex,
+   everygluf=\sc,
+   everybracket=\rm,
+   bracketsep=.15em,
+   glstyle=oldstyle,
+   moregloffset=0pt,
+   abovemoreglskip=.25ex,
+   mincitesep=1.5em,
+% auxiliary parameters used for building tables
+   dima=2.4em,
+   crskip=.6em
 }
+\lingset{lingstyle=factorysettings}
+%---- psuedo-parameters, which have no default settings
+% samplelabel, *
+%
+% addons can be put in expex-add.tex
+\newread\expexsupp
+\openin\expexsupp = expex-add.tex
+\ifeof\expexsupp \else
+   \closein\expexsupp
+   \input expex-add
+   \fi
+% can be used to (always) override factory settings
 

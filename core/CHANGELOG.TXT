@@ -11,7 +11,7 @@ typesetting a multiline preamble that not aligned with the text
    normal is labelright in \pex and numright in \ex
 \define@ling@cmdkeys{appendtopexarg}
    this allows keys to be set in a \pex dynamically,
-   i.e. global appendtopexarg={samplelabel=\actualexno a} will set
+   i.e. global appendtopexarg={samplelabel=(\actualexno a)} will set
    the label width in each \pex according to the width of the
    local example number.  This is used in formats which print the
    example number as part of each label.
@@ -19,4 +19,6 @@ typesetting a multiline preamble that not aligned with the text
    if set to true, \pex does not print the example number if
    there is no preamble
 \def\multilinepreamble{...}
+
+7/15/2011 \rightcomment, \leftcomment, \pushright
 

@@ -1,0 +1,266 @@
+
+\definelingstyle{normalformat}{altformat=none,
+   numoffset=0pt,textoffset=1em,labeloffset=1em}
+\definelingstyle{IJALformat}{altformat=IJAL,
+   numoffset=0pt,textoffset=1em,labeloffset=1em}
+\definelingstyle{tabularformat}{altformat=tabular,
+   numoffset=0pt,textoffset=.5in,labeloffset=.25in}
+
+\centerline{\titlefont{main} Alternative formats}
+\hfil
+
+\def\\{\medskip$\bullet$\enspace\ignorespaces}
+\parindent=0pt
+
+\\ |\lingset{lingstyle=normalformat}|
+\lingset{lingstyle=normalformat}
+
+\ex This is an example.
+\xe
+
+\ex~[exno=216] This is an example.
+\xe
+
+\\ |\lingset{lingstyle=tabularformat}|
+\lingset{lingstyle=tabularformat}
+
+\ex This is an example.
+\xe
+
+\ex~[exno=218] This is an example.
+\xe
+
+%%%%%% \pex
+
+\\ |\lingset{lingstyle=normalformat}|
+\lingset{lingstyle=normalformat}
+\pex This is the preamble.
+\a part one
+\a part two
+\xe
+
+\pex~[exno=219] This is the preamble.
+\a part one
+\a part two
+\xe
+
+\\ |\lingset{lingstyle=tabularformat}|
+\lingset{lingstyle=tabularformat}
+
+\pex This is the preamble.
+\a part one
+\a part two
+\xe
+
+\pex~[exno=219] This is the preamble.
+\a part one
+\a part two
+\xe
+
+\\ |\lingset{lingstyle=IJALformat}|
+\lingset{lingstyle=IJALformat}
+\pex This is the preamble.
+\a part one
+\a part two
+\xe
+
+\pex~
+\a part one
+\a part two
+\xe
+
+
+\\ \vtop{\halign{#\hfil\cr
+\relax|\lingset{lingstyle=IJALformat}|\cr
+\relax \strut |\pex[exno=219,textoffset=!1.2em}|\cr}}
+\pex[exno=219,textoffset=!1.2em] This is the preamble.
+\a part one
+\a part two
+\xe
+
+\bye
+\lingset{lingstyle=normalformat}
+\xe
+
+\bigskip
+
+\ex[exno=216] This is an example.
+
+\xe
+
+\bigskip
+
+\lingset{lingstyle=tabularformat}
+\ex This is an example.
+
+\xe
+
+\bigskip
+
+\ex[exno=218] This is an example.
+
+\xe
+
+\bye
+
+%\bigskip
+%\lingset{lingstyle=IJALformat}
+%\ex This is an example.
+%(preceded by |\lingset{lingstyle=IJALformat})|
+%\xe
+%
+%\bigskip
+%\lingset{lingstyle=tabularformat}
+%\ex This is an example.
+%(preceded by |\lingset{lingstyle=tabularformat})|
+%\xe
+%
+%\bigskip
+%\pex This is the preamble.
+%\a part one
+%\a part two
+%\xe
+%
+%\bigskip
+%\specialexno{237}
+%\ex This is an example.\xe
+%
+%\bigskip
+%\pex[belowexskip=0pt] This is the preamble.
+%\a part one
+%\a part two
+%\xe
+%\resetexcnt
+%\endframedisplay
+\bye
+\codedisplay~
+\ex This is an example.\xe
+
+\pex This is the preamble.
+\a part one
+\a part two
+\xe
+
+\excnt=236
+\ex This is an example.\xe
+
+\pex This is the preamble.
+\a part one
+\a part two
+\xe
+|endcodedisplay
+\hfil
+\bye
+\begin{verbatim}\lingset{lingstyle=tabularformat}
+\ex This is an example.\xe
+
+\bigskip
+\pex This is the preamble.
+\a part one
+\a part two
+\xe\end{verbatim}
+
+\lingset{lingstyle=tabularformat}
+
+\ex This is an example.\xe
+
+\bigskip
+\pex This is the preamble.
+\a part one
+\a part two
+\xe
+
+\specialexno{237}
+\ex~ This is an example.\xe
+
+\pex~ This is the preamble.
+\a part one
+\a part two
+\xe
+\resetexcnt
+\hfil
+\end{document}
+\lingset{altformat=tabular,numoffset=0pt,textoffset=.5in,labeloffset=.25in}
+
+\ex This is an example.\xe
+
+\pex
+This is the preamble.
+\a part one
+\a part two
+\xe
+
+\hfil
+
+\lingset{altformat=IJAL,numoffset=\parindent,textoffset=1em,labeloffset=1em}
+
+\ex This is an example.\xe
+
+\pex
+This is the preamble.
+\a part one
+\a part two
+\xe
+
+\hfil
+
+\lingset{lingstyle=IJAL}
+\ex This is an example.\xe
+
+\pex
+This is the preamble.
+\a part one
+\a part two
+\xe
+
+
+
+
+
+\specialexno{231}
+\pex
+This is the preamble.
+\a part one
+\a part two
+\xe
+
+\resetexcnt
+\pex
+this should work
+\xe
+
+\pex
+\a part one
+\a part two
+\xe
+
+%\pex
+%\a
+%\begingl
+%\gla one two//
+%\glb three four//
+%\glft translation//
+%\endgl
+%\xe
+
+
+\endgroup
+
+\ex This is an example.\xe
+
+\pex
+This is the preamble.
+\a part one
+\a part two
+\xe
+
+\pex
+\a part one
+\a part two
+\xe
+
+\end{document}
+
+
+
+
