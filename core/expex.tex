@@ -775,6 +775,10 @@
 \define@linginckey\skip{}{@}{aboveglcskip}
 \define@linginckey\skip{}{@}{aboveglftskip}
 %--------------- Wrap style (W) ---------------------------
+\define@choicekey{ling}{glhangstyle}[\temp\ep@glhangstyle]%
+   {none,normal,cascade}{}
+\define@ling@cmdkeys{glrightskip}
+\lingset{glhangstyle=normal,glrightskip=0pt plus .25\hsize}
 \newif\ifW@prefixbox
 \def\begingl@Wb{\W@prefixboxfalse
    \@ifnextchar\gla@W\begingl@W@aux\begingl@W@withprefix}
@@ -798,6 +802,32 @@
    \hskip-\ling@glhangindent
    \leavevmode
 }
+\def\begingl@W@aux{%
+   \leavevmode
+   \ifW@prefixbox \box\W@prefixbox \fi
+   \vtop\bgroup
+      \ling@usearg
+      \ling@everygl
+      \ifdim\ling@glwidth=0pt
+            \advance\hsize by -\leftskip
+            \advance\hsize by -\rightskip
+         \else
+            \hsize=\ling@glwidth
+         \fi
+      \ifW@prefixbox \advance\hsize by -\W@prefixboxwd \fi
+      \rightskip=\ling@glrightskip
+      \ifcase\ep@glhangstyle
+            \leftskip=0pt
+         \or
+            \leftskip=\ling@glhangindent
+            \hskip -\ling@glhangindent
+         \or
+            \leftskip=0pt
+            \ep@makeshape
+            \parshape 9
+            \ep@parshapetarget
+         \fi
+}
 \newbox\W@prefixbox
 \newdimen\W@prefixboxwd
 \def\begingl@W@withprefix #1\gla{%
@@ -805,6 +835,33 @@
    \setbox\W@prefixbox=\hbox{#1}%
    \W@prefixboxwd=\wd\W@prefixbox
    \begingl@W@aux\gla@W
+}
+\newdimen\ep@pshapeindent
+\newdimen\ep@pshapelinewd
+\def\ep@parshapetarget{}
+\def\ep@mkshapeaux{%
+   \edef\ep@parshapetarget
+      {\ep@parshapetarget\space
+         \the\ep@pshapeindent\space\the\ep@pshapelinewd}%
+   \advance\ep@pshapeindent by \ling@glhangindent
+   \advance\ep@pshapelinewd by -\ling@glhangindent
+}
+\def\ep@mkshapeauxaux{\ep@mkshapeaux\ep@mkshapeaux\ep@mkshapeaux}
+\def\ep@makeshape{%
+   \ep@pshapeindent=0pt
+   \ep@pshapelinewd=\hsize
+   \ep@mkshapeaux\ep@mkshapeaux\ep@mkshapeaux\ep@mkshapeaux
+}
+\def\ep@makeshape{%
+   \ep@pshapeindent=0pt
+   \ep@pshapelinewd=\hsize
+   \ep@mkshapeauxaux\ep@mkshapeauxaux\ep@mkshapeauxaux
+}
+\def\glft@W{\leavevmode\leftskip=0pt \@tildecheck\glft@W@a}
+\def\glft@W@a #1//{%
+   \if@tilde \else \vskip\ling@aboveglftskip \fi
+   \strut #1
+   \noindent\ling@everyglft\strut #1
 }
 \def\gla@W{\@getoptionalarg\gla@W@a}
 \def\gla@W@a#1// {%
@@ -875,8 +932,8 @@
 \long\def\glc@W@#1\endgl{\par\leftskip=0pt
    {\ling@usearg\vskip\ling@aboveglcskip
    \ling@everyglc #1\strut\par}\egroup\egroup}
-\def\glft@Wb{\@tildecheck\glft@W@a}
-\def\glft@W@a #1//{%
+\def\glft@Wb{\@tildecheck\glft@Wb@a}
+\def\glft@Wb@a #1//{%
    \if@tilde \par \else \vskip\ling@aboveglftskip \fi
    \nobreak\prevdepth=.28\baselineskip
    \leavevmode
@@ -926,9 +983,8 @@
 \definegllevels{a,b,c}
 \def\glft@M{\noalign\bgroup\@tildecheck\glft@M@a}
 \def\glft@M@a #1//{%
-   \if@tilde \else \vskip\ling@aboveglftskip \fi
-   \vtop{\advance\hsize by -\leftskip
-      \leftskip=0pt \rightskip=0pt \ling@everyglft  #1}\egroup
+   \if@tilde \else \vskip\ling@aboveglftskip \fi \egroup
+   \omit \ling@everyglft #1\strut\hidewidth\cr
 }
 %---------------------- old style (L) -------------------------
 \define@linginckey\skip{}{@}{abovemoreglskip}
