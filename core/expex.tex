@@ -780,9 +780,13 @@
 \define@ling@cmdkeys{glrightskip}
 \lingset{glhangstyle=normal,glrightskip=0pt plus .25\hsize}
 \newif\ifW@prefixbox
-\def\begingl@Wb{\W@prefixboxfalse
-   \@ifnextchar\gla@W\begingl@W@aux\begingl@W@withprefix}
-\def\endgl@Wb{\egroup\egroup}
+\def\begingl@Wb{%
+   \bgroup
+   \parindent=0pt
+   \W@prefixboxfalse
+   \@ifnextchar\gla@W\begingl@W@aux\begingl@W@withprefix
+}
+\def\endgl@Wb{\egroup\egroup\egroup}
 \def\begingl@W@aux{%
    \leavevmode
    \ifW@prefixbox \box\W@prefixbox \fi
@@ -876,6 +880,45 @@
 \def\glb@W#1// {\leavevmode\glb@W@a#1 \@nil}
 \def\glb@W@a{\@ifnextchar\@nil\mk@pairline\glb@W@b}
 \def\glb@W@b#1 {\addtoline\botline{#1}\glb@W@a}
+\define@choicekey{ling}{glftpos}[\temp\ep@glftpos]%
+   {below,right}{%
+      \ifcase\ep@glftpos
+         \let\begingl@type=\begingl@Wb
+         \let\endgl=\endgl@Wb
+         \let\glft\glft@Wb
+      \or
+         \let\begingl@type=\begingl@Wss
+         \let\endgl=\endgl@Wss
+         \let\glft\glft@Wss
+      \fi
+}
+\define@lingcmdkeys{sssep,ssratio,ssrightskip}
+\lingset{sssep=3em,ssratio=.6,ssrightskip=0pt plus 2em}
+\newdimen\ssleftwd
+\newdimen\ssrightwd
+\def\begingl@Wss{%
+   \dimen0 =\hsize
+   \advance\dimen0 by -\leftskip
+   \advance\dimen0 by -\lingsssep
+   \ssleftwd=\lingssratio\dimen0
+   \ssrightwd=\dimen0
+   \advance\ssrightwd by -\ssleftwd
+   \hbox\bgroup
+      \lingset{glwidth=\ssleftwd}
+      \begingl@Wb
+}
+\def\endgl@Wss{\egroup\egroup}
+\def\glft@Wss #1// {%
+   \egroup\egroup
+   \hskip\lingsssep
+   \vtop{%
+      \leftskip=0pt
+      \rightskip=\lingssrightskip
+      \parindent=0pt
+      \hsize=\ssrightwd
+      \ling@everyglft
+      #1}%
+}
 % list (stack) handling macros from the TexBook
 \toksdef\tla=0
 \toksdef\tlb=2
