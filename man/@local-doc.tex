@@ -211,10 +211,27 @@
 }
 \newcount\introsecno
 \introsecno=1
+\define@lingcmdkeys{secfil}
+\outer\def\section #1\par{%
+   \global\advance\secno by 1
+   \global\subsecno=0
+   \global\subsubsecno=0
+   \vskip0pt plus \lingsecfil
+   \penalty-20
+   \vskip0pt plus -\lingsecfil
+   \bigskip
+   \vskip\parskip
+   {\noindent \titlefont{sec}
+       \the\secno.\enskip #1\par}\nobreak
+   \ifgathercontents \edef\temp{{\the\secno}}%
+      \expandafter\writecontents\temp{#1}\sec\fi \nobreak
+   \medskip\nobreak\noindent
+}
+\lingset{secfil=.2\vsize}
 
 
 \resetatcatcode
 
 \lingset{exbreakfil=8ex}
-%\raggedbottom
+\raggedbottom
 

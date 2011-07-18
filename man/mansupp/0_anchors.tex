@@ -1,3 +1,21 @@
+
+%\makeatletter
+%\define@lingcmdkeys{secfil}
+%\outer\def\section #1\par{%
+%   \global\advance\secno by 1  \global\subsecno=0
+%      \global\subsubsecno=0
+%   \vskip0pt plus \lingsecfil\penalty-20
+%   \vskip0pt plus \lingsecfil\bigskip\vskip\parskip
+%   {\noindent \titlefont{sec}
+%       \the\secno.\enskip #1\par}\nobreak
+%   \ifgathercontents \edef\temp{{\the\secno}}%
+%      \expandafter\writecontents\temp{#1}\sec\fi \nobreak
+%   \medskip\nobreak\noindent
+%}
+\lingset{secfil=.2\vsize}
+\resetatcatcode
+
+
 \definelingstyle{IJAL}{%
    numlabelclash=true,
    labelanchor=numleft,labeloffset=0pt,
@@ -28,28 +46,25 @@
 \hfil
 
 \noindent This document explains the new features incorporated in
-ExPex version 3.4.  The major additions were made in order to
-make it possible to typeset examples in formats rather different
-that ``standard ExPex''.
+ExPex version 3.4. Most of the features are concerned with
+providing greater flexibility in formatting multipart examples
+and glosses.  There are also a few macros which make it easier to
+annotate glosses with language names, citations, and the like.
+Essentially, they collect various extensions to ExPex 3.3 that I
+made to help ExPex users who were forced to follow the style of
+the particular publication they were submitting to.
 
-\outer\def\section #1\par{%
-   \global\advance\secno by 1  \global\subsecno=0
-      \global\subsubsecno=0
-   \vskip0pt plus.2\vsize\penalty-20
-   \vskip0pt plus-.2\vsize\bigskip\vskip\parskip
-   {\noindent \titlefont{sec}
-       \the\secno.\enskip #1\par}\nobreak
-   \ifgathercontents \edef\temp{{\the\secno}}%
-      \expandafter\writecontents\temp{#1}\sec\fi \nobreak
-   \medskip\nobreak\noindent
-}
+\section Tabular format in multiline examples
 
+\parinventory
+& \idx{|textanchor|}&  choice\enspace
+   (|numleft|, |numright|, or |labelleft|)& |numright|\cr
+& \idx{|preambleanchor|}& choice\enspace
+   (|numright|, |labelleft|, or |text|)& |numright|\cr
+\endparinventory
 
-\section Tabular format
-
-For example, the University of British
-Columbia Working Papers specify that the text and label offset
-are measured from the left margin.  ExPex 3.3 measures the label
+Some publications specify that the text and label offset are
+measured from the left margin.  ExPex 3.3 measures the label
 offset from the right edge of the example number and the
 textoffset from the right edge of the ``label gutter'' (the slot
 which labels are typeset in). ExPex already had a parameter
@@ -106,11 +121,16 @@ width of the typeset example numer, the specified labelwidth, or
 the actual label width.
 \endgroup
 
-\section IJAL format
+\section IJAL style format of multiline examples
 
-The formatted demanded by the International Journal of American
-Linguistics (IJAL) poses even more problems for ExPex.  Examples
-are given below.
+\parinventory
+& \idx{|appendtopexarg|}&  token list& |{}|\cr
+& \idx{|numlabelclash|}& boolean (|true| or |false|)& |false|\cr
+\endparinventory
+
+\noindent The formatting demands of the International Journal of
+American Linguistics (IJAL) poses unsurmountable problems for
+ExPex 3.3. Examples of the desired style are given below.
 
 \begingroup
 \lingset{lingstyle=IJAL}
@@ -192,9 +212,10 @@ Preamble
 
 \section Multiline preambles
 
-\def\\{\noindent$\bullet$\enspace\ignorespaces}
+Macro: |\multilinepreamble|
+\bigskip
 
-\\ |\multilinepreamble|\smallskip
+\def\\{\noindent$\bullet$\enspace\ignorespaces}
 
 \noindent Preambles were not properly formatted in ExPex 3.3 if they
 extended over more than one line.  For example:
@@ -253,123 +274,6 @@ convention is adopted for the benefit of the reader.}
 \xe
 \endframedisplay
 
-\section Commenting glosses
-
-\bigskip
-\\ |\rightcomment and \leftcomment|\medskip
-
-You might want to produce a display like the following.
-
-\framedisplay
-\ex[glstyle=multilevel,textoffset=1in]
-\begingl
-\gla \rightcomment{\rm [Potawatami]}k- wapm -a -s'i -m -wapunin -uk //
-\glb \leftcomment{\hfill\rm (negation)\quad}%
-   Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
-\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
-\glft \leavevmode\rightcomment{(Hockett 1948, p. 143)}
-   `you (pl) didn't see them'//
-\endgl
-\xe
-\endframedisplay
-The code is:
-\codedisplay
-\ex[glstyle=multilevel,textoffset=1.5in]
-\begingl
-\gla \rightcomment{\rm [Potawatami]}k- wapm -a -s'i -m -wapunin -uk //
-\glb \leftcomment{\hfill\rm (negation)\qquad}%
-   Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
-\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
-\glft \leavevmode\rightcomment{(Hockett 1948, p. 143)}
-   `you (pl) didn't see them'//
-\endgl
-\xe
-|endcodedisplay
-
-These macros are very primitive, but sometimes very useful.  They
-do not check to see that there is enough space for the material
-they place at the margins.
-
-\bigskip
-\\ |\pushciteright|\medskip
-
-\ex~[glstyle=multilevel]
-\begingl
-\gla xxxx xxxxx xxxxxx//
-\glb aaa aa a//
-\glft this is a very wordy free translation
-of a very very very
-very very very
-simple sentence\hfill (Anonymous)//
-\endgl
-\xe
-
-\lingset{glstyle=multilevel,mincitesep=1.5em}
-
-\ex
-\begingl
-\gla xxxx xxxxx xxxxxx//
-\glb aaa aa a//
-\glft this is a very wordy free translation
-of a simple sentence\pushciteright (Anonymous)//
-\endgl
-\xe
-
-\ex~[mincitesep=3em]
-\begingl
-\gla xxxx xxxxx xxxxxx//
-\glb aaa aa a//
-\glft this is a very wordy free translation
-of a simple sentence\pushciteright (Anonymous)//
-\endgl
-\xe
-
-\ex~
-\begingl
-\gla xxxx xxxxx xxxxxx//
-\glb aaa aa a//
-\glft this is a very wordy free translation
-of a very simple sentence\pushciteright (Anonymous)//
-\endgl
-\xe
-
-\ex~
-\begingl
-\gla xxxx xxxxx xxxxxx//
-\glb aaa aa a//
-\glft this is a very wordy free translation
-of a very very very
-very very very
-simple sentence\pushciteright (Anonymous)//
-\endgl
-\xe
-
-\ex~[glstyle=wrap,ftpos=right]
-\begingl
-\gla Sa' esta//
-\glb because already//
-\glft `Because he had already started making shafts for the rice
-plants'\pushciteright{(Correman 1983:57)}\endgraf//
-\endgl
-\xe
-
-\ex~[glstyle=wrap,everygl=\advance\hsize by -.25in]
-\begingl
-\gla Sa' esta//
-\glb because already//
-\glft `Because he had already started making shafts for the rice
-plants'\pushciteright{(Correman 1983:57)}\endgraf//
-\endgl
-\xe
-
-\ex~[glstyle=wrap,everygl=\advance\hsize by -2in]
-\begingl
-\gla Sa' esta//
-\glb because already//
-\glft `Because he had already started making shafts for the rice
-plants'\pushciteright{(Correman 1983:57)}\endgraf//
-\endgl
-\xe
 
 \endinput
 
