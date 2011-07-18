@@ -30,7 +30,24 @@
 \noindent This document explains the new features incorporated in
 ExPex version 3.4.  The major additions were made in order to
 make it possible to typeset examples in formats rather different
-that ``standard ExPex''.  For example, the University of British
+that ``standard ExPex''.
+
+\outer\def\section #1\par{%
+   \global\advance\secno by 1  \global\subsecno=0
+      \global\subsubsecno=0
+   \vskip0pt plus.2\vsize\penalty-20
+   \vskip0pt plus-.2\vsize\bigskip\vskip\parskip
+   {\noindent \titlefont{sec}
+       \the\secno.\enskip #1\par}\nobreak
+   \ifgathercontents \edef\temp{{\the\secno}}%
+      \expandafter\writecontents\temp{#1}\sec\fi \nobreak
+   \medskip\nobreak\noindent
+}
+
+
+\section Tabular format
+
+For example, the University of British
 Columbia Working Papers specify that the text and label offset
 are measured from the left margin.  ExPex 3.3 measures the label
 offset from the right edge of the example number and the
@@ -88,6 +105,8 @@ The position of the labels and text is unaffected by the
 width of the typeset example numer, the specified labelwidth, or
 the actual label width.
 \endgroup
+
+\section IJAL format
 
 The formatted demanded by the International Journal of American
 Linguistics (IJAL) poses even more problems for ExPex.  Examples
@@ -171,7 +190,7 @@ Preamble
 
 \endgroup
 
-\subsection Other additions to version 3.4
+\section Multiline preambles
 
 \def\\{\noindent$\bullet$\enspace\ignorespaces}
 
@@ -234,6 +253,7 @@ convention is adopted for the benefit of the reader.}
 \xe
 \endframedisplay
 
+\section Commenting glosses
 
 \bigskip
 \\ |\rightcomment and \leftcomment|\medskip
@@ -324,6 +344,32 @@ simple sentence\pushciteright (Anonymous)//
 \endgl
 \xe
 
+\ex~[glstyle=wrap,ftpos=right]
+\begingl
+\gla Sa' esta//
+\glb because already//
+\glft `Because he had already started making shafts for the rice
+plants'\pushciteright{(Correman 1983:57)}\endgraf//
+\endgl
+\xe
+
+\ex~[glstyle=wrap,everygl=\advance\hsize by -.25in]
+\begingl
+\gla Sa' esta//
+\glb because already//
+\glft `Because he had already started making shafts for the rice
+plants'\pushciteright{(Correman 1983:57)}\endgraf//
+\endgl
+\xe
+
+\ex~[glstyle=wrap,everygl=\advance\hsize by -2in]
+\begingl
+\gla Sa' esta//
+\glb because already//
+\glft `Because he had already started making shafts for the rice
+plants'\pushciteright{(Correman 1983:57)}\endgraf//
+\endgl
+\xe
 
 \endinput
 
