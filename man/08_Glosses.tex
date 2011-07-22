@@ -346,56 +346,59 @@ heart to his girlfriend.'//
 
 \subsection Multiple gloss lines ({\tt glstyle=multilevel})
 
-\noindent For simple glosses, it makes almost no difference
-whether |glstyle| is set to |multilevel| or |wrap|, as illustrated
-below.
+%\noindent For simple glosses, it makes almost no difference
+%whether |glstyle| is set to |multilevel| or |wrap|, as illustrated
+%below.
+%
+%\framedisplay
+%\pex[everygl=,aboveglcskip=0pt,aboveglftskip=0pt]
+%\a \begingl[glstyle=multilevel]
+%\gla Il semble au g\'en\'eral \^etre arriv\'e deux soldats
+%en ville.//
+%\glb there seems {to the} general {to be} arrived two soldiers
+%in town//
+%\glft `There seems to the general to have arrived two soldiers in
+%town.'//
+%\endgl
+%\a \begingl[glstyle=wrap]
+%\gla Il semble au g\'en\'eral \^etre arriv\'e deux soldats
+%en ville.//
+%\glb there seems {to the} general {to be} arrived two soldiers
+%in town//
+%\glft `There seems to the general to have arrived two soldiers in
+%town.'//
+%\endgl
+%\xe
+%\endframedisplay
+%
+%\codedisplay~
+%\pex[everygl=,aboveglcskip=0pt,aboveglftskip=0pt]
+%\a \begingl[glstyle=multilevel]
+%\gla Il semble au g\'en\'eral \^etre arriv\'e deux soldats
+%en ville.//
+%\glb there seems {to the} general {to be} arrived two soldiers
+%in town//
+%\glft `There seems to the general to have arrived two soldiers in
+%town.'//
+%\endgl
+%\a \begingl[glstyle=wrap]
+%\gla Il semble au g\'en\'eral \^etre arriv\'e deux soldats
+%en ville.//
+%\glb there seems {to the} general {to be} arrived two soldiers
+%in town//
+%\glft `There seems to the general to have arrived two soldiers in
+%town.'//
+%\endgl
+%|endcodedisplay
 
-\framedisplay
-\pex[everygl=,aboveglcskip=0pt,aboveglftskip=0pt]
-\a \begingl[glstyle=multilevel]
-\gla Il semble au g\'en\'eral \^etre arriv\'e deux soldats
-en ville.//
-\glb there seems {to the} general {to be} arrived two soldiers
-in town//
-\glft `There seems to the general to have arrived two soldiers in
-town.'//
-\endgl
-\a \begingl[glstyle=wrap]
-\gla Il semble au g\'en\'eral \^etre arriv\'e deux soldats
-en ville.//
-\glb there seems {to the} general {to be} arrived two soldiers
-in town//
-\glft `There seems to the general to have arrived two soldiers in
-town.'//
-\endgl
-\xe
-\endframedisplay
+\noindent Glosses built with |glstyle=wrap| are limited to one
+|\gla| line and one |\glb| line.  Glosses built with
+|glstyle=multilevel| do not wrap automatically, but both |\gla|
+and |\glb| can be used multiple times, in either order, a third
+line |\glc| is defined, and there is provision to defining other
+lines.
 
-\codedisplay~
-\pex[everygl=,aboveglcskip=0pt,aboveglftskip=0pt]
-\a \begingl[glstyle=multilevel]
-\gla Il semble au g\'en\'eral \^etre arriv\'e deux soldats
-en ville.//
-\glb there seems {to the} general {to be} arrived two soldiers
-in town//
-\glft `There seems to the general to have arrived two soldiers in
-town.'//
-\endgl
-\a \begingl[glstyle=wrap]
-\gla Il semble au g\'en\'eral \^etre arriv\'e deux soldats
-en ville.//
-\glb there seems {to the} general {to be} arrived two soldiers
-in town//
-\glft `There seems to the general to have arrived two soldiers in
-town.'//
-\endgl
-|endcodedisplay
-
-Multilevel glosses have a drawback, but also a distinct advantage.
-The drawback is that they do not wrap automatically. The major
-advantage is that |\gla| and |\glb| can be used multiple times,
-as shown below.  Secondarily, it is easy to give citations inline
-with the gloss.
+The display (\nextx) is typeset using the code which follows.
 
 \framedisplay
 \ex[glstyle=multilevel,everygla=,everyglb=,everyglc=,
@@ -421,7 +424,6 @@ with the gloss.
 |endcodedisplay
 The example is from Hockett, as glossed by Halle and
 Marantz.
-
 
 It is worth noting that, in practice, it is most likely that
 a style would be defined as follows.
@@ -494,8 +496,16 @@ produces
 illustrative purposes, not because this is a particularly
 attractive display.)
 
-%\def\rightcite#1{\rlap{\advance\hsize by -\leftskip
-%   \hbox to\hsize{\hfil #1}}\ignorespaces}
+The user can define additional levels by
+\medskip
+|\definegllevels{mylevela,mylevelb}|
+\medskip
+Then the macros |\glmylevela| and |\glmylevelb| will be defined
+and the keys |\everyglmylevela|, |everyglmylevelb|,
+|aboveglmylevelaskip|, and |aboveglmylevelbskip| will be
+activated.
+
+
 
 \medskip
 \vfil\break

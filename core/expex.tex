@@ -143,8 +143,7 @@
 \define@choicekey{ling}{textanchor}%           % NEW
    [\scratch\ep@textanchor]{numleft,normal}{}
 \newdimen\epd@numright                         % NEW
-%
-\def\normalexstart{%
+\def\exstart{%
    \setbox0=\hbox{\hskip\lingnumoffset(\actualexno)}%
    \epd@numright=\wd0
    \ifcase\ep@textanchor      % numleft
@@ -154,7 +153,6 @@
       \fi
    \llap{\hbox to\leftskip{\unhbox0 \hss}}%
 }
-\let\exstart=\normalexstart
 \def\ex{\bgroup \@tildecheck\ex@a}
 \def\ex@a{\def\@optionaltag{}\def\@specialexno{}%
    \@getoptionalarg\ex@b}
@@ -757,12 +755,18 @@
          \or
             \let\begingl@type=\begingl@L
             \let\endgl=\endgl@L
-            \let\gla=\gla@M
-            \let\glb=\glb@M
-            \let\glc=\glc@M
+            \ep@letlevels
             \let\glft=\glft@M
          \fi
 }
+% \ep@Mlevels is the list of M-levels that have been defined
+\def\ep@letlevels{%
+   \expandafter\XKV@for@n\expandafter{\ep@Mlevels}\levelname
+   {\edef\temp{\noexpand\let
+   \expandafter\noexpand\csname gl\levelname\endcsname
+   \expandafter\noexpand\csname gl\levelname @M\endcsname}%
+   \temp
+}}
 \def\begingl{\bgroup\@getoptionalarg\@begingl}
 \def\@begingl{\ling@usearg\begingl@type}
 \define@linginckey\dimen{}{@}{glspace}
@@ -840,27 +844,6 @@
    \W@prefixboxwd=\wd\W@prefixbox
    \begingl@W@aux\gla@W
 }
-\newdimen\ep@pshapeindent
-\newdimen\ep@pshapelinewd
-\def\ep@parshapetarget{}
-\def\ep@mkshapeaux{%
-   \edef\ep@parshapetarget
-      {\ep@parshapetarget\space
-         \the\ep@pshapeindent\space\the\ep@pshapelinewd}%
-   \advance\ep@pshapeindent by \ling@glhangindent
-   \advance\ep@pshapelinewd by -\ling@glhangindent
-}
-\def\ep@mkshapeauxaux{\ep@mkshapeaux\ep@mkshapeaux\ep@mkshapeaux}
-\def\ep@makeshape{%
-   \ep@pshapeindent=0pt
-   \ep@pshapelinewd=\hsize
-   \ep@mkshapeaux\ep@mkshapeaux\ep@mkshapeaux\ep@mkshapeaux
-}
-\def\ep@makeshape{%
-   \ep@pshapeindent=0pt
-   \ep@pshapelinewd=\hsize
-   \ep@mkshapeauxaux\ep@mkshapeauxaux\ep@mkshapeauxaux
-}
 \def\glft@W{\leavevmode\leftskip=0pt \@tildecheck\glft@W@a}
 \def\glft@W@a #1//{%
    \if@tilde \else \vskip\ling@aboveglftskip \fi
@@ -880,6 +863,20 @@
 \def\glb@W#1// {\leavevmode\glb@W@a#1 \@nil}
 \def\glb@W@a{\@ifnextchar\@nil\mk@pairline\glb@W@b}
 \def\glb@W@b#1 {\addtoline\botline{#1}\glb@W@a}
+\def\glc@W{\par\nobreak\prevdepth=.28\baselineskip \@getoptionalarg\glc@W@}
+\long\def\glc@W@#1\endgl{\par\leftskip=0pt
+   {\ling@usearg\vskip\ling@aboveglcskip
+   \ling@everyglc #1\strut\par}\egroup\egroup}
+\def\glft@Wb{\@tildecheck\glft@Wb@a}
+\def\glft@Wb@a #1//{%
+   \if@tilde \par \else \vskip\ling@aboveglftskip \fi
+   \nobreak\prevdepth=.28\baselineskip
+   \leavevmode
+   \ling@everyglft
+   \leftskip=0pt
+   \noindent\strut #1%
+}
+% ----- side by side (ss) gloss style -----
 \define@choicekey{ling}{glftpos}[\temp\ep@glftpos]%
    {below,right}{%
       \ifcase\ep@glftpos
@@ -919,7 +916,30 @@
       \ling@everyglft
       #1}%
 }
-% list (stack) handling macros from the TexBook
+% ----- plumbing needed for cascading hanging indentation -----
+\newdimen\ep@pshapeindent
+\newdimen\ep@pshapelinewd
+\def\ep@parshapetarget{}
+\def\ep@mkshapeaux{%
+   \edef\ep@parshapetarget
+      {\ep@parshapetarget\space
+         \the\ep@pshapeindent\space\the\ep@pshapelinewd}%
+   \advance\ep@pshapeindent by \ling@glhangindent
+   \advance\ep@pshapelinewd by -\ling@glhangindent
+}
+\def\ep@mkshapeauxaux{\ep@mkshapeaux\ep@mkshapeaux\ep@mkshapeaux}
+\def\ep@makeshape{%
+   \ep@pshapeindent=0pt
+   \ep@pshapelinewd=\hsize
+   \ep@mkshapeaux\ep@mkshapeaux\ep@mkshapeaux\ep@mkshapeaux
+}
+\def\ep@makeshape{%
+   \ep@pshapeindent=0pt
+   \ep@pshapelinewd=\hsize
+   \ep@mkshapeauxaux\ep@mkshapeauxaux\ep@mkshapeauxaux
+}
+% ----- the plumbing needed to make wrap style work -----
+% list (stack) handling macros are from the TexBook
 \toksdef\tla=0
 \toksdef\tlb=2
 \def\addtoline#1#2{\tla={\\{#2}}\tlb=\expandafter{#1}%
@@ -971,19 +991,6 @@
    \fi
    \next
 }
-\def\glc@W{\par\nobreak\prevdepth=.28\baselineskip \@getoptionalarg\glc@W@}
-\long\def\glc@W@#1\endgl{\par\leftskip=0pt
-   {\ling@usearg\vskip\ling@aboveglcskip
-   \ling@everyglc #1\strut\par}\egroup\egroup}
-\def\glft@Wb{\@tildecheck\glft@Wb@a}
-\def\glft@Wb@a #1//{%
-   \if@tilde \par \else \vskip\ling@aboveglftskip \fi
-   \nobreak\prevdepth=.28\baselineskip
-   \leavevmode
-   \ling@everyglft
-   \leftskip=0pt
-   \noindent\strut #1%
-}
 \newdimen\toplinedp
 \newdimen\botlineht
 \def\settoplinedp#1{\setbox0=\hbox{\let\footnotemark=\strut #1}%
@@ -997,19 +1004,22 @@
    \edef\botlinehtstrut{\vrule height\botlineht width0pt}%
 }
 \def\mk@topbotpair{%               puts \tempA and \tempB in a vbox
+   \glbracketcorrection=0pt
    \ifgl@par \par \leavevmode \prevgraf=1\fi
    \vtop{\ling@everyglword
       \halign{\strut ##\hfil\cr
       \toplinedpstrut \ling@everygla \expandafter\bracketfind\tempA\cr
       \botlinehtstrut \ling@everyglb
-         \ifbracketleft \bracketwd \fi\tempB\cr}}%
+         \ifbracketleft \hskip\glbracketcorrection \fi\tempB\cr}}%
    \hskip\ling@glspace
    \mk@pairline@a                % and goes back for more
 }
 %------------------- multilevel style (M) ---------------------
+\def\ep@Mlevels{}
 \def\define@gl@level#1{%
    \define@ling@cmdkeys{everygl#1}
    \define@linginckey\skip{}{@}{abovegl#1skip}
+   \XKV@addtolist@o\ep@Mlevels{#1}%
    \lingset{everygl#1=,abovegl#1skip=0pt}
    \edef\@above{\ep@expandonce\csname ling@abovegl#1skip\endcsname}%
    \expandafter\edef\csname gl#1@M\endcsname{%
@@ -1027,7 +1037,9 @@
 \def\glft@M{\noalign\bgroup\@tildecheck\glft@M@a}
 \def\glft@M@a #1//{%
    \if@tilde \else \vskip\ling@aboveglftskip \fi \egroup
-   \omit \ling@everyglft #1\strut\hidewidth\cr
+   \omit\rlap{\advance\hsize by -\leftskip
+      \vtop{\parindent=0pt \leftskip=0pt
+         \ling@everyglft #1\strut}}\hfil\cr
 }
 %---------------------- old style (L) -------------------------
 \define@linginckey\skip{}{@}{abovemoreglskip}
@@ -1097,6 +1109,7 @@
    }}%
 \egroup
 }
+% -----  -----
 %\lingset{%                          the main glossing parameters
 %   aboveglcskip=0pt,
 %   aboveglftskip=1ex,
@@ -1130,17 +1143,33 @@
 \def\bracketfind{%
    \@ifnextchar\[{\global\bracketlefttrue}{\global\bracketleftfalse}}
 \define@ling@cmdkeys{everybracket}
-\define@linginckey\dimen{}{@}{bracketsep}
-\def\glleftbracket{{\ling@everybracket [\hskip\ling@bracketsep}}
-\def\glrightbracket{{\hskip\ling@bracketsep\ling@everybracket ]}}
+\define@linginckey\dimen{}{@}{glbracketsep}
+\lingset{everybracket=,glbracketsep=.15em}
+\newdimen\glbracketwidth
+\newdimen\glbracketspace
+\newdimen\glbracketcorrection
+\def\glleftbracket{%
+   \global\advance\glbracketcorrection by \glbracketwidth
+   \@ifnextchar\[{{\rm [}}%
+      {{\rm [}\hskip\glbracketspace%
+         \global\advance\glbracketcorrection by \glbracketspace}%
+}
+\def\glrightbracket{\hskip\ling@glbracketsep{\rm ]}%
+   \def\]{{\rm ]}}%
+}
 \def\glbrackets{%
    \let\[=\glleftbracket
    \let\]=\glrightbracket
-   \setbox0=\hbox{\[}%
+   \setbox0=\hbox{[}%
+   \glbracketwidth=\wd0
+   \setbox0=\hbox{$\,$}%
+   \glbracketspace=\wd0
    \edef\bracketwd{\hskip\the\wd0}%
+   \let\;=\bracketwd
 }
 \define@key{ling}{glbrackets}[\glbrackets]{#1}%
-\lingset{everybracket=\rm,bracketsep=.15em,} % gl bracket parameters
+\lingset{everybracket=\rm,glbracketsep=.15em,} % gl bracket parameters
+% ----- gloss comments and citations -----
 \def\rightcomment#1{\rlap{\advance\hsize by -\leftskip
    \hbox to\hsize{\hfil #1}}\ignorespaces}
 \let\rightcite=\rightcomment % for backwards compatability
@@ -1153,6 +1182,7 @@
    \hbox{#1}%
 }
 \resetatcatcode
+% ----- default settings -----
 \definelingstyle{factorysettings}{%
    aboveexskip=2.7ex plus .8ex minus .8ex,
    belowexskip=2.7ex plus .8ex minus .8ex,
@@ -1192,7 +1222,7 @@
    glufcloseup=.4ex,
    everygluf=\sc,
    everybracket=\rm,
-   bracketsep=.15em,
+   glbracketsep=.15em,
    glstyle=oldstyle,
    moregloffset=0pt,
    abovemoreglskip=.25ex,

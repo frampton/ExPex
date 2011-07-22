@@ -699,7 +699,7 @@ missing, with $\pi$ following $\xi$.
 This labeling scheme can be defined by:
 \medskip
 \noindent
-|\deflabeltype{greekmath}{labelgen=char,pexcnt=11,everylabel=\mit,|\par
+|\definelabeltype{greekmath}{labelgen=char,pexcnt=11,everylabel=\mit,|\par
 \noindent
 |   labelformat=A.}|
 \medskip
@@ -719,8 +719,8 @@ examples from a list. The solution is to set |labelgen| to
 
 For example, suppose the label type |greek| is defined by
 \medskip
-\noindent |\definelabeltype{greek}[labelgen=list,|\par
-\noindent |   \labellist={a,b,g,d,e,z,h,j,i,k,l,m,n,x,o,p,r,sv,t,u,f,q,y,w}}|
+\noindent |\definelabeltype{greek}{labelgen=list,|\par
+\noindent |   labellist={a,b,g,d,e,z,h,j,i,k,l,m,n,x,o,p,r,sv,t,u,f,q,y,w}}|
 \medskip
 \noindent and that |\gr| selects one of the grmn series of fonts
 in the cb family of Greek fonts.
