@@ -528,7 +528,7 @@
    {\let\@printref=\identity
    \expandafter\xdef\csname lingtag@#2\endcsname{{#1}}%
    \if@g@thertags
-      \immediate\write@tags{\noexpand\@fd@f #2 {{#1}}}%
+      \immediate\write@tags{\noexpand\@fd@f {#2} {{#1}} }%
       \fi}%
    \ignorespaces
 }
@@ -540,7 +540,7 @@
    \if@g@thertags
       \immediate\write@tags{%
          \noexpand\@fd@f
-         \@localextag.#1
+         {\@localextag.#1}
          {{{\expandtwice\ep@label}}%
           {{\fullrefformat{\@actualexno}\expandtwice\ep@label}}}%
          }%
@@ -550,7 +550,7 @@
 \def\deftagex#1{\edef\@localextag{#1}%
    \expandafter\xdef\csname lingtag@#1\endcsname{{\the\excnt}}%
    \if@g@thertags
-      \immediate\write@tags{\noexpand\@fd@f #1 {{\the\excnt}}}%
+      \immediate\write@tags{\noexpand\@fd@f {#1} {{\the\excnt}}}%
       \fi
    \ignorespaces
 }
@@ -616,10 +616,11 @@
    \immediate\write@tags{\noexpand\relax}%
 }
 % ----- reading the tag file and defining the tags it encodes -----
+\newif\if@ep@goodtagsfile
 \newread\ling@tagsin
-\def\@fd@f#1 #2 {%
+\gdef\@fd@f#1 #2 {%
    \expandafter\ifx\csname lingtag@#1\endcsname\relax
-      \expandafter\gdef\csname lingtag@#1\endcsname{#2}%
+      \expandafter\gdef\csname lingtag@#1\endcsname{#2}
       \fi
 }
 \newif\if@readtags
