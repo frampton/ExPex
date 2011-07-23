@@ -155,52 +155,52 @@
    \gathernotestrue
    \immediate\openout\ling@notesfile=G-notes.tex
 }
-\def\footnote{\footsetup \footbody}
-\def\footsetup{%
-   \edef\fntempsf{\the\spacefactor}%
-   \putfnno
-   \spacefactor=\fntempsf
-}
-\def\putfnno{%
-   \global\advance\fnno by 1
-   ${}^{\the\fnno}$%
-}
-\newcount\fnno
-\fnno=0
-\def\footbody{%
-   \ifgathernotes\immediate\write\ling@notesfile{}\fi
-   \edef\n@xt{\noexpand\noexpand\noexpand \note\the\fnno}%
-   \ifgathernotes
-      \immediate\write\ling@notesfile{\n@xt}\fi
-   \fnverbatim
-}
-\def\fnverbatim{\begingroup\setupcopyfn\copyfnfirst}
-\def\setupcopyfn{%
-   \def\do##1{\catcode`##1=12 }%
-   \dospecials
-   \obeylines%
-}
-{\obeylines
-\gdef\copyfnfirst#1
-  {\def\n@xt{#1}%
-   \ifx\n@xt\empty%
-      \else%
-         \ifgathernotes\immediate\write\ling@notesfile{\n@xt}\fi%
-      \fi%
-   \copyfn%
-}
-\gdef\copyfn#1
-  {\def\n@xt{#1}%
-   \ifx\n@xt\endfn%
-         \ifgathernotes\immediate\write\ling@notesfile{}\fi%
-         \let\n@xt=\endgroup%
-      \else%
-         \ifgathernotes\immediate\write\ling@notesfile{\n@xt}\fi%
-         \let\n@xt=\copyfn%
-      \fi%
-   \n@xt }%
-}
-\def\endfn{"endfootnote}
+%\def\footnote{\footsetup \footbody}
+%\def\footsetup{%
+%   \edef\fntempsf{\the\spacefactor}%
+%   \putfnno
+%   \spacefactor=\fntempsf
+%}
+%\def\putfnno{%
+%   \global\advance\fnno by 1
+%   ${}^{\the\fnno}$%
+%}
+%\newcount\fnno
+%\fnno=0
+%\def\footbody{%
+%   \ifgathernotes\immediate\write\ling@notesfile{}\fi
+%   \edef\n@xt{\noexpand\noexpand\noexpand \note\the\fnno}%
+%   \ifgathernotes
+%      \immediate\write\ling@notesfile{\n@xt}\fi
+%   \fnverbatim
+%}
+%\def\fnverbatim{\begingroup\setupcopyfn\copyfnfirst}
+%\def\setupcopyfn{%
+%   \def\do##1{\catcode`##1=12 }%
+%   \dospecials
+%   \obeylines%
+%}
+%{\obeylines
+%\gdef\copyfnfirst#1
+%  {\def\n@xt{#1}%
+%   \ifx\n@xt\empty%
+%      \else%
+%         \ifgathernotes\immediate\write\ling@notesfile{\n@xt}\fi%
+%      \fi%
+%   \copyfn%
+%}
+%\gdef\copyfn#1
+%  {\def\n@xt{#1}%
+%   \ifx\n@xt\endfn%
+%         \ifgathernotes\immediate\write\ling@notesfile{}\fi%
+%         \let\n@xt=\endgroup%
+%      \else%
+%         \ifgathernotes\immediate\write\ling@notesfile{\n@xt}\fi%
+%         \let\n@xt=\copyfn%
+%      \fi%
+%   \n@xt }%
+%}
+%\def\endfn{"endfootnote}
 \def\raisedasterisk{\raise3pt\rlap{\twelverm *}}
 \def\ackmark{$\,{}^1$ \global\fnno=1}
 %% ???? check code below
