@@ -1,0 +1,779 @@
+
+\makeatletter
+\def\showpex{%
+   \edef\resetexcnt{\noexpand\global\noexpand\excnt=\the\excnt}%
+   \quad
+   \psscalebox{1.5}{%
+   \vrule height.5em depth4.6em width0pt
+   \parindent=0pt
+   \leavevmode
+   \Lingset{numoffset=4.5em,preambleoffset=4em,labeloffset=3em,
+      textoffset=4em,labelwidth=.8em,arrows=<->}
+   \pnode(0,0){A}
+   \lower10ex\vbox{\hsize=3.8in
+   \excnt=23
+   \pex
+   \pnode(-\ling@preambleoffset,0){B3}\pnode{B4}
+   This is the preamble.
+   \a \pnode{E4}%
+   This is an example.%
+   \SpecialCoor
+   \rput(A|B3){\pnode{B1}}
+   \rput(B1){\pnode(\lingnumoffset,0){B2}}
+   \rput(E4){\pnode(-\lingtextoffset,0){E3}}
+   \rput(E3){\pnode(-\linglabelwidth,0){E2}}
+   \rput(E2){\pnode(-\linglabeloffset,0){E1}}
+   \psset{nodesep=0,labelsep=0}
+   \pcline[offset=2.5ex](B1)(B2)
+   \Aput{\strut\eighttt numoffset}
+   \pcline[offset=2.5ex](B3)(B4)
+   \Aput{\strut\eighttt preambleoffset}
+   \pcline[offset=-1.5ex](E1)(E2)
+   \Bput{\strut\eighttt labeloffset}
+   \pcline[offset=-1.5ex](E3)(E4)
+   \Bput{\strut\eighttt textoffset}
+   \psset{offset=0,angle=90,linestyle=dotted,arrows=-}
+   \XKV@for@n{1,2,3,4}\which{%
+      \pcline(B\which)([nodesep=3ex]B\which)}%
+   \XKV@for@n{1,2,3,4}\which{%
+      \pcline([nodesep=1.5ex]E\which)([nodesep=-2ex]E\which)}%
+   \xe}}%
+   \resetexcnt
+}
+\resetatcatcode
+
+
+%\lingset{lingstyle=fdabovecd}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section Examples with labeled parts: Advanced
+
+
+\subsection Formatting the preamble
+
+\parinventory
+& \idx{|preambleoffset|}& incrementable dimension& |1em|\cr
+& \idx{|belowpreambleskip|}& skip& |1ex|\cr
+& \idx{|nopreamble|}&& (default only)\cr
+\endparinventory
+
+\noindent Visible material which occurs before the first labeled
+entry, as in (\getref{Pre}) for example, is called the preamble.
+Although the initial settings produce the format in (\blastx),
+the offset of the preamble can be set independently of the offset
+of the labels and the extra vertical skip between the preamble
+and the first part can also be set independently of the extra
+vertical skip between the various parts.
+
+ExPex sets the label offset and the preamble offset to be equal,
+so that the left edge of the preamble aligns with the left edge
+of the labels.  But this is under the control of the user.
+
+\framedisplay
+\pex[labeltype=caps,labeloffset=!.8em]
+{\it Principles of the Theory of Binding}
+\a An anaphor is bound in its governing category.
+\a A pronomial is free in its governing category.
+\a An R-expression is free
+\xe
+\endframedisplay
+
+\codedisplay
+\pex[labeltype=caps,labeloffset=!.8em]
+{\it Principles of the Theory of Binding}
+\a An anaphor is bound in its governing category.
+\a A pronomial is free in its governing category.
+\a An R-expression is free
+\xe |endcodedisplay
+
+
+The different effects of |interpartskip| and |belowpreambleskip|
+are illustrated below.
+
+\framedisplay
+\pex[labeltype=caps,belowpreambleskip=.75ex,interpartskip=.25ex]
+{\it Principles of the Theory of Binding}
+\a An anaphor is bound in its governing category.
+\a A pronomial is free in its governing category.
+\a An R-expression is free.
+\xe
+\endframedisplay
+
+\goodbreak
+\codedisplay
+\pex[labeltype=caps,belowpreambleskip=.75ex,interpartskip=.25ex]
+{\it Principles of the Theory of Binding}
+\a An anaphor is bound in its governing category.
+\a A pronomial is free in its governing category.
+\a An R-expression is free.
+\xe
+|endcodedisplay
+
+If |\a| or |\label| (see Section \getref{labelsec}) directly follows
+|\pex| (and a possible tilde diacritic
+and parameter settings), |\pex| assumes that
+there is no preamble, otherwise it assumes that there is.
+This poses a problem if you want to have nonprinting material
+other than a label specification before the first part.  For example,
+suppose you want to increase the baselineskip by 2pt.  You might
+try (\nextx), but it fails to achieve what you want.
+
+\beginss
+\pex \openup2pt
+\a
+\a
+\a
+\xe|midss
+\pex \openup2pt
+\a
+\a
+\a
+\xe
+\endss
+\noindent {\sl ExPex\/} provides the parameter |nopreamble| to
+solve the problem.  Setting it to ``true'' tells |\pex| that it
+should assume that there is no preamble, in spite of superficial
+appearances to the contrary.  So:
+
+\beginss
+\pex[nopreamble] \openup2pt
+\a
+\a
+\a
+\xe|midss
+\pex[nopreamble] \openup2pt
+\a
+\a
+\a
+\xe
+\endss
+\noindent Invoking |nopreamble| with no specified value sets it
+to the stipulated default value ``true''.  Setting
+|nopreamble=false| has no effect since |\pex| always starts out
+assuming that there is a preamble (i.e. that |nopreamble| has
+been set to |false|) and this is always overridden
+if a following |\a| or |\label| is detected, regardless of the
+setting of |nopreamble|.
+
+\font\titlett=txtt at 13.3pt
+
+\subsection Formatting the labels
+
+\parinventory
+& \idx{|everylabel|}& token list\qquad& |{}|\cr
+& \idx{|labelformat|}& formatting string (see below)\hidewidth\cr
+\endparinventory
+
+The value of |everylabel| is inserted just before labels are
+typeset.  It is grouped so that it affects only the label.  It is
+commonly used to set the font used for the labels if it differs
+from the font in the running text.  For example:
+
+\beginss
+\pex[everylabel=\it]
+\a one
+\a two
+\xe|midss
+\pex[everylabel=\it]
+\a one
+\a two
+\xe
+\endss
+
+There are other uses aside from setting the label font.
+
+\beginss
+\pex[everylabel=A,labeltype=numeric,
+   samplelabel=A1.]
+\a An example
+\a An example
+\a An example
+\xe|midss
+\pex[everylabel=A,labeltype=numeric,
+   samplelabel=A1.]
+\a An example
+\a An example
+\a An example
+\xe
+\endss
+
+The effect of the value of |labelformat| is illustrated in
+(\nextx).
+
+\beginss
+\pex[labelformat=$\langle A\rangle$,
+   labelwidth=!1em]
+\a first
+\a second
+\xe|midss
+\pex[labelformat=$\langle A\rangle$,
+   labelwidth=!1em]
+\a first
+\a second
+\xe
+\endss
+
+\noindent The default is |labelformat=A.|.  Most users will never
+need anything different.
+
+The label formatting mechanism is primitive.
+|labelformat| must
+be of the form\medskip
+\leftline{\quad$\rm \langle balanced\ text\rangle A
+\langle balanced\ text\rangle$}
+\medskip
+\noindent The pre-A text is inserted before the label (including
+the material specified by |everypar|) and the post-A text is
+inserted after the label. In Knuth's terminology, {\it balanced
+text\/} is a string of tokens with properly nested (explicit)
+braces. No error checking is done to ensure that the format
+specification has the required form, so errors can lead to
+obscure error messages.
+
+\subsection Aligning the labels
+
+\parinventory*
+& \idx{|labelalign|}& \idx{|left|}, \idx{|right|}, \idx{|margin|}&
+   \idx{|right|}\cr
+\endparinventory
+\bigskip
+
+\noindent There is a choice of left, right, or center alignment of the
+labels in the label slot.  This is chosen by the parameter
+\idx{|labelalign|}, which can be set to |left|, |center|, or |right|.
+The part labels can be uppercase letters, lowercase letters, or
+integers.  The choice is made via by the parameter
+\idx{|labeltype|}, which can be set to |caps|, |alpha|, or
+|numeric|.  The setting of \idx{|interpartskip|} determines the
+vertical skip which is inserted between the labeled entries.
+
+For |\pex| constructions which use the letters or numbers which
+have roughly the same width, label alignment is not a significant
+concern.  But if labels include, for example, the narrow letter
+``i'' and the wide letter ``m'', as below, label alignment has a
+significant effect on the appearance.  Individual tastes (and
+publisher's demands) may differ, but I prefer center alignment in
+these cases.
+
+\line{%
+\lingset{belowpreambleskip=.4ex,interpartskip=.3ex,
+   everyex=\advance\pexcnt by 8,samplelabel=m.}%
+\hsize=.33\hsize
+\vbox{%
+\pex[labelalign=left]<triplea1>
+{\it left aligned labels}
+\a A typical example.
+\a A typical example.
+\a A typical example.
+\a A typical example.
+\a A typical example.
+\a A typical example.
+\xe}%
+\vbox{%
+\pex[labelalign=center]
+{\it center aligned labels}
+\a A typical example.
+\a A typical example.
+\a A typical example.
+\a A typical example.
+\a A typical example.
+\a A typical example.
+\xe}
+\vbox{%
+\pex[labelalign=right]<triplea3>
+{\it right aligned labels}
+\a A typical example.
+\a A typical example.
+\a A typical example.
+\a A typical example.
+\a A typical example.
+\a A typical example.
+\xe}}
+
+If the labels are numeric, label alignment can have an even bigger
+effect.  Again, individual tastes and publishers' demands may
+differ.  My preference is right alignment in this case.
+
+\exbreak[8ex]
+\line{%
+\lingset{interpartskip=.3ex,labeltype=numeric,
+   everyex=\advance\pexcnt by 6,samplelabel=10.}%
+\hsize=.33\hsize
+\vbox{%
+\pex[labelalign=left]<tripleb1>
+{\it left aligned labels}
+\a A typical example.
+\a A typical example.
+\a A typical example.
+\a A typical example.
+\a A typical example.
+\a A typical example.
+\xe}\hfil
+\vbox{%
+\pex[labelalign=center]
+{\it center aligned labels}
+\a A typical example.
+\a A typical example.
+\a A typical example.
+\a A typical example.
+\a A typical example.
+\a A typical example.
+\xe}\hfil
+\vbox{%
+\pex[labelalign=right]<tripleb3>
+{\it right aligned labels}
+\a A typical example.
+\a A typical example.
+\a A typical example.
+\a A typical example.
+\a A typical example.
+\a A typical example.
+\xe}}
+
+The default is left alignment for letters (either uppercase or
+lowercase) and right alignment for numbers. Unless numbers or
+letters of significantly different widths appear as labels, most
+users will not notice the difference and can safely ignore the
+issue.
+
+Particularly wide labels create another problem which needs
+attention.  Recall that the slot in which labels are typeset does
+not automatically adjust its width to fit the widest label.  It
+is fixed in advance by the setting of |labelwidth|. Wide labels
+will spill out of the label slot; to the right, left, or on both
+sides, depending on the setting of |labelalign|. Particularly in
+the case of double digit numeric labels, the width of the label
+slot needs to be changed from the default value. One can do this
+by saying something like |labelwidth=!1ex|, which will increase
+the label width by $1\,ex$.  This gives more or less
+satisfactory results. The pseudo parameter \idx{|samplelabel|} is
+provided to help in adjusting the label width.  If you say, for
+example,
+
+\codedisplay
+\lingset{samplelabel=10.}
+|endcodedisplay
+
+\noindent then |labelwidth| is set to the width of ``10.'' in the
+current font. Examples (\getref{triplea1}--\getref{triplea3}) used
+|\lingset{samplelabel=m.}| and
+(\getref{tripleb1}--\getref{tripleb3}) used
+|\lingset{samplelabel=10.}|
+
+It is a side issue, but the reader may have wondered how
+(\getref{triplea1}--\getref{triplea3}) and
+(\getref{tripleb1}--\getref{tripleb3}) were typeset. The idea is
+simple.  You say:
+
+\codedisplay
+\line{\divide\hsize by 3
+   \vbox{\pex|verbdots \xe}\hss
+   \vbox{\pex|verbdots\xe}\hss
+   \vbox{\pex|verbdots \xe}}
+|endcodedisplay
+|\hss| is used to give a little stretch or shrink so
+that dimensional rounding does not lead to an under or overfull
+|\line{| \dots|}|.
+
+Variations are useful.  One can easily imagine a situation in
+which something like the following is appropriate for two side by
+side examples.
+
+\codedisplay
+\line{%
+   \vbox{\hsize=.55\hsize \pex|verbdots \xe}\hss
+   \vbox{\hsize=.45\hsize \pex|verbdots \xe}}
+|endcodedisplay
+
+
+\subsection  Anchoring the labels, text, and preamble%
+\deftag{\the\secno.\the\subsecno}{anchors}
+
+%Choice parameter:\quad |labelanchor|\qquad set to |numright| or
+%|margin|
+\parinventory*
+& \idx{|labelanchor|}& \idx{|numright|}, \idx{|numleft|},
+   \idx{|margin|}& \idx{|numright|}\cr
+& \idx{|textanchor|}& \idx{|normal|}, \idx{|numleft|}&
+   \idx{|normal|}\cr
+& \idx{|preambleanchor|}& \idx{|numright|}, \idx{|labelleft|}&
+   \idx{|text|}\cr
+\endparinventory
+
+\noindent Ordinarily, the label offset is measured from the right
+edge of the example number.  There is little choice if a label
+occurs on the same line as the example number (i.e. there is no
+preamble).  In example displays with a preamble, however, it is
+sometimes desirable to measure the labeloffset from the left
+margin, as shown below.
+
+\ex[labelanchor=margin] \showpex \xe
+
+One application of anchoring the label offset at the
+left margin is in examples like the following.  If it is
+impossible or undesirable to break a line (or graphic display of
+some kind), (\anextx) is an alternative to (\nextx).  There is a
+different kind of example on page \getref{partialrepeat}.
+
+\framedisplay
+\pex
+\a A long example that will not fit in one line and
+should not be broken if that is at all possible.
+\a A short line might be more interesting linguistically, but less
+interesting typographically.
+\xe
+
+\pex~[labelanchor=margin,labeloffset=1em] Make up a title.
+Typographically, almost anything looks better than nothing.
+\a A long example that will not fit in one line and
+should not be broken if that is at all possible.
+\a A short line might be more interesting linguistically, but less
+interesting typographically.
+\xe
+\endframedisplay
+
+It is produced by:
+
+\vbox{\codedisplay
+\pex[labelanchor=margin,labeloffset=1em]\par
+\a A long example that will not fit in one line and
+should not be broken if that is at all possible.
+\a A short line might be more interesting linguistically, but less
+interesting typographically.
+\xe
+|endcodedisplay}
+
+
+\noindent Note that the preamble in the
+second |\pex| is |\par|.  |\relax| would accomplish the same
+thing.  Something must come before the first |\a|, otherwise
+|\pex| will think there is no preamble.
+
+Another way to handle situations like this is to use |\ex| and
+insert explicit labels.  Something like the following works well.
+
+
+\codedisplay
+\ex \smallskip \leftskip=1em
+a.\enspace This is a very long example that will not fit in one
+line and cannot be broken for some reason.
+\smallskip
+b.\enspace A short line might be more interesting linguistically,
+but less interesting typographically.
+\xe |endcodedisplay
+
+\framedisplay~
+\ex \smallskip \leftskip=1em
+a.\enspace
+A long example that will not fit in one line and
+should not be broken if that is at all possible.
+\smallskip
+b.\enspace A short line might be more interesting linguistically,
+but less interesting typographically.
+\xe
+\endframedisplay
+
+\noindent If you can think up a title, so that the top line
+contains more than the example number, the appearance is
+improved.
+
+Anchoring the label offset at the left edge of the example number
+(setting |labelanchor| to |numleft|) is unlikely to be useful.
+The possibility is included mostly for the sake of completeness.
+
+\exbreak[25ex]
+\subsection User designed labeling
+
+\begingroup \exbreak \parindent=0pt
+Macros:\quad \idx{|\definelabeltype|}, \idx{|\a[]|}\par\nobreak
+Counter:\quad \idx{|\pexcnt|}\par\nobreak
+\parinventory
+& \idx{|labelgen|}& \idx{|char|}, \idx{|number|}, or \idx{|list|}&
+   |char|\cr
+& \idx{|pexcnt|}& integer& |97|\cr
+& \idx{|labellist|}& comma separated list& |{}|\cr
+\endparinventory
+\endgroup
+
+\noindent
+If |labeltype| is set to |alpha|, the counter |\pexcnt| is set to
+97, the character code of lowercase a in standard roman font
+sets, and |labelgen| is set to |char|.  The successive labels are
+generated by taking the character corresponding to |\pexcnt| and
+stepping the counter by 1.  This relies on the fact that the
+alphabetical sequence of characters corresponds to the numerical
+order of the character codes of the characters.  Setting
+|labeltype| to |caps| is almost the same, except that |\pexcnt|
+is initialized to 65, the character code of uppercase A.  If
+|labeltype| is set to |numeric|, |labelgen| is set to |number|
+and |\pexcnt| is initialized to 1.  The labels are generated by
+taking the number corresponding to value of |\pexcnt|.
+
+\let\mit=\twelvei
+Something like the following might be useful.  In the format I am
+using, |\mit| selects a math italics font which has the lowercase
+greek letters starting with the position 11.
+
+\beginss
+\pex[labelgen=char,pexcnt=11,
+   everylabel=\mit]
+\a
+\a
+\a
+\a
+\xe|midss
+\pex[labelgen=char,pexcnt=11,
+   everylabel=\mit]
+\a
+\a
+\a
+\a
+\xe
+\endss
+\noindent This scheme has a quirk if labels above $\xi$ are
+needed because the correspondence between numerical order and
+alphabetical order breaks down at this point.  {\it o} will be
+missing, with $\pi$ following $\xi$.
+
+This labeling scheme can be defined by:
+\medskip
+\noindent
+|\definelabeltype{greekmath}{labelgen=char,pexcnt=11,everylabel=\mit,|\par
+\noindent
+|   labelformat=A.}|
+\medskip
+\noindent Then |\pex[labeltype=greekmath]| is sufficient to
+invoke this labeling style.
+
+If a sequence of character labels is needed which does not appear
+in sequence in a font, it is necessary to generate the labels
+from a list.  Documents in Greek, for example, face the following
+problem.  Roman letters were largely borrowed from the Greek
+alphabet, but Greek alphabetical order was not.  Common greek
+fonts place letters in the position of the borrowing, not in
+their natural order in the Greek alphabet.  Documents written in
+Greek, therefore, will have to generate the labels in multipart
+examples from a list. The solution is to set |labelgen| to
+|list|, and |labellist| to the desired list of labels.
+
+For example, suppose the label type |greek| is defined by
+\medskip
+\noindent |\definelabeltype{greek}{labelgen=list,|\par
+\noindent |   labellist={a,b,g,d,e,z,h,j,i,k,l,m,n,x,o,p,r,sv,t,u,f,q,y,w}}|
+\medskip
+\noindent and that |\gr| selects one of the grmn series of fonts
+in the cb family of Greek fonts.
+
+\begingroup
+\gr
+
+\definelabeltype{greek}{labelgen=list,
+   labellist={a,b,g,d,e,z,h,j,i,k,l,m,n,x,o,p,r,sv,t,u,f,q,y,w}}
+\lingset{labeltype=greek}
+
+\beginss
+\gr
+\pex[labeltype=greek]
+\a {\rm a,b,g,d,e,z}
+\a a,b,g,d,e,z
+\a {\rm a,b,c,d,e,f}
+\a a,b,c,d,e,f
+\a {\rm A,B,G,D,E,Z}
+\a A,B,G,D,E,Z
+\xe|midss
+\pex[labeltype=greek]
+\a {\rm a,b,g,d,e,z}
+\a a,b,g,d,e,z
+\a {\rm a,b,c,d,e,f}
+\a a,b,c,d,e,f
+\a {\rm A,B,G,D,E,Z}
+\a A,B,G,D,E,Z
+\xe
+\endss
+\endgroup
+
+\noindent ``sv'' appears in the list rather than ``v'' so that a
+nonfinal sigma is produced rather than a final sigma.  They
+differ.  ``v'' produces what amounts to a vertical strut of zero
+width, making the sigma nonfinal, but contributing no visible
+material. (Thanks to Christos Vlachos for this idea.)
+
+Of course, if the entire document is written in Greek, then
+\medskip
+\noindent |\lingset{labeltype=greek}|
+\medskip
+\noindent should have global scope, so that parameter
+setting is not necessary in each |\pex| construction.
+
+The computation is faster if the label list is shorter, so
+the label list should not be much longer than the longest list
+you anticipate using.  If more labels are called for than the
+list provides, labeling starts over again at the beginning and a
+warning is issued.
+
+\subsection Tabular format in multiline examples
+
+\parinventory
+& \idx{|textanchor|}&  choice\enspace
+   (|numleft|, |numright|, or |labelleft|)& |numright|\cr
+& \idx{|preambleanchor|}& choice\enspace
+   (|numright|, |labelleft|, or |text|)& |numright|\cr
+\endparinventory
+
+Some publications specify that the text and label offset are
+measured from the left margin.  ExPex 3.3 measures the label
+offset from the right edge of the example number and the
+textoffset from the right edge of the ``label gutter'' (the slot
+which labels are typeset in). ExPex already had a parameter
+|labelanchor| (with values |margin|, |numleft|, and |numright|)
+which determined how the value of |labeloffset| was used to set
+the position of the labels. A parameter has |textanchor| been
+introduced, with obvious meaning.  In multipart examples in ExPex
+3.3, the position of a preamble in multipart examples was
+measured with respect to the right edge of the typeset example
+number.  The preamble is the stuff (if any) which appears before
+the first labeled part of a multipart example.  ExPex introduces
+the parameter |preambleanchor| (with possible values |numright|,
+|numleft|, and |text|), with obvious meaning.
+
+For example,
+\begingroup
+\codedisplay
+\lingset{%
+   textanchor=numleft,textoffset=50pt,
+   labelanchor=numleft,labeloffset=25pt,
+   preambleanchor=text,preambleoffset=0pt,
+}
+\pex[exno=137]
+\a first
+\a second
+\xe
+
+\pex~[labelwidth=2in]
+Preamble
+\a first
+\a[label=bb] second
+\xe
+|endcodedisplay
+
+\noindent produces
+
+\lingset{%
+   textanchor=numleft,textoffset=5em,
+   labelanchor=numleft,labeloffset=2.5em,
+   preambleanchor=text,preambleoffset=0pt,
+}
+\pex[exno=137]
+\a first
+\a second
+\xe
+
+\pex~[labelwidth=2in]
+Preamble
+\a first
+\a[label=bb] second
+\xe
+The position of the labels and text is unaffected by the
+width of the typeset example numer, the specified labelwidth, or
+the actual label width.
+\endgroup
+
+\subsection IJAL style format of multiline examples
+
+\definelingstyle{IJAL}{%
+   numlabelclash=true,
+   labelanchor=numleft,labeloffset=0pt,
+   textanchor=normal,textoffset=1.5em,
+   preambleanchor=text,preambleoffset=0pt,
+   labelformat=(A),
+   everylabel=\actualexno,
+   appendtopexarg={samplelabel=(\actualexno a)}
+   }
+
+\parinventory
+& \idx{|appendtopexarg|}&  token list& |{}|\cr
+& \idx{|numlabelclash|}& boolean (|true| or |false|)& |false|\cr
+\endparinventory
+
+\noindent The formatting demands of the International Journal of
+American Linguistics (IJAL) poses unsurmountable problems for
+ExPex 3.3. Examples of the desired style are given below.
+
+\begingroup
+\lingset{lingstyle=IJAL}
+\pex<nonum>
+\a first
+\a second
+\xe
+
+\pex~[exno=65]
+Preamble
+\a first
+\a second
+\xe
+
+\pex~[exno=1026]
+Preamble
+\a first
+\a second
+\xe
+
+Clearly, we must set |labelanchor| to |numleft| and |labeloffset|
+to |0pt| (or |0in|, or \dots).
+
+The first issue is that the labelwidth depends
+on the example number.
+ExPex can deal with this by |\pex[samplelabel=(\actualexno
+a)]|.  But it is considerably less than elegant to
+have to write this in every |\pex| example.  It will not produce
+the desired result to put |\lingset{samplelabel=(\actualexno a)}|
+at the beginning of the document.  |labelwidth| will be set to
+whatever the current width of |(\actualexno a)| is, which is
+not likely to be what you want for the entire document even if
+|\actualexno| happens to be defined (which is unlikely) at the
+point the |\lingset| is executed.  To circumvent the global/local
+problem, ExPex now provides the parameter |appendtopexarg|.  Its
+value is appended to whatever other arguments are given to
+|\pex| and evaluated locally.  So\smallskip
+
+|\lingset{appendtopexarg=(labelwidth=\actualexno a)}|\smallskip
+\noindent accomplishes what we
+want.
+
+There is another issue.  The example number does not appear in
+(\getref{nonum}).  ExPex now provides the boolean (true or false
+values only) parameter |numlabelclash|.  If it is set to |true|,
+the example number is not typeset in |\pex| examples with no
+preamble.
+
+The code used for the IJAL examples above was:
+\codedisplay
+\definelingstyle{IJAL}{%
+   numlabelclash=true,
+   labelanchor=numleft,labeloffset=0pt,
+   preambleanchor=text,preambleoffset=0pt,
+   labelformat=(A),
+   everylabel=\actualexno,
+   appendtopexarg={samplelabel=(\actualexno a)}
+   }
+
+\pex
+\a first
+\a second
+\xe
+
+\pex~[exno=65]
+Preamble
+\a first
+\a second
+\xe
+
+\pex~[exno=1026]
+Preamble
+\a first
+\a second
+\xe
+|endcodedisplay
+
+\endgroup
+
+

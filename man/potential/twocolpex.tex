@@ -1,0 +1,23 @@
+
+\def\savepexcnt{\xdef\restorepexcnt{\noexpand\pexcnt=\the\pexcnt}}
+\definelingstyle{nonum}{numlabelclash=true,labelanchor=numleft,
+   labeloffset=0pt,nopreamble}
+
+\line{\hsize=.5\hsize
+\vtop{%
+\pex
+\a
+\a
+\a
+\savepexcnt
+\xe}\hss
+\vtop{%
+\pex[lingstyle=nonum]
+\restorepexcnt
+\a
+\a
+\a
+\xe}%
+}
+
+

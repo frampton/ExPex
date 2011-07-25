@@ -1,0 +1,381 @@
+%\makeatletter
+%\def\goop#1{\psline(#1,2ex)(#1,-3ex)\ignorespaces}
+%\def\lines{\llap{\hbox to\leftskip{%
+%   \goop 0
+%   \goop\epd@numright
+%   \goop\epd@labelleft
+%   \goop\epd@labelright
+%   \goop\epd@textleft
+%   \hfil}}}
+%\resetatcatcode
+%
+%\lingset{interpartskip=0pt,exskip=0pt}
+%
+%\pex[labeltype=alpha,labelalign=left,labelwidth=1em]
+%\a \lines First part.
+%\a Second part.
+%\xe
+%\pex~[labeltype=alpha,labelalign=right,labelwidth=1em]
+%\a \lines First part.
+%\a Second part.
+%\xe
+%\pex~[labeltype=alpha,labelalign=center,labelwidth=1em]
+%\a \lines First part.
+%\a Second part.
+%\xe
+%\pex~[labeltype=numeric,labelalign=left]
+%\a First part.
+%\a Second part.
+%\xe
+%\pex~[labeltype=numeric,labelalign=right]
+%\a First part.
+%\a Second part.
+%\xe
+%\pex~[labeltype=caps,labelalign=left]
+%\a First part.
+%\a Second part.
+%\xe
+%\pex~[labeltype=caps,labelalign=right]
+%\a First part.
+%\a Second part.
+%\xe
+%
+%\endinput
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section Examples with labeled parts: Basics
+
+%\begingroup
+%\parindent=0pt
+%Macros:\hskip2.5em |\pex~[]|, |\a|, |\linglabeloffset|\par
+%\parinventory
+%& \idx{|numoffset|}& incrementable dimension& |0pt|\cr
+%& \idx{|labeltype|}& name of list of parameter settings&
+%   |alpha|\cr
+%& \idx{|labeloffset|}& incrementable dimension& |1em|\cr
+%& \idx{|labelwidth|}& incrementable dimension& |.78em|\cr
+%& \idx{|textoffset|}& incrementable dimension& |1em|\cr
+%& \idx{|interpartskip|}& skip& |1ex plus .2ex minus .2ex|\cr
+%\idx{|nopreamble|}& |true|, |false|\cr
+%& \idx{|samplelabel|}\cr
+%}}
+%\endparinventory
+%\endgroup
+\bigskip
+%
+\noindent Typical examples are given below, with the default
+settings of the parameters.\medskip
+
+\framedisplay
+\pex
+\a This is the first example.
+\a This is the second example.
+\xe
+
+\pex~<Pre> Multipart examples often have a title or preamble of some
+kind.
+\a This is the first example.
+\a This is the second example.
+\xe
+\endframedisplay
+
+\codedisplay~
+\pex
+\a This is the first example.
+\a This is the second example.
+\xe
+
+\pex~ Multipart examples often have a title or preamble of some kind.
+\a This is the first example.
+\a This is the second example.
+\xe |endcodedisplay
+
+\noindent
+Just like |\ex|, |\pex| must be closed by |\xe|, can be
+modified by a tilde diacritic to suppress adding vertical space
+above the example, and accepts parameters. The macro \idx{|\a|},
+which introduces each labeled part, is defined only
+within \hbox{|\pex| \dots|\xe|}.  It accepts certain parameters.
+Extra vertical skip (set by |interpartskip|) is inserted
+between the parts; and extra vertical skip (determined by
+|belowpreambleskip|) is inserted between
+the {\it preamble\/} and the first part.  The preamble is the
+visible material, if any, that appears after the example number
+and before the first part.
+
+The horizontal dimensions are parametrized as pictured
+in~(\nextx), assuming the default settings of the parameters
+|labelanchor| and |textanchor|.  (The effects of changing the
+settings of the anchoring parameters will be considered in
+Section \getref{anchors}.)  Note that the parameters |numoffset|
+and |textoffset| are also used in formatting examples without
+parts.
+
+\ex \makeatletter \quad
+\edef\resetexcnt{\noexpand\global\noexpand\excnt=\the\excnt}%
+\vrule height1.6em depth3.5em width0pt
+\psscalebox{1.5}{%
+\parindent=0pt
+\leavevmode
+\lingset{numoffset=4.5em,preambleoffset=4em,labeloffset=3em,
+   textoffset=4em,labelwidth=.8em}
+\pnode(0,0){A}
+\lower5ex\vbox{\hsize=3.8in
+\excnt=23
+\psset{arrows=<->}
+\pex
+\a \pnode{E6}%
+This is an example.%
+\SpecialCoor
+\rput(A|E6){\pnode{E1}}
+\rput(E1){\pnode(\lingnumoffset,0){E2}}
+\rput(E6){\pnode(-\lingtextoffset,0){E5}}
+\rput(E5){\pnode(-\linglabelwidth,0){E4}}
+\rput(E4){\pnode(-\linglabeloffset,0){E3}}
+\psset{nodesep=0,labelsep=0}
+\pcline[offset=2.5ex](E1)(E2)
+\Aput{\strut\eighttt numoffset}
+\pcline[offset=2.5ex](E3)(E4)
+\Aput{\strut\eighttt labeloffset}
+\pcline[offset=2.5ex](E5)(E6)
+\Aput{\strut\eighttt textoffset}
+%\pcline[offset=-1.5ex,arrows=>-<,nodesep=-.65ex](E4)(E5)
+\pcline[offset=-1.5ex](E4)(E5)
+\Bput{\strut\eighttt labelwidth}
+\psset{offset=0,angle=90,linestyle=dotted,arrows=-}
+\XKV@for@n{1,2,3,4,5,6}\which{%
+   \pcline(E\which)([nodesep=3ex]E\which)}
+\pcline([nodesep=1.5ex]E4)([nodesep=-2ex]E4)
+\pcline([nodesep=1.5ex]E5)([nodesep=-2ex]E5)
+\resetexcnt
+\xe}}%
+\resetatcatcode
+\xe
+Adjustment for the width of the example number is automatic, but
+the width of the label slot is a parameter setting, not adjusted
+to the width of the particular label which appears in the label
+slot. The initial setting of |labelwidth| is the width of ``a.''
+at the point that the default setting is established.  This does
+not automatically change if the font is changed, in a footnote
+for example.  It can be set by the user explicitly by setting
+|labelwidth| to the desired dimension, or as an incremental
+change to its previous value (|labelwidth=!3pt|, for example,
+increases the width of the label slot by 3pt).  It can also be
+set indirectly by giving a sample label.  |labelwidth| is then
+set to the current width of that sample.  {\it ExPex\/} sets the
+default label width by |samplelabel=a.|.
+
+{\sl ExPex\/} comes with three label types predefined: |alpha|,
+|caps|, and |numeric|.
+
+\beginss
+\pex[labeltype=alpha]
+\a First part.
+\a Second part.
+\xe |midss
+\pex[labeltype=alpha]
+\a First part.
+\a Second part.
+\xe
+\endss
+
+\beginss
+\pex[labeltype=caps]
+\a First part.
+\a Second part.
+\xe |midss
+\pex[labeltype=caps]
+\a First part.
+\a Second part.
+\xe
+\endss
+
+\beginss
+\pex[labeltype=numeric]
+\a First part.
+\a Second part.
+\xe |midss
+\pex[labeltype=numeric]
+\a First part.
+\a Second part.
+\xe
+\endss
+
+Section \getref{advanced} will detail all the parameters relevant
+to label types and how additional label types can be defined by
+the user.
+
+
+Later we will see how to define custom
+label types as needed.  {\it ExPex\/} sets the defaults by
+saying |labeltype=alpha|.  It contains the lines:
+
+
+
+
+If you look closely, the effect a fixed labelwidth can be seen in
+(\blastx).  The label and text are too close together because the
+width of capital letters makes them spill out of the right side
+of the label slot.  This is rectified in (\nextx).
+
+\beginss
+\pex[labeltype=caps,samplelabel=A.]
+\a First part.
+\a Second part.
+\xe |midss
+\pex[labeltype=caps,samplelabel=A.]
+\a First part.
+\a Second part.
+\xe
+\endss
+The effect of |samplewidth=A.| is to set the label width to be
+the width of the sample, in the current font.  So there are three
+ways to adjust the labelwidth: 1) setting it to the width of a
+sample label; 2) setting |labelwidth| to an explicit dimension;
+or 3) incrementing the contextual setting of
+|labelwidth| by a specified dimension.
+
+\subsection Formatting the preamble
+
+\parinventory
+& \idx{|preambleoffset|}& incrementable dimension& |1em|\cr
+& \idx{|belowpreambleskip|}& skip& |1ex|\cr
+& \idx{|nopreamble|}&& (default only)\cr
+\endparinventory
+
+\noindent Visible material which occurs before the first labeled
+entry, as in (\getref{Pre}) for example, is called the preamble.
+Although the initial settings produce the format in (\blastx),
+the offset of the preamble can be set independently of the offset
+of the labels and the extra vertical skip between the preamble
+and the first part can also be set independently of the extra
+vertical skip between the various parts.
+
+ExPex sets the label offset and the preamble offset to be equal,
+so that the left edge of the preamble aligns with the left edge
+of the labels.  But this is under the control of the user.
+
+\framedisplay
+\pex[labeltype=caps,labeloffset=!.8em]
+{\it Principles of the Theory of Binding}
+\a An anaphor is bound in its governing category.
+\a A pronomial is free in its governing category.
+\a An R-expression is free
+\xe
+\endframedisplay
+
+\codedisplay
+\pex[labeltype=caps,labeloffset=!.8em]
+{\it Principles of the Theory of Binding}
+\a An anaphor is bound in its governing category.
+\a A pronomial is free in its governing category.
+\a An R-expression is free
+\xe |endcodedisplay
+
+
+The different effects of |interpartskip| and |belowpreambleskip|
+are illustrated below.
+
+\framedisplay
+\pex[labeltype=caps,belowpreambleskip=.75ex,interpartskip=.25ex]
+{\it Principles of the Theory of Binding}
+\a An anaphor is bound in its governing category.
+\a A pronomial is free in its governing category.
+\a An R-expression is free.
+\xe
+\endframedisplay
+
+\goodbreak
+\codedisplay
+\pex[labeltype=caps,belowpreambleskip=.75ex,interpartskip=.25ex]
+{\it Principles of the Theory of Binding}
+\a An anaphor is bound in its governing category.
+\a A pronomial is free in its governing category.
+\a An R-expression is free.
+\xe
+|endcodedisplay
+
+If |\a| or |\label| (see Section \getref{labelsec}) directly follows
+|\pex| (and a possible tilde diacritic
+and parameter settings), |\pex| assumes that
+there is no preamble, otherwise it assumes that there is.
+This poses a problem if you want to have nonprinting material
+other than a label specification before the first part.  For example,
+suppose you want to increase the baselineskip by 2pt.  You might
+try (\nextx), but it fails to achieve what you want.
+
+\beginss
+\pex \openup2pt
+\a
+\a
+\a
+\xe|midss
+\pex \openup2pt
+\a
+\a
+\a
+\xe
+\endss
+\noindent {\sl ExPex\/} provides the parameter |nopreamble| to
+solve the problem.  Setting it to ``true'' tells |\pex| that it
+should assume that there is no preamble, in spite of superficial
+appearances to the contrary.  So:
+
+\beginss
+\pex[nopreamble] \openup2pt
+\a
+\a
+\a
+\xe|midss
+\pex[nopreamble] \openup2pt
+\a
+\a
+\a
+\xe
+\endss
+\noindent Invoking |nopreamble| with no specified value sets it
+to the stipulated default value ``true''.  Setting
+|nopreamble=false| has no effect since |\pex| always starts out
+assuming that there is a preamble (i.e. that |nopreamble| has
+been set to |false|) and this is always overridden
+if a following |\a| or |\label| is detected, regardless of the
+setting of |nopreamble|.
+
+\font\titlett=txtt at 13.3pt
+
+\subsection Stipulated labels
+
+|\a| takes an optional argument, which is inserted as the label,
+ignoring automatic label generation.  This can be useful if only
+some parts of a multipart example are being repeated.  See
+for example (\getref{explicit}) in Section~\getref{explicit-sec}.
+
+%???? labelanchor and labeloffset should be removed and
+% example suitably modified
+\beginss
+\pex
+\pex[exno={7, partially repeated},
+   labelanchor=margin,
+   labeloffset=1.5em]\par
+\a[label=b]
+\a[label=d]
+\a[label=g]
+\xe|midss
+\pex[exno={7, partially repeated},labelanchor=margin,
+labeloffset=1.5em]\par
+\a[label=b]
+\a[label=d]
+\a[label=g]
+\xe
+\deftagpage{partialrepeat}
+\endss
+
+%\definelingstyle{UBC}{%
+%   numlabelclash=false,
+%   textanchor=numleft,textoffset=50pt,
+%   labelanchor=numleft,labeloffset=25pt,
+%   everylabel=,
+%   preambleanchor=text,preambleoffset=0pt,
+%   appendtopexarg=
+%}
+
