@@ -1,68 +1,55 @@
-%\makeatletter
-%\def\goop#1{\psline(#1,2ex)(#1,-3ex)\ignorespaces}
-%\def\lines{\llap{\hbox to\leftskip{%
-%   \goop 0
-%   \goop\epd@numright
-%   \goop\epd@labelleft
-%   \goop\epd@labelright
-%   \goop\epd@textleft
-%   \hfil}}}
-%\resetatcatcode
+
+%I am trying to write a macro \convert which will take a dimension
+%register and define a macro, say \goop, which will expand to the
+%the dimension in the register expressed in terms of em units.
 %
-%\lingset{interpartskip=0pt,exskip=0pt}
+%So, for example, if the current em unit is 12pts, and \dimen0 is
+%set to 18pt, then \convert{\dimen0} should result in defining
+%\goop so that it expands to 1.5em and be used in expressions like
+%\dimen1=\goop.  If this assignment takes place when the current
+%value of em is 6pt, then \dimen1 should be set to 9pts.
 %
-%\pex[labeltype=alpha,labelalign=left,labelwidth=1em]
-%\a \lines First part.
-%\a Second part.
-%\xe
-%\pex~[labeltype=alpha,labelalign=right,labelwidth=1em]
-%\a \lines First part.
-%\a Second part.
-%\xe
-%\pex~[labeltype=alpha,labelalign=center,labelwidth=1em]
-%\a \lines First part.
-%\a Second part.
-%\xe
-%\pex~[labeltype=numeric,labelalign=left]
-%\a First part.
-%\a Second part.
-%\xe
-%\pex~[labeltype=numeric,labelalign=right]
-%\a First part.
-%\a Second part.
-%\xe
-%\pex~[labeltype=caps,labelalign=left]
-%\a First part.
-%\a Second part.
-%\xe
-%\pex~[labeltype=caps,labelalign=right]
-%\a First part.
-%\a Second part.
-%\xe
+%The following code is probably well-known by experts to fail.
+%I'm not sure why.
+%
+%\def\trim #1pt{#1}
+%\dimen0=13pt
+%\expandafter\trim\the\dimen0
+%
+%Any help will be appreciated.
+%
 %
 %\endinput
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section Examples with labeled parts: Basics
 
-%\begingroup
-%\parindent=0pt
-%Macros:\hskip2.5em |\pex~[]|, |\a|, |\linglabeloffset|\par
-%\parinventory
-%& \idx{|numoffset|}& incrementable dimension& |0pt|\cr
-%& \idx{|labeltype|}& name of list of parameter settings&
-%   |alpha|\cr
-%& \idx{|labeloffset|}& incrementable dimension& |1em|\cr
-%& \idx{|labelwidth|}& incrementable dimension& |.78em|\cr
-%& \idx{|textoffset|}& incrementable dimension& |1em|\cr
-%& \idx{|interpartskip|}& skip& |1ex plus .2ex minus .2ex|\cr
-%\idx{|nopreamble|}& |true|, |false|\cr
-%& \idx{|samplelabel|}\cr
-%}}
-%\endparinventory
-%\endgroup
-\bigskip
-%
+\lingset{dima=1.3em}
+\noindent\begininventory
+\omit Macros:\hidewidth\cr
+\idx{|\pex|}, \idx{|\a|}\cr
+\omit Parameters:\hidewidth\cr
+\hfil\it key& \hfil\it value& \hfil\it initial value\cr
+\idx{|labeltype|}& name of a key-value list&
+   |alpha|\cr
+\idx{|labeloffset|}& incrementable dimension& |1em|\cr
+\idx{|labelwidth|}& incrementable dimension& |.72em|\cr
+\idx{|preambleoffset|}& incrementable dimension& |1em|\cr
+\idx{|interpartskip|}& incrementable skip&
+   |1ex plus .2ex minus .2ex|\cr
+\idx{|belowpreambleskip|}& incrementable skip&
+   |1ex plus .2ex minus .2ex|\cr
+\idx{|nopreamble|}& boolean& (not relevant)\cr
+\idx{|samplelabel|}& token list& (pseudo-parameter)\cr
+\endinventory
+
+\endinput
+
+
+
+
+\medskip
 \noindent Typical examples are given below, with the default
 settings of the parameters.\medskip
 
@@ -179,6 +166,9 @@ default label width by |samplelabel=a.|.
 \xe
 \endss
 
+% 07/26/11 modified \@setinckey so that it does not convert a
+%   relative dimension into a fixed dimension if an increment is
+%   not specified
 \beginss
 \pex[labeltype=caps]
 \a First part.
@@ -202,10 +192,144 @@ default label width by |samplelabel=a.|.
 \endss
 
 Section \getref{advanced} will detail all the parameters relevant
-to label types and how additional label types can be defined by
-the user.
+to the label types and how additional label types can be defined
+by the user.
 
+%\begingroup
+%\parindent=0pt
+%Macros:\hskip2.5em |\pex~[]|, |\a|, |\linglabeloffset|\par
+%\parinventory
+\ex Basic parameters for |\pex| formatting\smallskip
+\leftskip=0pt
+\hfil\vtop{\halign{#\hfil&& \qquad #\hfil\cr
+\hfil\it key& \hfil\it value& \hfil\it initial value\cr
+\noalign{\vskip.12ex}
+%\idx{|numoffset|}& incrementable dimension& |0pt|\cr
+\idx{|labeloffset|}& incrementable dimension& |1em|\cr
+\idx{|labelwidth|}& incrementable dimension& |.72em| (set by
+|labeltype=alpha|)\cr
+%\idx{|textoffset|}& incrementable dimension& |1em|\cr
+\idx{|interpartskip|}& skip& |1ex plus .2ex minus .2ex|\cr
+\idx{|belowpreambleskip|}& skip& |1ex plus .2ex minus .2ex|\cr
+\idx{|labeltype|}& name of a key-value list&
+   |alpha|\cr
+\idx{|nopreamble|}& |true|, |false|\cr
+\idx{|samplelabel|}& token list& \it pseudo-parameter\cr
+}}\xe
 
+\subsection {\tt nopreamble}
+
+In order to properly format examples with parts, there are
+various reasons that |\pex| must be able to figure out whether
+or not there is a preamble.  One reason is fairly obvious.  If
+there is a preamble, every part introduced by |\a| must start on
+a new line, otherwise only parts after the first part start a new
+line.  |\pex| tries to figure it out without help.  If |\a|
+directly follows |\pex|(|~|)(|[|\dots|]|) and perhaps a following
+space, |\pex| knows there is no preamble and acts accordingly.
+There are a few other following tokens, considered later in this
+manual, that |\pex| also knows are not signals that there is a
+preamble.  But |\pex|'s preamble detection abilities are
+primitive.  The following, for example, will confuse |\pex|.
+
+\beginss
+\pex \it
+\a first
+\a second
+\xe|midss
+\pex \it
+\a first
+\a second
+\xe
+\endss
+
+|\pex| needs some guidance in this case.  It is provided by the
+parameter |nopreamble|.
+
+\beginss
+\pex[nopreamble=true] \it
+\a first
+\a second
+\xe|midss
+\pex[nopreamble=true] \it
+\a first
+\a second
+\xe
+\endss
+
+In fact, it is a little simpler than this.  XKV parametrization
+allows one to stipulate a default value for each key that is
+defined.  If the key is given to the parameter setting machinary
+with no value, then the key is set to the default value.
+|nopreamble| has the default value |true|.  So the following is
+sufficient.
+
+\beginss
+\pex[nopreamble] \it
+\a first
+\a second
+\xe|midss
+\pex[nopreamble] \it
+\a first
+\a second
+\xe
+\endss
+
+The global setting of |nopreamble| is irrelevant to |\pex|, which
+always assumes there is a preamble unless it sees a directly
+following |\a| or |\pex| is told directly that there is no
+preamble.
+
+\beginss
+\lingset{nopreamble=true}
+\pex \it
+\a first
+\a second
+\xe|midss
+\lingset{nopreamble=true}
+\pex \it
+\a first
+\a second
+\xe
+\endss
+
+%\font\titlett=txtt at 13.3pt
+
+\subsection Stipulated labels
+
+|\a| takes an optional argument, which is inserted as the label,
+ignoring automatic label generation.  This can be useful if only
+some parts of a multipart example are being repeated.  See
+for example (\getref{explicit}) in Section~\getref{explicit-sec}.
+
+\beginss
+\pex[exno=47]
+\a[label=b]
+\a[label=d]
+\a[label=g]
+\xe|midss
+\pex[exno=47]
+\a[label=b]
+\a[label=d]
+\a[label=g]
+\xe
+\deftagpage{partialrepeat}
+\endss
+
+\noindent |\a| recognizes only two keys; |label| and |tag|.  See
+??? for the meaning and use of |tag|.
+
+%\definelingstyle{UBC}{%
+%   avoidnumlabelclash=false,
+%   textanchor=numleft,textoffset=50pt,
+%   labelanchor=numleft,labeloffset=25pt,
+%   everylabel=,
+%   preambleanchor=text,preambleoffset=0pt,
+%   appendtopexarg=
+%}
+\endinput
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Later we will see how to define custom
 label types as needed.  {\it ExPex\/} sets the defaults by
 saying |labeltype=alpha|.  It contains the lines:
@@ -340,42 +464,4 @@ assuming that there is a preamble (i.e. that |nopreamble| has
 been set to |false|) and this is always overridden
 if a following |\a| or |\label| is detected, regardless of the
 setting of |nopreamble|.
-
-\font\titlett=txtt at 13.3pt
-
-\subsection Stipulated labels
-
-|\a| takes an optional argument, which is inserted as the label,
-ignoring automatic label generation.  This can be useful if only
-some parts of a multipart example are being repeated.  See
-for example (\getref{explicit}) in Section~\getref{explicit-sec}.
-
-%???? labelanchor and labeloffset should be removed and
-% example suitably modified
-\beginss
-\pex
-\pex[exno={7, partially repeated},
-   labelanchor=margin,
-   labeloffset=1.5em]\par
-\a[label=b]
-\a[label=d]
-\a[label=g]
-\xe|midss
-\pex[exno={7, partially repeated},labelanchor=margin,
-labeloffset=1.5em]\par
-\a[label=b]
-\a[label=d]
-\a[label=g]
-\xe
-\deftagpage{partialrepeat}
-\endss
-
-%\definelingstyle{UBC}{%
-%   numlabelclash=false,
-%   textanchor=numleft,textoffset=50pt,
-%   labelanchor=numleft,labeloffset=25pt,
-%   everylabel=,
-%   preambleanchor=text,preambleoffset=0pt,
-%   appendtopexarg=
-%}
 

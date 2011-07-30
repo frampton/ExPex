@@ -1,0 +1,33 @@
+
+\newcount\fnno
+\fnno=0
+
+
+\makeatletter
+\def\footnote{\let\@sf\empty % parameter #2 (the text) is read later
+  \ifhmode\edef\@sf{\spacefactor\the\spacefactor}\/\fi
+  \putfnno\@sf
+%  \global\advance\fnno by 1 $^{\the\fnno}$\@sf
+  \footnotebody}
+\def\putfnno{\global\advance\fnno by 1 $^{\the\fnno}$}
+%  \expandafter\vfootnote\expandafter{\the\fnno}}
+\def\footnotebody{\expandafter\vfootnote\expandafter{\the\fnno}}
+\def\vfootnote#1{\insert\footins\bgroup
+  \interlinepenalty\interfootnotelinepenalty
+  \splittopskip\ht\strutbox % top baseline for broken footnotes
+  \splitmaxdepth\dp\strutbox \floatingpenalty\@MM
+  \leftskip\z@skip \rightskip\z@skip \spaceskip\z@skip \xspaceskip\z@skip
+%  \textindent{#1.}%
+  \tenpoint\noindent #1.\enspace\footstrut\futurelet\next\fo@t}
+%\def\fo@t{\ifcat\bgroup\noexpand\next \let\next\f@@t
+%  \else\let\next\f@t\fi \next}
+%\def\f@@t{\bgroup\aftergroup\@foot\let\next}
+%\def\f@t#1{#1\@foot}
+%\def\@foot{\strut\egroup}
+%\def\footstrut{\vbox to\splittopskip{}}
+%\skip\footins=\bigskipamount % space added when footnote is present
+%\count\footins=1000 % footnote magnification factor (1 to 1)
+%\dimen\footins=8in % maximum footnotes per page
+
+\resetatcatcode
+

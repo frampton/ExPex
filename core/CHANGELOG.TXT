@@ -3,8 +3,7 @@
 07/07/2011 (bug fix) \rightcite (mentioned in manual) added
 
 07/14/2011 - introduced 4 new parameters in order to provide more
-options for the formats of \ex and \pex and a macro to allow
-typesetting a multiline preamble that not aligned with the text
+options for the formats of \ex and \pex.
 
 \define@choicekey{ling}{preambleanchor}[...]{numright,labelleft,text}
 \define@choicekey{ling}{textanchor}[...]{margin,normal}
@@ -16,9 +15,18 @@ typesetting a multiline preamble that not aligned with the text
    local example number.  This is used in formats which print the
    example number as part of each label.
 \define@boolkey{ling}[ling@]{numlabelclash}{}
-   if set to true, \pex does not print the example number if
-   there is no preamble
-\def\multilinepreamble{...}
+   If set to true, \pex does not print the example number if
+   there is no preamble.
 
-7/15/2011 \rightcomment, \leftcomment, \pushright
+7/15/2011 \rightcomment, \leftcomment, \pushright added
+
+7/25/2011 Major revision of the way that \pex computes the
+   spacing and adjusts \leftskip.  Now correctly deals with
+   multiline preambles. First \a resets \leftskip.
+
+7/26/2011 Modified \@setinckey so that it does not convert a
+   relative dimension into a fixed dimension if an increment is
+   not specified.  Needed, for example, to get the correct
+   spacing in footnotes.
+
 

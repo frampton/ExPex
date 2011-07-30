@@ -1,0 +1,13 @@
+
+
+\def\emwidth#1#2{\dimen0=#1 \dimen1=1em
+   \dimen0=256\dimen0
+   \divide\dimen1 by 256
+   \divide\dimen0 by \dimen1
+   \edef#2{\the\dimen0}\ignorespaces}
+\emwidth{6pt}\foop
+\def\foop{0.05pt}
+\def\ggg#1pt{#1em}
+{\expandafter\ggg\foop}
+%\writeln{====\sloop====}
+

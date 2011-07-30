@@ -1,0 +1,32 @@
+
+\def\divrem#1 {%
+   #1=\count1
+   \divide#1 by \count2
+   \count255=\count2
+   \multiply\count255 by #1
+   \advance\count1 by -\count255
+   \multiply\count1 by 10
+}
+\def\emwidth#1#2{%
+   \setbox0=\hbox{#1}%
+   \begingroup
+   \dimen1=\wd0
+   \dimen2=1em
+   \count1=\dimen1
+   \count2=\dimen2
+   \divrem\count3
+   \divrem\count4
+   \divrem\count5
+   \divrem\count6
+   \divrem\count7
+   \ifnum\count7>4 \advance\count6 by 1 \fi
+   \ifnum\count6=10 \count6=0 \advance\count5 by 1 \fi
+   \ifnum\count5=10 \count5=0 \advance\count4 by 1 \fi
+   \ifnum\count4=10 \count4=0 \advance\count3 by 1 \fi
+   \xdef\temp{\the\count3 .\the\count4 \the\count5 \the\count6}%
+   \endgroup
+   \edef#2{\temp em}%
+}
+\def\reportemwidth#1{\emwidth{#1}\temp
+   \writeln{em-width of "#1" is \temp}}
+

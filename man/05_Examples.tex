@@ -1,0 +1,145 @@
+\medskip\hrule\medskip
+\makeatletter
+\def\marginoffset#1{\the\csname epd@#1\endcsname \ignorespaces}
+\pex
+\a
+\begingroup
+\vskip\ling@interpartskip
+\leftskip=\marginoffset{labelleft}
+Note.
+\par
+\endgroup
+\a
+\a
+\xe
+\resetatcatcode
+\medskip\hrule\medskip
+\begingroup
+\lingset{%
+   labelanchor=numleft,
+   labeloffset=0pt,
+   avoidnumlabelclash,
+   interpartskip=0pt,
+   labelgen=char,
+   pexcnt=`a,
+   labelalign=left,
+   labelformat=(A),
+   labelwidth=1.5em,
+   nopreamble,
+   exskip=1ex,
+}
+7.\enspace Previous footnote.
+The footnotes are generally quite extensive, many running over
+many lines of text.
+
+8.\enspace
+Introductory text to an extensive footnote.
+The footnote contains five related examples, which are labeled
+with a,b,\dots\ which run consequtively.
+\pex
+\a first example
+\a second example
+{\advance\pexcnt by 1 \xdef\resetpexcnt{\the\pexcnt}}%
+\xe
+Some explanatory text after the first two examples..
+\pex[pexcnt=\resetpexcnt]
+\a third example
+{\advance\pexcnt by 1 \xdef\resetpexcnt{\the\pexcnt}}%
+\xe
+Still more explanatory text after the examples above.
+\pex[pexcnt=\resetpexcnt]
+\a fourth example
+\a fifth example
+\xe
+Finally, the concluding text.
+
+9. Next footnote
+
+\endgroup
+\medskip\hrule\medskip
+
+\begingroup
+\lingset{%
+   labelanchor=numleft,
+   labeloffset=0pt,
+   avoidnumlabelclash,
+   interpartskip=0pt,
+   labelgen=char,
+   pexcnt=`a,
+   labelalign=left,
+   labelformat=(A),
+   labelwidth=1.5em,
+   nopreamble,
+   exskip=1ex,
+}
+7.\enspace Previous footnote.
+The footnotes are generally quite extensive, many running over
+many lines of text.
+
+8.\enspace
+Introductory text to an extensive footnote.
+The footnote contains five related examples, which are labeled
+with a,b,\dots\ which run consequtively.
+\pex
+\a first example
+\a second example
+\vskip1ex\begingroup \parindent=0pt \leftskip=0pt
+Some explanatory text after the first two examples.
+\vskip1ex\endgroup
+\a third example\par
+\vskip1ex\begingroup \parindent=0pt \leftskip=0pt
+Still more explanatory text after the examples above.
+\vskip1ex\endgroup
+\a fourth example
+\a fifth example
+\xe
+Finally, the concluding text.
+
+9. Next footnote
+
+\endgroup
+\medskip\hrule\medskip
+
+\begingroup
+
+% example from Barss in Step by Step
+Here is another reason to anchor the label at the left edge of the
+example number rather than the right edge.
+\lingset{labelanchor=numleft,labeloffset=2em,interpartskip=0pt,
+   textoffset=1.5em,exskip=1ex}
+\pex[exno=i]
+\a $[_{\rm S}[_{\rm NP}\,$his$_2$ mother$\,]\,[_{\rm
+VP}\,$everyone$\,]_2$ saw
+{\it e}$_2\,]]]$
+\a \ljudge* His mother saw everyone.
+\xe
+
+\pex~[exno=ii]
+\a \ljudge*$[_{\rm S'/CP}[\,$which pilot who shot at
+it$\,]_2\,[_{\rm S}\,${\it e}$_2\,[_{\rm VP}[\,$every MIG that
+chased him$_2\,]_3\,[_{\rm VP}\,$hit {\it e}$_3\,]]]]$
+\a $[\,$Which pilot who shot at it$_3\,]_2\,$hit$\,[\,$every MIG
+that chased him$_2\,]_3$?
+\xe
+
+\lingset{labelanchor=numright,labeloffset=1.2em}
+\pex[exno=i]
+\a $[_{\rm S}[_{\rm NP}\,$his$_2$ mother$\,]\,[_{\rm
+VP}\,$everyone$\,]_2$ saw
+{\it e}$_2\,]]]$
+\a \ljudge* His mother saw everyone.
+\xe
+
+\pex~[exno=ii]
+\a \ljudge*$[_{\rm S'/CP}[\,$which pilot who shot at
+it$\,]_2\,[_{\rm S}\,${\it e}$_2\,[_{\rm VP}[\,$every MIG that
+chased him$_2\,]_3\,[_{\rm VP}\,$hit {\it e}$_3\,]]]]$
+\a $[\,$Which pilot who shot at it$_3\,]_2\,$hit$\,[\,$every MIG
+that chased him$_2\,]_3$?
+\xe
+
+\endgroup
+
+\endinput
+
+

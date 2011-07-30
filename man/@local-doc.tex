@@ -22,12 +22,6 @@
 \lingset{headline=\hfil \ifnum\pageno<1 \else \the\pageno\hfil \fi,
    headlinelevel=\dimpuba}
 % formatting
-\def\endinventory{\egroup\par\bigskip\endgroup\noindent}
-\def\inventory{%
-   \begingroup \openup1pt \leftskip=0pt \parindent=0pt
-   \halign\bgroup
-      ##\hfil& \enspace\tt ##\hfil&& \qquad ##\hfil\cr
-}
 \def\parinventory{\pst@ifstar\parinventory@a}
 %\def\parinventory@a{%
 %   \par \noindent Parameter{\if@star\else s\fi}:\par\nobreak
@@ -40,6 +34,15 @@
       \omit Parameter{\if@star\else s\fi}:\hidewidth\cr
    \noalign{\par\nobreak}}
 \def\endparinventory{\egroup\egroup\bigskip\noindent}
+\def\begininventory{\bgroup
+   \setbox0=\vtop\bgroup\openup2pt
+      \halign\bgroup\quad ##\hfil&& \tspace ##\hfil\cr
+}
+\def\endinventory{\egroup\egroup
+   \noindent\quad
+      \psframebox[framesep=1ex,boxsep=true,doubleline=true]{\box0}%
+      \egroup}
+
 
 \def\smalldisplay{\medskip\noindent\hfil}
 \def\endsmalldisplay{\medskip\noindent}
@@ -228,6 +231,8 @@
    \medskip\nobreak\noindent
 }
 \lingset{secfil=.2\vsize}
+%%% displaying the macro/parameter inventory
+
 
 
 \resetatcatcode

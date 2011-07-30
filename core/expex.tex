@@ -1,4 +1,3 @@
-% changes
 \edef\resetatcatcode{\catcode`\noexpand\@\the\catcode`\@\relax}
 \catcode`\@11\relax
 \ifx\XKeyValLoaded\endinput \else
@@ -72,14 +71,23 @@
       \expandafterafter\@setinckey
          #1\csname ling#3#4\endcsname ##1\@nil}%
 }
+%\def\@setinckey#1#2#3#4\@nil{%
+%   \ifx#3!%
+%      #1 0=#2
+%      \advance#1 0 by #4
+%      \else
+%      #1 0=#3#4\relax
+%   \fi
+%   \edef#2{\the#1 0}%
+%}
 \def\@setinckey#1#2#3#4\@nil{%
    \ifx#3!%
-      #1 0=#2
-      \advance#1 0 by #4
+         #1 0=#2
+         \advance#1 0 by #4
+         \edef#2{\the#1 0}%
       \else
-      #1 0=#3#4\relax
-   \fi
-   \edef#2{\the#1 0}%
+         \def#2{#3#4}%
+      \fi
 }
 %
 \def\lingset#1{\setkeys{ling}{#1}\ignorespaces}
@@ -154,7 +162,7 @@
    \ignorespaces
 }
 \def\actualexno
-   {\if@specialexno \ling@specialexno \else \the\excnt \fi}
+   {\if@specialexno {\ling@specialexno}\else \the\excnt \fi}
 \def\exnoprint{(\the\excnt)}
 \def\specialexnoprint{(\ling@specialexno)}
 \def\ex@setup{%             also used by \pex
@@ -196,6 +204,7 @@
    \egroup
 }
 \def\xe{%
+   \strut
    \expandafter\vskip\lingbelowexskip
    \egroup
    \allowbreak
@@ -213,10 +222,11 @@
 \newdimen\epd@textleft                                % NEW
 \newdimen\epd@preambleleft                            % NEW
 \newif\if@firstlabel
-\define@linginckey\dimen{}{@}{preambleoffset}
+\define@linginckey\dimen{}{}{preambleoffset}
 \define@choicekey{ling}{preambleanchor}               % NEW
    [\scratch\ep@preambleanchor]{numright,labelleft,text}{}
-\define@boolkey{ling}[ling@]{numlabelclash}{}         % NEW
+%\define@boolkey{ling}[ling@]{avoidnumlabelclash}{}         % NEW
+\define@boolkey{ling}[ling@]{avoidnumlabelclash}[true]{}         % NEW
 \define@ling@cmdkeys{appendtopexarg}                  % NEW
 \define@linginckey\dimen{}{}{labelwidth}
 \define@linginckey\dimen{}{}{labeloffset}
@@ -273,7 +283,7 @@
       \fi
    \def\next{\llap{\hbox to\leftskip{\unhbox\numbox \hss}}}%
    \ifling@nopreamble
-         \ifling@numlabelclash \let\next\relax \fi\fi
+         \ifling@avoidnumlabelclash \let\next\relax \fi\fi
    \leavevmode
    \next
 }
@@ -291,6 +301,7 @@
       \fi
 %   \ep@setdimtextleft
 }
+\def\lingnumrightoffset{\the\epd@numright}%
 %\def\ep@setdimpreambleleft{%
 %   \settosum\epd@preambleleft\ling@preambleoffset
 %      {\ifcase\ep@preambleanchor
@@ -300,7 +311,7 @@
 %         \fi}%
 %}
 \def\ep@setdimpreambleleft{%
-   \epd@preambleleft=\ling@preambleoffset
+   \epd@preambleleft=\lingpreambleoffset
    \advance\epd@preambleleft by \ifcase\ep@preambleanchor
       \epd@numright\or \epd@labelleft\or \epd@textleft \fi
 }
@@ -375,7 +386,7 @@
 \def\put@label@a{%
    \useoptionallabelarg
    \ifx\@specialexno\empty
-         \ifcase \ep@labelgen
+         \ifcase\ep@labelgen
             \def\ep@label{\the\ep@everylabel \char\the\pexcnt}%
             \advance\pexcnt by 1
          \or
@@ -383,12 +394,16 @@
             \advance\pexcnt by 1
          \or
             \ep@popLL
+         \or
+            \def\ep@label{\the\ep@everylabel \romannumeral\pexcnt}%
+            \advance\pexcnt by 1
          \fi
       \else
          \def\ep@label{\the\ep@everylabel\@specialexno}%
       \fi
+   \xdef\resumepexcnt{\noexpand\pexcnt\the\pexcnt}%
    \@getoptionaltag
-    \put@label@b
+   \put@label@b
 }
 \def\put@label@b{%
    \ifx\@optionaltag\empty \else
@@ -412,7 +427,7 @@
 %   labelwidth=.78em,
 %   preambleanchor=numright,
 %   preambleoffset=1em,
-%   numlabelclash=false,
+%   avoidnumlabelclash=false,
 %   appendtopexarg=
 %}
 \define@lingkey{pexcnt}{\edef\ling@pexcnt{#1}}
@@ -442,10 +457,13 @@
          \def\ep@label{\the\ep@everylabel \char\the\pexcnt}%
       \or
          \def\ep@label{\the\ep@everylabel \number\pexcnt}
+      \or
+      \or
+         \def\ep@label{\the\ep@everylabel \romannumeral\pexcnt}
       \fi
    \ling@usearg
-   \dimen0\lingtextoffset
-   \advance\dimen0 \linglabelwidth
+   \dimen0=\lingtextoffset
+   \advance\dimen0 by \linglabelwidth
    \edef\ling@labelskip{\the\dimen0}%
    \pexcnt@init
    \let\tl\@inserttabellabel
@@ -484,7 +502,7 @@
 \def\ep@popLL@a#1,#2\@nil{%
    \def\ep@label{\the\ep@everylabel #1}\def\@currLL{#2}}
 \define@choicekey{ling}{labelgen}[\ling@labelgen\ep@labelgen]%
-   {char,number,list}{}
+   {char,number,list,romannumeral}{}
 \define@choicekey{ling}{labeltype}[\ling@labeltype\@N]%
    {alpha,caps,numeric}{%
       \ifcase\@N
@@ -519,11 +537,13 @@
    \fi
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \definelabeltype{alpha}{labelgen=char,pexcnt=`a,labelformat=A.,
-   fullrefformat=XA,labelalign=left,samplelabel=b.}
+   fullrefformat=XA,labelalign=left,labelwidth=.72em}
 \definelabeltype{caps}{labelgen=char,pexcnt=`A,labelformat=A.,
-   fullrefformat=XA,labelalign=left,samplelabel=A.}
+   fullrefformat=XA,labelalign=left,labelwidth=.92em}
 \definelabeltype{numeric}{labelgen=number,pexcnt=1,labelformat=A.,
-   fullrefformat=X.A,labelalign=right,samplelabel=2.}
+   fullrefformat=X.A,labelalign=right,labelwidth=.75em}
+\definelabeltype{footnote}{labelgen=romannumeral,pexcnt=1,labelformat=(A),
+   fullrefformat=XA,labelalign=left,labelwidth=1.5em}
 %%%%%
 %\lingset{%
 %   labeltype=alpha,
@@ -551,17 +571,34 @@
       \fi}%
    \ignorespaces
 }
+%\def\deftaglabel#1{%
+%   \expandafter\xdef\csname lingtag@\@localextag.#1\endcsname%
+%      {{{\expandtwice\ep@label}}%
+%       {{\fullrefformat{\@actualexno}\expandtwice\ep@label}}%
+%      }%
+%   \if@g@thertags
+%      \immediate\write@tags{%
+%         \noexpand\@fd@f
+%         {\@localextag.#1}
+%         {{{\expandtwice\ep@label}}%
+%          {{\fullrefformat{\@actualexno}\expandtwice\ep@label}}}%
+%         }%
+%      \fi
+%   \ignorespaces
+%}
+%% try it without \expandtwice
+%% I can't remember why this is in there
 \def\deftaglabel#1{%
    \expandafter\xdef\csname lingtag@\@localextag.#1\endcsname%
-      {{{\expandtwice\ep@label}}%
-       {{\fullrefformat{\@actualexno}\expandtwice\ep@label}}%
+      {{{\ep@label}}%
+       {{\fullrefformat{\@actualexno}\ep@label}}%
       }%
    \if@g@thertags
       \immediate\write@tags{%
          \noexpand\@fd@f
          {\@localextag.#1}
-         {{{\expandtwice\ep@label}}%
-          {{\fullrefformat{\@actualexno}\expandtwice\ep@label}}}%
+         {{{\ep@label}}%
+          {{\fullrefformat{\@actualexno}\ep@label}}}%
          }%
       \fi
    \ignorespaces
@@ -704,31 +741,31 @@
    \ifx\temp\empty \partlabelfalse \else \partlabeltrue\fi}
 \def\getref{\fullreffalse \getref@a}
 \def\getfullref{\fullreftrue \getref@a}
-\def\getref@a#1{%
-   \if@readtags \@setupreadtags \fi
-   \ispartlabelcheck{#1}%
-   \ifpartlabel
-         \iffullref
-               \let\@chooseref\chooseref@a
-            \else
-               \let\@chooseref\chooseref@g
-            \fi
-      \else
-         \let\@chooseref\relax
-      \fi
-   \expandafter \ifcsname lingtag@#1\endcsname
-   \edef\temp{\expandtwice\csname lingtag@#1\endcsname}%
-   \ifx\temp\empty
-            \@expexwarn{+++tag #1 has no full reference}%
-            \@printref{Missing!}%
-         \else
-            {\@printref{\expandafter\@chooseref\temp}}%
-         \fi
-      \else
-         \@expexwarn{tag #1 is called but not defined}%
-         {\@printref{\tt [#1]}}%
-      \fi
-}
+%\def\getref@a#1{%
+%   \if@readtags \@setupreadtags \fi
+%   \ispartlabelcheck{#1}%
+%   \ifpartlabel
+%         \iffullref
+%               \let\@chooseref\chooseref@a
+%            \else
+%               \let\@chooseref\chooseref@g
+%            \fi
+%      \else
+%         \let\@chooseref\relax
+%      \fi
+%   \expandafter \ifcsname lingtag@#1\endcsname
+%   \edef\temp{\expandtwice\csname lingtag@#1\endcsname}%
+%   \ifx\temp\empty
+%            \@expexwarn{+++tag #1 has no full reference}%
+%            \@printref{Missing!}%
+%         \else
+%            {\@printref{\expandafter\@chooseref\temp}}%
+%         \fi
+%      \else
+%         \@expexwarn{tag #1 is called but not defined}%
+%         {\@printref{\tt [#1]}}%
+%      \fi
+%}
 \def\getref@a#1{%
    \if@readtags \@setupreadtags \fi
    \ispartlabelcheck{#1}%
@@ -793,10 +830,8 @@
 %\define@ling@cmdkeys{everygla,everyglb,everyglc}
 \define@ling@cmdkeys{everygla,everyglb,everyglc,
    everygl,everyglft,everyglword}
-%\define@linginckey\skip{}{@}{aboveglcskip}
 \define@linginckey\dimen{}{@}{glhangindent}
 \define@linginckey\dimen{}{@}{glwidth}
-\define@linginckey\skip{}{@}{aboveglcskip}
 \define@linginckey\skip{}{@}{aboveglftskip}
 %--------------- Wrap style (W) ---------------------------
 \define@choicekey{ling}{glhangstyle}[\temp\ep@glhangstyle]%
@@ -1063,7 +1098,7 @@
 }
 %---------------------- old style (L) -------------------------
 \define@linginckey\skip{}{@}{abovemoreglskip}
-\define@linginckey\skip{}{@}{aboveglcskip}
+%\define@linginckey\skip{}{@}{aboveglcskip}
 \define@linginckey\dimen{}{@}{moregloffset}
 \def\begingl@L{%
    \leavevmode
@@ -1202,10 +1237,11 @@
    \hbox{#1}%
 }
 \resetatcatcode
-% ----- default settings -----
+% ----- initial settings -----
+\def\normalexskip{2.7ex plus .8ex minus .8ex}
 \definelingstyle{factorysettings}{%
-   aboveexskip=2.7ex plus .8ex minus .8ex,
-   belowexskip=2.7ex plus .8ex minus .8ex,
+   aboveexskip=\normalexskip,
+   belowexskip=\normalexskip,
    Everyex=,
    everyex=,
    numoffset=0pt,
@@ -1216,7 +1252,7 @@
    textoffset=1em,
    preambleanchor=numright,
    preambleoffset=1em,
-   numlabelclash=false,
+   avoidnumlabelclash=false,
    appendtopexarg=,
    labeltype=alpha,
    everylabel=,
