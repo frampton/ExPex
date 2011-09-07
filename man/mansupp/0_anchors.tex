@@ -17,7 +17,7 @@
 
 
 \definelingstyle{IJAL}{%
-   numlabelclash=true,
+   avoidnumlabelclash=true,
    labelanchor=numleft,labeloffset=0pt,
    textanchor=normal,textoffset=1.5em,
    preambleanchor=text,preambleoffset=0pt,
@@ -26,7 +26,7 @@
    appendtopexarg={samplelabel=(\actualexno a)}
    }
 \definelingstyle{UBC}{%
-   numlabelclash=false,
+   avoidnumlabelclash=false,
    textanchor=numleft,textoffset=50pt,
    labelanchor=numleft,labeloffset=25pt,
    everylabel=,
@@ -34,7 +34,7 @@
    appendtopexarg=
 }
 \definelingstyle{frampton}{%
-   numlabelclash=false,
+   avoidnumlabelclash=false,
    textanchor=normal,textoffset=1.4em,
    labelanchor=numright,labeloffset=1.4em,
    everylabel=,
@@ -125,7 +125,7 @@ the actual label width.
 
 \parinventory
 & \idx{|appendtopexarg|}&  token list& |{}|\cr
-& \idx{|numlabelclash|}& boolean (|true| or |false|)& |false|\cr
+& \idx{|avoidnumlabelclash|}& boolean (|true| or |false|)& |false|\cr
 \endparinventory
 
 \noindent The formatting demands of the International Journal of
@@ -175,14 +175,14 @@ want.
 
 There is another issue.  The example number does not appear in
 (\getref{nonum}).  ExPex now provides the boolean (true or false
-values only) parameter |numlabelclash|.  If it is set to |true|,
+values only) parameter |avoidnumlabelclash|.  If it is set to |true|,
 the example number is not typeset in |\pex| examples with no
 preamble.
 
 The code used for the IJAL examples above was:
 \codedisplay
 \definelingstyle{IJAL}{%
-   numlabelclash=true,
+   avoidnumlabelclash=true,
    labelanchor=numleft,labeloffset=0pt,
    preambleanchor=text,preambleoffset=0pt,
    labelformat=(A),
