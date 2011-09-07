@@ -1,0 +1,72 @@
+
+\section Annotating glosses with comments, citations, and the like
+
+\noindent Macros: |\rightcomment|, |\leftcomment|, and |\pushciteright|
+\smallskip
+\noindent Parameter: \idx{|mincitesep|}\qquad dimension\qquad |2em|
+\bigskip
+
+\noindent You might want to produce a display like the following.
+
+\framedisplay
+\ex[glstyle=multilevel,textoffset=1in]
+\begingl
+\gla \rightcomment{\rm [Potawatami]}k- wapm -a -s'i -m -wapunin -uk //
+\glb \leftcomment{\hfill\rm (negation)\quad}%
+   Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
+\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glft \leavevmode\rightcomment{(Hockett 1948, p. 143)}
+   `you (pl) didn't see them'//
+\endgl
+\xe
+\endframedisplay
+The code is:
+\codedisplay
+\ex[glstyle=multilevel,textoffset=1.5in]
+\begingl
+\gla \rightcomment{\rm [Potawatami]}k- wapm -a -s'i -m -wapunin -uk //
+\glb \leftcomment{\hfill\rm (negation)\qquad}%
+   Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
+\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glft \leavevmode\rightcomment{(Hockett 1948, p. 143)}
+   `you (pl) didn't see them'//
+\endgl
+\xe
+|endcodedisplay
+
+|rightcomment| and |leftcomment| are very primitive, but
+sometimes very useful.  They do not check to see that there is
+enough space for the material that they align with the margins
+and they can be used only with those gl styles which package the
+gloss in a box (|multilevel|, |3level|, and |oldstyle|).
+
+|\pushciteright|, for use with |glstyle=wrap| is more sophisticated.
+
+% p. 67 in Sandy's book
+\def\besta{\begingl[glbrackets]
+   \gla Sa' esta ha-tutuhun {\it pro} \[mam-a'tinas {\it t\/}
+   latgeru p\"ara o f\"a'i\]//
+   \glb because already agr-begin {} Infin.AP-make {} shaft for
+   the rice.plant//
+   \glft `Because he had already started making shafts for the
+   rice plants'\pushciteright{(Correman 1983:57)}//\endgl
+}
+
+\lingset{glstyle=wrap,mincitesep=2em,everygla=}
+
+\ex[everyex={\hsize=6.3in}]
+\besta
+\xe
+
+\ex~[exno=22,everygla=,everyex={\hsize=6.3in}]
+\besta
+\xe
+
+\ex~[exno=22,everygla=,everyex={\hsize=6.3in},mincitesep=1em]
+\besta
+\xe
+
+\ex~[everygla=,everyex={\hsize=4in},mincitesep=2em]
+\besta
+\xe
+

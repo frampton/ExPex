@@ -1,0 +1,373 @@
+
+\section{Placing the free translation to the right of the word by word gloss}
+
+\parinventory
+& \idx{|ftpos|}& choice (|below| or |right|)& |below|\cr
+& \idx{|sssep|}& dimension& |3em|\cr
+& \idx{|ssratio|}& decimal& |.6 |\cr
+& \idx{|ssrightskip|}& skip& |0pt plus 2em|\cr
+\endparinventory
+
+
+
+
+\lingset{glstyle=wrap,everygl=\openup.5ex,
+   everyglword=\normalbaselines,everyglft=\normalbaselines,
+   glhangindent=2em}
+
+\framedisplay
+\ex[glftpos=right,glhangstyle=none]
+\begingl
+\gla
+Hmao sa co po tha  nu nao nga hmua. Nu dja ga, nu dja cog nu laih
+gui reo ne. Todang bboi rok jolan nu nao hma, nu bboh sa droi mra
+do bboi gah, a, hruh nu.//
+\glb
+exist one {clf} person old 3s go do field 3s hold machete 3s hold
+hoe 3s pst carry.on.back back.basket 3s while at {along} trail 3s
+go field 3s see one clf peacock stay at drct {?} nest 3s//
+\glft
+`There was an old person who went to work in the field. He took
+along his machete, he took along his hoe, and he carried his
+basket on his back. While he was on his way to the farm, he saw a
+peacock beside its nest.'//
+\endgl
+\xe
+\endframedisplay
+\noindent is achieved by
+\codedisplay
+\ex[glftpos=right,glhangstyle=none]
+\begingl
+\gla
+Hmao sa co po tha  nu nao nga hmua. Nu dja ga, nu dja cog nu laih
+gui reo ne. Todang bboi rok jolan nu nao hma, nu bboh sa droi mra
+do bboi gah, a, hruh nu.//
+\glb
+exist one {clf} person old 3s go do field 3s hold machete 3s hold
+hoe 3s pst carry.on.back back.basket 3s while at {along} trail 3s
+go field 3s see one clf peacock stay at drct {?} nest 3s//
+\glft
+`There was an old person who went to work in the field. He took
+along his machete, he took along his hoe, and he carried his
+basket on his back. While he was on his way to the farm, he saw a
+peacock beside its nest.'//
+\endgl
+\xe
+|endcodedisplay
+
+|ss| stands for ``side-by-side''.
+|sssep| gives the separation of the gloss and the free
+translation. |ssratio| gives the proportion of the available
+space (which is the leftskip minus the value of |sssep|) which
+the gloss occupies.  Line breaking in the free translation is
+delicate because it will generally be narrow. The default setting
+of |ssrightskip| allows  up to 2em departure from right
+alignment. This usually avoids overfull lines and awkward
+hyphenation.  |ssrightskip| can be increased (all the way to
+\hbox{|0pt plus 1fil|}) if there is a problem, at the cost of a
+more ragged appearance.  This can be done globally, or simply in
+troublesome examples.
+
+The point of hanging indentation is to visually separate the free
+translation and the gloss, so |glhangstyle=none| is completely
+satisfactory if the tree translation is on the right. But {it
+ExPex\/} will happily use hanging (either cascading or not)
+indentation with the free translation on the right.
+
+
+\framedisplay
+\ex[glftpos=right,glhangstyle=none,ssratio=.7,sssep=1.5em,
+ssrightskip=0pt plus .4em]
+\begingl
+\gla
+Hmao sa co po tha  nu nao nga hmua. Nu dja ga, nu dja cog nu laih
+gui reo ne. Todang bboi rok jolan nu nao hma, nu bboh sa droi mra
+do bboi gah, a, hruh nu.//
+\glb
+exist one {clf} person old 3s go do field 3s hold machete 3s hold
+hoe 3s pst carry.on.back back.basket 3s while at {along} trail 3s
+go field 3s see one clf peacock stay at drct {?} nest 3s//
+\glft
+`There was an old person who went to work in the field. He took
+along his machete, he took along his hoe, and he carried his
+basket on his back. While he was on his way to the farm, he saw a
+peacock beside its nest.'//
+\endgl
+\xe
+\endframedisplay
+
+\endinput
+
+\lingset{glhangstyle=none}
+
+\exdisplay\noexno
+\begingl[glftpos=below]
+[A]\quad \gla
+Hmao sa co po tha  nu nao nga hmua. Nu dja ga, nu dja cog nu laih
+gui reo ne. Todang bboi rok jolan nu nao hma, nu bboh sa droi mra
+do bboi gah, a, hruh nu.//
+\glb
+exist one {clf} person old 3s go do field 3s hold machete 3s hold
+hoe 3s pst carry.on.back back.basket 3s while at {along} trail 3s
+go field 3s see one clf peacock stay at drct {?} nest 3s//
+\glft
+`There was an old person who went to work in the field. He took
+along his machete, he took along his hoe, and he carried his
+basket on his back. While he was on his way to the farm, he saw a
+peacock beside its nest.'//
+\endgl
+\xe
+
+\exdisplay\noexno
+\begingl[glftpos=right]
+[B]\quad \gla
+Hmao sa co po tha  nu nao nga hmua. Nu dja ga, nu dja cog nu laih
+gui reo ne. Todang bboi rok jolan nu nao hma, nu bboh sa droi mra
+do bboi gah, a, hruh nu.//
+\glb
+exist one {clf} person old 3s go do field 3s hold machete 3s hold
+hoe 3s pst carry.on.back back.basket 3s while at {along} trail 3s
+go field 3s see one clf peacock stay at drct {?} nest 3s//
+\glft
+`There was an old person who went to work in the field. He took
+along his machete, he took along his hoe, and he carried his
+basket on his back. While he was on his way to the farm, he saw a
+peacock beside its nest.'//
+\endgl
+\xe
+
+\ex[glftpos=below]
+\begingl
+\gla
+Hmao sa co po tha  nu nao nga hmua. Nu dja ga, nu dja cog nu laih
+gui reo ne. Todang bboi rok jolan nu nao hma, nu bboh sa droi mra
+do bboi gah, a, hruh nu.//
+\glb
+exist one {clf} person old 3s go do field 3s hold machete 3s hold
+hoe 3s pst carry.on.back back.basket 3s while at {along} trail 3s
+go field 3s see one clf peacock stay at drct {?} nest 3s//
+\glft
+`There was an old person who went to work in the field. He took
+along his machete, he took along his hoe, and he carried his
+basket on his back. While he was on his way to the farm, he saw a
+peacock beside its nest.'//
+\endgl
+\xe
+
+
+\ex[glftpos=right]
+\begingl
+\gla
+Hmao sa co po tha  nu nao nga hmua. Nu dja ga, nu dja cog nu laih
+gui reo ne. Todang bboi rok jolan nu nao hma, nu bboh sa droi mra
+do bboi gah, a, hruh nu.//
+\glb
+exist one {clf} person old 3s go do field 3s hold machete 3s hold
+hoe 3s pst carry.on.back back.basket 3s while at {along} trail 3s
+go field 3s see one clf peacock stay at drct {?} nest 3s//
+\glft
+`There was an old person who went to work in the field. He took
+along his machete, he took along his hoe, and he carried his
+basket on his back. While he was on his way to the farm, he saw a
+peacock beside its nest.'//
+\endgl
+\xe
+
+\lingset{glhangstyle=normal}
+
+\exdisplay\noexno
+\begingl[glftpos=below]
+[A]\quad \gla
+Hmao sa co po tha  nu nao nga hmua. Nu dja ga, nu dja cog nu laih
+gui reo ne. Todang bboi rok jolan nu nao hma, nu bboh sa droi mra
+do bboi gah, a, hruh nu.//
+\glb
+exist one {clf} person old 3s go do field 3s hold machete 3s hold
+hoe 3s pst carry.on.back back.basket 3s while at {along} trail 3s
+go field 3s see one clf peacock stay at drct {?} nest 3s//
+\glft
+`There was an old person who went to work in the field. He took
+along his machete, he took along his hoe, and he carried his
+basket on his back. While he was on his way to the farm, he saw a
+peacock beside its nest.'//
+\endgl
+\xe
+
+\exdisplay\noexno
+\begingl[glftpos=right]
+[B]\quad \gla
+Hmao sa co po tha  nu nao nga hmua. Nu dja ga, nu dja cog nu laih
+gui reo ne. Todang bboi rok jolan nu nao hma, nu bboh sa droi mra
+do bboi gah, a, hruh nu.//
+\glb
+exist one {clf} person old 3s go do field 3s hold machete 3s hold
+hoe 3s pst carry.on.back back.basket 3s while at {along} trail 3s
+go field 3s see one clf peacock stay at drct {?} nest 3s//
+\glft
+`There was an old person who went to work in the field. He took
+along his machete, he took along his hoe, and he carried his
+basket on his back. While he was on his way to the farm, he saw a
+peacock beside its nest.'//
+\endgl
+\xe
+
+\ex[glftpos=below]
+\begingl
+\gla
+Hmao sa co po tha  nu nao nga hmua. Nu dja ga, nu dja cog nu laih
+gui reo ne. Todang bboi rok jolan nu nao hma, nu bboh sa droi mra
+do bboi gah, a, hruh nu.//
+\glb
+exist one {clf} person old 3s go do field 3s hold machete 3s hold
+hoe 3s pst carry.on.back back.basket 3s while at {along} trail 3s
+go field 3s see one clf peacock stay at drct {?} nest 3s//
+\glft
+`There was an old person who went to work in the field. He took
+along his machete, he took along his hoe, and he carried his
+basket on his back. While he was on his way to the farm, he saw a
+peacock beside its nest.'//
+\endgl
+\xe
+
+
+\ex[glftpos=right]
+\begingl
+\gla
+Hmao sa co po tha  nu nao nga hmua. Nu dja ga, nu dja cog nu laih
+gui reo ne. Todang bboi rok jolan nu nao hma, nu bboh sa droi mra
+do bboi gah, a, hruh nu.//
+\glb
+exist one {clf} person old 3s go do field 3s hold machete 3s hold
+hoe 3s pst carry.on.back back.basket 3s while at {along} trail 3s
+go field 3s see one clf peacock stay at drct {?} nest 3s//
+\glft
+`There was an old person who went to work in the field. He took
+along his machete, he took along his hoe, and he carried his
+basket on his back. While he was on his way to the farm, he saw a
+peacock beside its nest.'//
+\endgl
+\xe
+
+
+\lingset{glhangstyle=cascade}
+
+\exdisplay\noexno
+\begingl[glftpos=below]
+[A]\quad \gla
+Hmao sa co po tha  nu nao nga hmua. Nu dja ga, nu dja cog nu laih
+gui reo ne. Todang bboi rok jolan nu nao hma, nu bboh sa droi mra
+do bboi gah, a, hruh nu.//
+\glb
+exist one {clf} person old 3s go do field 3s hold machete 3s hold
+hoe 3s pst carry.on.back back.basket 3s while at {along} trail 3s
+go field 3s see one clf peacock stay at drct {?} nest 3s//
+\glft
+`There was an old person who went to work in the field. He took
+along his machete, he took along his hoe, and he carried his
+basket on his back. While he was on his way to the farm, he saw a
+peacock beside its nest.'//
+\endgl
+\xe
+
+\exdisplay\noexno
+\begingl[glftpos=right]
+[B]\quad \gla
+Hmao sa co po tha  nu nao nga hmua. Nu dja ga, nu dja cog nu laih
+gui reo ne. Todang bboi rok jolan nu nao hma, nu bboh sa droi mra
+do bboi gah, a, hruh nu.//
+\glb
+exist one {clf} person old 3s go do field 3s hold machete 3s hold
+hoe 3s pst carry.on.back back.basket 3s while at {along} trail 3s
+go field 3s see one clf peacock stay at drct {?} nest 3s//
+\glft
+`There was an old person who went to work in the field. He took
+along his machete, he took along his hoe, and he carried his
+basket on his back. While he was on his way to the farm, he saw a
+peacock beside its nest.'//
+\endgl
+\xe
+
+\ex[glftpos=below]
+\begingl
+\gla
+Hmao sa co po tha  nu nao nga hmua. Nu dja ga, nu dja cog nu laih
+gui reo ne. Todang bboi rok jolan nu nao hma, nu bboh sa droi mra
+do bboi gah, a, hruh nu.//
+\glb
+exist one {clf} person old 3s go do field 3s hold machete 3s hold
+hoe 3s pst carry.on.back back.basket 3s while at {along} trail 3s
+go field 3s see one clf peacock stay at drct {?} nest 3s//
+\glft
+`There was an old person who went to work in the field. He took
+along his machete, he took along his hoe, and he carried his
+basket on his back. While he was on his way to the farm, he saw a
+peacock beside its nest.'//
+\endgl
+\xe
+
+
+\ex[glftpos=right]
+\begingl
+\gla
+Hmao sa co po tha  nu nao nga hmua. Nu dja ga, nu dja cog nu laih
+gui reo ne. Todang bboi rok jolan nu nao hma, nu bboh sa droi mra
+do bboi gah, a, hruh nu.//
+\glb
+exist one {clf} person old 3s go do field 3s hold machete 3s hold
+hoe 3s pst carry.on.back back.basket 3s while at {along} trail 3s
+go field 3s see one clf peacock stay at drct {?} nest 3s//
+\glft
+`There was an old person who went to work in the field. He took
+along his machete, he took along his hoe, and he carried his
+basket on his back. While he was on his way to the farm, he saw a
+peacock beside its nest.'//
+\endgl
+\xe
+
+
+\endinput
+\bye
+
+\ex[glftpos=below,glhangstyle=normal] \mkgloss\hmao \xe
+
+\ex[glftpos=right,glhangstyle=normal] \mkgloss\hmao \xe
+
+\ex[glftpos=below,glhangstyle=cascade] \mkgloss\hmao \xe
+
+\ex[glftpos=right,glhangstyle=cascade,glhangindent=1em] \mkgloss\hmao \xe
+
+\ex \mkgloss[glftpos=right,glhangstyle=cascade,glhangindent=1em]\hmao \xe
+
+
+\noindent
+\begingl
+%\relax[A]\quad
+\gla
+Hmao sa co po tha  nu nao nga hmua. Nu dja ga, nu dja cog nu laih
+gui reo ne. Todang bboi rok jolan nu nao hma, nu bboh sa droi mra
+do bboi gah, a, hruh nu.//
+\glb
+exist one {clf} person old 3s go do field 3s hold machete 3s hold
+hoe 3s pst carry.on.back back.basket 3s while at {along} trail 3s
+go field 3s see one clf peacock stay at drct {?} nest 3s//
+\glft
+`There was an old person who went to work in the field. He took
+along his machete, he took along his hoe, and he carried his
+basket on his back. While he was on his way to the farm, he saw a
+peacock beside its nest.'//
+\endgl
+\bye
+
+\mkgloss\relax[A]\quad\hmao
+\bye
+
+\bigskip
+\mkgloss\hmao
+
+\bigskip
+\mkgloss[glftpos=right][A]\quad\hmao
+
+\bigskip
+\mkgloss[glhangstyle=normal,glftpos=right]\hmao
+
+
