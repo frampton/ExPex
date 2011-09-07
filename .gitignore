@@ -9,6 +9,7 @@
 *.LSD
 *.bak
 *.ini
+*.idx
 man-old/
 .*/JUNK/
 JUNK/
