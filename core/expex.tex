@@ -792,8 +792,42 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% glosses
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\define@choicekey{ling}{glstyle}[\ling@glstyle\nr]%
+%   {3level,wrap,oldstyle,multilevel}{%
+%      \ifcase\nr
+%            \let\begingl@type=\begingl@T
+%            \let\endgl\endgl@W
+%         \or
+%            \let\begingl@type=\begingl@Wb
+%            \let\endgl=\endgl@Wb
+%            \let\gla\gla@W
+%            \let\glb\glb@W
+%            \let\glft\glft@Wb
+%         \or
+%            \let\begingl@type=\begingl@L
+%            \let\endgl=\endgl@L
+%            \let\gla=\gla@L
+%            \let\glb=\glb@L
+%            \let\glc=\glc@L
+%         \or
+%            \let\begingl@type=\begingl@L
+%            \let\endgl=\endgl@L
+%            \ep@letlevels
+%            \let\glft=\glft@M
+%         \fi
+%}
+%% \ep@Mlevels is the list of M-levels that have been defined
+%\def\ep@letlevels{%
+%   \expandafter\XKV@for@n\expandafter{\ep@Mlevels}\levelname
+%   {\edef\temp{\noexpand\let
+%   \expandafter\noexpand\csname gl\levelname\endcsname
+%   \expandafter\noexpand\csname gl\levelname @M\endcsname}%
+%   \temp
+%}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% from multiwrap5
 \define@choicekey{ling}{glstyle}[\ling@glstyle\nr]%
-   {3level,wrap,oldstyle,multilevel}{%
+   {3level,wrap,oldstyle,multilevel,multiwrap}{%
       \ifcase\nr
             \let\begingl@type=\begingl@T
             \let\endgl\endgl@W
@@ -814,16 +848,30 @@
             \let\endgl=\endgl@L
             \ep@letlevels
             \let\glft=\glft@M
+         \or
+            \let\begingl=\glmw@begingl
+            \let\endgl=\glmw@endgl
+            \glmw@letlevels
          \fi
 }
-% \ep@Mlevels is the list of M-levels that have been defined
+%% ep@Mlevels is the list of M-levels that have been defined
 \def\ep@letlevels{%
    \expandafter\XKV@for@n\expandafter{\ep@Mlevels}\levelname
    {\edef\temp{\noexpand\let
    \expandafter\noexpand\csname gl\levelname\endcsname
    \expandafter\noexpand\csname gl\levelname @M\endcsname}%
-   \temp
-}}
+   \temp}%
+}
+%% \glmw@levels is the list of mw-levels that have been defined
+\def\glmw@letlevels{%
+   \expandafter\XKV@for@n\expandafter{\glmw@levels}\levelname
+   {\edef\temp{\noexpand\let
+   \expandafter\noexpand\csname gl\levelname\endcsname
+   \expandafter\noexpand\csname glmw@gl\levelname\endcsname}%
+   \temp}%
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \def\begingl{\bgroup\@getoptionalarg\@begingl}
 \def\@begingl{\ling@usearg\begingl@type}
 \define@linginckey\dimen{}{@}{glspace}
@@ -1164,23 +1212,171 @@
    }}%
 \egroup
 }
-% -----  -----
-%\lingset{%                          the main glossing parameters
-%   aboveglcskip=0pt,
-%   aboveglftskip=1ex,
-%   glhangindent=1em,
-%   moregloffset=0pt,
-%   abovemoreglskip=.25ex,
-%   glspace=.6em,
-%   everygla=\it,
-%   everyglb=,
-%   everyglc=,
-%   everyglft=,
-%   everygl=,
-%   everyglword=,
-%   glwidth=0pt,
-%   glstyle=oldstyle,
-%}
+%---------------------- multiwrap style (T) ---------------------
+\toksdef\ta=0  \toksdef\tb=2
+\def\gappend #1\to #2{%
+   \ta={\\{#1}}%
+   \tb=\expandafter{#2}%
+   \xdef#2{\the\tb\the\ta}%
+}
+\def\lop#1\to#2{\ifx#1\empty
+   \let#2\empty \else\expandafter\lopoff#1\lopoff#1#2\fi}
+\long\def\lopoff\\#1#2\lopoff#3#4{\def#4{#1}\def#3{#2}}
+\newif\ifgl@loopmore
+\def\glmw@mergerow#1\to #2{%
+   \let\alist=#1%
+   \let\blist=#2%
+   \let\clist=\empty
+   \gl@loopmoretrue
+   \loop \ifgl@loopmore\glmw@mergerow@a \repeat
+   \global\let#2=\clist
+}
+\def\glmw@mergerow@a{%
+   \lop\blist\to\tempb
+   \ifx\tempb\Linebreak
+         \expandafter\gappend\Linebreak\to\clist
+      \else\ifx\tempb\Closeup
+         \expandafter\gappend\Closeup\to\clist
+      \else
+         \lop\alist\to\tempa
+         \expandafter\gappend \tempa \to \tempb
+         \expandafter\gappend \tempb \to \clist
+      \fi\fi
+   \ifx\alist\empty \ifx\blist\empty \gl@loopmorefalse \fi\fi
+}
+\def\\{\noexpand\\}
+\newdimen\glmw@maxht
+\newdimen\glmw@maxdp
+\def\Closeup{@}\@onelevel@sanitize\Closeup
+\def\Linebreak{+}\@onelevel@sanitize\Linebreak
+\def\glmw@gla{%
+   \def\gl@linelabel{a}%
+   \glmw@maxht=0pt
+   \glmw@maxdp=0pt
+   \@getoptionalarg
+   \glmw@gla@a
+}
+\def\glmw@gla@a #1// {\bgroup\ling@usearg
+   \glmw@gla@b #1 \@nil }
+\def\glmw@gla@b{\@ifnextchar\@nil\glmw@gla@c\glmw@gla@d}
+\def\glmw@gla@c#1{\glmw@updateauxlistsA \egroup}
+\def\glmw@gla@d #1 {%
+   \def\tempa{#1}\let\tempb=\tempa
+   \@onelevel@sanitize\tempa
+   \setbox0=\hbox{\ling@everygla #1}%
+   \ifdim\glmw@maxht<\ht0 \glmw@maxht=\ht0 \fi
+   \ifdim\glmw@maxdp<\dp0 \glmw@maxdp=\dp0 \fi
+   \ifx\tempa\Linebreak
+         \expandafter\gappend\Linebreak\to\mainlist
+      \else\ifx\tempa\Closeup
+         \expandafter\gappend\Closeup\to\mainlist
+      \else
+         \edef\temp{\noexpand\\{\expandonce\ling@everygla\noexpand\strut
+         \expandonce\tempb}}%
+         \expandafter\gappend\temp\to\mainlist
+      \fi\fi
+   \glmw@gla@b
+}
+\def\glmw@updateaux@a{%
+   \expandafter\gappend\temp \to\aboveskiplist
+   \edef\temp{\vrule width0pt height\the\glmw@maxht\space depth\the\glmw@maxdp\space }%
+   \expandafter\gappend\temp\to\strutlist
+%   \expandafter\gappend\gl@linelabel\to\labellist
+}
+\def\glmw@updateauxlists{%
+   \edef\temp{\vskip\csname ling@abovegl\gl@linelabel skip\endcsname}%
+   \glmw@updateaux@a
+}
+\def\glmw@updateauxlistsA{%
+   \let\temp=\empty
+   \glmw@updateaux@a
+}
+\def\glmw@levels{a,ft}
+\def\glmw@mklevel#1{%
+   \expandafter\ifx\csname glmw@gl#1\endcsname\relax
+      \define@ling@cmdkeys{everygl#1}%
+      \define@linginckey\skip{}{@}{abovegl#1skip}%
+      \XKV@addtolist@o\glmw@levels{#1}%
+      \lingset{everygl#1=,abovegl#1skip=0pt}
+      \expandafter\def\csname glmw@gl#1\endcsname{\@glmw{#1}}%
+   \else
+       \message{>>>>ExPex Warning: Level #1 is already defined.}%
+   \fi
+}
+\def\definemwlevels#1{\XKV@for@n{#1}\thislevel
+   {\expandafter\glmw@mklevel\expandafter{\thislevel}}}
+\def\@glmw#1{%
+   \def\worklist{}%
+   \glmw@maxht=0pt
+   \glmw@maxdp=0pt
+   \def\gl@linelabel{#1}%
+   \@getoptionalarg\@glmw@a
+}
+\def\@glmw@a #1// {\bgroup
+   \ling@usearg
+   \@glmw@b #1 \@nil }
+\def\@glmw@b{\@ifnextchar\@nil\@glmw@c\@glmw@d}
+\def\@glmw@c#1{\glmw@updateauxlists \glmw@mergerow\worklist\to\mainlist\egroup}
+\def\@glmw@d #1 {%
+   \def\tempa{#1}%
+   \edef\temp{\expandafter\expandonce\csname ling@everygl\gl@linelabel\endcsname
+      \noexpand\strut \expandonce\tempa}%
+   \setbox0=\hbox{\temp}%
+   \ifdim\glmw@maxht<\ht0 \glmw@maxht=\ht0 \fi
+   \ifdim\glmw@maxdp<\dp0 \glmw@maxdp=\dp0 \fi
+   \expandafter\gappend\temp\to\worklist
+   \@glmw@b
+}
+\newif\ifgl@spacebefore
+\def\glmw@begingl{\@getoptionalarg\glmw@begingl@a}
+\def\glmw@begingl@a{%
+   \bgroup\ling@usearg
+   \ling@everygl
+   \let\mainlist=\empty \let\aboveskiplist=\empty \let\strutlist=\empty
+}
+\def\glmw@endgl{\glmw@endgl@a\egroup}
+\def\glmw@endgl@a{\lineskip=\ling@abovemoreglskip\glmw@print \par}
+\def\glmw@glft{\glmw@endgl \@getoptionalarg
+   \glmw@glft@a}
+\def\glmw@glft@a{%
+   \bgroup
+   \let\endgl=\egroup
+   \ling@usearg \vskip\ling@aboveglftskip \ling@everyglft
+   \leavevmode\ignorespaces
+}
+\def\glmw@print{%
+   \gl@spacebeforefalse
+   \leavevmode
+   \gl@loopmoretrue
+   \loop\ifgl@loopmore
+      \lop\mainlist\to\tempa\relax       % \tempa is one column
+      \ifx\tempa\Linebreak%
+            \vskip\ling@abovemoreglskip
+            \gl@spacebeforefalse
+            \leavevmode
+         \else\ifx\tempa\Closeup%
+            \gl@spacebeforefalse
+         \else
+            \ifgl@spacebefore \hskip\ling@glspace \else \gl@spacebeforetrue \fi
+            \glmw@printcol
+         \fi\fi
+      \ifx\mainlist\empty \gl@loopmorefalse \fi
+      \repeat
+}
+\def\glmw@printcol{%
+   \vtop{%
+      \ling@everyglword
+      \offinterlineskip
+      \gl@loopmoretrue
+      \loop\ifgl@loopmore
+         \lop\tempa\to\@tempa
+         \lop\aboveskiplist\to\@aboveskip
+         \lop\strutlist\to\@strut
+         \@aboveskip\hbox{\@strut\@tempa}
+         \ifx\tempa\empty \gl@loopmorefalse \fi
+      \repeat
+      }%
+}
 % ----- underfixes -----
 \def\gluf#1#2{%
    \vtop{\offinterlineskip\halign{\hfil##\hfil\cr
