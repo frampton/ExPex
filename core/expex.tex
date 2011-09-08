@@ -118,10 +118,11 @@
 \fi
 % ----- \ex -----
 \newcount\excnt
-\excnt=0
+\excnt=1
 \newbox\numbox
 \newdimen\epd@numright
 \newif\if@specialexno
+\def\marginoffset#1{\the\csname epd@#1\endcsname \ignorespaces}
 \define@linginckey\skip{[0pt]}{}{aboveexskip}
 \define@linginckey\skip{[0pt]}{}{belowexskip}
 \define@linginckey\dimen{}{}{numoffset}
@@ -147,9 +148,9 @@
 \def\ex@b{\@getoptionaltag\ex@c}
 \def\ex@c{%
    \ex@setup
-   \par\nobreak
+%   \par\nobreak
    \leavevmode
-   \setbox\numbox=\hbox{\hskip\lingnumoffset(\actualexno)}%
+   \setbox\numbox=\hbox{\hskip\lingnumoffset\actualexnoprint}%
    \epd@numright=\wd\numbox
    \ifcase\ep@textanchor                          % numleft
          \settosum\leftskip\lingnumoffset\lingtextoffset
@@ -162,12 +163,17 @@
    \ignorespaces
 }
 \def\actualexno
-   {\if@specialexno {\ling@specialexno}\else \the\excnt \fi}
+   {\if@specialexno {\lingspecialexno}\else \the\excnt \fi}
+\def\actualexnoprint{{\if@specialexno \specialexnoprint
+   \else \exnoprint \fi}}
 \def\exnoprint{(\the\excnt)}
-\def\specialexnoprint{(\ling@specialexno)}
+\def\specialexnoprint{(\lingspecialexno)}
+\def\globalstepexcnt{\global\advance\excnt by 1 }
+\def\localstepexcnt{\advance\excnt by 1 }
+\let\stepexcnt=\globalstepexcnt
+\def\keepexcntlocal{\let\stepexcnt=\localstepexcnt}
 \def\ex@setup{%             also used by \pex
-   \@specialexnofalse
-   \global\advance\excnt by 1
+   \global\@specialexnofalse
    \latex@tagex
    \ling@Everyex
    \let\reset@refproofing\@printref
@@ -175,8 +181,7 @@
    \Ling@usearg
    \let\@printref\reset@refproofing
    \if@specialexno
-         \global\advance\excnt by -1
-         \def\@actualexno{\ling@specialexno}%
+         \def\@actualexno{\lingspecialexno}%
       \else
          \edef\@actualexno{\the\excnt}%
       \fi
@@ -190,6 +195,31 @@
    \if@tilde \else \vskip\lingaboveexskip\fi
    \parindent=0pt
 }
+%\def\ex@setup{%             also used by \pex
+%   \@specialexnofalse
+%   \global\advance\excnt by 1
+%   \latex@tagex
+%   \ling@Everyex
+%   \let\reset@refproofing\@printref
+%   \let\@printref\identity    % turn off refproofing
+%   \Ling@usearg
+%   \let\@printref\reset@refproofing
+%   \if@specialexno
+%         \global\advance\excnt by -1
+%         \def\@actualexno{\ling@specialexno}%
+%      \else
+%         \edef\@actualexno{\the\excnt}%
+%      \fi
+%   \ifx\@optionaltag\empty
+%         \let\@localextag=\empty
+%      \else
+%         \edef\@localextag{\@optionaltag}%
+%         \deftag{\@actualexno}{\@optionaltag}
+%      \fi
+%   \exbreak
+%   \if@tilde \else \vskip\lingaboveexskip\fi
+%   \parindent=0pt
+%}
 \def\noexno{\global\advance\excnt by -1}
 \def\exbreak{\endgraf\bgroup\@getoptionalarg\exbreak@a}
 \def\exbreak@a{%
@@ -203,10 +233,18 @@
    \vskip-\skip255
    \egroup
 }
+%\def\xe{%
+%   \strut
+%   \expandafter\vskip\lingbelowexskip
+%   \egroup
+%   \allowbreak
+%   \prevdepth\dp\strutbox
+%   \noindent
+%}
 \def\xe{%
-   \strut
    \expandafter\vskip\lingbelowexskip
    \egroup
+   \if@specialexno \else \stepexcnt \fi
    \allowbreak
    \prevdepth\dp\strutbox
    \noindent
@@ -230,7 +268,7 @@
 \define@ling@cmdkeys{appendtopexarg}                  % NEW
 \define@linginckey\dimen{}{}{labelwidth}
 \define@linginckey\dimen{}{}{labeloffset}
-\define@ling@cmdkeys{belowpreambleskip,interpartskip,splitexpenalty}
+\define@lingcmdkeys{belowpreambleskip,interpartskip,splitexpenalty}
 \define@choicekey{ling}{labelalign}[\ling@labelalign\nr]%
    {left,center,right}{%
       \ifcase\nr
@@ -268,9 +306,9 @@
 \def\pex@g{\ifx\temp\a \let\next\pex@h
    \else \let\next\pex@e \ling@nopreamblefalse \fi \next}
 \def\pex@h#1\a{\pex@e\a}
-\def\pex@e{\pexstart \ling@everyex }
-\def\pexstart{%
-   \setbox\numbox=\hbox{\hskip\lingnumoffset(\actualexno)}%
+\def\pex@e{\pex@i \ling@everyex }
+\def\pex@i{%
+   \setbox\numbox=\hbox{\hskip\lingnumoffset\actualexnoprint}%
    \ep@setdimensions
    \pexcnt@init
    \@firstlabeltrue
@@ -372,13 +410,13 @@
 \def\put@label{%
    \if@firstlabel
          \ifling@nopreamble \else
-            \vskip\ling@belowpreambleskip
+            \vskip\lingbelowpreambleskip
             \leftskip=\epd@textleft
             \fi
          \@firstlabelfalse
       \else
          \par\penalty\ling@splitpartspenalty
-         \vskip\ling@interpartskip
+         \vskip\linginterpartskip
       \fi
    \def\@specialexno{}\def\@optionaltag{}%
    \@getoptionalarg\put@label@a
@@ -556,12 +594,12 @@
 % ----- tags and reference -----
 %
 %----- local reference to example numbers -----
-\def\nextx{{\@printref{\advance\excnt by 1 \number\excnt}}}
-\def\anextx{{\@printref{\advance\excnt by 2 \number\excnt}}}
-\def\lastx{\@printref{\number\excnt}}
+\def\nextx{{\@printref{ \number\excnt}}}
+\def\anextx{{\@printref{\advance\excnt by 1 \number\excnt}}}
+\def\lastx{{\@printref{\advance\excnt by -1 \number\excnt}}}
 \def\currx{\the\excnt\relax}
-\def\blastx{{\@printref{\advance\excnt by -1 \number\excnt}}}
-\def\bblastx{{\@printref{\advance\excnt by -2 \number\excnt}}}
+\def\blastx{{\@printref{\advance\excnt by -2 \number\excnt}}}
+\def\bblastx{{\@printref{\advance\excnt by -3 \number\excnt}}}
 % ----- defining tags -----
 \def\deftag#1#2{%
    {\let\@printref=\identity
@@ -645,15 +683,15 @@
       \begingroup
       \let\@printref\gobble
       #1{#2}%
-      \xdef\temp{\noexpand\edef\noexpand\ling@specialexno{\temp#3}}%
+      \xdef\temp{\noexpand\edef\noexpand\lingspecialexno{\temp#3}}%
       \aftergroup\temp
       \endgroup
    \else %
-      \def\ling@specialexno{#1#2#3}%
+      \def\lingspecialexno{#1#2#3}%
    \fi
 }
 \define@key{ling}{exno}{%
-   \@specialexnotrue
+   \global\@specialexnotrue
    \let\latex@tagexlabel\gobble
    \let\latex@tagex\gobble
    \specialexno@a #1\relax\@nil
