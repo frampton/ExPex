@@ -1,0 +1,44 @@
+
+\definemwlevels{b,c}
+\lingset{glstyle=3level}
+\lingset{glstyle=multiwrap}
+
+\ex
+\begingl
+\gla a b //
+\glb x y //
+\glft free
+\endgl
+\xe
+
+\definelingstyle{ips-gloss}%
+   {everygla=\ips,everyglb=\ips,moregloffset=1.5em,
+   glspace=1.6em plus .4em,
+   abovemoreglskip=1ex,aboveglftskip=1.5ex}
+\font\ips=xipasl10 at 12pt
+\font\ipss=xipasl10 at 7pt
+\def\mroot{$\surd$}
+\def\L{\char'354}
+\def\v#1{{\accent"07 #1}}
+\def\C{{\accent"07 c}}
+\def\W{$^{\hbox{\ipss w}}\mskip-2mu$}
+
+
+%\hsize=4in
+\ex[lingstyle=ips-gloss]
+\begingl[everygl={\rightskip=0pt plus 1fil}]
+%\begingl[everygl={\rightskip=0pt plus 1fil}]
+\gla hoi Ekn {\L}E {x\W}ElEP t{g\W}El' st{\'\i}m
+   {hE\L} {kuPEcx\W ist} {\L a} Pa{\v c}sEtqEt//
+\glb hoi {\mroot}PEkn {\L}E {x\W}ElEP t{g\W}El' {s + \mroot t\'\i m}
+   {hE\L} ku-PEc-\mroot{x\W}ist {\L}a Pa{\v c}sEtqEt//
+\glc then {\mroot}say det Meadowlark why
+      {nomlz + \mroot what} conn
+   2nom-cust-{\mroot}one.travels det {day time}//
+\glc then {she said} det Meadowlark why {what is it}
+   conn {you travel about} det {day time}//
+\glft Then Meadowlark said, ``Why do you travel about in the day
+time?''
+\endgl
+\xe
+
