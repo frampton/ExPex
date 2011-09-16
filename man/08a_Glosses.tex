@@ -6,20 +6,77 @@
 
 \framedisplay[doubleline=true]
 \bigskip\noindent
-Macros: \idx{|\glbrackets|}, \idx{|\[|}, \idx{|\]|}\par
 \parinventory
-& \idx{|glbracketsep|}& dimension& |.15em|\cr
-%& \idx{|glbrackets|}&& \it pseudo parameter\cr
+& \idx{|glbrackbracksep|}& dimension& |.1em|\cr
+& \idx{|glbrackwordsep|}& dimension& |.2em|\cr
 \endparinventory
 \endframedisplay
 \medskip
 
-\noindent Sometimes displays like the one below are desired, with
-brackets delimiting grammatical constituents.
+\noindent Sometimes it is desirable to displays brackets which
+delimit grammatical constituents.  The display below is easy to
+create, but is not as attractive as it might be.
 
 \smallskip
 \framedisplay
-\ex[glstyle=multiwrap]
+\ex[glstyle=wrap]
+\begingl
+\gla Mary$_i$ ist sicher, $[$dass es den Hans nicht st\"oren
+w\"urde $[$seiner Freundin ihr$_i$ Herz auszusch\"utten$]]$//
+\glb Mary is sure that it the Hans not annoy would
+his girlfriend her heart {out to throw}//
+\glft `Mary is sure that to reveal her heart to his girlfriend
+would not damage John.'//
+\endgl
+\xe
+\endframedisplay
+\smallskip
+
+\codedisplay
+\ex[glstyle=wrap]
+\begingl
+\gla Mary$_i$ ist sicher, $[$dass es den Hans nicht st\"oren
+w\"urde $[$seiner Freundin ihr$_i$ Herz auszusch\"utten$]]$//
+\glb Mary is sure that it the Hans not annoy would
+his girlfriend her heart {out to throw}//
+\glft `Mary is sure that to reveal her heart to his girlfriend
+would not damage John.'//
+\endgl
+\xe
+|endcodedisplay
+
+\framedisplay \makeatletter
+\ex[glstyle=wrap,glbrackwordsep=.1em,glbrackbracksep=.04em]
+\begingl
+\gla Mary$_i$ ist sicher, $[\,$ @ dass es den Hans nicht st\"oren
+w\"urde $[\,$ @ seiner Freundin ihr$_i$ Herz auszusch\"utten
+@ $\,]].$//
+\glb Mary is sure {} that it the Hans not annoy would
+{} his girlfriend her heart {out to throw}//
+\glft `Mary is sure that to reveal her heart to his girlfriend
+would not damage John.'//
+\endgl
+\xe
+\endframedisplay
+
+\smallskip
+\framedisplay \makeatletter
+\ex[glstyle=wrap,glbrackwordsep=.1em,glbrackbracksep=.0em]
+\begingl
+\gla Mary$_i$ ist sicher, [ dass es den Hans nicht st\"oren
+w\"urde [ seiner Freundin ihr$_i$ Herz auszusch\"utten ] @ $].$//
+\glb Mary is sure that it the Hans not annoy would
+his girlfriend her heart {out to throw}//
+\glft `Mary is sure that to reveal her heart to his girlfriend
+would not damage John.'//
+\endgl
+\xe
+\endframedisplay
+\endinput
+\smallskip
+
+\framedisplay
+\ex[glstyle=wrap]
 \begingl
 \gla Mary$_i$ ist sicher, $[\,$ @ dass es den Hans nicht st\"oren
 w\"urde $[\,$ @ seiner Freundin ihr$_i$ Herz auszusch\"utten$\,]]\,.$//
@@ -66,19 +123,36 @@ somewhat clearer.
 need to insert placeholders on the |\glb| line. The code below
 produces the display which follows.
 
-\framedisplay
+\codedisplay
 \pex[glstyle=wrap,everygla=,nopreamble]
-\glbrackets
 \a \begingl       % 59a, p. 237
-\gla Fa'nu'i yu' ni \[\[{\it O} t{\it in\/}aitai-mu {\it t\/}\] na
-lepblu\].//
+\gla Fa'nu'i yu' ni [ [ {\it O} t{\it in\/}aitai-mu {\it t\/} ] na
+lepblu ] @ .//
 \glb show me Obl Op {\it WH\/}[obj].read-agr {} L book//
 \glft ``Show me the book that you read.''//
 \endgl
 \a \begingl       % 82a, p. 247
-\gla Um-\"asudda' h\"am yan \[i taotao \[{\it O\/} ni si Juan
-ilek-\~na nu guahu \[mal\"agu' gui \[asudd\"a'-\~na {\it
-t\/}\]\]\]\].//
+\gla Um-\"asudda' h\"am yan [ i taotao [ {\it O\/} ni si Juan
+ilek-\~na nu guahu + [ mal\"agu' gui [ asudd\"a'-\~na {\it
+t\/} ] ] ] ] @ .//
+\glb agr-meet we with the person Op Comp the Juan say-agr Obl me
+agr.want he {\it WH\/}[obl].meet-agr//
+\glft ``I met the person who Juan told me he wanted to meet.''//
+\endgl
+\xe
+|endcodedisplay
+\framedisplay
+\pex[glstyle=wrap,everygla=,nopreamble]
+\a \begingl       % 59a, p. 237
+\gla Fa'nu'i yu' ni [ [ {\it O} t{\it in\/}aitai-mu {\it t\/} ] na
+lepblu ] @ .//
+\glb show me Obl Op {\it WH\/}[obj].read-agr {} L book//
+\glft ``Show me the book that you read.''//
+\endgl
+\a \begingl       % 82a, p. 247
+\gla Um-\"asudda' h\"am yan [ i taotao [ {\it O\/} ni si Juan
+ilek-\~na nu guahu + [ mal\"agu' gui [ asudd\"a'-\~na {\it
+t\/} ] ] ] ] @ .//
 \glb agr-meet we with the person Op Comp the Juan say-agr Obl me
 agr.want he {\it WH\/}[obl].meet-agr//
 \glft ``I met the person who Juan told me he wanted to meet.''//
@@ -86,25 +160,6 @@ agr.want he {\it WH\/}[obl].meet-agr//
 \xe
 \endframedisplay
 
-\codedisplay
-\pex[glstyle=wrap,everygla=,nopreamble]
-\glbrackets
-\a \begingl
-\gla Fa'nu'i yu' ni \[\[{\it O} t{\it in\/}aitai-mu {\it t\/}\] na
-lepblu\].//
-\glb show me Obl Op {\it WH\/}[obj].read-agr {} L book//
-\glft ``Show me the book that you read.''//
-\endgl
-\a \begingl
-\gla Um-\"asudda' h\"am yan \[i taotao \[{\it O\/} ni si Juan
-ilek-\~na nu guahu \[mal\"agu' gui \[asudd\"a'-\~na {\it
-t\/}\]\]\]\].//
-\glb agr-meet we with the person Op Comp the Juan say-agr Obl me
-agr.want he {\it WH\/}[obl].meet-agr//
-\glft ``I met the person who Juan told me he wanted to meet.''//
-\endgl
-\xe
-|endcodedisplay
 \noindent The examples are adapted from {\it The Design of
 Agreement\/} by Sandra Chung.  See (59a) on page 237 and (82a) on
 page 247.
@@ -144,7 +199,7 @@ page 247.
 %
 %\noindent The choice is of course the user's, but I like to
 %insert the |\thinspace| in order to visually separate the period
-
+\endinput
 Executing |\glbrackets| creates commands |\[| and |\]|
 which insert the appropriate brackets and space.  The macro that
 assembles word-gloss pairs is sensitive to words beginning with
