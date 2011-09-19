@@ -1169,8 +1169,8 @@
       \else\ifx\tempa\Rbrack
          \expandafter\gappend\Rbrack\to\mainlist
       \else
-         \edef\temp{\noexpand\\{\expandonce\ling@everygla\noexpand\strut
-         \expandonce\tempb}}%
+         \edef\temp{\noexpand\\{\expandonce\ling@everygla
+            \expandonce\tempb}}%
          \expandafter\gappend\temp\to\mainlist
       \fi\fi\fi\fi
    \glmw@gla@b
@@ -1230,8 +1230,9 @@
 \def\@glmw@c#1{\glmw@updateauxlists \glmw@mergerow\worklist\to\mainlist\egroup}
 \def\@glmw@d #1 {%
    \def\tempa{#1}%
-   \edef\temp{\expandafter\expandonce\csname ling@everygl\gl@linelabel\endcsname
-      \noexpand\strut \expandonce\tempa}%
+   \edef\temp{%
+      \expandafter\expandonce\csname ling@everygl\gl@linelabel\endcsname
+      \expandonce\tempa}%
    \setbox0=\hbox{\temp}%
    \ifdim\glmw@maxht<\ht0 \glmw@maxht=\ht0 \fi
    \ifdim\glmw@maxdp<\dp0 \glmw@maxdp=\dp0 \fi
@@ -1380,13 +1381,12 @@
 \def\glmw@printcol{%
    \vtop{%
       \ling@everyglword
-      \offinterlineskip
       \gl@loopmoretrue
       \loop\ifgl@loopmore
          \lop\tempa\to\@tempa
          \lop\aboveskiplist\to\@aboveskip
          \lop\strutlist\to\@strut
-         \@aboveskip\hbox{\@strut\@tempa}
+         \@aboveskip\hbox{\@strut\@tempa}%
          \ifx\tempa\empty \gl@loopmorefalse \fi
       \repeat
       }%
