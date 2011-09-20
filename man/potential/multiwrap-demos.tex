@@ -1,25 +1,7 @@
 
-\definemwlevels{b,c}
-\lingset{glstyle=3level}
-
-\ex[glstyle=multiwrap]
-\begingl
-\gla a b //
-\glb x y //
-\glft free
-\endgl
-\xe
-
-\lingset{glstyle=multiwrap}
-\begingl [A]\quad
-\gla a b //
-\glb x y //
-\glft free
-\endgl
-
 \definelingstyle{ips-gloss}%
    {everygla=\ips,everyglb=\ips,moregloffset=1.5em,
-   glspace=1.6em plus .4em,glhangindent=2em,
+   glspace=1.6em plus .4em,glhangindent=1em,
    abovemoreglskip=1ex,aboveglftskip=1.5ex,
    glhangstyle=normal,glstyle=multiwrap,
    everygl={\rightskip=0pt plus 1fil}}
@@ -33,6 +15,7 @@
 
 \hsize=4in
 
+\framedisplay
 \ex[lingstyle=ips-gloss]
 \begingl
 \gla hoi Ekn {\L}E {x\W}ElEP t{g\W}El' st{\'\i}m
@@ -45,9 +28,48 @@
 \glc then {she said} det Meadowlark why {what is it}
    conn {you travel about} det {day time}//
 \glft Then Meadowlark said, ``Why do you travel about in the day
-time?''
+time?''//
 \endgl
 \xe
+\endframedisplay
+
+\hsize=5in
+\framedisplay
+\ex[lingstyle=ips-gloss]
+\begingl
+\gla hoi Ekn {\L}E {x\W}ElEP t{g\W}El' st{\'\i}m
+   {hE\L} {kuPEcx\W ist} {\L a} Pa{\v c}sEtqEt//
+\glb hoi {\mroot}PEkn {\L}E {x\W}ElEP t{g\W}El' {s + \mroot t\'\i m}
+   {hE\L} ku-PEc-\mroot{x\W}ist {\L}a Pa{\v c}sEtqEt//
+\glc then {\mroot}say det Meadowlark why
+      {nomlz + \mroot what} conn
+   2nom-cust-{\mroot}one.travels det {day time}//
+\glc then {she said} det Meadowlark why {what is it}
+   conn {you travel about} det {day time}//
+\glft Then Meadowlark said, ``Why do you travel about in the day
+time?''//
+\endgl
+\xe
+\endframedisplay
+
+\hsize=6.5in
+\framedisplay
+\ex[lingstyle=ips-gloss]
+\begingl
+\gla hoi Ekn {\L}E {x\W}ElEP + t{g\W}El' st{\'\i}m
+   {hE\L} {kuPEcx\W ist} {\L a} Pa{\v c}sEtqEt//
+\glb hoi {\mroot}PEkn {\L}E {x\W}ElEP t{g\W}El' {s + \mroot t\'\i m}
+   {hE\L} ku-PEc-\mroot{x\W}ist {\L}a Pa{\v c}sEtqEt//
+\glc then {\mroot}say det Meadowlark why
+      {nomlz + \mroot what} conn
+   2nom-cust-{\mroot}one.travels det {day time}//
+\glc then {she said} det Meadowlark why {what is it}
+   conn {you travel about} det {day time}//
+\glft Then Meadowlark said, ``Why do you travel about in the day
+time?''//
+\endgl
+\xe
+\endframedisplay
 
 \ex[lingstyle=ips-gloss,glhangstyle=cascade]
 \begingl
@@ -61,7 +83,7 @@ time?''
 \glc then {she said} det Meadowlark why {what is it}
    conn {you travel about} det {day time}//
 \glft Then Meadowlark said, ``Why do you travel about in the day
-time?''
+time?''//
 \endgl
 \xe
 

@@ -1257,9 +1257,9 @@
 %\def\begingl{\bgroup\@getoptionalarg\@begingl}
 %\def\@begingl{\ling@usearg\begingl@type}
 \def\glmw@glft#1//{%
-   \lineskip=\ling@abovemoreglskip
+   {\lineskip=\ling@abovemoreglskip
    \glmw@print
-   \vskip\ling@aboveglftskip
+   \vskip\ling@aboveglftskip}%
    \leftskip=0pt
    \let\endgl=\glmw@endglB
    #1\par
