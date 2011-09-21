@@ -1,0 +1,62 @@
+
+
+
+\def\fnexnoprint{(\romannumeral\the\excnt)}
+\everyfootnote={%
+   \tenpoint
+   \noindent
+   \excnt=1
+   \keepexcntlocal
+   \let\exnoprint=\fnexnoprint
+}
+\def\specialexnoprint{[\lingspecialexno]}
+\def\raiseexcnt{\xdef\resetexcnt{\noindent\excnt=\the\excnt}%
+   \aftergroup\resetexcnt}
+
+\ex one\xe
+
+\line{\hsize=.5\hsize
+\vtop{\ex first\xe}\hss\vtop{\ex second\xe}}
+
+\ex one\xe
+
+
+\ex[exno=75] one\xe
+
+\ex two\footnote{%
+A footnote with examples:
+
+\pex fn
+\a part one
+\a part two
+\xe
+And a second example.
+\ex[belowexskip=0pt] fn\xe
+}\xe
+
+\ex three\footnote{%
+Another footnote with examples:
+\pex[exno={13, p. 49},labelanchor=numleft] fn
+\a part one
+\a part two
+\xe
+And a second example.
+\ex fn\xe
+}\xe
+
+\endinput
+
+
+
+
+\def\emwidth#1#2{\dimen0=#1 \dimen1=1em
+   \dimen0=256\dimen0
+   \divide\dimen1 by 256
+   \divide\dimen0 by \dimen1
+   \edef#2{\the\dimen0}\ignorespaces}
+\emwidth{6pt}\foop
+\def\foop{0.05pt}
+\def\ggg#1pt{#1em}
+{\expandafter\ggg\foop}
+%\writeln{====\sloop====}
+

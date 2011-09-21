@@ -12,21 +12,7 @@
 %\resetatcatcode
 \def\suff#1{{-\tenrm #1}}%
 \everymath={}
-\lingset{glstyle=wrap}
-%%%%%%%%%%%%%%%
-%\ex
-%\begingl
-%\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
-%seiner Freundin ihr$_i$ Herz auszusch\"utten.//
-%\glb Mary is sure that it the\suff{ACC} Hans not annoy would
-%his\suff{DAT} girlfriend\suff{DAT} her\suff{ACC} heart\suff{ACC} {out to
-%throw}//
-%\glft  `Mary is sure that it would not annoy John to reveal her
-%heart to his girlfriend.'//
-%\endgl
-%\xe
-%\endinput
-%%%%%%%%%%%%%%%%%
+\lingset{glstyle=multilevel}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section
@@ -35,20 +21,17 @@ Glosses
 Macros:\quad \idx{|\begingl|}|[]|, \idx{|\endgl|}
 
 \parinventory
-& \idx{|glstyle|}& choice (|wrap|, |3level|, |multilevel|, or |oldstyle|)&
+& \idx{|glstyle|}& choice (|wrap|, |multilevel|, |3level|, or |oldstyle|)&
 |wrap|\cr
 \endparinventory
 
 \vskip-2ex
 \noindent
 There are four different styles, choosen by the parameter
-|glstyle|, which can be set to |wrap|, |3level|, |multilevel|, or
-|oldstyle|.  The last two are included for backwards
-compatibility with the early versions of ExPex.  They are not
-intended for current or future use, nor will this manual explain
-their use.\footnote{Their use is explained in earlier versions of
-this manual.  I assume that if these gloss styles are in use,
-no further documentation is needed.}
+|glstyle|, which can be set to |wrap|, |multilevel|, |3level|, or
+|oldstyle|.  The last is included for backwards compatibility
+with the early version of ExPex.  It is not intended for current
+or future use.
 
 In earlier sections, the complete array of relevant parameters
 was given at the beginning of the section.  We depart from that
@@ -327,7 +310,6 @@ Then
 |endcodedisplay \nobreak
 \noindent produces
 
-\lingset{lingstyle=mingl}
 \framedisplay~
 \pex[interpartskip=3ex]
 \a \begingl[lingstyle=mingl]
@@ -339,7 +321,7 @@ throw}//
 \glft  `Mary is sure that it would not annoy John to reveal her
 heart to his girlfriend.'//
 \endgl
-
+%
 \a \begingl[lingstyle=defaultgl]
 \gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
 seiner Freundin ihr$_i$ Herz auszusch\"utten.//
@@ -349,7 +331,7 @@ throw}//
 \glft  `Mary is sure that it would not annoy John to reveal her
 heart to his girlfriend.'//
 \endgl
-
+%
 \a \begingl[lingstyle=gergl]
 \gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
 seiner Freundin ihr$_i$ Herz auszusch\"utten.//
@@ -417,6 +399,7 @@ line |\glc| is defined, and there is provision to defining other
 lines.
 
 The display (\nextx) is typeset using the code which follows.
+
 \framedisplay
 \ex[glstyle=multilevel,everygla=,everyglb=,everyglc=,
    aboveglaskip=0pt,aboveglbskip=0pt,aboveglftskip=1ex]
@@ -444,18 +427,18 @@ Marantz.
 
 It is worth noting that, in practice, it is most likely that
 a style would be defined as follows.
-Then \def\vd{\hbox{$\qquad \vdots$}}
 \codedisplay
 \definelingstyle{glabb}{glstyle=multilevel,everygla=,everyglb=,
    everyglc=,aboveglaskip=0pt,aboveglbskip=0pt,aboveglftskip=1ex}
-
+|endcodedisplay
+Then \def\vd{\hbox{$\qquad \vdots$}}
+\codedisplay
 \ex[lingstyle=glabb]
 \begingl
 |vd
 \endgl
 \xe
 |endcodedisplay
-
 \noindent would be sufficient.
 
 Repeating |\glb| does not allow different fonts or spacing for the two
@@ -474,7 +457,6 @@ and 10 point type are invoked in my font setup.  This will vary
 from user to user, so no attempt is made here to detail the
 macros I rely on (which are variations on the ones in the
 TexBook).
-\codedisplay
 
 \definelingstyle{glabc}{glstyle=multilevel,everygl=,everygla=,
    everyglb=\elevenpoint,aboveglbskip=.3ex,
@@ -483,12 +465,11 @@ TexBook).
 \def\tenpoint{\tenrm \let\sc\eightrm}%
 \def\elevenpoint{\elevenrm}
 \definegllevels{word}
-|endcodedisplay
 
 Then
 
 \codedisplay
-\ex[lingstyle=glabc]
+\ex[lingstyle=glabc,glstyle=multilevel]
 \begingl
 \gla k- wapm -a -s'i -m -wapunin -uk //
 \glb Cl V Agr Neg Agr Tns Agr //
@@ -497,15 +478,11 @@ Then
 \endgl
 \xe
 |endcodedisplay
+
 produces
 
-
-\definelingstyle{glabc}{glstyle=multilevel,everygl=,everygla=,
-   everyglb=\elevenpoint,aboveglbskip=.3ex,
-   everyglc=\tenpoint,aboveglcskip=-.3ex,
-   everyglft=\it,aboveglftskip=1ex}
 \framedisplay
-\ex[lingstyle=glabc]
+\ex[lingstyle=glabc,glstyle=multilevel]
 \begingl
 \gla k- wapm -a -s'i -m -wapunin -uk //
 \glb Cl V Agr Neg Agr Tns Agr //
