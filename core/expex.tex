@@ -716,15 +716,15 @@
 \define@choicekey{ling}{glstyle}[\ling@glstyle\gl@stylenum]%
    {wrap,3level,oldstyle,multilevel,multiwrap}{%
       \ifcase\gl@stylenum
-            \let\begingl@type\glmw@begingl@aa
-            \let\endgl\glmw@endgl
-            \glmw@letlevels
-            \let\glft=\glmw@glft
+            \let\begingl@type\glw@begingl@aa
+            \let\endgl\glw@endgl
+            \glw@letlevels
+            \let\glft=\glw@glft
          \or
             \let\begingl@type=\begingl@T
             \let\endgl\endgl@T
-            \glmw@letlevels
-            \let\glft=\glmw@glft
+            \glw@letlevels
+            \let\glft=\glw@glft
          \or
             \let\begingl@type=\begingl@L
             \let\endgl=\endgl@L
@@ -747,20 +747,17 @@
    \expandafter\noexpand\csname gl\levelname @M\endcsname}%
    \temp}%
 }
-%% \glmw@levels is the list of mw-levels that have been defined
-\def\glmw@letlevels{%
-   \expandafter\XKV@for@n\expandafter{\glmw@levels}\levelname
+%% \glw@levels is the list of mw-levels that have been defined
+\def\glw@letlevels{%
+   \expandafter\XKV@for@n\expandafter{\glw@levels}\levelname
    {\edef\temp{\noexpand\let
    \expandafter\noexpand\csname gl\levelname\endcsname
    \expandafter\noexpand\csname glmw@gl\levelname\endcsname}%
    \temp}%
 }
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \def\begingl{\bgroup\@getoptionalarg\@begingl}
 \def\@begingl{\ling@usearg\begingl@type}
 \define@linginckey\dimen{}{@}{glspace}
-%\define@ling@cmdkeys{everygla,everyglb,everyglc}
 \define@ling@cmdkeys{everygla,everyglb,everyglc,
    everygl,everyglft,everyglword}
 \define@linginckey\dimen{}{@}{glhangindent}
@@ -929,77 +926,117 @@
 % list (stack) handling macros are from the TexBook
 \toksdef\tla=0
 \toksdef\tlb=2
-\def\addtoline#1#2{\tla={\\{#2}}\tlb=\expandafter{#1}%
+%\def\addtoline#1#2{\tla={\\{#2}}\tlb=\expandafter{#1}%
+%   \edef#1{\the\tlb\the\tla}}
+%\def\pop#1\to#2{\expandafter\popoff#1\popoff#1#2}
+%\def\popoff\\#1#2\popoff#3#4{\def#4{#1}\def#3{#2}}
+%\def\mk@pairline#1{%
+%   \gl@setglstruts
+%   \leavevmode
+%   \mk@pairline@a
+%   \par
+%}
+%\newif\ifgl@par
+%\def\gl@gettempA{%    puts line a item in \tempA
+%   \ifx\topline\empty
+%         \def\tempA{}\let\next\relax
+%   \else
+%      \pop\topline\to\tempA
+%      \if+\tempA    % + induces line break
+%         \gl@partrue
+%         \let\next\gl@gettempA
+%      \else         % @ removes the interpair space
+%      \if @\tempA  \hskip-\ling@glspace
+%         \let\next\gl@gettempA
+%      \else
+%         \let\next\relax
+%      \fi\fi
+%    \fi
+%    \next
+%}
+%\def\gl@gettempB{%    puts line b item in \tempB
+%   \ifx\botline\empty
+%      \def\tempB{}%
+%   \else
+%      \pop\botline\to\tempB
+%   \fi}
+%\def\mk@pairline@a{%
+%   \gl@parfalse
+%   \gl@gettempA              % item from line a is put in \tempA
+%   \gl@gettempB              % item from line b is put in \tempB
+%   \let\next\mk@topbotpair   % returns to \mk@pairline@a
+%   \ifx\tempA\empty
+%      \ifx\tempB\empty
+%      \def\next{%
+%         \endgraf
+%         \egroup
+%        }%
+%      \fi
+%   \fi
+%   \next
+%}
+%\newdimen\toplinedp
+%\newdimen\botlineht
+%\def\settoplinedp#1{\setbox0=\hbox{\let\footnotemark=\strut #1}%
+%   \ifdim \dp0>\toplinedp \toplinedp=\dp0 \fi}
+%\def\setbotlineht#1{\setbox0=\hbox{\let\footnotemark=\strut #1}%
+%   \ifdim \ht0>\botlineht \botlineht=\ht0 \fi}
+%\def\gl@setglstruts{%
+%   \toplinedp=0pt \let\\=\settoplinedp \topline
+%   \botlineht=0pt \let\\=\setbotlineht \botline
+%   \edef\toplinedpstrut{\vrule depth\toplinedp width0pt}%
+%   \edef\botlinehtstrut{\vrule height\botlineht width0pt}%
+%}
+%\def\mk@topbotpair{%               puts \tempA and \tempB in a vbox
+%   \glbracketcorrection=0pt
+%   \ifgl@par \par \leavevmode \prevgraf=1\fi
+%   \vtop{\ling@everyglword
+%      \halign{\strut ##\hfil\cr
+%      \toplinedpstrut \ling@everygla \expandafter\bracketfind\tempA\cr
+%      \botlinehtstrut \ling@everyglb
+%         \ifbracketleft \hskip\glbracketcorrection \fi\tempB\cr}}%
+%   \hskip\ling@glspace
+%   \mk@pairline@a                % and goes back for more
+%}
+%---------------------- 3 level style (T) ---------------------
+\def\T@addtoline#1#2{\ifx#1\empty\tla={{#2}}\else\tla={&{#2}}\fi
+   \tlb=\expandafter{#1}%
    \edef#1{\the\tlb\the\tla}}
-\def\pop#1\to#2{\expandafter\popoff#1\popoff#1#2}
-\def\popoff\\#1#2\popoff#3#4{\def#4{#1}\def#3{#2}}
-\def\mk@pairline#1{%
-   \gl@setglstruts
-   \leavevmode
-   \mk@pairline@a
-   \par
+\def\T@popoff&#1#2\T@popoff#3#4{\def#4{#1}\def#3{#2}}
+%
+\def\begingl@T{\@emptyc@linetrue
+   \def\a@line{}\def\b@line{}\def\c@line{}\gl@T@a
 }
-\newif\ifgl@par
-\def\gl@gettempA{%    puts line a item in \tempA
-   \ifx\topline\empty
-         \def\tempA{}\let\next\relax
-   \else
-      \pop\topline\to\tempA
-      \if+\tempA    % + induces line break
-         \gl@partrue
-         \let\next\gl@gettempA
-      \else         % @ removes the interpair space
-      \if @\tempA  \hskip-\ling@glspace
-         \let\next\gl@gettempA
-      \else
-         \let\next\relax
-      \fi\fi
-    \fi
-    \next
+\newif\if@emptyc@line
+\def\gl@T@a#1{\gl@T@b#1///\@nil \gl@T@c}
+\def\gl@T@b#1/#2/#3/#4\@nil{%
+   \T@addtoline\a@line{\ling@everygla #1}%
+   \T@addtoline\b@line{\ling@everyglb #2}%
+   \def\temp{#3}\ifx\temp\empty \else \@emptyc@linefalse\fi
+   \T@addtoline\c@line{\ling@everyglc #3}%
 }
-\def\gl@gettempB{%    puts line b item in \tempB
-   \ifx\botline\empty
-      \def\tempB{}%
-   \else
-      \pop\botline\to\tempB
-   \fi}
-\def\mk@pairline@a{%
-   \gl@parfalse
-   \gl@gettempA              % item from line a is put in \tempA
-   \gl@gettempB              % item from line b is put in \tempB
-   \let\next\mk@topbotpair   % returns to \mk@pairline@a
-   \ifx\tempA\empty
-      \ifx\tempB\empty
-      \def\next{%
-         \endgraf
-         \egroup
-        }%
-      \fi
-   \fi
-   \next
-}
-\newdimen\toplinedp
-\newdimen\botlineht
-\def\settoplinedp#1{\setbox0=\hbox{\let\footnotemark=\strut #1}%
-   \ifdim \dp0>\toplinedp \toplinedp=\dp0 \fi}
-\def\setbotlineht#1{\setbox0=\hbox{\let\footnotemark=\strut #1}%
-   \ifdim \ht0>\botlineht \botlineht=\ht0 \fi}
-\def\gl@setglstruts{%
-   \toplinedp=0pt \let\\=\settoplinedp \topline
-   \botlineht=0pt \let\\=\setbotlineht \botline
-   \edef\toplinedpstrut{\vrule depth\toplinedp width0pt}%
-   \edef\botlinehtstrut{\vrule height\botlineht width0pt}%
-}
-\def\mk@topbotpair{%               puts \tempA and \tempB in a vbox
-   \glbracketcorrection=0pt
-   \ifgl@par \par \leavevmode \prevgraf=1\fi
-   \vtop{\ling@everyglword
-      \halign{\strut ##\hfil\cr
-      \toplinedpstrut \ling@everygla \expandafter\bracketfind\tempA\cr
-      \botlinehtstrut \ling@everyglb
-         \ifbracketleft \hskip\glbracketcorrection \fi\tempB\cr}}%
-   \hskip\ling@glspace
-   \mk@pairline@a                % and goes back for more
+\def\gl@T@c{\@futurenonspacelet\temp\gl@T@d}
+\def\gl@T@d{\ifx\temp.\let\next\gl@T@e\else\let\next\gl@T@a\fi\next}
+\def\gl@T@e#1#2\endgl{\def\linefour{\ignorespaces #2}\gl@T@f}
+\def\gl@T@f{%
+   \vtop{\ling@everygl
+   \halign{##\hfil&& \hskip\ling@glspace ##\hfil\cr
+      \a@line\cr
+      \ifdim\ling@aboveglbskip=0pt
+         \else \noalign{\vskip\ling@aboveglbskip}\fi
+      \b@line\cr
+      \if@emptyc@line \else
+         \ifdim\ling@aboveglcskip=0pt
+            \else \noalign{\vskip\ling@aboveglcskip}\fi
+         \c@line\cr
+         \fi
+      \ifx\linefour\empty \else
+         \ifdim\ling@aboveglftskip=0pt
+            \else \noalign{\vskip\ling@aboveglftskip}\fi
+         \ling@everyglft \linefour\hidewidth\cr
+         \fi
+   }}%
+\egroup
 }
 %------------------- multilevel style (M) ---------------------
 \def\epx@Mlevels{}
@@ -1056,154 +1093,114 @@
    \if@tilde \else \vskip\ling@aboveglcskip \fi \egroup
    \omit \ling@everyglc #1\strut\hidewidth\cr
 }
-%---------------------- 3 level style (T) ---------------------
-\def\T@addtoline#1#2{\ifx#1\empty\tla={{#2}}\else\tla={&{#2}}\fi
-   \tlb=\expandafter{#1}%
-   \edef#1{\the\tlb\the\tla}}
-\def\T@popoff&#1#2\T@popoff#3#4{\def#4{#1}\def#3{#2}}
-%
-\def\begingl@T{\@emptyc@linetrue
-   \def\a@line{}\def\b@line{}\def\c@line{}\gl@T@a
-}
-\newif\if@emptyc@line
-\def\gl@T@a#1{\gl@T@b#1///\@nil \gl@T@c}
-\def\gl@T@b#1/#2/#3/#4\@nil{%
-   \T@addtoline\a@line{\ling@everygla #1}%
-   \T@addtoline\b@line{\ling@everyglb #2}%
-   \def\temp{#3}\ifx\temp\empty \else \@emptyc@linefalse\fi
-   \T@addtoline\c@line{\ling@everyglc #3}%
-}
-\def\gl@T@c{\@futurenonspacelet\temp\gl@T@d}
-\def\gl@T@d{\ifx\temp.\let\next\gl@T@e\else\let\next\gl@T@a\fi\next}
-\def\gl@T@e#1#2\endgl{\def\linefour{\ignorespaces #2}\gl@T@f}
-\def\gl@T@f{%
-   \vtop{\ling@everygl
-   \halign{##\hfil&& \hskip\ling@glspace ##\hfil\cr
-      \a@line\cr
-      \ifdim\ling@aboveglbskip=0pt
-         \else \noalign{\vskip\ling@aboveglbskip}\fi
-      \b@line\cr
-      \if@emptyc@line \else
-         \ifdim\ling@aboveglcskip=0pt
-            \else \noalign{\vskip\ling@aboveglcskip}\fi
-         \c@line\cr
-         \fi
-      \ifx\linefour\empty \else
-         \ifdim\ling@aboveglftskip=0pt
-            \else \noalign{\vskip\ling@aboveglftskip}\fi
-         \ling@everyglft \linefour\hidewidth\cr
-         \fi
-   }}%
-\egroup
-}
 %---------------------- multiwrap style (T) ---------------------
 %\newif\ifW@prefixbox
-\toksdef\ta=0  \toksdef\tb=2
-\def\gappend #1\to #2{%
-   \ta={\\{#1}}%
-   \tb=\expandafter{#2}%
-   \xdef#2{\the\tb\the\ta}%
+\newtoks\gl@ta \newtoks\gl@tb
+\def\gl@append #1\to #2{%
+   \gl@ta={\\{#1}}%
+   \gl@tb=\expandafter{#2}%
+   \xdef#2{\the\gl@tb\the\gl@ta}%
 }
-\def\lop#1\to#2{\ifx#1\empty
-   \let#2\empty \else\expandafter\lopoff#1\lopoff#1#2\fi}
-\long\def\lopoff\\#1#2\lopoff#3#4{\def#4{#1}\def#3{#2}}
+\def\gl@lop#1\to#2{\ifx#1\empty
+   \let#2\empty \else\expandafter\gl@lopoff#1\gl@lopoff#1#2\fi}
+\long\def\gl@lopoff\\#1#2\gl@lopoff#3#4{\def#4{#1}\def#3{#2}}
 \newif\ifgl@loopmore
-\def\glmw@mergerow#1\to #2{%
+\def\gl@mergerow#1\to #2{%
    \let\alist=#1%
    \let\blist=#2%
    \let\clist=\empty
    \gl@loopmoretrue
-   \loop \ifgl@loopmore\glmw@mergerow@a \repeat
+   \loop \ifgl@loopmore\gl@mergerow@a \repeat
    \global\let#2=\clist
 }
-\def\glmw@mergerow@a{%
-   \lop\blist\to\tempb
+\def\gl@mergerow@a{%
+   \gl@lop\blist\to\tempb
    \ifx\tempb\Linebreak
-         \expandafter\gappend\Linebreak\to\clist
+         \expandafter\gl@append\Linebreak\to\clist
       \else\ifx\tempb\Closeup
-         \expandafter\gappend\Closeup\to\clist
+         \expandafter\gl@append\Closeup\to\clist
       \else\ifx\tempb\Lbrack
-         \expandafter\gappend\Lbrack\to\clist
+         \expandafter\gl@append\Lbrack\to\clist
       \else\ifx\tempb\Rbrack
-         \expandafter\gappend\Rbrack\to\clist
+         \expandafter\gl@append\Rbrack\to\clist
       \else
-         \lop\alist\to\tempa
-         \expandafter\gappend \tempa \to \tempb
-         \expandafter\gappend \tempb \to \clist
+         \gl@lop\alist\to\tempa
+         \expandafter\gl@append \tempa \to \tempb
+         \expandafter\gl@append \tempb \to \clist
       \fi\fi\fi\fi
    \ifx\alist\empty \ifx\blist\empty \gl@loopmorefalse \fi\fi
 }
 \def\\{\noexpand\\}
-\newdimen\glmw@maxht
-\newdimen\glmw@maxdp
+\newdimen\gl@maxht
+\newdimen\gl@maxdp
 \def\Closeup{@}\@onelevel@sanitize\Closeup
 \def\Linebreak{+}\@onelevel@sanitize\Linebreak
 \def\Lbrack{[}\@onelevel@sanitize\Lbrack
 \def\Rbrack{]}\@onelevel@sanitize\Rbrack
-\def\glmw@gla{%
+\def\glw@gla{%
    \def\gl@linelabel{a}%
-   \glmw@maxht=0pt
-   \glmw@maxdp=0pt
+   \gl@maxht=0pt
+   \gl@maxdp=0pt
    \@getoptionalarg
-   \glmw@gla@a
+   \glw@gla@a
 }
-\def\glmw@gla@a #1// {\bgroup\ling@usearg
-   \glmw@gla@b #1 \@nil }
-\def\glmw@gla@b{\@ifnextchar\@nil\glmw@gla@c\glmw@gla@d}
-\def\glmw@gla@c#1{\glmw@updateauxlistsA \egroup}
-\def\glmw@gla@d #1 {%
+\def\glw@gla@a #1// {\bgroup\ling@usearg
+   \glw@gla@b #1 \@nil }
+\def\glw@gla@b{\@ifnextchar\@nil\glw@gla@c\glw@gla@d}
+\def\glw@gla@c#1{\glw@updateauxlistsA \egroup}
+\def\glw@gla@d #1 {%
    \def\tempa{#1}\let\tempb=\tempa
    \@onelevel@sanitize\tempa
    \setbox0=\hbox{\ling@everygla #1}%
-   \ifdim\glmw@maxht<\ht0 \glmw@maxht=\ht0 \fi
-   \ifdim\glmw@maxdp<\dp0 \glmw@maxdp=\dp0 \fi
+   \ifdim\gl@maxht<\ht0 \gl@maxht=\ht0 \fi
+   \ifdim\gl@maxdp<\dp0 \gl@maxdp=\dp0 \fi
    \ifx\tempa\Linebreak
-         \expandafter\gappend\Linebreak\to\mainlist
+         \expandafter\gl@append\Linebreak\to\mainlist
       \else\ifx\tempa\Closeup
-         \expandafter\gappend\Closeup\to\mainlist
+         \expandafter\gl@append\Closeup\to\mainlist
       \else\ifx\tempa\Lbrack
-         \expandafter\gappend\Lbrack\to\mainlist
+         \expandafter\gl@append\Lbrack\to\mainlist
       \else\ifx\tempa\Rbrack
-         \expandafter\gappend\Rbrack\to\mainlist
+         \expandafter\gl@append\Rbrack\to\mainlist
       \else
          \edef\temp{\noexpand\\{\expandonce\ling@everygla
             \expandonce\tempb}}%
-         \expandafter\gappend\temp\to\mainlist
+         \expandafter\gl@append\temp\to\mainlist
       \fi\fi\fi\fi
-   \glmw@gla@b
+   \glw@gla@b
 }
-\def\glmw@updateaux@a{%
-   \expandafter\gappend\temp \to\aboveskiplist
-   \edef\temp{\vrule width0pt height\the\glmw@maxht\space depth\the\glmw@maxdp\space }%
-   \expandafter\gappend\temp\to\strutlist
-%   \expandafter\gappend\gl@linelabel\to\labellist
+\def\glw@updateaux@a{%
+   \expandafter\gl@append\temp \to\aboveskiplist
+   \edef\temp{\vrule width0pt height\the\gl@maxht\space depth\the\gl@maxdp\space }%
+   \expandafter\gl@append\temp\to\strutlist
+%   \expandafter\gl@append\gl@linelabel\to\labellist
 }
-\def\glmw@updateauxlists{%
+\def\glw@updateauxlists{%
    \edef\temp{\vskip\csname ling@abovegl\gl@linelabel skip\endcsname}%
-   \glmw@updateaux@a
+   \glw@updateaux@a
 }
-\def\glmw@updateauxlistsA{%
+\def\glw@updateauxlistsA{%
    \let\temp=\empty
-   \glmw@updateaux@a
+   \glw@updateaux@a
 }
 \def\gl@stylenum{0}
-\def\glmw@mklevel#1{%
+\def\glw@mklevel#1{%
    \expandafter\ifx\csname glmw@gl#1\endcsname\relax
       \define@ling@cmdkeys{everygl#1}%
       \define@linginckey\skip{}{@}{abovegl#1skip}%
-      \XKV@addtolist@o\glmw@levels{#1}%
+      \XKV@addtolist@o\glw@levels{#1}%
       \lingset{everygl#1=,abovegl#1skip=0pt}
       \expandafter\def\csname glmw@gl#1\endcsname{\@glmw{#1}}%
    \else
       \message{>>>>ExPex Warning: Level #1 is already defined.}%
    \fi
 }
-\def\glmw@levels{a,ft}
-\def\glmw@mklevel#1{%
+\def\glw@levels{a,ft}
+\def\glw@mklevel#1{%
    \expandafter\ifx\csname glmw@gl#1\endcsname\relax
       \define@ling@cmdkeys{everygl#1}%
       \define@linginckey\skip{}{@}{abovegl#1skip}%
-      \XKV@addtolist@o\glmw@levels{#1}%
+      \XKV@addtolist@o\glw@levels{#1}%
       \lingset{everygl#1=,abovegl#1skip=0pt}
       \expandafter\def\csname glmw@gl#1\endcsname{\@glmw{#1}}%
    \else
@@ -1212,13 +1209,13 @@
 }
 \def\definemwlevels#1{\XKV@for@n{#1}\thislevel
    {%
-   \expandafter\glmw@mklevel\expandafter{\thislevel}}%
+   \expandafter\glw@mklevel\expandafter{\thislevel}}%
    \ifnum\gl@stylenum=0 \lingset{glstyle=wrap}\fi
 }
 \def\@glmw#1{%
    \def\worklist{}%
-   \glmw@maxht=0pt
-   \glmw@maxdp=0pt
+   \gl@maxht=0pt
+   \gl@maxdp=0pt
    \def\gl@linelabel{#1}%
    \@getoptionalarg\@glmw@a
 }
@@ -1226,47 +1223,47 @@
    \ling@usearg
    \@glmw@b #1 \@nil }
 \def\@glmw@b{\@ifnextchar\@nil\@glmw@c\@glmw@d}
-\def\@glmw@c#1{\glmw@updateauxlists \glmw@mergerow\worklist\to\mainlist\egroup}
+\def\@glmw@c#1{\glw@updateauxlists \gl@mergerow\worklist\to\mainlist\egroup}
 \def\@glmw@d #1 {%
    \def\tempa{#1}%
    \edef\temp{%
       \expandafter\expandonce\csname ling@everygl\gl@linelabel\endcsname
       \expandonce\tempa}%
    \setbox0=\hbox{\temp}%
-   \ifdim\glmw@maxht<\ht0 \glmw@maxht=\ht0 \fi
-   \ifdim\glmw@maxdp<\dp0 \glmw@maxdp=\dp0 \fi
-   \expandafter\gappend\temp\to\worklist
+   \ifdim\gl@maxht<\ht0 \gl@maxht=\ht0 \fi
+   \ifdim\gl@maxdp<\dp0 \gl@maxdp=\dp0 \fi
+   \expandafter\gl@append\temp\to\worklist
    \@glmw@b
 }
 \definemwlevels{b}
 \newif\ifgl@spacebefore
 \newif\ifW@prefixbox
 %%%%%%%%%%%%%%%%
-\def\glmw@endgl{\glmw@endglA \glmw@endglB}
-\def\glmw@endglA{\lineskip=\ling@abovemoreglskip
-   \glmw@print \par}
-\def\glmw@endglB{\egroup\egroup}
-\def\glmw@endgl@a{\lineskip=\ling@abovemoreglskip\glmw@print \par}
+\def\glw@endgl{\glw@endglA \glw@endglB}
+\def\glw@endglA{\lineskip=\ling@abovemoreglskip
+   \glw@print \par}
+\def\glw@endglB{\egroup\egroup}
+\def\glw@endgl@a{\lineskip=\ling@abovemoreglskip\glw@print \par}
 %%
-%\def\glmw@begingl{\bgroup\@getoptionalarg\glmw@begingl@a}
-%\def\glmw@begingl@a{\ling@usearg\glmw@begingl@aa}
-\def\glmw@begingl@aa{%
+%\def\glw@begingl{\bgroup\@getoptionalarg\glw@begingl@a}
+%\def\glw@begingl@a{\ling@usearg\glw@begingl@aa}
+\def\glw@begingl@aa{%
    \parindent=0pt
    \W@prefixboxfalse
-   \@ifnextchar\gla\glmw@begingl@@\glmw@begingl@prefix
+   \@ifnextchar\gla\glw@begingl@@\glw@begingl@prefix
 }
 %\def\begingl{\bgroup\@getoptionalarg\@begingl}
 %\def\@begingl{\ling@usearg\begingl@type}
-\def\glmw@glft#1//{%
+\def\glw@glft#1//{%
    {\lineskip=\ling@abovemoreglskip
-   \glmw@print
+   \glw@print
    \vskip\ling@aboveglftskip}%
    \leftskip=0pt
-   \let\endgl=\glmw@endglB
+   \let\endgl=\glw@endglB
    #1\par
 }
 
-\def\glmw@begingl@@{%
+\def\glw@begingl@@{%
    \vtop\bgroup
       \ling@usearg
       \ifdim\ling@glwidth=0pt
@@ -1297,15 +1294,15 @@
 \newif\ifW@prefixbox
 \newbox\W@prefixbox
 \newdimen\W@prefixboxwd
-\def\glmw@begingl@prefix #1\gla{%
+\def\glw@begingl@prefix #1\gla{%
    \W@prefixboxtrue
    \setbox\W@prefixbox=\hbox{#1}%
    \W@prefixboxwd=\wd\W@prefixbox
    \unhbox\W@prefixbox
-   \glmw@begingl@@ \gla
+   \glw@begingl@@ \gla
 }
-%\def\glmw@begingl@aa{%
-%   \glmw@begingl@a
+%\def\glw@begingl@aa{%
+%   \glw@begingl@a
 %}
 \newbox\W@prefixbox
 \newdimen\W@prefixboxwd
@@ -1315,14 +1312,14 @@
    \W@prefixboxwd=\wd\W@prefixbox
    \begingl@W@aux\gla@W
 }
-%\def\glmw@begingl@aa #1\gla{%
+%\def\glw@begingl@aa #1\gla{%
 %   \W@prefixboxtrue
 %   \setbox\W@prefixbox=\hbox{#1}%
 %   \W@prefixboxwd=\wd\W@prefixbox
-%   \glmw@begingl@a\gla
+%   \glw@begingl@a\gla
 %}
-%\def\glmw@begingl@aa{%
-%   \glmw@begingl@a
+%\def\glw@begingl@aa{%
+%   \glw@begingl@a
 %}
 \newbox\W@prefixbox
 \newdimen\W@prefixboxwd
@@ -1339,14 +1336,14 @@
 \def\printrbrack{$]$}
 \def\printlbrack{$[$}
 \lingset{glbrackbracksep=.05em,glbrackwordsep=.1em}
-\def\glmw@print{%
+\def\glw@print{%
    \gl@spacebeforefalse
    \@glpostbrackfalse
    \leavevmode
    \gl@loopmoretrue
    \@glaparsestate=1
    \loop\ifgl@loopmore
-      \lop\mainlist\to\tempa\relax       % \tempa is one column
+      \gl@lop\mainlist\to\tempa\relax       % \tempa is one column
       \ifx\tempa\Linebreak
             \vskip\ling@abovemoreglskip
             \@glaparsestate=1
@@ -1374,19 +1371,19 @@
                \else\ifnum\@glaparsestate=3 \hskip\ling@glspace
                \fi\fi\fi
             \@glaparsestate=0
-            \glmw@printcol
+            \glw@printcol
          \fi\fi\fi\fi
       \ifx\mainlist\empty \gl@loopmorefalse \fi
       \repeat
 }
-\def\glmw@printcol{%
+\def\glw@printcol{%
    \vtop{%
       \ling@everyglword
       \gl@loopmoretrue
       \loop\ifgl@loopmore
-         \lop\tempa\to\@tempa
-         \lop\aboveskiplist\to\@aboveskip
-         \lop\strutlist\to\@strut
+         \gl@lop\tempa\to\@tempa
+         \gl@lop\aboveskiplist\to\@aboveskip
+         \gl@lop\strutlist\to\@strut
          \@aboveskip\hbox{\@strut\@tempa}%
          \ifx\tempa\empty \gl@loopmorefalse \fi
       \repeat
