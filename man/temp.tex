@@ -1,4 +1,27 @@
 
+\input pstricks
+
+\psline[linestyle=dotted](0,0)(1,0)
+
+\psline[linestyle=dashed](0,0)(1,0)
+
+\endinput
+
+\lingset{glstyle=wrap}
+
+\ex
+%\baselineskip=3ex
+\begingl[glspace=3em,abovemoreglskip=2ex]
+%\begingl[everygl={\baselineskip=3ex},glspace=3em,abovemoreglskip=2ex]
+\gla x y x x x x x x x x x p x x //
+\glb u v x x x x x x x x x f  x x //
+\glft ``When he comes.'' //
+\endgl
+\xe
+
+\endinput
+
+
 
 \def\emwidth#1#2{\dimen0=#1 \dimen1=1em
    \dimen0=256\dimen0

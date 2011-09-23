@@ -34,14 +34,14 @@
       \omit Parameter{\if@star\else s\fi}:\hidewidth\cr
    \noalign{\par\nobreak}}
 \def\endparinventory{\egroup\egroup\bigskip\noindent}
-\def\begininventory{\bgroup
+\def\begininventory{\bigskip\bgroup
    \setbox0=\vtop\bgroup\openup2pt
-      \halign\bgroup\quad ##\hfil&& \tspace ##\hfil\cr
+      \halign\bgroup ##\hfil&& \tspace ##\hfil\cr
 }
 \def\endinventory{\egroup\egroup
-   \noindent\quad
-      \psframebox[framesep=1ex,boxsep=true,doubleline=true]{\box0}%
-      \egroup}
+   \noindent
+      \psframebox[framesep=1ex,boxsep=false,doubleline=true]{\box0}%
+      \egroup\bigskip}
 
 
 \def\smalldisplay{\medskip\noindent\hfil}

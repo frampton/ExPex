@@ -589,7 +589,8 @@ For example, suppose the label type |greek| is defined by
 in the cb family of Greek fonts.
 
 \begingroup
-\font\gr=grmn1200
+\let\gr=\twelverm  %% TEMPORARY %% TEMPORARY %% TEMPORARY %%
+%\font\gr=grmn1200
 \gr
 
 \definelabeltype{greek}{labelgen=list,

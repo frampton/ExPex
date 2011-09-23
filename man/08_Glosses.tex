@@ -1,21 +1,108 @@
 
-%\makeatletter
-%\long\def\if@tildeverb#1#2{\ifx#2~\@tildetrue\def\next{#1}\else
-%   \@tildefalse\def\next{\expandafter #1\string#2}\fi \next}
-%\def\codedisplay{\if@tildeverb\codedisplay@a}
-%\def\codedisplay@a{%
-%   \edef\@@aboveexskip{\ifx\next\empty 0pt\else 1.5ex\fi}%
-%   \exdisplay[aboveexskip=\@@aboveexskip,
-%      belowexskip=1.5ex]\noexno
-%   \verbatim}
-%\def\endcodedisplay{\endverbatim\xe}
-%\resetatcatcode
-\def\suff#1{{-\tenrm #1}}%
+\def\small{\tenrm}
+\lingset{glstyle=wrap,abovemoreglskip=1ex}
+\def\suff#1{{-\small #1}}%
 \everymath={}
-\lingset{glstyle=wrap}
-%%%%%%%%%%%%%%%
+
+\makeatletter
+\def\glmw@printcolframed{%
+   \psframebox[framesep=0]{\vtop{%
+      \ling@everyglword
+      \gl@loopmoretrue
+      \loop\ifgl@loopmore
+         \lop\tempa\to\@tempa
+         \lop\aboveskiplist\to\@aboveskip
+         \lop\strutlist\to\@strut
+         \@aboveskip\hbox{\@strut\@tempa}%
+         \ifx\tempa\empty \gl@loopmorefalse \fi
+      \repeat
+      }}%
+}
+\def\framewords{\let\glmw@printcol=\glmw@printcolframed}
+\resetatcatcode
+
+\section
+Glosses
+
+\lingset{dima=1.3em}
+\noindent\begininventory
+\omit Macros:\enspace
+\idx{|\begingl|}|[]|, \idx{|\endgl|}, \idx{|\gla|}|[]|,
+   \idx{|\glb|}|[]|, \idx{|\glft|}|[]|\cr
+\endinventory
+
+
+\noindent Before I discuss the many parameters that modify gloss
+displays, it is best to look at a few examples.
+
+\framedisplay
+\ex<wapm>
+\begingl
+\gla k- wapm -a -s'i -m -wapunin -uk //
+\glb Cl V Agr Neg Agr Tns Agr //
+\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glft `you (pl) didn't see them'//
+\endgl
+\xe
+\endframedisplay
+\codedisplay~
+\ex
+\begingl
+\gla k- wapm -a -s'i -m -wapunin -uk //
+\glb Cl V Agr Neg Agr Tns Agr //
+\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glft `you (pl) didn't see them'//
+\endgl
+\xe
+|endcodedisplay
+
+\framedisplay
+\ex
+\begingl
+\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
+seiner Freundin ihr$_i$ Herz auszusch\"utten.//
+\glb Mary is sure that it the-{\sc ACC} Hans not annoy would
+his-{\sc DAT} girlfriend-{\sc DAT} her-{\sc ACC} heart-{\sc ACC} {out to
+throw}//
+\glft  `Mary is sure that it would not annoy John to reveal her
+heart to his girlfriend.'//
+\endgl
+\xe
+\endframedisplay
+\codedisplay~
+\ex
+\begingl
+\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
+seiner Freundin ihr$_i$ Herz auszusch\"utten.//
+\glb Mary is sure that it the-{\sc ACC} Hans not annoy would his-{\sc
+DAT} girlfriend-{\sc DAT} her-{\sc ACC} heart-{\sc ACC} {out to
+throw}//
+\glft  `Mary is sure that it would not annoy John to reveal her
+heart to his girlfriend.'//
+\endgl
+\xe
+|endcodedisplay
+
+The |\gla| and |\glb| lines are parsed as a sequence of space
+separated items terminating in~|//|.  The parser only looks for spaces
+at the top-level.  Consequently, in (\lastx), for example, it is not
+sensitive to the space in items like |the-{\sc ACC}| since the space
+is inside a group, therefore not at the top level.  Spaces that
+directly preceeds terminating |//| are disregarded.  The |\glft| (free
+translation) line must also be terminated by |//|.
+
+Only one |\gla| line is permitted and it must come first. Only one
+|\glft| line is permitted and it must come last.  There can be
+multiple |\glb| lines, as there are in (\blastx).
+
+The next example gives a small taste of how parameter settings can be
+used to adapt gloss displays to your needs.  It also shows that there
+are no restrictions on the number of lines of interlinear text.  There
+are four in this case.
+
+%\framedisplay
 %\ex
-%\begingl
+%\begingl[glwidth=4in]
 %\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
 %seiner Freundin ihr$_i$ Herz auszusch\"utten.//
 %\glb Mary is sure that it the\suff{ACC} Hans not annoy would
@@ -25,17 +112,235 @@
 %heart to his girlfriend.'//
 %\endgl
 %\xe
-%\endinput
-%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\endframedisplay
 
+%
+%
+%
+%
+%The |\gla| line comes first, and can only appear first.  The |\glft|
+%(free translation) line comes last, and can only appear last.  |\glb|
+%lines can repeat.  As we shall see, the user can define other lines;
+%|\glcat|, for example, might be a line on which category designations
+%appear.  For each of the |\gl|$x$ lines ($x$ being |a|, |b|, |ft|, or
+%user defined), the user can specify the font to be used and extra
+%vertical spacing to be inserted over that line in the gloss (except
+%for the |\gla| line which cannot insert extra vertical spacing above
+%it).  The initial settings are such that the |\gla| line is set in
+%italic and there is no extra vertical spacing above the |\glb| line,
+%and an extra $1\,\rm ex$ spacing above the free translation line.
+
+\font\ips=xipasl10 at 12pt
+\font\ipss=xipasl10 at 7pt
+\def\mroot{$\surd$}
+\def\L{\char'354}
+\def\v#1{{\accent"07 #1}}
+\def\C{{\accent"07 c}}
+\def\W{$^{\hbox{\ipss w}}\mskip-2mu$}
+%   {glstyle=multilevel,glspace=1em,everygla=\ips,moregloffset=1.5em,
+%   abovemoreglskip=1ex,aboveglftskip=1.5ex}
+
+
+\framedisplay
+\ex
+\begingl
+\gla[everygla=\ips] hoi Ekn {\L}E {x\W}ElEP t{g\W}El' st{\'\i}m {hE\L}
+   {kuPEcx\W ist} {\L a} Pa{\v c}sEtqEt//
+\glb[everyglb=\ips] hoi {\mroot}PEkn {\L}E {x\W}ElEP t{g\W}El' {s +
+   \mroot t\'\i m} {hE\L} ku-PEc-\mroot{x\W}ist {\L}a Pa{\v c}sEtqEt//
+\glb then {\mroot}say det Meadowlark why {nomlz + \mroot what} conn
+   2nom-cust-{\mroot}one.travels det {day time}//
+\glb then {she said} det Meadowlark why {what is it} conn {you travel
+   about} det {day time}//
+\glft Then Meadowlark said, ``Why do you travel about in the day
+   time?''//
+\endgl
+\xe
+\endframedisplay
+\def\goop{\thinspace\putfnno}%
+\codedisplay~
+\ex|goop
+\begingl
+\gla[everygla=\ips] hoi Ekn {\L}E {x\W}ElEP t{g\W}El' st{\'\i}m {hE\L}
+   {kuPEcx\W ist} {\L a} Pa{\v c}sEtqEt//
+\glb[everyglb=\ips] hoi {\mroot}PEkn {\L}E {x\W}ElEP t{g\W}El' {s +
+   \mroot t\'\i m} {hE\L} ku-PEc-\mroot{x\W}ist {\L}a Pa{\v c}sEtqEt//
+\glb then {\mroot}say det Meadowlark why {nomlz + \mroot what} conn
+   2nom-cust-{\mroot}one.travels det {day time}//
+\glb then {she said} det Meadowlark why {what is it} conn {you travel
+   about} det {day time}//
+\glft Then Meadowlark said, ``Why do you travel about in the day
+   time?''//
+\endgl
+\xe
+|endcodedisplay
+
+\noindent
+In my Tex setup, |\ips| invokes one of the slant tipa IPA fonts, |\L|
+produces {\ips \L}, |\W| produces {\ips \W}, and |\mroot|
+(morphological root) produces {\mroot}.
+
+
+
+
+The interlinear gloss is built by gathering items into boxes as shown
+below, which repeats (\getref{wapm}) above and subjecting these boxes
+to {\sl Tex}'s usual paragraph building machinary as they are
+constructed. A horizontal space (determined by the parameter
+|glspace|) is inserted between these boxes.  I will refer later to
+these boxes as ``gl words'' since, as far as {\sl Tex}'s paragraph building
+machinary is concerned, they act like words.  The baseline of each gl
+word is the baseline of the top item in the box.
+
+\ex
+\framewords
+\begingl
+\gla k- wapm -a -s'i -m -wapunin -uk //
+\glb Cl V Agr Neg Agr Tns Agr //
+\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glft `you (pl) didn't see them'//
+\endgl
+\xe
+
+
+
+
+\hfill\noindent\begininventory
+\hfil\it key& \hfil\it value& \hfil\it initial value\cr
+\idx{|glspace|}& skip& |1em|\cr
+\idx{|everygl|}& token list& \it empty\cr
+\idx{|everygla|}& token list& |\it|\cr
+\idx{|everyglb|}& token list& \it empty\cr
+\idx{|everyglft|}& token list& \it empty\cr
+\idx{|everyglword|}& token list& \it empty\cr
+\idx{|aboveglbskip|}& skip& |0pt|\cr
+\idx{|aboveglftskip|}& skip& |1ex|\cr
+\idx{|abovemoreglskip|}& skip& |1ex|\cr
+\idx{|glhangstyle|}& choice (|normal|, |none|, |cascade|)& |normal|\cr
+\idx{|glhangindent|}& skip& |1em|\cr
+\idx{|glwidth|}& skip& |0pt|\cr
+\endinventory
+
+Suppose you would like certain glosses to look like (\nextx).
+Compared with (\getref{wapm}): the first line is set in roman type,
+not italics; the second line has been set in a smaller
+font; and the gap between the first and second lines has been
+decreased.
+
+\ex
+\begingl
+\gla[everygla=] k- wapm -a -s'i -m -wapunin -uk //
+\glb[everyglb=\tenrm,aboveglbskip=-.5ex] Cl V Agr Neg Agr Tns Agr //
+\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glft `you (pl) didn't see them'//
+\endgl
+\xe
+
+Here is one way to accomplish this.
+
+\codedisplay
+\ex
+\begingl
+\gla[everygla=] k- wapm -a -s'i -m -wapunin -uk //
+\glb[everyglb=\tenrm,aboveglbskip=-.5ex] Cl V Agr Neg Agr Tns Agr //
+\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glft `you (pl) didn't see them'//
+\endgl
+\xe
+|endcodedisplay
+
+Here is a better way to do it, assuming that you have a number of
+glosses that you want to do in this way.  First, you use
+|\definemwlevels{cat}| to define a new level.  This makes |\glcat|
+available, just like |\glb|.  It also make parameters |everyglcat| and
+|aboveglcatskip| available for adjustment.  They are initialized to
+the empty token string and to $0\,\rm pt$.  On the face of it, this
+does not seem to accomplish anything.  It seems that you still need to
+say:
+\definemwlevels{cat}
+
+\codedisplay
+\ex
+\begingl
+\gla[everygla=] k- wapm -a -s'i -m -wapunin -uk //
+\glcat[everyglcat=\tenrm,aboveglcatskip=-.5ex] Cl V Agr Neg Agr Tns Agr //
+\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glft `you (pl) didn't see them'//
+\endgl
+\xe
+|endcodedisplay
+
+But defining the `cat' level allows you to say:
+
+\codedisplay
+\definelingstyle{Potawatomi}
+   {everygla=,everyglcat=\tenrm,aboveglcatskip=-.5ex}
+|endcodedisplay
+\definelingstyle{Potawatomi}{everygla=,everyglcat=\tenrm,aboveglcatskip=-.5ex}
+
+Then, you get (\lastx) by saying:
+
+\codedisplay
+\ex[lingstyle=Potawatomi]
+\begingl
+\gla k- wapm -a -s'i -m -wapunin -uk //
+\glcat Cl V Agr Neg Agr Tns Agr //
+\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glft `you (pl) didn't see them'//
+\endgl
+\xe
+|endcodedisplay
+
+\ex[lingstyle=Potawatomi]
+\begingl
+\gla k- wapm -a -s'i -m -wapunin -uk //
+\glcat Cl V Agr Neg Agr Tns Agr //
+\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glft `you (pl) didn't see them'//
+\endgl
+\xe
+
+
+
+
+
+
+
+
+\endinput
+
+\definemwlevels{aa}
+\lingset{everygla=\ips,everyglaa=\ips}
+
+\framedisplay
+\ex
+\begingl
+\gla hoi Ekn {\L}E {x\W}ElEP t{g\W}El' st{\'\i}m {hE\L}
+   {kuPEcx\W ist} {\L a} Pa{\v c}sEtqEt//
+\glaa hoi {\mroot}PEkn {\L}E {x\W}ElEP t{g\W}El' {s +
+   \mroot t\'\i m} {hE\L} ku-PEc-\mroot{x\W}ist {\L}a Pa{\v c}sEtqEt//
+\glb then {\mroot}say det Meadowlark why {nomlz + \mroot what} conn
+   2nom-cust-{\mroot}one.travels det {day time}//
+\glb then {she said} det Meadowlark why {what is it} conn {you travel
+   about} det {day time}//
+\glft Then Meadowlark said, ``Why do you travel about in the day
+   time?''//
+\endgl
+\xe
+\endframedisplay
+
+
+
+
+\let\suff=\gobble
 \section
 Glosses
 
-Macros:\quad \idx{|\begingl|}|[]|, \idx{|\endgl|}
+Macros:\quad \idx{|\begingl|}|[]|, \idx{|\endgl|}, \idx{|\gla|}|[]|,
+\idx{|\glb|}|[]|, \idx{|\glft|}|[]|
 
 \parinventory
-& \idx{|glstyle|}& choice (|wrap|, |3level|, |multilevel|, or |oldstyle|)&
+& \idx{|glstyle|}& choice\quad (|wrap|, |3level|, |multilevel|, or |oldstyle|)&
 |wrap|\cr
 \endparinventory
 

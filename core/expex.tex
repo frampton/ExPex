@@ -1,4 +1,3 @@
-%% next save 4
 \edef\resetatcatcode{\catcode`\noexpand\@\the\catcode`\@\relax}
 \catcode`\@11\relax
 \ifx\XKeyValLoaded\endinput \else
@@ -712,16 +711,18 @@
 %% glosses
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% from multiwrap5
-\define@choicekey{ling}{glstyle}[\ling@glstyle\nr]%
-   {3level,wrap,oldstyle,multilevel,multiwrap}{%
-      \ifcase\nr
-            \let\begingl@type=\begingl@T
-            \let\endgl\endgl@T
+% NOTE: \ling@glstylenum is used in at least one other macro, so the
+% if the order is changed, "wrap" should stay first
+\define@choicekey{ling}{glstyle}[\ling@glstyle\gl@stylenum]%
+   {wrap,3level,oldstyle,multilevel,multiwrap}{%
+      \ifcase\gl@stylenum
+            \let\begingl@type\glmw@begingl@aa
+            \let\endgl\glmw@endgl
             \glmw@letlevels
             \let\glft=\glmw@glft
          \or
-            \let\begingl@type\glmw@begingl@aa
-            \let\endgl\glmw@endgl
+            \let\begingl@type=\begingl@T
+            \let\endgl\endgl@T
             \glmw@letlevels
             \let\glft=\glmw@glft
          \or
@@ -735,13 +736,9 @@
             \let\endgl=\endgl@L
             \epx@letlevels
             \let\glft=\glft@M
-         \or
-            \let\begingl@type\glmw@begingl@aa
-            \let\endgl=\glmw@endgl
-            \glmw@letlevels
-            \let\glft=\glmw@glft
          \fi
 }
+\def\ling@glstyle{wrap}
 %% epx@Mlevels is the list of M-levels that have been defined
 \def\epx@letlevels{%
    \expandafter\XKV@for@n\expandafter{\epx@Mlevels}\levelname
@@ -774,99 +771,98 @@
    {none,normal,cascade}{}
 \define@ling@cmdkeys{glrightskip}
 \lingset{glhangstyle=normal,glrightskip=0pt plus .25\hsize}
-\newif\ifW@prefixbox
-\def\begingl@Wb{%
-   \bgroup
-   \parindent=0pt
-   \W@prefixboxfalse
-   \@ifnextchar\gla@W\begingl@W@aux\begingl@W@withprefix
-}
-\def\endgl@Wb{\egroup\egroup\egroup}
-\def\begingl@W@aux{%
-   \leavevmode
-   \ifW@prefixbox \box\W@prefixbox \fi
-   \vtop\bgroup
-   \ling@usearg
-   \ling@everygl
-   \ifdim\ling@glwidth=0pt
-         \advance\hsize by -\leftskip
-         \advance\hsize by -\rightskip
-      \else
-         \hsize=\ling@glwidth
-      \fi
-   \ifW@prefixbox \advance\hsize by -\W@prefixboxwd \fi
-   \parindent=0pt
-   \rightskip=0pt plus 1fil
-   \leftskip=\ling@glhangindent
-   \hskip-\ling@glhangindent
-   \leavevmode
-}
-\def\begingl@W@aux{%
-   \leavevmode
-   \ifW@prefixbox \box\W@prefixbox \fi
-   \vtop\bgroup
-      \ling@usearg
-      \ling@everygl
-      \ifdim\ling@glwidth=0pt
-            \advance\hsize by -\leftskip
-            \advance\hsize by -\rightskip
-         \else
-            \hsize=\ling@glwidth
-         \fi
-      \ifW@prefixbox \advance\hsize by -\W@prefixboxwd \fi
-      \rightskip=\ling@glrightskip
-      \ifcase\epx@glhangstyle
-            \leftskip=0pt
-         \or
-            \leftskip=\ling@glhangindent
-            \hskip -\ling@glhangindent
-         \or
-            \leftskip=0pt
-            \epx@makeshape
-            \parshape 9
-            \epx@parshapetarget
-         \fi
-}
-\newbox\W@prefixbox
-\newdimen\W@prefixboxwd
-\def\begingl@W@withprefix #1\gla{%
-   \W@prefixboxtrue
-   \setbox\W@prefixbox=\hbox{#1}%
-   \W@prefixboxwd=\wd\W@prefixbox
-   \begingl@W@aux\gla@W
-}
-\def\glft@W{\leavevmode\leftskip=0pt \@tildecheck\glft@W@a}
-\def\glft@W@a #1//{%
-   \if@tilde \else \vskip\ling@aboveglftskip \fi
-   \strut #1
-   \noindent\ling@everyglft\strut #1
-}
-\def\gla@W{\@getoptionalarg\gla@W@a}
-\def\gla@W@a#1// {%
-   \bgroup
-   \ling@usearg
-   \def\topline{}%
-   \def\botline{}%
-   \leavevmode\gla@W@b #1 \@nil}
-\def\gla@W@b{\@ifnextchar\@nil\gla@W@d\gla@W@c}
-\def\gla@W@c#1 {\addtoline\topline{#1}\gla@W@b}
-\def\gla@W@d#1{}
-\def\glb@W#1// {\leavevmode\glb@W@a#1 \@nil}
-\def\glb@W@a{\@ifnextchar\@nil\mk@pairline\glb@W@b}
-\def\glb@W@b#1 {\addtoline\botline{#1}\glb@W@a}
-\def\glc@W{\par\nobreak\prevdepth=.28\baselineskip \@getoptionalarg\glc@W@}
-\long\def\glc@W@#1\endgl{\par\leftskip=0pt
-   {\ling@usearg\vskip\ling@aboveglcskip
-   \ling@everyglc #1\strut\par}\egroup\egroup}
-\def\glft@Wb{\@tildecheck\glft@Wb@a}
-\def\glft@Wb@a #1//{%
-   \if@tilde \par \else \vskip\ling@aboveglftskip \fi
-   \nobreak\prevdepth=.28\baselineskip
-   \leavevmode
-   \ling@everyglft
-   \leftskip=0pt
-   \noindent\strut #1%
-}
+%\def\begingl@Wb{%
+%   \bgroup
+%   \parindent=0pt
+%   \W@prefixboxfalse
+%   \@ifnextchar\gla@W\begingl@W@aux\begingl@W@withprefix
+%}
+%\def\endgl@Wb{\egroup\egroup\egroup}
+%\def\begingl@W@aux{%
+%   \leavevmode
+%   \ifW@prefixbox \box\W@prefixbox \fi
+%   \vtop\bgroup
+%   \ling@usearg
+%   \ling@everygl
+%   \ifdim\ling@glwidth=0pt
+%         \advance\hsize by -\leftskip
+%         \advance\hsize by -\rightskip
+%      \else
+%         \hsize=\ling@glwidth
+%      \fi
+%   \ifW@prefixbox \advance\hsize by -\W@prefixboxwd \fi
+%   \parindent=0pt
+%   \rightskip=0pt plus 1fil
+%   \leftskip=\ling@glhangindent
+%   \hskip-\ling@glhangindent
+%   \leavevmode
+%}
+%\def\begingl@W@aux{%
+%   \leavevmode
+%   \ifW@prefixbox \box\W@prefixbox \fi
+%   \vtop\bgroup
+%      \ling@usearg
+%      \ling@everygl
+%      \ifdim\ling@glwidth=0pt
+%            \advance\hsize by -\leftskip
+%            \advance\hsize by -\rightskip
+%         \else
+%            \hsize=\ling@glwidth
+%         \fi
+%      \ifW@prefixbox \advance\hsize by -\W@prefixboxwd \fi
+%      \rightskip=\ling@glrightskip
+%      \ifcase\epx@glhangstyle
+%            \leftskip=0pt
+%         \or
+%            \leftskip=\ling@glhangindent
+%            \hskip -\ling@glhangindent
+%         \or
+%            \leftskip=0pt
+%            \epx@makeshape
+%            \parshape 9
+%            \epx@parshapetarget
+%         \fi
+%}
+%\newbox\W@prefixbox
+%\newdimen\W@prefixboxwd
+%\def\begingl@W@withprefix #1\gla{%
+%   \W@prefixboxtrue
+%   \setbox\W@prefixbox=\hbox{#1}%
+%   \W@prefixboxwd=\wd\W@prefixbox
+%   \begingl@W@aux\gla@W
+%}
+%\def\glft@W{\leavevmode\leftskip=0pt \@tildecheck\glft@W@a}
+%\def\glft@W@a #1//{%
+%   \if@tilde \else \vskip\ling@aboveglftskip \fi
+%   \strut #1
+%   \noindent\ling@everyglft\strut #1
+%}
+%\def\gla@W{\@getoptionalarg\gla@W@a}
+%\def\gla@W@a#1// {%
+%   \bgroup
+%   \ling@usearg
+%   \def\topline{}%
+%   \def\botline{}%
+%   \leavevmode\gla@W@b #1 \@nil}
+%\def\gla@W@b{\@ifnextchar\@nil\gla@W@d\gla@W@c}
+%\def\gla@W@c#1 {\addtoline\topline{#1}\gla@W@b}
+%\def\gla@W@d#1{}
+%\def\glb@W#1// {\leavevmode\glb@W@a#1 \@nil}
+%\def\glb@W@a{\@ifnextchar\@nil\mk@pairline\glb@W@b}
+%\def\glb@W@b#1 {\addtoline\botline{#1}\glb@W@a}
+%\def\glc@W{\par\nobreak\prevdepth=.28\baselineskip \@getoptionalarg\glc@W@}
+%\long\def\glc@W@#1\endgl{\par\leftskip=0pt
+%   {\ling@usearg\vskip\ling@aboveglcskip
+%   \ling@everyglc #1\strut\par}\egroup\egroup}
+%\def\glft@Wb{\@tildecheck\glft@Wb@a}
+%\def\glft@Wb@a #1//{%
+%   \if@tilde \par \else \vskip\ling@aboveglftskip \fi
+%   \nobreak\prevdepth=.28\baselineskip
+%   \leavevmode
+%   \ling@everyglft
+%   \leftskip=0pt
+%   \noindent\strut #1%
+%}
 % ----- side by side (ss) gloss style -----
 \define@choicekey{ling}{glftpos}[\temp\epx@glftpos]%
    {below,right}{%
@@ -1101,6 +1097,7 @@
 \egroup
 }
 %---------------------- multiwrap style (T) ---------------------
+%\newif\ifW@prefixbox
 \toksdef\ta=0  \toksdef\tb=2
 \def\gappend #1\to #2{%
    \ta={\\{#1}}%
@@ -1189,7 +1186,7 @@
    \let\temp=\empty
    \glmw@updateaux@a
 }
-\def\glmw@levels{a,ft}
+\def\gl@stylenum{0}
 \def\glmw@mklevel#1{%
    \expandafter\ifx\csname glmw@gl#1\endcsname\relax
       \define@ling@cmdkeys{everygl#1}%
@@ -1198,7 +1195,7 @@
       \lingset{everygl#1=,abovegl#1skip=0pt}
       \expandafter\def\csname glmw@gl#1\endcsname{\@glmw{#1}}%
    \else
-       \message{>>>>ExPex Warning: Level #1 is already defined.}%
+      \message{>>>>ExPex Warning: Level #1 is already defined.}%
    \fi
 }
 \def\glmw@levels{a,ft}
@@ -1210,12 +1207,14 @@
       \lingset{everygl#1=,abovegl#1skip=0pt}
       \expandafter\def\csname glmw@gl#1\endcsname{\@glmw{#1}}%
    \else
-       \message{>>>>ExPex Warning: Level #1 is already defined.}%
+      \message{>>>>ExPex Warning: Level #1 is already defined.}%
    \fi
 }
 \def\definemwlevels#1{\XKV@for@n{#1}\thislevel
-   {\expandafter\glmw@mklevel\expandafter{\thislevel}}}
-\definemwlevels{b,c}
+   {%
+   \expandafter\glmw@mklevel\expandafter{\thislevel}}%
+   \ifnum\gl@stylenum=0 \lingset{glstyle=wrap}\fi
+}
 \def\@glmw#1{%
    \def\worklist{}%
    \glmw@maxht=0pt
@@ -1239,7 +1238,9 @@
    \expandafter\gappend\temp\to\worklist
    \@glmw@b
 }
+\definemwlevels{b}
 \newif\ifgl@spacebefore
+\newif\ifW@prefixbox
 %%%%%%%%%%%%%%%%
 \def\glmw@endgl{\glmw@endglA \glmw@endglB}
 \def\glmw@endglA{\lineskip=\ling@abovemoreglskip
