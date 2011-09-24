@@ -85,7 +85,7 @@ heart to his girlfriend.'//
 \endgl
 \xe
 
-\definemwlevels{cat}
+\defineglwlevels{cat}
 \definelingstyle{Potawatomi}{everygla=,everyglcat=\tenrm,aboveglcatskip=-.5ex}
 
 \ex[lingstyle=Potawatomi]
@@ -219,78 +219,6 @@ heart to his girlfriend.'//
 \endgl
 \xe
 
-\codedisplay~
-\ex[glstyle=multilevel,everygla=,everyglb=,everyglc=,
-   aboveglaskip=0pt,aboveglbskip=0pt,aboveglftskip=1ex]
-\begingl
-\gla k- wapm -a -s'i -m -wapunin -uk //
-\glb Cl V Agr Neg Agr Tns Agr //
-\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
-\glft `you (pl) didn't see them'//
-\endgl
-\xe
-|endcodedisplay
-The example is from Hockett, as glossed by Halle and
-Marantz.
-
-It is worth noting that, in practice, it is most likely that
-a style would be defined as follows.
-Then \def\vd{\hbox{$\qquad \vdots$}}
-\codedisplay
-\definelingstyle{glabb}{glstyle=multilevel,everygla=,everyglb=,
-   everyglc=,aboveglaskip=0pt,aboveglbskip=0pt,aboveglftskip=1ex}
-
-\ex[lingstyle=glabb]
-\begingl
-|vd
-\endgl
-\xe
-|endcodedisplay
-
-\noindent would be sufficient.
-
-Repeating |\glb| does not allow different fonts or spacing for the two
-lines.  In order to permit this, another level |\glc| is
-predefined.  For example, suppose a style is defined by
-
-\codedisplay
-\definelingstyle{glabc}{glstyle=multilevel,everygl=,everygla=,
-   everyglb=\elevenpoint,aboveglbskip=.3ex,
-   everyglc=\tenpoint,aboveglcskip=-.3ex,
-   everyglft=\it,aboveglftskip=1ex}
-|endcodedisplay
-
-\noindent |\elevenpoint| and |\tenpoint| are the ways 11 point
-and 10 point type are invoked in my font setup.  This will vary
-from user to user, so no attempt is made here to detail the
-macros I rely on (which are variations on the ones in the
-TexBook).
-\codedisplay
-
-\definelingstyle{glabc}{glstyle=multilevel,everygl=,everygla=,
-   everyglb=\elevenpoint,aboveglbskip=.3ex,
-   everyglc=\tenpoint,aboveglcskip=-.3ex,
-   everyglft=\it,aboveglftskip=1ex}
-\def\tenpoint{\tenrm \let\sc\eightrm}%
-\def\elevenpoint{\elevenrm}
-\definegllevels{word}
-|endcodedisplay
-
-Then
-
-\codedisplay
-\ex[lingstyle=glabc]
-\begingl
-\gla k- wapm -a -s'i -m -wapunin -uk //
-\glb Cl V Agr Neg Agr Tns Agr //
-\glc 2 see {3\sc ACC} {} 2pl preterit 3pl //
-\glft {`you (pl) didn't see them'}//
-\endgl
-\xe
-|endcodedisplay
-produces
-
-
 \definelingstyle{glabc}{glstyle=multilevel,everygl=,everygla=,
    everyglb=\elevenpoint,aboveglbskip=.3ex,
    everyglc=\tenpoint,aboveglcskip=-.3ex,
@@ -306,31 +234,7 @@ produces
 \xe
 \endframedisplay
 
-\noindent (The settings for the style |glabc| are chosen for
-illustrative purposes, not because this is a particularly
-attractive display.)
-
-The user can define additional levels by
-\medskip
-|\definegllevels{mylevela,mylevelb}|
-\medskip
-Then the macros |\glmylevela| and |\glmylevelb| will be defined
-and the keys |\everyglmylevela|, |everyglmylevelb|,
-|aboveglmylevelaskip|, and |aboveglmylevelbskip| will be
-activated.
-
-
-
-\medskip
-\vfil\break
 \noindent{\it Inline citations}\medskip
-
-\noindent Macro:\quad \idx{|\rightcite|}
-\medskip
-
-
-\noindent Multilevel glosses make it easy to give inline citations in
-several different styles, as illustrated below.
 
 \framedisplay
 \pex[glstyle=multilevel,everygla=,everyglb=,everyglc=,
@@ -358,30 +262,6 @@ several different styles, as illustrated below.
 \endgl
 \xe
 \endframedisplay
-\codedisplay
-\pex[glstyle=multilevel,everygla=,everyglb=,everyglc=,
-   aboveglaskip=0pt,aboveglbskip=0pt,aboveglftskip=1ex]
-\a \begingl
-\gla k- wapm -a -s'i -m -wapunin -uk //
-\glb Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
-\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
-\glft `you (pl) didn't see them'//
-\endgl \hfill (Hockett 1948, p. 143)
-\a \begingl
-\gla k- wapm -a -s'i -m -wapunin -uk //
-\glb Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
-\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
-\glft `you (pl) didn't see them'//
-\endgl \hfil (Hockett 1948, p. 143)
-\a \begingl
-\gla k- wapm -a -s'i -m -wapunin -uk //
-\glb Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
-\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
-\glft \rightcite{(Hockett 1948, p. 143)}
-   `you (pl) didn't see them'//
-\endgl
-\xe
-|endcodedisplay
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -393,48 +273,8 @@ several different styles, as illustrated below.
 \def\C{{\accent"07 c}}
 \def\W{$^{\hbox{\ipss w}}\mskip-2mu$}
 
-\medskip
-\vfil\break
-
 \noindent{\it Line breaking (non-automatic) in the multilevel
 style}\medskip
-
-\noindent
-Macros:\quad \idx{|\moregl|}
-
-\parinventory
-& \idx{|moregloffset|}& dimension& 1em\cr
-& \idx{|abovemoreglskip|}& skip& .5ex plus .2ex\cr
-\endparinventory
-
-
-
-Assuming that |\ips| selects the tipa slant font and |\mroot|, |\L|,
-and |\W| are appropriately defined, the code below produces the
-display below it.
-
-\codedisplay
-\definelingstyle{ips-gloss}%
-   {glstyle=multilevel,glspace=1em,everygla=\ips,moregloffset=1.5em,
-   abovemoreglskip=1ex,aboveglftskip=1.5ex}
-
-\ex[lingstyle=ips-gloss]
-\begingl
-\gla hoi Ekn {\L}E {x\W}ElEP t{g\W}El' st{\'\i}m//
-\gla hoi {\mroot}PEkn {\L}E {x\W}ElEP t{g\W}El' {s + \mroot t\'\i m}//
-\glb then {\mroot}say det Meadowlark why
-   {nomlz + \mroot what}//
-\glb then {she said} det Meadowlark why {what is it}//
-\moregl
-\gla {hE\L} {kuPEcx\W ist} {\L a} Pa{\v c}sEtqEt//
-\gla {hE\L} ku-PEc-\mroot{x\W}ist {\L}a Pa{\v c}sEtqEt//
-\glb conn 2nom-cust-{\mroot}one.travels det {day time}//
-\glb conn {you travel about} det {day time}//
-\glft Then Meadowlark said, ``Why do you travel about in the day
-time?''//
-\endgl
-\xe
-|endcodedisplay
 
 \definelingstyle{ips-gloss}%
    {glstyle=multilevel,glspace=1em,everygla=\ips,moregloffset=1.5em,
@@ -459,76 +299,10 @@ time?''//
 \xe
 \endframedisplay
 
-\noindent This example was contributed by Shannon Bischoff.
-
-%
-%
-%
-%James Crippen provided a gloss with five gloss lines (and the
-%free translation): standard orthography, phonetic form (as
-%spoken), phonemic form (standardized), underlying morphology, and
-%morpheme gloss.
-%
-%\font\ipa=xipa10 at 12pt
-%\font\ipascript=xipa10 at 7pt
-%\def\umlautunder#1{\oalign{#1\crcr\hidewidth
-%   \vbox to .2ex{\hbox{\char'004}\vss}\hidewidth}}
-%\def\barunder#1{\oalign{#1\crcr\hidewidth
-%   \vbox to .2ex{\hbox{\char'011}\vss}\hidewidth}}
-%\def\barover#1{$\bar{\hbox{\ipa #1}}$}
-%\def\nullmorf{{\twelvesy\char'073}}
-%
-%\definelingstyle{tlingit}{glstyle=multilevel,glspace=1em,everygla=\ipa,
-%   everyglb=\tenrm,moregloffset=2em,abovemoreglskip=1ex}
-%\def\tlingitstyle{%
-%   \lingset{lingstyle=tlingit}%
-%   \let\"=\umlautunder
-%   \def\G{\char'345}%
-%   \def\L{\char'354}%
-%   \def\W{$^{\hbox{\ipascript w}}$}%
-%   \def\H{$^{\hbox{\ipascript h}}$}%
-%}
-%
-%\ex \tlingitstyle
-%\def\\#1{{\rm #1}}%
-%\begingl
-%\gla	Ch'u.\'a\`an, {gun\'ei kawdudln{\'\i}k} y\'aa haa//
-%\gla  {tS'uP\umlautunder{\'a}a\`n} {{\G}Un\'e: k{\H}awtUt{\L}n{\'\i}k}
-%   j\'a: ha //
-%\gla  tS'uP\'aa\`n {qun\'e; k{\H}awtUt{\L}n{\'\i}k}
-%   j\'a; ha://
-%\gla  ch'u.\'a\`an dgun\'ei=\nullmorf-ka-wu-du-dli-n\'ik
-%   y\'aa haa//
-%\glb  RESUM INCEP=\\3O-HSFC-PFV-\\3OBV.S-CL[+D,\\1,+I]-\\{tell} DEM.PROX
-%   \\1PL.PSS//
-%\moregl
-%\gla shag\'oon y\'aa saanyaa {\barunder {\rm K}}w\'a\`an.//
-%\gla S2k{\W}\'u\`un j\'a; sa:nja: q{\H\W}{\barover A}:n//
-%\gla Sak\'u\`un j\'a; sa:nja: q{\H\W}\'a\`an//
-%\gla shag\'o\`on y\'aa saa-niyaa {\barunder k}w\'a\`an//
-%\glb \\{history} DEM.PROX \\{southern direction} ???? //
-%\glft `Anyway, they would begin telling our history of this
-%Saanyaa Kw\'aan.'//
-%\endgl
-%\xe
-%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection An alternate gloss description syntax
 ({\tt glstyle=3level})
 
-\noindent  The usual gloss description syntax uses a format which
-imitates the intended typeset output.  The gloss type |3level|
-provides an alternative, which some may find attractive.
-
-\codedisplay
-\ex[glstyle=3level]
-\begingl
-{k-/Cl/2} {wapm/V/see} {-a/Agr/3\sc ACC} {-s'i/Neg} {-m/Agr/\sc PL}
-{-wapunin/Tns/preterit} {-uk/Agr/\sc PL}.
-`you (pl) didn't see them'.
-\endgl
-\xe
-|endcodedisplay
 \framedisplay~
 \ex[glstyle=3level,aboveglaskip=0pt,aboveglbskip=0pt]
 \begingl
@@ -539,18 +313,6 @@ provides an alternative, which some may find attractive.
 \xe
 \endframedisplay
 
-\smallskip
-\noindent The two lines which describe the gloss are terminated
-by a period.  The brackets are required in the first line, which
-is not processed as a space separated list.  The spaces between
-the bracketed items are optional. The three gloss lines in the
-output are called the gla, glb, and glc lines and parameters like
-|everyglb| or |aboveglcskip| have the effect expected.  The last
-line is the glft line and the parameters |everyglft| and
-|aboveglft| also have the expected effect.
-
-Gloss displays with two lines are possible.
-
 \framedisplay
 \ex
 \begingl[glstyle=3level,everygla=\it]
@@ -559,17 +321,6 @@ Gloss displays with two lines are possible.
 \endgl
 \xe
 \endframedisplay
-\codedisplay~
-\ex
-\begingl[glstyle=3level,everygla=\it]
-{n-ku/1st-OK} {wapm-a/see}.
-`OK I'll see him'
-\endgl
-\xe
-|endcodedisplay
-
-Some might prefer to construct perfectly ordinary glosses using
-this gloss type.
 
 \framedisplay
 \ex
@@ -582,18 +333,6 @@ town{.}'.
 \endgl
 \xe
 \endframedisplay
-\codedisplay~
-\ex
-\begingl[glstyle=3level]
-{Il/there} {semble/seems} {au/to the} {g\'en\'eral/general}
-{\^etre/to be} {arriv\'e/arrived} {deux/two} {soldats/soldiers}
-{en/in} {ville/town.}.
-`There seems to the general to have arrived two soldiers in town{.}'.
-\endgl
-\xe
-|endcodedisplay
-\noindent You will be restricted to a single line, with no
-wrapping.
 
 \framedisplay
 \ex[glstyle=3level]
@@ -604,19 +343,6 @@ wrapping.
 \endgl
 \xe
 \endframedisplay
-
-\codedisplay~
-\ex[glstyle=3level]
-\begingl
-{pwa-/Neg} {min/V/give} {-kwa/Agr/2pl{\sc NOM}.3pl\sc ACC}
-{-pun/Tns/preterit} .
-`you (pl) didn't give them (something)'
-\endgl
-\xe
-|endcodedisplay
-
-Three level glosses are useful, particularly in
-morphology.
 
 \framedisplay
 \ex[glstyle=3level]
@@ -633,39 +359,6 @@ b.\quad
 \endgl
 \xe
 \endframedisplay
-\codedisplay~
-\ex[glstyle=3level]
-a.\quad
-\begingl
-{pwa-/Neg} {min/V/give} {-kwa/Agr/2pl{\sc NOM}.3pl\sc ACC}
-{-pun/Tns/preterit} .
-`you (pl) didn't give them (something)'
-\endgl
-\hfil
-b.\quad
-\begingl[everygla=\it,everyglft=,aboveglftskip=-.1ex]
-{n-ku/1st-OK} {wapm-a/see}.
-`OK I'll see him'
-\endgl
-\xe|endcodedisplay
-
-%\subsection Parameters which affect 3 level glosses
-%
-%\parinventory
-%& \idx{|everygla|}& token list& |{}|\cr
-%& \idx{|everyglb|}& token list& |{}|\cr
-%& \idx{|everyglc|}& token list& |{}|\cr
-%& \idx{|everyglft|}& token list& |{\it}|\cr
-%& \idx{|aboveglgextraskip|}& skip& |0pt|\cr
-%& \idx{|abovelinethreeextraskip|}& skip& |0pt|\cr
-%& \idx{|aboveglftskip|}& skip& |.5ex|\cr
-%\endparinventory
-%\vskip-1.5ex
-%\noindent  Additionally, the parameters |glspace| and |everygl|
-%apply and have the same meaning as in the wrap style.
-
-
-\ifnum\subsecno<2 \subsecno=4 \secno=8 \fi
 
 \lingset{glstyle=wrap}
 
@@ -680,37 +373,6 @@ b.\quad
 \endframedisplay
 \medskip
 
-\noindent Sometimes it is desirable to displays brackets which
-delimit grammatical constituents.  The display below is easy to
-create, but is not as attractive as it might be.
-
-\smallskip
-\framedisplay
-\ex[glstyle=wrap]
-\begingl
-\gla Mary$_i$ ist sicher, $[$dass es den Hans nicht st\"oren
-w\"urde $[$seiner Freundin ihr$_i$ Herz auszusch\"utten$]]$//
-\glb Mary is sure that it the Hans not annoy would
-his girlfriend her heart {out to throw}//
-\glft `Mary is sure that to reveal her heart to his girlfriend
-would not damage John.'//
-\endgl
-\xe
-\endframedisplay
-\smallskip
-
-\codedisplay
-\ex[glstyle=wrap]
-\begingl
-\gla Mary$_i$ ist sicher, $[$dass es den Hans nicht st\"oren
-w\"urde $[$seiner Freundin ihr$_i$ Herz auszusch\"utten$]]$//
-\glb Mary is sure that it the Hans not annoy would
-his girlfriend her heart {out to throw}//
-\glft `Mary is sure that to reveal her heart to his girlfriend
-would not damage John.'//
-\endgl
-\xe
-|endcodedisplay
 
 \framedisplay \makeatletter
 \ex[glstyle=wrap,glbrackwordsep=.1em,glbrackbracksep=.04em]
@@ -755,58 +417,6 @@ would not damage John.'//
 \endframedisplay
 \smallskip
 
-\noindent Note that the gloss of words following brackets is
-aligned with the word, not the bracket.  Note also that some
-extra space is inserted between the brackets and the words, and
-between adjacent brackets.
-
-One relatively easy way to produce a display like this is to use
-the |@| mark to close up the space where needed and math mode to
-insert the brackets.  Placeholders (|{}|) must be inserted in the
-|\glb| line because the left delimiters are treated as items in
-the |\gla| line.  The code used for the above was.
-
-\codedisplay
-\ex[glstyle=wrap]
-\begingl
-\gla Mary$_i$ ist sicher, $[\,$ @ dass es den Hans nicht st\"oren
-w\"urde $[\,$ @ seiner Freundin ihr$_i$ Herz
-{auszusch\"utten$\,]]\,.$} //
-\glb Mary is sure {} that it the Hans not annoy would {} his
-girlfriend her heart {out to throw} //
-\glft `Mary is sure that to reveal her heart to his girlfriend
-would not damage John.'//
-\endgl
-\xe
-|endcodedisplay
-
-\noindent Recall that |\,| inserts a math `thin space' in math
-mode. It is not necessary to enclose the last item on the |\gla|
-line in brackets, but doing so makes the logic of the code
-somewhat clearer.
-
-{\it ExPex\/} provides a way to automate this process without the
-need to insert placeholders on the |\glb| line. The code below
-produces the display which follows.
-
-\codedisplay
-\pex[glstyle=wrap,everygla=,nopreamble]
-\a \begingl       % 59a, p. 237
-\gla Fa'nu'i yu' ni [ [ {\it O} t{\it in\/}aitai-mu {\it t\/} ] na
-lepblu ] @ .//
-\glb show me Obl Op {\it WH\/}[obj].read-agr {} L book//
-\glft ``Show me the book that you read.''//
-\endgl
-\a \begingl       % 82a, p. 247
-\gla Um-\"asudda' h\"am yan [ i taotao [ {\it O\/} ni si Juan
-ilek-\~na nu guahu + [ mal\"agu' gui [ asudd\"a'-\~na {\it
-t\/} ] ] ] ] @ .//
-\glb agr-meet we with the person Op Comp the Juan say-agr Obl me
-agr.want he {\it WH\/}[obl].meet-agr//
-\glft ``I met the person who Juan told me he wanted to meet.''//
-\endgl
-\xe
-|endcodedisplay
 \framedisplay
 \pex[glstyle=wrap,everygla=,nopreamble]
 \a \begingl       % 59a, p. 237
@@ -825,11 +435,6 @@ agr.want he {\it WH\/}[obl].meet-agr//
 \endgl
 \xe
 \endframedisplay
-
-\noindent The examples are adapted from {\it The Design of
-Agreement\/} by Sandra Chung.  See (59a) on page 237 and (82a) on
-page 247.
-
 
 %%% PROBLEM
 %%% PROBLEM
@@ -1033,7 +638,7 @@ peacock beside its nest.'//
 \endframedisplay
 
 
-\definemwlevels{c,d,e,f}
+\defineglwlevels{c,d,e,f}
 \lingset{glstyle=wrap,abovegldskip=0pt}
 
 %\ex[everyglword=\offinterlineskip] \let\strut\relax
