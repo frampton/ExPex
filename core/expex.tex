@@ -716,49 +716,49 @@
 \define@choicekey{ling}{glstyle}[\ling@glstyle\gl@stylenum]%
    {wrap,3level,oldstyle,multilevel,multiwrap}{%
       \ifcase\gl@stylenum
-            \let\begingl@type\glmw@begingl@aa
-            \let\endgl\glmw@endgl
-            \glmw@letlevels
-            \let\glft=\glmw@glft
+            \let\gl@beginglstyle\glw@begingl@aa
+            \let\endgl\glw@endgl
+            \glw@assignlevels
+            \let\glft=\glw@glft
          \or
-            \let\begingl@type=\begingl@T
+            \let\gl@beginglstyle=\begingl@T
             \let\endgl\endgl@T
-            \glmw@letlevels
-            \let\glft=\glmw@glft
+            \glw@assignlevels
+            \let\glft=\glw@glft
          \or
-            \let\begingl@type=\begingl@L
+            \let\gl@beginglstyle=\begingl@L
             \let\endgl=\endgl@L
             \let\gla=\gla@L
             \let\glb=\glb@L
             \let\glc=\glc@L
          \or
-            \let\begingl@type=\begingl@L
+            \let\gl@beginglstyle=\begingl@L
             \let\endgl=\endgl@L
-            \epx@letlevels
+            \epx@assignlevels
             \let\glft=\glft@M
          \fi
 }
 \def\ling@glstyle{wrap}
 %% epx@Mlevels is the list of M-levels that have been defined
-\def\epx@letlevels{%
+\def\epx@assignlevels{%
    \expandafter\XKV@for@n\expandafter{\epx@Mlevels}\levelname
    {\edef\temp{\noexpand\let
    \expandafter\noexpand\csname gl\levelname\endcsname
    \expandafter\noexpand\csname gl\levelname @M\endcsname}%
    \temp}%
 }
-%% \glmw@levels is the list of mw-levels that have been defined
-\def\glmw@letlevels{%
-   \expandafter\XKV@for@n\expandafter{\glmw@levels}\levelname
+%% \glw@levels is the list of mw-levels that have been defined
+\def\glw@assignlevels{%
+   \expandafter\XKV@for@n\expandafter{\glw@levels}\levelname
    {\edef\temp{\noexpand\let
    \expandafter\noexpand\csname gl\levelname\endcsname
-   \expandafter\noexpand\csname glmw@gl\levelname\endcsname}%
+   \expandafter\noexpand\csname glw@gl\levelname\endcsname}%
    \temp}%
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \def\begingl{\bgroup\@getoptionalarg\@begingl}
-\def\@begingl{\ling@usearg\begingl@type}
+\def\@begingl{\ling@usearg\gl@beginglstyle}
 \define@linginckey\dimen{}{@}{glspace}
 %\define@ling@cmdkeys{everygla,everyglb,everyglc}
 \define@ling@cmdkeys{everygla,everyglb,everyglc,
@@ -867,11 +867,11 @@
 \define@choicekey{ling}{glftpos}[\temp\epx@glftpos]%
    {below,right}{%
       \ifcase\epx@glftpos
-         \let\begingl@type\glmw@begingl@aa
-         \let\endgl\glmw@endgl
-         \let\glft=\glmw@glft
+         \let\gl@beginglstyle\glw@begingl@aa
+         \let\endgl\glw@endgl
+         \let\glft=\glw@glft
       \or
-         \let\begingl@type=\glw@ss@begingl
+         \let\gl@beginglstyle=\glw@ss@begingl
          \let\endgl=\glw@ss@endgl
          \let\glft\glw@ss@glft
       \fi
@@ -889,11 +889,11 @@
    \advance\ssrightwd by -\ssleftwd
    \bgroup\hbox\bgroup
       \lingset{glwidth=\ssleftwd}
-      \glmw@begingl@aa
+      \glw@begingl@aa
 }
 \def\glw@ss@endgl{\egroup\egroup}
 \def\glw@ss@glft #1//{%
-   \glmw@endgl
+   \glw@endgl
    \hskip\lingsssep
    \vtop{%
       \leftskip=0pt
@@ -1109,15 +1109,15 @@
    \let#2\empty \else\expandafter\lopoff#1\lopoff#1#2\fi}
 \long\def\lopoff\\#1#2\lopoff#3#4{\def#4{#1}\def#3{#2}}
 \newif\ifgl@loopmore
-\def\glmw@mergerow#1\to #2{%
+\def\glw@mergerow#1\to #2{%
    \let\alist=#1%
    \let\blist=#2%
    \let\clist=\empty
    \gl@loopmoretrue
-   \loop \ifgl@loopmore\glmw@mergerow@a \repeat
+   \loop \ifgl@loopmore\glw@mergerow@a \repeat
    \global\let#2=\clist
 }
-\def\glmw@mergerow@a{%
+\def\glw@mergerow@a{%
    \lop\blist\to\tempb
    \ifx\tempb\Linebreak
          \expandafter\gappend\Linebreak\to\clist
@@ -1135,29 +1135,29 @@
    \ifx\alist\empty \ifx\blist\empty \gl@loopmorefalse \fi\fi
 }
 \def\\{\noexpand\\}
-\newdimen\glmw@maxht
-\newdimen\glmw@maxdp
+\newdimen\glw@maxht
+\newdimen\glw@maxdp
 \def\Closeup{@}\@onelevel@sanitize\Closeup
 \def\Linebreak{+}\@onelevel@sanitize\Linebreak
 \def\Lbrack{[}\@onelevel@sanitize\Lbrack
 \def\Rbrack{]}\@onelevel@sanitize\Rbrack
-\def\glmw@gla{%
+\def\glw@gla{%
    \def\gl@linelabel{a}%
-   \glmw@maxht=0pt
-   \glmw@maxdp=0pt
+   \glw@maxht=0pt
+   \glw@maxdp=0pt
    \@getoptionalarg
-   \glmw@gla@a
+   \glw@gla@a
 }
-\def\glmw@gla@a #1// {\bgroup\ling@usearg
-   \glmw@gla@b #1 \@nil }
-\def\glmw@gla@b{\@ifnextchar\@nil\glmw@gla@c\glmw@gla@d}
-\def\glmw@gla@c#1{\glmw@updateauxlistsA \egroup}
-\def\glmw@gla@d #1 {%
+\def\glw@gla@a #1// {\bgroup\ling@usearg
+   \glw@gla@b #1 \@nil }
+\def\glw@gla@b{\@ifnextchar\@nil\glw@gla@c\glw@gla@d}
+\def\glw@gla@c#1{\glw@updateauxlistsA \egroup}
+\def\glw@gla@d #1 {%
    \def\tempa{#1}\let\tempb=\tempa
    \@onelevel@sanitize\tempa
    \setbox0=\hbox{\ling@everygla #1}%
-   \ifdim\glmw@maxht<\ht0 \glmw@maxht=\ht0 \fi
-   \ifdim\glmw@maxdp<\dp0 \glmw@maxdp=\dp0 \fi
+   \ifdim\glw@maxht<\ht0 \glw@maxht=\ht0 \fi
+   \ifdim\glw@maxdp<\dp0 \glw@maxdp=\dp0 \fi
    \ifx\tempa\Linebreak
          \expandafter\gappend\Linebreak\to\mainlist
       \else\ifx\tempa\Closeup
@@ -1171,103 +1171,103 @@
             \expandonce\tempb}}%
          \expandafter\gappend\temp\to\mainlist
       \fi\fi\fi\fi
-   \glmw@gla@b
+   \glw@gla@b
 }
-\def\glmw@updateaux@a{%
+\def\glw@updateaux@a{%
    \expandafter\gappend\temp \to\aboveskiplist
-   \edef\temp{\vrule width0pt height\the\glmw@maxht\space depth\the\glmw@maxdp\space }%
+   \edef\temp{\vrule width0pt height\the\glw@maxht\space depth\the\glw@maxdp\space }%
    \expandafter\gappend\temp\to\strutlist
 %   \expandafter\gappend\gl@linelabel\to\labellist
 }
-\def\glmw@updateauxlists{%
+\def\glw@updateauxlists{%
    \edef\temp{\vskip\csname ling@abovegl\gl@linelabel skip\endcsname}%
-   \glmw@updateaux@a
+   \glw@updateaux@a
 }
-\def\glmw@updateauxlistsA{%
+\def\glw@updateauxlistsA{%
    \let\temp=\empty
-   \glmw@updateaux@a
+   \glw@updateaux@a
 }
 \def\gl@stylenum{0}
-\def\glmw@mklevel#1{%
-   \expandafter\ifx\csname glmw@gl#1\endcsname\relax
+\def\glw@mklevel#1{%
+   \expandafter\ifx\csname glw@gl#1\endcsname\relax
       \define@ling@cmdkeys{everygl#1}%
       \define@linginckey\skip{}{@}{abovegl#1skip}%
-      \XKV@addtolist@o\glmw@levels{#1}%
+      \XKV@addtolist@o\glw@levels{#1}%
       \lingset{everygl#1=,abovegl#1skip=0pt}
-      \expandafter\def\csname glmw@gl#1\endcsname{\@glmw{#1}}%
+      \expandafter\def\csname glw@gl#1\endcsname{\@glmw{#1}}%
    \else
       \message{>>>>ExPex Warning: Level #1 is already defined.}%
    \fi
 }
-\def\glmw@levels{a,ft}
-\def\glmw@mklevel#1{%
-   \expandafter\ifx\csname glmw@gl#1\endcsname\relax
+\def\glw@levels{a,ft}
+\def\glw@mklevel#1{%
+   \expandafter\ifx\csname glw@gl#1\endcsname\relax
       \define@ling@cmdkeys{everygl#1}%
       \define@linginckey\skip{}{@}{abovegl#1skip}%
-      \XKV@addtolist@o\glmw@levels{#1}%
+      \XKV@addtolist@o\glw@levels{#1}%
       \lingset{everygl#1=,abovegl#1skip=0pt}
-      \expandafter\def\csname glmw@gl#1\endcsname{\@glmw{#1}}%
+      \expandafter\def\csname glw@gl#1\endcsname{\@glmw{#1}}%
    \else
       \message{>>>>ExPex Warning: Level #1 is already defined.}%
    \fi
 }
 \def\definemwlevels#1{\XKV@for@n{#1}\thislevel
    {%
-   \expandafter\glmw@mklevel\expandafter{\thislevel}}%
+   \expandafter\glw@mklevel\expandafter{\thislevel}}%
    \ifnum\gl@stylenum=0 \lingset{glstyle=wrap}\fi
 }
 \def\@glmw#1{%
    \def\worklist{}%
-   \glmw@maxht=0pt
-   \glmw@maxdp=0pt
+   \glw@maxht=0pt
+   \glw@maxdp=0pt
    \def\gl@linelabel{#1}%
-   \@getoptionalarg\@glmw@a
+   \@getoptionalarg\@glw@a
 }
-\def\@glmw@a #1// {\bgroup
+\def\@glw@a #1// {\bgroup
    \ling@usearg
-   \@glmw@b #1 \@nil }
-\def\@glmw@b{\@ifnextchar\@nil\@glmw@c\@glmw@d}
-\def\@glmw@c#1{\glmw@updateauxlists \glmw@mergerow\worklist\to\mainlist\egroup}
-\def\@glmw@d #1 {%
+   \@glw@b #1 \@nil }
+\def\@glw@b{\@ifnextchar\@nil\@glw@c\@glw@d}
+\def\@glw@c#1{\glw@updateauxlists \glw@mergerow\worklist\to\mainlist\egroup}
+\def\@glw@d #1 {%
    \def\tempa{#1}%
    \edef\temp{%
       \expandafter\expandonce\csname ling@everygl\gl@linelabel\endcsname
       \expandonce\tempa}%
    \setbox0=\hbox{\temp}%
-   \ifdim\glmw@maxht<\ht0 \glmw@maxht=\ht0 \fi
-   \ifdim\glmw@maxdp<\dp0 \glmw@maxdp=\dp0 \fi
+   \ifdim\glw@maxht<\ht0 \glw@maxht=\ht0 \fi
+   \ifdim\glw@maxdp<\dp0 \glw@maxdp=\dp0 \fi
    \expandafter\gappend\temp\to\worklist
-   \@glmw@b
+   \@glw@b
 }
 \definemwlevels{b}
 \newif\ifgl@spacebefore
 \newif\ifW@prefixbox
 %%%%%%%%%%%%%%%%
-\def\glmw@endgl{\glmw@endglA \glmw@endglB}
-\def\glmw@endglA{\lineskip=\ling@abovemoreglskip
-   \glmw@print \par}
-\def\glmw@endglB{\egroup\egroup}
-\def\glmw@endgl@a{\lineskip=\ling@abovemoreglskip\glmw@print \par}
+\def\glw@endgl{\glw@endglA \glw@endglB}
+\def\glw@endglA{\lineskip=\ling@abovemoreglskip
+   \glw@print \par}
+\def\glw@endglB{\egroup\egroup}
+\def\glw@endgl@a{\lineskip=\ling@abovemoreglskip\glw@print \par}
 %%
-%\def\glmw@begingl{\bgroup\@getoptionalarg\glmw@begingl@a}
-%\def\glmw@begingl@a{\ling@usearg\glmw@begingl@aa}
-\def\glmw@begingl@aa{%
+%\def\glw@begingl{\bgroup\@getoptionalarg\glw@begingl@a}
+%\def\glw@begingl@a{\ling@usearg\glw@begingl@aa}
+\def\glw@begingl@aa{%
    \parindent=0pt
    \W@prefixboxfalse
-   \@ifnextchar\gla\glmw@begingl@@\glmw@begingl@prefix
+   \@ifnextchar\gla\glw@begingl@@\glw@begingl@prefix
 }
 %\def\begingl{\bgroup\@getoptionalarg\@begingl}
-%\def\@begingl{\ling@usearg\begingl@type}
-\def\glmw@glft#1//{%
+%\def\@begingl{\ling@usearg\gl@beginglstyle}
+\def\glw@glft#1//{%
    {\lineskip=\ling@abovemoreglskip
-   \glmw@print
+   \glw@print
    \vskip\ling@aboveglftskip}%
    \leftskip=0pt
-   \let\endgl=\glmw@endglB
+   \let\endgl=\glw@endglB
    #1\par
 }
 
-\def\glmw@begingl@@{%
+\def\glw@begingl@@{%
    \vtop\bgroup
       \ling@usearg
       \ifdim\ling@glwidth=0pt
@@ -1298,15 +1298,15 @@
 \newif\ifW@prefixbox
 \newbox\W@prefixbox
 \newdimen\W@prefixboxwd
-\def\glmw@begingl@prefix #1\gla{%
+\def\glw@begingl@prefix #1\gla{%
    \W@prefixboxtrue
    \setbox\W@prefixbox=\hbox{#1}%
    \W@prefixboxwd=\wd\W@prefixbox
    \unhbox\W@prefixbox
-   \glmw@begingl@@ \gla
+   \glw@begingl@@ \gla
 }
-%\def\glmw@begingl@aa{%
-%   \glmw@begingl@a
+%\def\glw@begingl@aa{%
+%   \glw@begingl@a
 %}
 \newbox\W@prefixbox
 \newdimen\W@prefixboxwd
@@ -1316,14 +1316,14 @@
    \W@prefixboxwd=\wd\W@prefixbox
    \begingl@W@aux\gla@W
 }
-%\def\glmw@begingl@aa #1\gla{%
+%\def\glw@begingl@aa #1\gla{%
 %   \W@prefixboxtrue
 %   \setbox\W@prefixbox=\hbox{#1}%
 %   \W@prefixboxwd=\wd\W@prefixbox
-%   \glmw@begingl@a\gla
+%   \glw@begingl@a\gla
 %}
-%\def\glmw@begingl@aa{%
-%   \glmw@begingl@a
+%\def\glw@begingl@aa{%
+%   \glw@begingl@a
 %}
 \newbox\W@prefixbox
 \newdimen\W@prefixboxwd
@@ -1340,7 +1340,7 @@
 \def\printrbrack{$]$}
 \def\printlbrack{$[$}
 \lingset{glbrackbracksep=.05em,glbrackwordsep=.1em}
-\def\glmw@print{%
+\def\glw@print{%
    \gl@spacebeforefalse
    \@glpostbrackfalse
    \leavevmode
@@ -1375,12 +1375,12 @@
                \else\ifnum\@glaparsestate=3 \hskip\ling@glspace
                \fi\fi\fi
             \@glaparsestate=0
-            \glmw@printcol
+            \glw@printcol
          \fi\fi\fi\fi
       \ifx\mainlist\empty \gl@loopmorefalse \fi
       \repeat
 }
-\def\glmw@printcol{%
+\def\glw@printcol{%
    \vtop{%
       \ling@everyglword
       \gl@loopmoretrue
