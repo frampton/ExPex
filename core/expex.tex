@@ -867,33 +867,33 @@
 \define@choicekey{ling}{glftpos}[\temp\epx@glftpos]%
    {below,right}{%
       \ifcase\epx@glftpos
-         \let\begingl@type=\begingl@Wb
-         \let\endgl=\endgl@Wb
-         \let\glft\glft@Wb
+         \let\begingl@type\glmw@begingl@aa
+         \let\endgl\glmw@endgl
+         \let\glft=\glmw@glft
       \or
-         \let\begingl@type=\begingl@Wss
-         \let\endgl=\endgl@Wss
-         \let\glft\glft@Wss
+         \let\begingl@type=\glw@ss@begingl
+         \let\endgl=\glw@ss@endgl
+         \let\glft\glw@ss@glft
       \fi
 }
 \define@lingcmdkeys{sssep,ssratio,ssrightskip}
-\lingset{sssep=3em,ssratio=.6,ssrightskip=0pt plus 2em}
+\lingset{sssep=2em,ssratio=.6,ssrightskip=0pt plus 2em}
 \newdimen\ssleftwd
 \newdimen\ssrightwd
-\def\begingl@Wss{%
+\def\glw@ss@begingl{%
    \dimen0 =\hsize
    \advance\dimen0 by -\leftskip
    \advance\dimen0 by -\lingsssep
    \ssleftwd=\lingssratio\dimen0
    \ssrightwd=\dimen0
    \advance\ssrightwd by -\ssleftwd
-   \hbox\bgroup
+   \bgroup\hbox\bgroup
       \lingset{glwidth=\ssleftwd}
-      \begingl@Wb
+      \glmw@begingl@aa
 }
-\def\endgl@Wss{\egroup\egroup}
-\def\glft@Wss #1// {%
-   \egroup\egroup
+\def\glw@ss@endgl{\egroup\egroup}
+\def\glw@ss@glft #1//{%
+   \glmw@endgl
    \hskip\lingsssep
    \vtop{%
       \leftskip=0pt
@@ -902,6 +902,7 @@
       \hsize=\ssrightwd
       \ling@everyglft
       #1}%
+      \ignorespaces
 }
 % ----- plumbing needed for cascading hanging indentation -----
 \newdimen\epx@pshapeindent
