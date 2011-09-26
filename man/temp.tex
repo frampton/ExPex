@@ -1,20 +1,57 @@
 
+\lingset{glspace=2em,glwidth=200pt,abovemoreglskip=1.5ex}
 
-
-\def\goop{\hbox{days}}
-
-{\allnormal\expandafter\scantokens\expandafter{\goop}}%
-
-
-\lingset{glstyle=wrap,abovemoreglskip=.7ex,aboveglftskip=1.5ex}
-
-\ex \catcode`\+=13
-\begingl
-\gla x y x y x y + x y //
-\glb u v w u v w u v //
-\glft ??//
+\ex
+\begingl \writeln{\the\hsize========}
+\gla xxxx xxxx xxxx xxxx xxxx xxxx
+//
+\glb yyyy yyyy yyyy yyyy yyyy yyyy
+//
+\glft yyyy yyyy yyyy yyyy yyyy yyyy\pushciteright{(author)}
+//
 \endgl
 \xe
+
+\endinput
+
+
+
+
+
+
+
+
+\framedisplay
+\pey[glstyle=wrap,everygla=,everyglb=,everyglc=,
+   aboveglaskip=0pt,aboveglbskip=0pt,aboveglftskip=1ey]
+\a \begingl
+\rightcomment{(Hockett 1948, p. 143)}
+\gla k- wapm -a -s'i -m -wapunin -uk //
+\glb Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
+\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glft `you (pl) didn't see them'//
+\endgl
+\a \begingl
+\gla k- wapm -a -s'i -m -wapunin -uk //
+\glb Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
+\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glft    `you (pl) didn't see them'\pushciteright{(Hockett 1948, p.
+143)}//
+\endgl
+\ye
+\endframedisplay
+
+
+\lingset{glstyle=wrap,abovemoreglskip=.7ey,aboveglftskip=1.5ey}
+
+\ey
+\begingl  \rightcomment{\hfill(author)}
+\gla y y y y y y + y y //
+\glb u v w u v w u v //
+\glft this is the free translation this is the
+free free free translation this is the free translation\pushciteright{(author)}//
+\endgl
+\ye
 
 
 

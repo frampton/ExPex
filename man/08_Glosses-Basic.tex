@@ -456,63 +456,63 @@ would not damage John.'//
 
 \subsection Inline citations
 
-\noindent Macro:\quad \idx{|\rightcite|}
+\noindent Macros:\quad \idx{|\rightcite|}, \idx{|\pushrightcite|}
+\smallskip
+\noindent Parameters:\quad |mincitesep|
 \medskip
 
-
-\noindent Multilevel glosses make it easy to give inline citations in
-several different styles, as illustrated below.
+Inline citations are possible in two ways.
 
 \framedisplay
-\pex[glstyle=multilevel,everygla=,everyglb=,everyglc=,
-   aboveglaskip=0pt,aboveglbskip=0pt,aboveglftskip=1ex]
-\a \begingl
+\pex[glstyle=wrap,everygla=,everyglb=,everyglc=,
+   aboveglaskip=0pt,aboveglbskip=0pt,aboveglftskip=1ex,glwidth=2.5in]
+\a \begingl \writeln{\the\hsize>>>>>>>>>}
+\rightcite{(Hockett 1948, p. 143)}
 \gla k- wapm -a -s'i -m -wapunin -uk //
 \glb Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
 \glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
 \glft `you (pl) didn't see them'//
 \endgl
-\hfill (Hockett 1948, p. 143)
 \a \begingl
 \gla k- wapm -a -s'i -m -wapunin -uk //
 \glb Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
 \glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
-\glft `you (pl) didn't see them'//
-\endgl
-\hfil (Hockett 1948, p. 143)
-\a \begingl
-\gla k- wapm -a -s'i -m -wapunin -uk //
-\glb Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
-\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
-\glft \rightcite{(Hockett 1948, p. 143)}
-   `you (pl) didn't see them'//
+\glft    `you (pl) didn't see them'\pushciteright{(Hockett 1948, p.
+143)}//
 \endgl
 \xe
 \endframedisplay
-\codedisplay
-\pex[glstyle=multilevel,everygla=,everyglb=,everyglc=,
+\codedisplay~
+\pex[glstyle=wrap,everygla=,everyglb=,everyglc=,
    aboveglaskip=0pt,aboveglbskip=0pt,aboveglftskip=1ex]
 \a \begingl
+\rightcite{(Hockett 1948, p. 143)}
 \gla k- wapm -a -s'i -m -wapunin -uk //
 \glb Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
 \glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
 \glft `you (pl) didn't see them'//
-\endgl \hfill (Hockett 1948, p. 143)
+\endgl
 \a \begingl
 \gla k- wapm -a -s'i -m -wapunin -uk //
 \glb Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
 \glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
-\glft `you (pl) didn't see them'//
-\endgl \hfil (Hockett 1948, p. 143)
-\a \begingl
-\gla k- wapm -a -s'i -m -wapunin -uk //
-\glb Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
-\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
-\glft \rightcite{(Hockett 1948, p. 143)}
-   `you (pl) didn't see them'//
+\glft    `you (pl) didn't see them'\pushciteright{(Hockett 1948, p.
+   143)}//
 \endgl
 \xe
 |endcodedisplay
+
+\def\mathrm{\fam0}
+
+|\rightcomment| is primitive, but sometimes useful.  It does not check
+to see that there is enough room for the citation.  If there is not,
+it will overwrite the gloss material.
+
+|\pushciteright| is more sophisticated.  If there is not enough room
+on the line for the citation, it will bump the citation to the next
+line, right-aligned.  The minium separation between the citation and
+the free translation can be set by the parameter |mincitesep|.  The
+default is $1.5\,\mathrm em$.
 
 
 \lingset{glstyle=wrap}
