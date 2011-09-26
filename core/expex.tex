@@ -976,15 +976,14 @@
    \glw@gla@a
 }
 \def\glw@gla@a #1// {\bgroup\ling@usearg
-   \glw@gla@b #1 \@nil }
-\def\glw@gla@b{\@ifnextchar\@nil\glw@gla@c\glw@gla@d}
+   \glw@gla@b #1 \cr }
+\def\glw@gla@b{\@ifnextchar\cr\glw@gla@c\glw@gla@d}
 \def\glw@gla@c#1{\glw@updateauxlistsA \egroup}
+\newif\ifglw@word
 \def\glw@gla@d #1 {%
+   \glw@onetokenfalse
    \def\tempa{#1}\let\tempb=\tempa
    \@onelevel@sanitize\tempa
-   \setbox0=\hbox{\ling@everygla #1}%
-   \ifdim\glw@maxht<\ht0 \glw@maxht=\ht0 \fi
-   \ifdim\glw@maxdp<\dp0 \glw@maxdp=\dp0 \fi
    \ifx\tempa\Linebreak
          \expandafter\glw@append\Linebreak\to\mainlist
       \else\ifx\tempa\Closeup
@@ -997,7 +996,38 @@
          \edef\temp{\noexpand\\{\expandonce\ling@everygla
             \expandonce\tempb}}%
          \expandafter\glw@append\temp\to\mainlist
+         \setbox0=\hbox{\ling@everygla #1}%
+         \ifdim\glw@maxht<\ht0 \glw@maxht=\ht0 \fi
+         \ifdim\glw@maxdp<\dp0 \glw@maxdp=\dp0 \fi
       \fi\fi\fi\fi
+   \glw@gla@b
+}
+\def\glw@gla@d #1#2 {%
+   \glw@wordtrue
+   \def\temp{#2}%
+   \ifx\temp\empty
+      \glw@wordfalse
+      \def\tempa{#1}%
+      \@onelevel@sanitize\tempa
+      \ifx\tempa\Linebreak
+            \expandafter\glw@append\Linebreak\to\mainlist
+         \else\ifx\tempa\Closeup
+            \expandafter\glw@append\Closeup\to\mainlist
+         \else\ifx\tempa\Lbrack
+            \expandafter\glw@append\Lbrack\to\mainlist
+         \else\ifx\tempa\Rbrack
+            \expandafter\glw@append\Rbrack\to\mainlist
+         \else \glw@wordtrue
+         \fi\fi\fi\fi\fi
+   \ifglw@word
+      \def\tempa{#1#2}%
+      \edef\temp{\noexpand\\{\expandonce\ling@everygla
+         \expandonce\tempa}}%
+      \expandafter\glw@append\temp\to\mainlist
+      \setbox0=\hbox{\ling@everygla #1#2}%
+      \ifdim\glw@maxht<\ht0 \glw@maxht=\ht0 \fi
+      \ifdim\glw@maxdp<\dp0 \glw@maxdp=\dp0 \fi
+      \fi
    \glw@gla@b
 }
 \def\glw@updateauxlistsA{%
@@ -1043,14 +1073,14 @@
 \def\glw@glx@b{\@ifnextchar\@nil\glw@glx@c\glw@glx@d}
 \def\glw@glx@c#1{\glw@updateauxlistsB \glw@mergerow\worklist\to\mainlist\egroup}
 \def\glw@glx@d #1 {%
-   \def\tempa{#1}%
-   \edef\temp{%
-      \expandafter\expandonce\csname ling@everygl\gl@linelabel\endcsname
-      \expandonce\tempa}%
-   \setbox0=\hbox{\temp}%
+   \def\tempA{#1}%
+   \edef\tempB{%
+      \expandonce\csname ling@everygl\gl@linelabel\endcsname
+      \expandonce\tempA}%
+   \setbox0=\hbox{\tempB}%
    \ifdim\glw@maxht<\ht0 \glw@maxht=\ht0 \fi
    \ifdim\glw@maxdp<\dp0 \glw@maxdp=\dp0 \fi
-   \expandafter\glw@append\temp\to\worklist
+   \expandafter\glw@append\tempB\to\worklist
    \glw@glx@b
 }
 \defineglwlevels{b}

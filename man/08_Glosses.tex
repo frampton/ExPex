@@ -22,7 +22,7 @@
 \resetatcatcode
 
 \section
-Glosses
+Basic Glosses
 
 \lingset{dima=1.3em}
 \noindent\begininventory
@@ -32,8 +32,8 @@ Glosses
 \endinventory
 
 
-\noindent Before I discuss the many parameters that modify gloss
-displays, it is best to look at a few examples.
+\noindent Before I discuss the parameters that can modify gloss
+displays, here are a few examples.
 
 \framedisplay
 \ex<wapm>
@@ -88,47 +88,16 @@ separated items terminating in~|//|.  The parser only looks for spaces
 at the top-level.  Consequently, in (\lastx), for example, it is not
 sensitive to the space in items like |the-{\sc ACC}| since the space
 is inside a group, therefore not at the top level.  Spaces that
-directly preceeds terminating |//| are disregarded.  The |\glft| (free
+directly preceed terminating |//| are disregarded.  The |\glft| (free
 translation) line must also be terminated by |//|.
 
-Only one |\gla| line is permitted and it must come first. Only one
-|\glft| line is permitted and it must come last.  There can be
-multiple |\glb| lines, as there are in (\blastx).
+Only one |\gla| line is permitted.  It is obligatory and must come
+first. Only one |\glft| line is permitted and it must come last.  It
+is optional.  There can be multiple |\glb| lines, as there are in
+(\blastx).  User defined lines are also allowed, see Section ().
 
 The next example gives a small taste of how parameter settings can be
-used to adapt gloss displays to your needs.  It also shows that there
-are no restrictions on the number of lines of interlinear text.  There
-are four in this case.
-
-%\framedisplay
-%\ex
-%\begingl[glwidth=4in]
-%\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
-%seiner Freundin ihr$_i$ Herz auszusch\"utten.//
-%\glb Mary is sure that it the\suff{ACC} Hans not annoy would
-%his\suff{DAT} girlfriend\suff{DAT} her\suff{ACC} heart\suff{ACC} {out to
-%throw}//
-%\glft  `Mary is sure that it would not annoy John to reveal her
-%heart to his girlfriend.'//
-%\endgl
-%\xe
-%\endframedisplay
-
-%
-%
-%
-%
-%The |\gla| line comes first, and can only appear first.  The |\glft|
-%(free translation) line comes last, and can only appear last.  |\glb|
-%lines can repeat.  As we shall see, the user can define other lines;
-%|\glcat|, for example, might be a line on which category designations
-%appear.  For each of the |\gl|$x$ lines ($x$ being |a|, |b|, |ft|, or
-%user defined), the user can specify the font to be used and extra
-%vertical spacing to be inserted over that line in the gloss (except
-%for the |\gla| line which cannot insert extra vertical spacing above
-%it).  The initial settings are such that the |\gla| line is set in
-%italic and there is no extra vertical spacing above the |\glb| line,
-%and an extra $1\,\rm ex$ spacing above the free translation line.
+used to adapt gloss displays to your needs.
 
 \font\ips=xipasl10 at 12pt
 \font\ipss=xipasl10 at 7pt
@@ -137,9 +106,6 @@ are four in this case.
 \def\v#1{{\accent"07 #1}}
 \def\C{{\accent"07 c}}
 \def\W{$^{\hbox{\ipss w}}\mskip-2mu$}
-%   {glstyle=multilevel,glspace=1em,everygla=\ips,moregloffset=1.5em,
-%   abovemoreglskip=1ex,aboveglftskip=1.5ex}
-
 
 \framedisplay
 \ex
@@ -174,11 +140,9 @@ are four in this case.
 \endgl
 \xe
 |endcodedisplay
-
-\noindent
-In my Tex setup, |\ips| invokes one of the slant tipa IPA fonts, |\L|
+\vfootnote{\the\fnno}{In my Tex setup, |\ips| invokes one of the slant tipa IPA fonts, |\L|
 produces {\ips \L}, |\W| produces {\ips \W}, and |\mroot|
-(morphological root) produces {\mroot}.
+(morphological root) produces {\mroot}.}
 
 
 

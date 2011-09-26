@@ -1,36 +1,20 @@
 
-\input pstricks
 
-\psline[linestyle=dotted](0,0)(1,0)
 
-\psline[linestyle=dashed](0,0)(1,0)
+\def\goop{\hbox{days}}
 
-\endinput
+{\allnormal\expandafter\scantokens\expandafter{\goop}}%
 
-\lingset{glstyle=wrap}
 
-\ex
-%\baselineskip=3ex
-\begingl[glspace=3em,abovemoreglskip=2ex]
-%\begingl[everygl={\baselineskip=3ex},glspace=3em,abovemoreglskip=2ex]
-\gla x y x x x x x x x x x p x x //
-\glb u v x x x x x x x x x f  x x //
-\glft ``When he comes.'' //
+\lingset{glstyle=wrap,abovemoreglskip=.7ex,aboveglftskip=1.5ex}
+
+\ex \catcode`\+=13
+\begingl
+\gla x y x y x y + x y //
+\glb u v w u v w u v //
+\glft ??//
 \endgl
 \xe
 
-\endinput
 
-
-
-\def\emwidth#1#2{\dimen0=#1 \dimen1=1em
-   \dimen0=256\dimen0
-   \divide\dimen1 by 256
-   \divide\dimen0 by \dimen1
-   \edef#2{\the\dimen0}\ignorespaces}
-\emwidth{6pt}\foop
-\def\foop{0.05pt}
-\def\ggg#1pt{#1em}
-{\expandafter\ggg\foop}
-%\writeln{====\sloop====}
 
