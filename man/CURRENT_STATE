@@ -2,3 +2,8 @@
 
 25 Sept: Need to find out why \gluf won't work.
 25 Sept: Fixed
+
+BUG 26 Sept
+free translation not correctly position if there is a preamble
+
+

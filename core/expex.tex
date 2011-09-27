@@ -871,7 +871,7 @@
       \fi
 }
 \define@lingcmdkeys{sssep,ssratio,ssrightskip}
-\lingset{sssep=2em,ssratio=.6,ssrightskip=0pt plus 2em}
+\lingset{sssep=2em,ssratio=.6,ssrightskip=0pt plus 1em}
 \newdimen\ssleftwd
 \newdimen\ssrightwd
 \def\glw@ss@begingl{%
@@ -1083,9 +1083,6 @@
    \glw@glx@b
 }
 \defineglwlevels{b}
-\def\glw@endgl{\glw@endglA \glw@endglB}
-\def\glw@endglA{\lineskip=\ling@abovemoreglskip \glw@print \par}
-\def\glw@endglB{\egroup\egroup}
 \newif\ifglw@spacebefore
 \newif\ifW@prefixbox
 \newbox\W@prefixbox
@@ -1093,9 +1090,9 @@
 \def\glw@begingl{%
    \parindent=0pt
    \W@prefixboxfalse
-   \@ifnextchar\gla\glw@begingl@noprefix\glw@begingl@prefix
+   \@ifnextchar\gla\glw@begingl@a\glw@begingl@prefix
 }
-\def\glw@begingl@noprefix{%
+\def\glw@begingl@a{%
    \vtop\bgroup
       \ling@usearg
       \ifdim\ling@glwidth=0pt
@@ -1104,14 +1101,16 @@
          \else
             \hsize=\ling@glwidth
          \fi
-      \ifW@prefixbox \advance\hsize by -\W@prefixboxwd \fi
+      \ifW@prefixbox
+         \advance\hsize by -\W@prefixboxwd \fi
       \ling@everygl
       \rightskip=\ling@glrightskip
       \ifcase\epx@glhangstyle
             \leftskip=0pt
          \or
-            \leftskip=\ling@glhangindent
-            \hskip -\ling@glhangindent
+            \leftskip=0pt
+            \hangindent=\ling@glhangindent
+            \hangafter=1
          \or
             \leftskip=0pt
             \glwcascade@makeshape
@@ -1126,17 +1125,21 @@
    \W@prefixboxtrue
    \setbox\W@prefixbox=\hbox{#1}%
    \W@prefixboxwd=\wd\W@prefixbox
-   \unhbox\W@prefixbox
-   \glw@begingl@noprefix \gla
+   #1\relax
+   \glw@begingl@a
+   \gla
 }
 \def\glw@glft#1//{%
-   {\lineskip=\ling@abovemoreglskip
-   \glw@print \vskip\ling@aboveglftskip}%
-   \leftskip=0pt
-   \parshape 0
+   \lineskip=\ling@abovemoreglskip
+   \glw@print \vskip\ling@aboveglftskip
+   \par\noindent
    \let\endgl=\glw@endglB
    #1\par
 }
+\def\glw@endgl{\glw@endglA \glw@endglB}
+\def\glw@endglA{\lineskip=\ling@abovemoreglskip \glw@print
+\par}
+\def\glw@endglB{\egroup\egroup}
 \def\glw@print{%
    \glw@spacebeforefalse
    \@glpostbrackfalse
@@ -1294,7 +1297,13 @@
 \def\printlbrack{$[$}
 \lingset{glbrackbracksep=.05em,glbrackwordsep=.1em}
 % ----- underfixes -----
-\def\gluf#1#2{%
+%\def\gluf#1#2{%
+%   \vtop{\offinterlineskip\halign{\hfil##\hfil\cr
+%      \strut #1\cr
+%      \noalign{\vskip-\ling@glufcloseup}
+%      \ling@everygluf \strut#2\cr
+%}}}
+\def\gluf/#1/#2/{%
    \vtop{\offinterlineskip\halign{\hfil##\hfil\cr
       \strut #1\cr
       \noalign{\vskip-\ling@glufcloseup}
@@ -1305,8 +1314,8 @@
 \lingset{glufcloseup=.4ex,everygluf=\sc}    % underfix parameters
 %
 % ----- gloss comments and citations -----
-\def\rightcomment#1{\rlap{\advance\hsize by -\leftskip
-   \hbox to\hsize{\hfil #1}}\ignorespaces}
+\def\rightcomment#1{\rlap{%
+   \hbox to\hsize{\hfil #1\hskip\leftskip}}\ignorespaces}
 \let\rightcite=\rightcomment % for backwards compatability
 \def\leftcomment#1{\llap{\hbox to\leftskip{#1\hfil}}}
 \define@ling@cmdkeys{mincitesep}

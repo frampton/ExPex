@@ -77,7 +77,8 @@ translation) line must also be terminated by |//|.
 Only one |\gla| line is permitted.  It is obligatory and must come
 first. Only one |\glft| line is permitted and it must come last.  It
 is optional.  There can be multiple |\glb| lines, as there are in
-(\blastx).  User defined lines are also allowed, see Section ().
+(\blastx).  User defined lines are also allowed. They are discussed in
+the next section.
 
 The next example gives a small taste of how parameter settings can be
 used to adapt gloss displays to your needs.
@@ -456,23 +457,24 @@ would not damage John.'//
 
 \subsection Inline citations
 
-\noindent Macros:\quad \idx{|\rightcite|}, \idx{|\pushrightcite|}
+\noindent Macros:\quad \idx{|\pushrightcite|}
 \smallskip
 \noindent Parameters:\quad |mincitesep|
 \medskip
 
 Inline citations are possible in two ways.
 
+
 \framedisplay
-\pex[glstyle=wrap,everygla=,everyglb=,everyglc=,
-   aboveglaskip=0pt,aboveglbskip=0pt,aboveglftskip=1ex,glwidth=2.5in]
-\a \begingl \writeln{\the\hsize>>>>>>>>>}
-\rightcite{(Hockett 1948, p. 143)}
+\hsize=5in
+\pex[interpartskip=2ex,glstyle=wrap,everygla=,everyglb=,everyglc=,
+   aboveglaskip=0pt,aboveglbskip=0pt,aboveglftskip=0ex]
+\a \begingl
 \gla k- wapm -a -s'i -m -wapunin -uk //
 \glb Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
 \glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
 \glft `you (pl) didn't see them'//
-\endgl
+\endgl \hfill\llap{(Hockett 1948, p. 143)}
 \a \begingl
 \gla k- wapm -a -s'i -m -wapunin -uk //
 \glb Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
@@ -483,21 +485,21 @@ Inline citations are possible in two ways.
 \xe
 \endframedisplay
 \codedisplay~
-\pex[glstyle=wrap,everygla=,everyglb=,everyglc=,
-   aboveglaskip=0pt,aboveglbskip=0pt,aboveglftskip=1ex]
+\hsize=5in
+\pex[interpartskip=2ex,glstyle=wrap,everygla=,everyglb=,everyglc=,
+   aboveglaskip=0pt,aboveglbskip=0pt,aboveglftskip=0ex]
 \a \begingl
-\rightcite{(Hockett 1948, p. 143)}
 \gla k- wapm -a -s'i -m -wapunin -uk //
 \glb Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
 \glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
 \glft `you (pl) didn't see them'//
-\endgl
+\endgl \hfill\llap{(Hockett 1948, p. 143)}
 \a \begingl
 \gla k- wapm -a -s'i -m -wapunin -uk //
 \glb Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
 \glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
 \glft    `you (pl) didn't see them'\pushciteright{(Hockett 1948, p.
-   143)}//
+143)}//
 \endgl
 \xe
 |endcodedisplay

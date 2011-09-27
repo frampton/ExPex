@@ -302,7 +302,8 @@ b.\quad
 
 \raggedbottom
 \lingset{glstyle=wrap,glhangindent=.25in,everygl=\openup.5ex,
-   everyglword=\normalbaselines,everyglft=\normalbaselines}
+   everyglword=\normalbaselines,everyglft=\normalbaselines,
+   abovemoreglskip=1ex}
 
 \lingset{glhangstyle=none}
 \framedisplay
@@ -346,48 +347,48 @@ peacock beside its nest.'//
 \xe
 |endcodedisplay
 
-If |cascade| in the above is changed to |normal| you get (\nextx)
-and if it is changed to |none| you get (\anextx).
-
-\framedisplay
-\ex[glhangstyle=normal]
-\begingl
-\gla
-Hmao sa co po tha  nu nao nga hmua. Nu dja ga, nu dja cog nu laih
-gui reo ne. Todang bboi rok jolan nu nao hma, nu bboh sa droi mra
-do bboi gah, a, hruh nu.//
-\glb
-exist one {clf} person old 3s go do field 3s hold machete 3s hold
-hoe 3s pst carry.on.back back.basket 3s while at {along} trail 3s
-go field 3s see one clf peacock stay at drct {?} nest 3s//
-\glft
-`There was an old person who went to work in the field. He took
-along his machete, he took along his hoe, and he carried his
-basket on his back. While he was on his way to the farm, he saw a
-peacock beside its nest.'//
-\endgl
-\xe
-\endframedisplay
-
-\framedisplay
-\ex[glhangstyle=none]
-\begingl
-\gla
-Hmao sa co po tha  nu nao nga hmua. Nu dja ga, nu dja cog nu laih
-gui reo ne. Todang bboi rok jolan nu nao hma, nu bboh sa droi mra
-do bboi gah, a, hruh nu.//
-\glb
-exist one {clf} person old 3s go do field 3s hold machete 3s hold
-hoe 3s pst carry.on.back back.basket 3s while at {along} trail 3s
-go field 3s see one clf peacock stay at drct {?} nest 3s//
-\glft
-`There was an old person who went to work in the field. He took
-along his machete, he took along his hoe, and he carried his
-basket on his back. While he was on his way to the farm, he saw a
-peacock beside its nest.'//
-\endgl
-\xe
-\endframedisplay
+%If |cascade| in the above is changed to |normal| you get (\nextx)
+%and if it is changed to |none| you get (\anextx).
+%
+%\framedisplay
+%\ex[glhangstyle=normal]
+%\begingl
+%\gla
+%Hmao sa co po tha  nu nao nga hmua. Nu dja ga, nu dja cog nu laih
+%gui reo ne. Todang bboi rok jolan nu nao hma, nu bboh sa droi mra
+%do bboi gah, a, hruh nu.//
+%\glb
+%exist one {clf} person old 3s go do field 3s hold machete 3s hold
+%hoe 3s pst carry.on.back back.basket 3s while at {along} trail 3s
+%go field 3s see one clf peacock stay at drct {?} nest 3s//
+%\glft
+%`There was an old person who went to work in the field. He took
+%along his machete, he took along his hoe, and he carried his
+%basket on his back. While he was on his way to the farm, he saw a
+%peacock beside its nest.'//
+%\endgl
+%\xe
+%\endframedisplay
+%
+%\framedisplay
+%\ex[glhangstyle=none]
+%\begingl
+%\gla
+%Hmao sa co po tha  nu nao nga hmua. Nu dja ga, nu dja cog nu laih
+%gui reo ne. Todang bboi rok jolan nu nao hma, nu bboh sa droi mra
+%do bboi gah, a, hruh nu.//
+%\glb
+%exist one {clf} person old 3s go do field 3s hold machete 3s hold
+%hoe 3s pst carry.on.back back.basket 3s while at {along} trail 3s
+%go field 3s see one clf peacock stay at drct {?} nest 3s//
+%\glft
+%`There was an old person who went to work in the field. He took
+%along his machete, he took along his hoe, and he carried his
+%basket on his back. While he was on his way to the farm, he saw a
+%peacock beside its nest.'//
+%\endgl
+%\xe
+%\endframedisplay
 
 \subsection
 {Positioning the free translation to the right of the interlinear gloss}
@@ -443,67 +444,22 @@ peacock beside its nest.'//
 \xe
 |endcodedisplay
 
-|ss| stands for ``side-by-side''.
-|sssep| gives the separation of the gloss and the free
-translation. |ssratio| gives the proportion of the available
-space (which is the leftskip minus the value of |sssep|) which
-the gloss occupies.  Line breaking in the free translation is
-delicate because it will generally be narrow. The default setting
-of |ssrightskip| allows  up to 2em departure from right
-alignment. This usually avoids overfull lines and awkward
-hyphenation.  |ssrightskip| can be increased (all the way to
-\hbox{|0pt plus 1fil|}) if there is a problem, at the cost of a
-more ragged appearance.  This can be done globally, or simply in
-troublesome examples.
+|ss| stands for ``side-by-side''. |sssep| gives the separation of the
+gloss and the free translation. |ssratio| gives the proportion of the
+available space (which is the leftskip minus the value of |sssep|)
+which the gloss occupies. The point of hanging indentation is to
+visually separate the free translation and the gloss, so
+|glhangstyle=none| is completely satisfactory if the tree translation
+is on the right. But {it ExPex\/} will happily use hanging (either
+cascading or not) indentation with the free translation on the right.
 
-The point of hanging indentation is to visually separate the free
-translation and the gloss, so |glhangstyle=none| is completely
-satisfactory if the tree translation is on the right. But {it
-ExPex\/} will happily use hanging (either cascading or not)
-indentation with the free translation on the right.
-
-
-\framedisplay
-\ex[glftpos=right,glhangstyle=none,ssratio=.7,sssep=1.5em,
-ssrightskip=0pt plus .4em]
-\begingl
-\gla
-Hmao sa co po tha  nu nao nga hmua. Nu dja ga, nu dja cog nu laih
-gui reo ne. Todang bboi rok jolan nu nao hma, nu bboh sa droi mra
-do bboi gah, a, hruh nu.//
-\glb
-exist one {clf} person old 3s go do field 3s hold machete 3s hold
-hoe 3s pst carry.on.back back.basket 3s while at {along} trail 3s
-go field 3s see one clf peacock stay at drct {?} nest 3s//
-\glft
-`There was an old person who went to work in the field. He took
-along his machete, he took along his hoe, and he carried his
-basket on his back. While he was on his way to the farm, he saw a
-peacock beside its nest.'//
-\endgl
-\xe
-\endframedisplay
-
-\framedisplay
-\ex[glftpos=right,glhangstyle=none,ssratio=.7,sssep=1.5em,
-ssrightskip=0pt plus .5em]
-\begingl
-\gla
-Hmao sa co po tha  nu nao nga hmua. Nu dja ga, nu dja cog nu laih
-gui reo ne. Todang bboi rok jolan nu nao hma, nu bboh sa droi mra
-do bboi gah, a, hruh nu.//
-\glb
-exist one {clf} person old 3s go do field 3s hold machete 3s hold
-hoe 3s pst carry.on.back back.basket 3s while at {along} trail 3s
-go field 3s see one clf peacock stay at drct {?} nest 3s//
-\glft
-`There was an old person who went to work in the field. He took
-along his machete, he took along his hoe, and he carried his
-basket on his back. While he was on his way to the farm, he saw a
-peacock beside its nest.'//
-\endgl
-\xe
-\endframedisplay
+Line breaking in the free translation is delicate because it will
+generally set in a narrow column. The default setting of |ssrightskip|
+allows up to 1em departure from right alignment. This usually avoids
+overfull lines and awkward hyphenation.  |ssrightskip| can be
+increased (all the way to \hbox{|0pt plus 1fil|}) if there is a
+problem, at the cost of a more ragged appearance.  This can be done
+globally, or simply in troublesome examples.
 
 \subsection  Gloss underfixes
 
@@ -517,49 +473,46 @@ Macro:\quad |\gluf|\par
 desired, with grammatical markings written below the gloss.
 
 \framedisplay
-\ex[glstyle=wrap,glufcloseup=.4ex,everygluf=\tenrm]
+\ex[glstyle=wrap,glhangstyle=normal,glufcloseup=.4ex,everygluf=\tenrm]
 \begingl
 \gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren
    w\"urde seiner Freundin ihr$_i$ Herz auszusch\"utten.//
-\glb Mary is sure that it \gluf{the}{ACC} Hans not annoy would
-   \gluf{his}{DAT} \gluf{girlfriend}{DAT} \gluf{her}{ACC}
-   \gluf{heart}{ACC}
-   {out to throw}//
+\glb Mary is sure that it \gluf/the/ACC/ Hans not annoy would
+   \gluf/his/DAT/ \gluf/girlfriend/DAT/ \gluf/her/ACC/
+   \gluf/heart/ACC/ {out to throw}//
 \glft `Mary is sure that to reveal her heart to his girlfriend
 would not damage John.'//
 \endgl
 \xe
 \endframedisplay
-The grammatical markings are essentially ``underfixes'' (rather
-than prefixes or suffixes), hence the name ``gluf'' (gl underfix).
 
-It was produced by:
+{\it ExPex\/} provides the macro |\gluf| which can be used to
+construct such a display.
 
 \codedisplay
-\ex[glstyle=wrap,glufcloseup=.4ex,everygluf=\tenrm]
+\ex[glstyle=wrap,glhangstyle=normal,glufcloseup=.4ex,everygluf=\tenrm]
 \begingl
 \gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren
    w\"urde seiner Freundin ihr$_i$ Herz auszusch\"utten.//
-\glb Mary is sure that it \gluf{the}{ACC} Hans not annoy would
-   \gluf{his}{DAT} \gluf{girlfriend}{DAT} \gluf{her}{ACC}
-   \gluf{heart}{ACC}
-   {out to throw}//
+\glb Mary is sure that it \gluf/the/ACC/ Hans not annoy would
+   \gluf/his/DAT/ \gluf/girlfriend/DAT/ \gluf/her/ACC/
+   \gluf/heart/ACC/ {out to throw}//
 \glft `Mary is sure that to reveal her heart to his girlfriend
 would not damage John.'//
 \endgl
 \xe
 |endcodedisplay
 
-When the underfix is typeset, the value of |everygluf| is first
-inserted.  It is provided so that the user has control of the
-font used to typeset the tags. The value of |glufcloseup|
-determines how much the baselineskip between the underfix and the
-underfixed word is closed up.  Without some closeup, the
-underfixes are not positioned close enough to the glosses they
-modify (in my opinion). The macro |\gluf| positions the underfix,
-centered, below the word it annotates.  Its syntax should be
-clear from the example above.
-
+The grammatical markings are essentially ``underfixes'' (rather than
+prefixes or suffixes), hence the name ``gluf'' (gl underfix). When the
+underfix is typeset, the value of |everygluf| is first inserted.  It
+is provided so that the user has control of the font used to typeset
+the tags. The value of |glufcloseup| determines how much the
+baselineskip between the underfix and the underfixed word is closed
+up.  Without some closeup, the underfixes are not positioned close
+enough to the glosses they modify (in my opinion). The macro |\gluf|
+positions the underfix, centered, below the word it annotates.  Its
+syntax should be clear from the example above.
 
 
 \endinput
