@@ -761,103 +761,15 @@
 \define@linginckey\dimen{}{@}{glhangindent}
 \define@linginckey\dimen{}{@}{glwidth}
 \define@linginckey\skip{}{@}{aboveglftskip}
+\define@linginckey\skip{}{@}{belowglpreambleskip}
+\define@ling@cmdkeys{everyglpreamble}
+\define@boolkey{ling}[ling@]{noglpreamble}[true]{}
+\lingset{noglpreamble=false}
 %--------------- Wrap style (W) ---------------------------
 \define@choicekey{ling}{glhangstyle}[\temp\epx@glhangstyle]%
    {none,normal,cascade}{}
 \define@ling@cmdkeys{glrightskip}
 \lingset{glhangstyle=normal,glrightskip=0pt plus .25\hsize}
-%\def\begingl@Wb{%
-%   \bgroup
-%   \parindent=0pt
-%   \W@prefixboxfalse
-%   \@ifnextchar\gla@W\begingl@W@aux\begingl@W@withprefix
-%}
-%\def\endgl@Wb{\egroup\egroup\egroup}
-%\def\begingl@W@aux{%
-%   \leavevmode
-%   \ifW@prefixbox \box\W@prefixbox \fi
-%   \vtop\bgroup
-%   \ling@usearg
-%   \ling@everygl
-%   \ifdim\ling@glwidth=0pt
-%         \advance\hsize by -\leftskip
-%         \advance\hsize by -\rightskip
-%      \else
-%         \hsize=\ling@glwidth
-%      \fi
-%   \ifW@prefixbox \advance\hsize by -\W@prefixboxwd \fi
-%   \parindent=0pt
-%   \rightskip=0pt plus 1fil
-%   \leftskip=\ling@glhangindent
-%   \hskip-\ling@glhangindent
-%   \leavevmode
-%}
-%\def\begingl@W@aux{%
-%   \leavevmode
-%   \ifW@prefixbox \box\W@prefixbox \fi
-%   \vtop\bgroup
-%      \ling@usearg
-%      \ling@everygl
-%      \ifdim\ling@glwidth=0pt
-%            \advance\hsize by -\leftskip
-%            \advance\hsize by -\rightskip
-%         \else
-%            \hsize=\ling@glwidth
-%         \fi
-%      \ifW@prefixbox \advance\hsize by -\W@prefixboxwd \fi
-%      \rightskip=\ling@glrightskip
-%      \ifcase\epx@glhangstyle
-%            \leftskip=0pt
-%         \or
-%            \leftskip=\ling@glhangindent
-%            \hskip -\ling@glhangindent
-%         \or
-%            \leftskip=0pt
-%            \epx@makeshape
-%            \parshape 9
-%            \epx@parshapetarget
-%         \fi
-%}
-%\newbox\W@prefixbox
-%\newdimen\W@prefixboxwd
-%\def\begingl@W@withprefix #1\gla{%
-%   \W@prefixboxtrue
-%   \setbox\W@prefixbox=\hbox{#1}%
-%   \W@prefixboxwd=\wd\W@prefixbox
-%   \begingl@W@aux\gla@W
-%}
-%\def\glft@W{\leavevmode\leftskip=0pt \@tildecheck\glft@W@a}
-%\def\glft@W@a #1//{%
-%   \if@tilde \else \vskip\ling@aboveglftskip \fi
-%   \strut #1
-%   \noindent\ling@everyglft\strut #1
-%}
-%\def\gla@W{\@getoptionalarg\gla@W@a}
-%\def\gla@W@a#1// {%
-%   \bgroup
-%   \ling@usearg
-%   \def\topline{}%
-%   \def\botline{}%
-%   \leavevmode\gla@W@b #1 \@nil}
-%\def\gla@W@b{\@ifnextchar\@nil\gla@W@d\gla@W@c}
-%\def\gla@W@c#1 {\addtoline\topline{#1}\gla@W@b}
-%\def\gla@W@d#1{}
-%\def\glb@W#1// {\leavevmode\glb@W@a#1 \@nil}
-%\def\glb@W@a{\@ifnextchar\@nil\mk@pairline\glb@W@b}
-%\def\glb@W@b#1 {\addtoline\botline{#1}\glb@W@a}
-%\def\glc@W{\par\nobreak\prevdepth=.28\baselineskip \@getoptionalarg\glc@W@}
-%\long\def\glc@W@#1\endgl{\par\leftskip=0pt
-%   {\ling@usearg\vskip\ling@aboveglcskip
-%   \ling@everyglc #1\strut\par}\egroup\egroup}
-%\def\glft@Wb{\@tildecheck\glft@Wb@a}
-%\def\glft@Wb@a #1//{%
-%   \if@tilde \par \else \vskip\ling@aboveglftskip \fi
-%   \nobreak\prevdepth=.28\baselineskip
-%   \leavevmode
-%   \ling@everyglft
-%   \leftskip=0pt
-%   \noindent\strut #1%
-%}
 % ----- side by side (ss) gloss style -----
 \define@choicekey{ling}{glftpos}[\temp\epx@glftpos]%
    {below,right}{%
@@ -1086,13 +998,10 @@
 }
 \defineglwlevels{b}
 \newif\ifglw@spacebefore
-\newif\ifW@prefixbox
-\newbox\W@prefixbox
-\newdimen\W@prefixboxwd
 \def\glw@begingl{%
    \parindent=0pt
-   \W@prefixboxfalse
-   \@ifnextchar\gla\glw@begingl@a\glw@begingl@prefix
+   \let\glw@preamble\empty
+   \@ifnextchar\gla\glw@begingl@a\glw@begingl@b
 }
 \def\glw@begingl@a{%
    \vtop\bgroup
@@ -1103,18 +1012,16 @@
          \else
             \hsize=\ling@glwidth
          \fi
-      \ifW@prefixbox
-         \advance\hsize by -\W@prefixboxwd \fi
       \ling@everygl
+      \leftskip=0pt
+      \ifx\glw@preamble\empty \else
+         {\ling@everyglpreamble\glw@preamble\vskip\ling@belowglpreambleskip}\fi
       \rightskip=\ling@glrightskip
       \ifcase\epx@glhangstyle
-            \leftskip=0pt
          \or
-            \leftskip=0pt
             \hangindent=\ling@glhangindent
             \hangafter=1
          \or
-            \leftskip=0pt
             \glwcascade@makeshape
             \parshape 9
             \glwcascade@parshapetarget
@@ -1123,11 +1030,8 @@
       \let\aboveskiplist=\empty
       \let\strutlist=\empty
 }
-\def\glw@begingl@prefix #1\gla{%
-   \W@prefixboxtrue
-   \setbox\W@prefixbox=\hbox{#1}%
-   \W@prefixboxwd=\wd\W@prefixbox
-   #1\relax
+\def\glw@begingl@b #1\gla{%
+   \ifling@noglpreamble #1\else \def\glw@preamble{#1}\fi
    \glw@begingl@a
    \gla
 }
@@ -1358,6 +1262,8 @@
    glspace=.6em,
    aboveglcskip=0pt,
    aboveglftskip=.7ex,
+   belowglpreambleskip=1.2ex,
+   everyglpreamble=,
    glhangindent=1em,
    everygla=\it,
    everyglb=,
