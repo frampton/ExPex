@@ -5,5 +5,15 @@
 
 BUG 26 Sept
 free translation not correctly position if there is a preamble
+fixed
 
+PROBLEM, 27 Sept
+the interlinear gloss can break after a bracket
+brackets should stay attached to the following word
+
+PROBLEM, 29 Sept
+Need to allow a free preamble. This means that prefixed determined by
+following \gla will have to change.  Is there any real need for a
+prefixed \begingl?  Why not \ex[exno={[A]}] instead of
+\begingl [A]\gla?
 

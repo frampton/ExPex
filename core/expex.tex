@@ -159,7 +159,8 @@
 \def\actualexnoprint{{\if@specialexno \specialexnoprint
    \else \exnoprint \fi}}
 \def\exnoprint{(\the\excnt)}
-\def\specialexnoprint{(\lingspecialexno)}
+%\def\specialexnoprint{(\lingspecialexno)}
+\def\specialexnoprint{\lingspecialexno}  % unformatted
 \def\globalstepexcnt{\global\advance\excnt by 1 }
 \def\localstepexcnt{\advance\excnt by 1 }
 \let\stepexcnt=\globalstepexcnt
@@ -960,7 +961,7 @@
       \fi\fi\fi\fi
    \ifx\alist\empty \ifx\blist\empty \gl@loopmorefalse \fi\fi
 }
-\def\\{\noexpand\\}
+\def\\{\par}
 \newdimen\glw@maxht
 \newdimen\glw@maxdp
 \def\Closeup{@}\@onelevel@sanitize\Closeup
@@ -974,12 +975,12 @@
    \@getoptionalarg
    \glw@gla@a
 }
-\def\glw@gla@a #1// {\bgroup\ling@usearg
-   \glw@gla@b #1 \cr }
-\def\glw@gla@b{\@ifnextchar\cr\glw@gla@c\glw@gla@d}
-\def\glw@gla@c#1{\glw@updateauxlistsA \egroup}
+\def\glw@gla@a #1//{\bgroup\ling@usearg
+   \glw@gla@b #1 \@nil }
+\def\glw@gla@b{\@ifnextchar\@nil\glw@gla@c\glw@gla@d}
+\def\glw@gla@c#1{\glw@updateauxlistsA \egroup \ignorespaces}
 \newif\ifglw@word
-\def\glw@gla@d #1 {%
+\def\glw@gla@d #1 {\writeln{#1++++++++++}%
    \glw@onetokenfalse
    \def\tempa{#1}\let\tempb=\tempa
    \@onelevel@sanitize\tempa
@@ -992,8 +993,8 @@
       \else\ifx\tempa\Rbrack
          \expandafter\glw@append\Rbrack\to\mainlist
       \else
-         \edef\temp{\noexpand\\{\expandonce\ling@everygla
-            \expandonce\tempb}}%
+         \edef\temp{\noexpand\\{\epx@expandonce\ling@everygla
+            \epx@expandonce\tempb}}%
          \expandafter\glw@append\temp\to\mainlist
          \setbox0=\hbox{\ling@everygla #1}%
          \ifdim\glw@maxht<\ht0 \glw@maxht=\ht0 \fi
@@ -1019,9 +1020,9 @@
          \else \glw@wordtrue
          \fi\fi\fi\fi\fi
    \ifglw@word
-      \def\tempa{#1#2}%
-      \edef\temp{\noexpand\\{\expandonce\ling@everygla
-         \expandonce\tempa}}%
+      \gltoks@a={#1#2}%
+      \gltoks@b=\expandafter{\ling@everygla}%
+      \edef\temp{\noexpand\\{\the\gltoks@b \the\gltoks@a}}%
       \expandafter\glw@append\temp\to\mainlist
       \setbox0=\hbox{\ling@everygla #1#2}%
       \ifdim\glw@maxht<\ht0 \glw@maxht=\ht0 \fi
@@ -1072,10 +1073,11 @@
 \def\glw@glx@b{\@ifnextchar\@nil\glw@glx@c\glw@glx@d}
 \def\glw@glx@c#1{\glw@updateauxlistsB \glw@mergerow\worklist\to\mainlist\egroup}
 \def\glw@glx@d #1 {%
-   \def\tempA{#1}%
-   \edef\tempB{%
-      \expandonce\csname ling@everygl\gl@linelabel\endcsname
-      \expandonce\tempA}%
+   \expandafter\let\expandafter\@every
+      \csname ling@everygl\gl@linelabel\endcsname
+   \gltoks@a=\expandafter{\@every}%
+   \gltoks@b={#1}%
+   \edef\tempB{\the\gltoks@a \the\gltoks@b}%
    \setbox0=\hbox{\tempB}%
    \ifdim\glw@maxht<\ht0 \glw@maxht=\ht0 \fi
    \ifdim\glw@maxdp<\dp0 \glw@maxdp=\dp0 \fi
@@ -1355,7 +1357,7 @@
 % parameters used in glosses
    glspace=.6em,
    aboveglcskip=0pt,
-   aboveglftskip=1ex,
+   aboveglftskip=.7ex,
    glhangindent=1em,
    everygla=\it,
    everyglb=,
@@ -1370,7 +1372,7 @@
 %   glbracketsep=.15em,
    glstyle=wrap,
    moregloffset=0pt,
-   abovemoreglskip=.25ex,
+   abovemoreglskip=1ex,
    mincitesep=1.5em,
 % auxiliary parameters used for building tables
    dima=2.4em,

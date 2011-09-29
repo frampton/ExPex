@@ -1,4 +1,5 @@
 \nopagenumbers
+\everymath={}
 \parindent=0pt
 \font\namefont=t1xr at 16pt
 \font\namefontsl=t1xsl at 16pt
@@ -13,14 +14,14 @@ reference}\hss}
 \vfil\vfil\vfil\kern2em
 
 \framedisplay
-\pex[glbrackets,nopreamble,glstyle=wrap,everygla=\it,
+\pex[nopreamble,glstyle=wrap,everygla=\it,glhangstyle=normal,
    aboveglftskip=.6ex]
 \everymath={}%
 \def\\#1{-{\tenrm #1}}%
 \a
 \begingl
-\gla Mary$_i$ ist sicher, \[dass es den Hans nicht st\"oren w\"urde
-+ \[seiner Freundin ihr$_i$ Herz auszusch\"utten.\]\]//
+\gla Mary$_i$ ist sicher, [ dass es den Hans nicht st\"oren w\"urde
+[ seiner Freundin ihr$_i$ Herz auszusch\"utten. ] ] //
 \glb Mary is sure that it the\\{ACC} Hans not annoy would
 his\\{DAT} girlfriend\\{DAT} her\\{ACC} heart\\{ACC} {out to
 throw} //
@@ -29,8 +30,8 @@ heart to his girlfriend.'//
 \endgl
 \a
 \begingl
-\gla Mary$_i$ ist sicher, \[dass seiner Freunden ihr$_i$ Herz
-auszuch\"utten + \[dem Hans nicht schaden w\"urde.\]\]//
+\gla Mary$_i$ ist sicher, [ dass seiner Freunden ihr$_i$ Herz
+auszuch\"utten [ dem Hans nicht schaden w\"urde. ] ] //
 \glb Mary is sure that his\\{DAT} girlfriend\\{DAT} her\\{ACC}
 heart\\{ACC} {out to throw} the\\{DAT} Hans not damage would//
 \glft `Mary is sure that to reveal her heart to his girlfriend

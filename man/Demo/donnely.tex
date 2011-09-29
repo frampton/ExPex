@@ -1,0 +1,50 @@
+
+
+\documentclass[12pt]{article}
+
+\usepackage{c:/ling/tex/expex/core/expex}
+\usepackage{times}
+\usepackage{tipa}
+
+\begin{document}
+
+\defineglwlevels{surface,auto,manual,eng}
+\font\ips=xipasl10 at 12pt
+\def\dotsuff#1{{\scriptsize .#1}}
+\lingset{everygl={\let\\=\dotsuff}}
+
+\ex
+\begingl
+%\glchat a fydd Anna@s:cym\&eng \# a [?] Bev@s:cym\&eng yn dod i\_fewn \#\# yn ystod y dydd a gyda (y)r nos dw i (y)n meddwl . //
+\gla ALN:  a fydd Anna$^{C}_{E}$ a Bev$^{C}_{E}$ yn dod i\_fewn yn ystod y dydd a gyda yr nos dw i yn meddwl .  //
+\glauto \%aut  and\\{CONJ} be\\{V.3S.FUT+SM} name and\\{CONJ} name stative\\{STAT} come\\{V.INFIN} in\\{ADV} in\\{PREP} range\\{N.F.SG} the\\{DET.DEF} day\\{N.M.SG} and\\{CONJ} with\\{PREP} the\\{DET.DEF} night\\{N.F.SG} be\\{V.1S.PRES.SPOKEN} I\\{PRON.1S} stative\\{STAT} think\\{V.INFIN}   //
+\glmanual \%gls  and be\\{3S.FUT} Anna and Bev PRT come\\{NONFIN} in in range DET day and with DET night be\\{1S.PRES} PRON\\{1S} PRT think\\{NONFIN}   //
+\glft and Anna and Bev will be coming in during the day and in the evening I think. //
+\endgl
+\xe
+
+\end{document}
+
+
+\ex \def\\#1{{\footnotesize #1}}%
+\begingl[glhangstyle=normal,everygla=\ips,abovemoreglskip=2ex]
+%\gla {} a fydd {Anna@s:cym\&eng \#} {a [?]} Bev@s:cym\&eng yn dod i\_fewn
+%   \#\# yn ystod y dydd a gyda (y)r nos dw i (y)n meddwl . //
+\glsurface ALN:  a fydd Anna$^{C}_{E}$ a Bev$^{C}_{E}$ yn dod i\_fewn
+   yn ystod y dydd a gyda yr nos dw {} {} {} i yn meddwl .  //
+\glauto \%aut  and\\{.CONJ} be\\{.V.3S.FUT+SM} name and\\{.CONJ} name
+   stative\\{.STAT} come\\{.V.INFIN} in\\{.ADV} in\\{.PREP}
+   range\\{.N.F.SG} the\\{.DET.DEF} day\\{.N.M.SG} and\\{.CONJ}
+   with\\{.PREP} the\\{.DET.DEF} night\\{.N.F.SG}
+   be\\{.V.1S.PRES.SPOKEN} {} {} {} I\\{.PRON.1S} stative\\{.STAT}
+   think\\{.V.INFIN}   //
+\glmanual \%gls  and be\\{.3S.FUT} Anna and Bev PRT come\\{.NONFIN} in
+   in range DET day and with DET night be\\{.1S.PRES} {} {} {} PRON\\{.1S} PRT
+   think\\{.NONFIN}   //
+\glft and Anna and Bev will be coming in during the day and in the
+   evening I think. //
+\endgl \xe
+
+
+\end{document}
+
