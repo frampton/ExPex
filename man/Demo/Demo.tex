@@ -2,9 +2,10 @@
 
 \documentclass[12pt]{article}
 
-\usepackage{c:/ling/tex/expex/core/expex}
+\usepackage{c:/ling/tex/expex/core/expex2}
 \usepackage{times}
 \usepackage{tipa}
+
 \def\suff#1{{\footnotesize -#1}}
 \def\writeln#1{\immediate\write16{#1}\ignorespaces}
 \lingset{interpartskip=1.5ex}
@@ -43,29 +44,46 @@ would not damage John.'//
 \endgl
 \xe
 
-\font\ips=xipasl10 at 12pt
-\font\ipss=xipasl10 at 7pt
-\def\mroot{$\surd$}
-\def\L{\char'354}
-\def\v#1{{\accent"07 #1}}
-\def\C{{\accent"07 c}}
-\def\W{$^{\hbox{\ipss w}}\mskip-2mu$}
-
 \ex
+\def\mroot{$\surd$}%
+\let\L=\textbeltl%
+\def\W{\super{w}}%
 \begingl
-\gla[everygla=\ips] hoi Ekn {\L}E {x\W}ElEP t{g\W}El' st{\'\i}m {hE\L}
+\gla[everygla=\tipaencoding] hoi Ekn {\L}E {x\W}ElEP t{g\W}El' st{\'\i}m {hE\L}
    {kuPEcx\W ist} {\L a} Pa{\v c}sEtqEt//
-\glb[everyglb=\ips] hoi {\mroot}PEkn {\L}E {x\W}ElEP t{g\W}El' {s +
+\glb[everyglb=\tipaencoding] hoi {\mroot}PEkn {\L}E {x\W}ElEP t{g\W}El' {s +
    \mroot t\'\i m} {hE\L} ku-PEc-\mroot{x\W}ist {\L}a Pa{\v c}sEtqEt//
 \glb then {\mroot}say det Meadowlark why {nomlz + \mroot what} conn
    2nom-cust-{\mroot}one.travels det {day time}//
 \glb then {she said} det Meadowlark why {what is it} conn {you travel
    about} det {day time}//
 \glft Then Meadowlark said, ``Why do you travel about in the day
-   time?''//
+   time?''\pushciteright{(Bischoff)?}//
 \endgl
 \xe
 
+\ex
+\def\suffdot#1{{\scriptsize .#1}}%
+\lingset{everygl={\let\\=\suffdot},everygla=,
+   everyglpreamble={\tipaencoding \spaceskip=.5em plus .1em},
+   glhangstyle=none}
+\begingl
+a fydd Anna@s:cym\&eng \# a [?] Bev@s:cym\&eng yn dod i\_fewn \#\# yn
+   ystod y dydd a gyda (y)r nos dw i (y)n meddwl.
+\gla ALN:  a fydd Anna$^{C}_{E}$ a Bev$^{C}_{E}$ yn dod i\_fewn yn
+   ystod y dydd a gyda yr nos dw i yn meddwl .  //
+\glb \%aut  and\\{CONJ} be\\{V.3S.FUT+SM} name and\\{CONJ} name
+   stative\\{STAT} come\\{V.INFIN} in\\{ADV} in\\{PREP}
+   range\\{N.F.SG} the\\{DET.DEF} day\\{N.M.SG} and\\{CONJ}
+   with\\{PREP} the\\{DET.DEF} night\\{N.F.SG} be\\{V.1S.PRES.SPOKEN}
+   I\\{PRON.1S} stative\\{STAT} think\\{V.INFIN}   //
+\glb \%gls  and be\\{3S.FUT} Anna and Bev PRT come\\{NONFIN} in in
+   range DET day and with DET night be\\{1S.PRES} PRON\\{1S} PRT
+   think\\{NONFIN}   //
+\glft and Anna and Bev will be coming in during the day and in the
+   evening I think.\pushciteright{(Kevin Donnelly)}//
+\endgl
+\xe
 
 
 \end{document}

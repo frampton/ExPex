@@ -1,6 +1,6 @@
 \lingset{glstyle=wrap}
 \makeatletter
-\def\glmw@printcolframed{%
+\def\glw@printcolframed{%
    \psframebox[framesep=0]{\vtop{%
       \ling@everyglword
       \gl@loopmoretrue
@@ -8,12 +8,14 @@
          \glw@lop\tempa\to\@tempa
          \glw@lop\aboveskiplist\to\@aboveskip
          \glw@lop\strutlist\to\@strut
-         \@aboveskip\hbox{\@strut\@tempa}%
+         \expandafter\ifdim\@aboveskip=0pt \else
+            \vskip\@aboveskip \fi
+            \hbox{\@strut\@tempa}%
          \ifx\tempa\empty \gl@loopmorefalse \fi
       \repeat
       }}%
 }
-\def\framewords{\let\glw@printcol=\glmw@printcolframed}
+\def\framewords{\let\glw@printcol=\glw@printcolframed}
 \resetatcatcode
 
 \section More on Glosses

@@ -3,11 +3,11 @@
 \ifx\XKeyValLoaded\endinput \else
    \input xkeyval \fi
 \ifx\ProvidesFile\@undefined
-   \message{2011/07/04 v3.2 ExPex linguistics
+   \message{2011/08/29 v1.0 ExPex2 linguistics
       example formatter (JF)}
 \else
-   \ProvidesFile{expex.tex}[2011/07/04 v3.2
-      ExPex linguistics example formatter (JF)]
+   \ProvidesFile{expex.tex}[2011/08/29 v1.0
+      ExPex2 linguistics example formatter (JF)]
    \@addtofilelist{expex.tex}
    \let\it=\itshape
 \fi
@@ -761,6 +761,7 @@
 \define@linginckey\dimen{}{@}{glhangindent}
 \define@linginckey\dimen{}{@}{glwidth}
 \define@linginckey\skip{}{@}{aboveglftskip}
+\define@linginckey\skip{}{@}{aboveglaskip}
 \define@linginckey\skip{}{@}{belowglpreambleskip}
 \define@ling@cmdkeys{everyglpreamble}
 \define@boolkey{ling}[ling@]{noglpreamble}[true]{}
@@ -890,30 +891,8 @@
 \def\glw@gla@a #1//{\bgroup\ling@usearg
    \glw@gla@b #1 \@nil }
 \def\glw@gla@b{\@ifnextchar\@nil\glw@gla@c\glw@gla@d}
-\def\glw@gla@c#1{\glw@updateauxlistsA \egroup \ignorespaces}
+\def\glw@gla@c#1{\glw@updatelists \egroup \ignorespaces}
 \newif\ifglw@word
-\def\glw@gla@d #1 {\writeln{#1++++++++++}%
-   \glw@onetokenfalse
-   \def\tempa{#1}\let\tempb=\tempa
-   \@onelevel@sanitize\tempa
-   \ifx\tempa\Linebreak
-         \expandafter\glw@append\Linebreak\to\mainlist
-      \else\ifx\tempa\Closeup
-         \expandafter\glw@append\Closeup\to\mainlist
-      \else\ifx\tempa\Lbrack
-         \expandafter\glw@append\Lbrack\to\mainlist
-      \else\ifx\tempa\Rbrack
-         \expandafter\glw@append\Rbrack\to\mainlist
-      \else
-         \edef\temp{\noexpand\\{\epx@expandonce\ling@everygla
-            \epx@expandonce\tempb}}%
-         \expandafter\glw@append\temp\to\mainlist
-         \setbox0=\hbox{\ling@everygla #1}%
-         \ifdim\glw@maxht<\ht0 \glw@maxht=\ht0 \fi
-         \ifdim\glw@maxdp<\dp0 \glw@maxdp=\dp0 \fi
-      \fi\fi\fi\fi
-   \glw@gla@b
-}
 \def\glw@gla@d #1#2 {%
    \glw@wordtrue
    \def\temp{#2}%
@@ -934,26 +913,28 @@
    \ifglw@word
       \gltoks@a={#1#2}%
       \gltoks@b=\expandafter{\ling@everygla}%
-      \edef\temp{\noexpand\\{\the\gltoks@b \the\gltoks@a}}%
-      \expandafter\glw@append\temp\to\mainlist
+%<<
+%      \edef\temp{\noexpand\\{\the\gltoks@b \the\gltoks@a}}%
+%      \expandafter\glw@append\temp\to\mainlist
+%--
+%>>
+      \glw@append \\{#1#2}\to\mainlist
+%--
       \setbox0=\hbox{\ling@everygla #1#2}%
       \ifdim\glw@maxht<\ht0 \glw@maxht=\ht0 \fi
       \ifdim\glw@maxdp<\dp0 \glw@maxdp=\dp0 \fi
       \fi
    \glw@gla@b
 }
-\def\glw@updateauxlistsA{%
-   \let\temp=\empty
-   \glw@updateaux@a
-}
-\def\glw@updateauxlistsB{%
-   \edef\temp{\vskip\csname ling@abovegl\gl@linelabel skip\endcsname}%
-   \glw@updateaux@a
-}
-\def\glw@updateaux@a{%
+\def\glw@updatelists{%
+   \edef\temp{\csname ling@abovegl\gl@linelabel skip\endcsname}%
    \expandafter\glw@append\temp \to\aboveskiplist
    \edef\temp{\vrule width0pt height\the\glw@maxht\space depth\the\glw@maxdp\space }%
    \expandafter\glw@append\temp\to\strutlist
+   \expandafter\expandafter\expandafter
+      \glw@append\csname ling@everygl\gl@linelabel\endcsname
+      \to\everylist
+   \gltoks@a=\expandafter{\everylist}%
 }
 \def\gl@stylenum{0}
 \def\glw@levels{a,ft}
@@ -981,19 +962,16 @@
 }
 \def\glw@glx@a #1// {\bgroup
    \ling@usearg
-   \glw@glx@b #1 \@nil }
-\def\glw@glx@b{\@ifnextchar\@nil\glw@glx@c\glw@glx@d}
-\def\glw@glx@c#1{\glw@updateauxlistsB \glw@mergerow\worklist\to\mainlist\egroup}
-\def\glw@glx@d #1 {%
    \expandafter\let\expandafter\@every
       \csname ling@everygl\gl@linelabel\endcsname
-   \gltoks@a=\expandafter{\@every}%
-   \gltoks@b={#1}%
-   \edef\tempB{\the\gltoks@a \the\gltoks@b}%
-   \setbox0=\hbox{\tempB}%
+   \glw@glx@b #1 \@nil }
+\def\glw@glx@b{\@ifnextchar\@nil\glw@glx@c\glw@glx@d}
+\def\glw@glx@c#1{\glw@updatelists \glw@mergerow\worklist\to\mainlist\egroup}
+\def\glw@glx@d #1 {%
+   \setbox0=\hbox{\@every #1}%
    \ifdim\glw@maxht<\ht0 \glw@maxht=\ht0 \fi
    \ifdim\glw@maxdp<\dp0 \glw@maxdp=\dp0 \fi
-   \expandafter\glw@append\tempB\to\worklist
+   \glw@append #1\to\worklist
    \glw@glx@b
 }
 \defineglwlevels{b}
@@ -1029,6 +1007,7 @@
       \let\mainlist=\empty
       \let\aboveskiplist=\empty
       \let\strutlist=\empty
+      \let\everylist=\empty
 }
 \def\glw@begingl@b #1\gla{%
    \ifling@noglpreamble #1\else \def\glw@preamble{#1}\fi
@@ -1094,7 +1073,10 @@
          \glw@lop\tempa\to\@tempa
          \glw@lop\aboveskiplist\to\@aboveskip
          \glw@lop\strutlist\to\@strut
-         \@aboveskip\hbox{\@strut\@tempa}%
+         \glw@lop\everylist\to\@every
+         \expandafter\ifdim\@aboveskip=0pt \else
+            \vskip\@aboveskip \fi
+            \hbox{\@strut\@every\@tempa}%
          \ifx\tempa\empty \gl@loopmorefalse \fi
       \repeat
       }%
@@ -1261,6 +1243,7 @@
 % parameters used in glosses
    glspace=.6em,
    aboveglcskip=0pt,
+   aboveglaskip=0pt,
    aboveglftskip=.7ex,
    belowglpreambleskip=1.2ex,
    everyglpreamble=,
