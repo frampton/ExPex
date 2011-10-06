@@ -764,8 +764,8 @@
 \define@linginckey\skip{}{@}{aboveglaskip}
 \define@linginckey\skip{}{@}{belowglpreambleskip}
 \define@ling@cmdkeys{everyglpreamble}
-\define@boolkey{ling}[ling@]{noglpreamble}[true]{}
-\lingset{noglpreamble=false}
+%\define@boolkey{ling}[ling@]{noglpreamble}[true]{}
+%\lingset{noglpreamble=false}
 %--------------- Wrap style (W) ---------------------------
 \define@choicekey{ling}{glhangstyle}[\temp\epx@glhangstyle]%
    {none,normal,cascade}{}
@@ -882,6 +882,7 @@
 \def\Lbrack{[}\@onelevel@sanitize\Lbrack
 \def\Rbrack{]}\@onelevel@sanitize\Rbrack
 \def\glw@gla{%
+   \if@glpreamble \vskip\ling@belowglpreambleskip \fi
    \def\gl@linelabel{a}%
    \glw@maxht=0pt
    \glw@maxdp=0pt
@@ -978,12 +979,14 @@
 \newif\ifglw@spacebefore
 \def\glw@begingl{%
    \parindent=0pt
-   \let\glw@preamble\empty
-   \@ifnextchar\gla\glw@begingl@a\glw@begingl@b
+%   \let\glw@preamble\empty
+%   \@ifnextchar\gla\glw@begingl@a\glw@begingl@b
+   \glw@begingl@a
 }
 \def\glw@begingl@a{%
    \vtop\bgroup
       \ling@usearg
+      \@glpreamblefalse
       \ifdim\ling@glwidth=0pt
             \advance\hsize by -\leftskip
             \advance\hsize by -\rightskip
@@ -992,8 +995,6 @@
          \fi
       \ling@everygl
       \leftskip=0pt
-      \ifx\glw@preamble\empty \else
-         {\ling@everyglpreamble\glw@preamble\vskip\ling@belowglpreambleskip}\fi
       \rightskip=\ling@glrightskip
       \ifcase\epx@glhangstyle
          \or
@@ -1009,10 +1010,10 @@
       \let\strutlist=\empty
       \let\everylist=\empty
 }
-\def\glw@begingl@b #1\gla{%
-   \ifling@noglpreamble #1\else \def\glw@preamble{#1}\fi
-   \glw@begingl@a
-   \gla
+\newif\if@glpreamble
+\def\glpre #1// {%
+   \@glpreambletrue
+   {\hangindent=0pt \ling@everyglpreamble #1\par}%
 }
 \def\glw@glft#1//{%
    \lineskip=\ling@abovemoreglskip
@@ -1022,8 +1023,9 @@
    #1\par
 }
 \def\glw@endgl{\glw@endglA \glw@endglB}
-\def\glw@endglA{\lineskip=\ling@abovemoreglskip \glw@print
-\par}
+\def\glw@endglA{\lineskip=\ling@abovemoreglskip
+   \ifx\mainlist\empty \else \glw@print \par \fi }
+%\par}
 \def\glw@endglB{\egroup\egroup}
 \def\glw@print{%
    \glw@spacebeforefalse
