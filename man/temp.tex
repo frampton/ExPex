@@ -1,13 +1,25 @@
 
+\makeatletter
+\def\exap{\ex \ling@everyglpreamble}
+\resetatcatcode
 
-\begingl[everygla=\bf,everyglb=\it]
+
+\lingset{everyglpreamble=\it,everygla=\bf,everyglb=\it}
+\hrule
+\ex
+\begingl
 This is a preamble.
 \gla x y //
 \glb u v //
 \glb[everyglb=\bf] u v //
 \glb u v //
 \endgl
-
+\xe
+\hrule
+\exap
+This is a preamble.
+\xe
+\hrule
 \endinput
 
 

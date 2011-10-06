@@ -338,69 +338,55 @@ so that it is not interpreted as a directive to omit a space.
 
 \subsection The width of the gloss
 
-In the wrap style, the gloss is built in a vbox whose nominal
-width is $h-l-r$, where $h$, $l$, and $r$, are the current values
-of |\hsize|, |\leftskip|, and |\rightskip|,
-respectively.  This implicit determination of the width of the
-gloss is appropriate for use with the ExPex macros which typeset
-examples because they adjust the leftskip appropriately inside
-examples.
+In the wrap style, the gloss is built in a vbox whose
+width is determined implicitly if the parameter |glwidth| is set to
+$0\,\mathrm pt$.  The width is $h-l-r$, where $h$, $l$, and $r$, are
+the current values of |\hsize|, |\leftskip|, and |\rightskip|,
+respectively.  This implicit determination of the width of the gloss
+is appropriate for use with the ExPex macros which typeset examples
+because they adjust the leftskip appropriately inside examples.
 
-There are two instances in which the width of the vbox is not the
-nominal width.  First, material which appears between
-|\begingl| and |\gla| is typeset as a prefix to the
-vbox and the width of the vbox is decreased from the nominal
-width by the width of the prefix.  Second, the width of the vbox
-can be set explicitly, ignoring the nominal width.
+If you want to supply an example number or explicit label, it will not
+work to say something like the following if |glwidth| is set to
+$0\,\mathrm pt$.
+$$
+\hbox{|[A]\quad \begingl |\dots| \endgl|}
+$$
+The vbox built by the gloss macro will not fit on the same line with
+the [A].
 
-Suppose you want to precede a gloss with an explicit example
-number, 14 for example.  Something like the following won't work.
-
-\bigskip
-\noindent 14. |\begingl|\kern1pt\dots|\endgl|
-\bigskip
-
-\noindent This produces an overfull line (or wraps the entire gloss box to
-the next line) because the gloss box takes up the whole line. The
-width of the gloss box must be decreased to make room for the
-number and following space. This is done automatically if the
-material to be typeset before the gloss is placed between
-|\begingl| and |\gla|.  For example,
+You must say:
+$$
+\hbox{|\ex[exno={[A]}] \begingl |\dots| \endgl|}$$
+The braces around |[A]| are needed to so that the optional argument
+is correctly delineated.  The mechanism looks for the first right
+brace {\it at the top level}.  For example:
 
 \framedisplay
-\exdisplay
+\ex[exno={[(6), p. 14]}]
 \begingl
-14.\quad
 \gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
 seiner Freundin ihr$_i$ Herz auszusch\"utten.//
 \glb Mary is sure that it the\suff{ACC} Hans not annoy would
-his\suff{DAT} girlfriend\suff{DAT} her\suff{ACC} heart\suff{ACC}
-{out to throw}//
-\glft  `Mary is sure that it would not annoy John to reveal her
-heart to his girlfriend.'//
+his\suff{DAT} girfriend\suff{DAT} her\suff{ACC} heart\suff{ACC} {out to
+throw}//
 \endgl
 \xe
 \endframedisplay
-
-This is produced by:
-
-\edef\tempa{{%
-   \twelverm\quad$\vdots$\quad
-      \raise2pt\hbox{(as in the code for Example ??? above)}\par}}
-\codedisplay
+\codedisplay~
+\ex[exno={[(6), p. 14]}]
 \begingl
-14.\quad
-\gla
-|tempa
+\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
+seiner Freundin ihr$_i$ Herz auszusch\"utten.//
+\glb Mary is sure that it the\suff{ACC} Hans not annoy would
+his\suff{DAT} girfriend\suff{DAT} her\suff{ACC} heart\suff{ACC} {out to
+throw}//
 \endgl
+\xe
 |endcodedisplay
 
-In addition to automatic adjustment of the width of the gloss
-box, its width can be specified explicitly by setting the
-parameter |glwidth|.  This parameter is ignored unless it is
-positive.  The examples above were typeset with the default
-setting |glwidth=0pt|, so that the width of the gloss box is
-set automatically.
+If the parameter |glwidth| is set to a nonzero dimension, the width of
+the vbox the gloss is constructed in is the specified dimension.
 
 The following example illustrates the usefullness of the explicit
 width option.
@@ -427,9 +413,7 @@ heart\suff{ACC} {out to throw} the\suff{DAT} Hans not damage would//
 would not damage John.'//
 \endgl
 \xe
-
-The code is
-\codedisplay
+\codedisplay~
 \ex
 a.\quad
 \begingl[glwidth=2.6in]
