@@ -1,0 +1,42 @@
+
+
+
+\subsection Gloss commands, diacritics, and parameters: Summary
+
+%\begingl
+%\endgl
+%\glx
+
+\lingset{dima=3in,dimb=1.3in}
+\vtop{\parindent=0pt \leftskip=\lingdima \hangafter=1
+\def\\#1/#2/{\leavevmode\llap{\hbox to\lingdima{\tt #1\hss}}%
+   \llap{\hbox to\lingdimb{#2\hfil}}\hangindent=1em\ignorespaces}%
+\\everygl//token list inserted after |\begingl|\par
+\\glwidth//the width of the gloss if nonzero, otherwise the gloss has
+maximal width\par
+\\glstyle//|wrap| or |3level|\par
+\\{\it Parameters which control the internal structure of glossed words}//\par
+%\\{\it Parameters which control how glossed words are built}//\par
+\\everyglword//token list inserted when glossed words are boxed\par
+\\abovegl{\it level\/}skip//vertical skip inserted above {\it
+   level\/} (b, c, or user defined)\par
+\\everygl{\it level\/}// token list inserted on {\it level} (a, b, c, or user defined)\par
+\\{\it Parameters which control how the sequence of glossed words is
+formed into a paragraph}//\par
+\\glspace/$\rm 1\,em$/horizontal skip between glossed words in interlinear gloss\par
+\\abovemoreglskip//vertical skip inserted between the lines of glossed words\par
+\\glrightskip/0\thinspace pt plus .25hsize/rightskip inserted at the end of lines of glossed words\par
+\\glhangstyle//|normal|, |none|, or |cascade|\par
+\\glhangindent//\par
+\\{\it Parameters which control printing the free translation on the
+right}//\par
+\\everyglft//\par
+\\aboveglftskip//\par
+\\ftpos//set to |down| or |right|/ selects position of free translation\par
+\\sssep//\par
+\\ssratio//\par
+\\ssrightskip// rightskip at the end of lines in the free translation
+in side by side style\par
+}
+
+

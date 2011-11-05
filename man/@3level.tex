@@ -1,0 +1,65 @@
+
+%\def\glw@glx#1{%   x suggests any label (as argument to \glw@glx)
+%   \def\worklist{}%
+%   \glw@maxht=0pt
+%   \glw@maxdp=0pt
+%   \def\gl@linelabel{#1}%
+%   \@getoptionalarg\glw@glx@a
+%}
+%\def\glw@glx@a #1// {\bgroup
+%   \ling@usearg
+%   \expandafter\let\expandafter\@every
+%      \csname ling@everygl\gl@linelabel\endcsname
+%   \glw@glx@b #1 \@nil }
+%\def\glw@glx@b{\@ifnextchar\@nil\glw@glx@c\glw@glx@d}
+%\def\glw@glx@c#1{\glw@updatelists \glw@mergerow\worklist\to\mainlist\egroup}
+%\def\glw@glx@d #1 {%
+%   \setbox0=\hbox{\@every #1}%
+%   \ifdim\glw@maxht<\ht0 \glw@maxht=\ht0 \fi
+%   \ifdim\glw@maxdp<\dp0 \glw@maxdp=\dp0 \fi
+%   \glw@append #1\to\worklist
+%   \glw@glx@b
+%}
+
+\makeatletter
+\def\glthree{%
+   \let\mainlist=\empty
+   \let\threelistB=\empty
+   \let\threelistC=\empty
+%   \let\everylist=\empty
+%   \glw@maxhtA=0pt
+%   \glw@maxdpA=0pt
+%   \glw@maxhtB=0pt
+%   \glw@maxdpB=0pt
+%   \glw@maxhtC=0pt
+%   \glw@maxdpC=0pt
+   \@getoptionalarg
+   \glthreelist@a
+}
+\def\glthreelist@a #1// {%
+   \ling@usearg
+   \glthree@b #1 \@nil \ignorespaces}
+\def\glthree@b{\@ifnextchar\@nil\glthree@c\glthree@d}
+\def\glthree@d #1 {\glthree@e#1///\@nil}
+\def\glthree@e#1/#2/#3/#4\@nil{%
+   \writeln{$#1$#2$#3$}
+   \glw@append \\{#1}\to\mainlist
+   \glw@append #2\to\threelistB
+   \glw@append #3\to\threelistC
+   \glthree@b
+}
+\def\glthree@c{%
+   \glw@mergerow\threelistB\to\mainlist
+   \glw@mergerow\threelistC\to\mainlist
+   \gobble}
+
+\def\\{\noexpand\\}
+\glthree a/b/c d  g/h/i //
+\glthree pwa-/Neg min/V/give -kwa/Agr/2pl{\sc NOM}.3pl{\sc ACC}
+-pun/Tns/preterit //
+
+
+\writeln{mainlist: \mainlist}
+%\writeln{threelistB: \threelistB}
+%\writeln{threelistC: \threelistC}
+\resetatcatcode

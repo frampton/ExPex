@@ -1,0 +1,825 @@
+
+\def\small{\tenrm}
+\lingset{glstyle=wrap,abovemoreglskip=1ex}
+\def\suff#1{{-\small #1}}%
+\everymath={}
+
+\section
+Basic Glosses
+
+%\lingset{dima=1.3em}
+%\noindent\begininventory
+%\omit Macros:\enspace
+%\idx{|\begingl|}|[]|, \idx{|\endgl|}, \idx{|\gla|}|[]|,
+%   \idx{|\glb|}|[]|, \idx{|\glft|}|[]|\cr
+%\endinventory
+
+
+\noindent Before I discuss complications, here are a few examples done
+with the default settings of the parameters.
+
+\framedisplay
+\ex<wapm>
+\begingl
+\gla k- wapm -a -s'i -m -wapunin -uk //
+\glb Cl V Agr Neg Agr Tns Agr //
+\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glft `you (pl) didn't see them'//
+\endgl
+\xe
+\endframedisplay
+\codedisplay~
+\ex
+\begingl
+\gla k- wapm -a -s'i -m -wapunin -uk //
+\glb Cl V Agr Neg Agr Tns Agr //
+\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glft `you (pl) didn't see them'//
+\endgl
+\xe
+|endcodedisplay
+
+\framedisplay
+\ex
+\begingl
+\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
+seiner Freundin ihr$_i$ Herz auszusch\"utten.//
+\glb Mary is sure that it the-{\sc ACC} Hans not annoy would
+his-{\sc DAT} girlfriend-{\sc DAT} her-{\sc ACC} heart-{\sc ACC} {out to
+throw}//
+\glft  `Mary is sure that it would not annoy John to reveal her
+heart to his girlfriend.'//
+\endgl
+\xe
+\endframedisplay
+\codedisplay~
+\ex
+\begingl
+\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
+seiner Freundin ihr$_i$ Herz auszusch\"utten.//
+\glb Mary is sure that it the-{\sc ACC} Hans not annoy would his-{\sc
+DAT} girlfriend-{\sc DAT} her-{\sc ACC} heart-{\sc ACC} {out to
+throw}//
+\glft  `Mary is sure that it would not annoy John to reveal her
+heart to his girlfriend.'//
+\endgl
+\xe
+|endcodedisplay
+
+
+\framedisplay
+\ex
+\begingl
+\glpreamble Um-\"asudda' h\"am yan i taotao ni si Juan
+ilek-\~na nu guahu mal\"agu' gui
+asudd\"a'-\~na.//
+\gla Um-\"asudda' h\"am yan [ i taotao [ {\it O\/} ni si Juan
+ilek-\~na nu guahu [ mal\"agu' gui [ asudd\"a'-\~na {\it
+t\/} ] ] ] ] @ .//
+\glb agr-meet we with the person Op Comp the Juan say-agr Obl me
+agr.want he {\it WH\/}[obl].meet-agr//
+\glft ``I met the person who Juan told me he wanted to
+meet.''//
+\endgl
+\xe
+\endframedisplay
+\codedisplay~
+\ex
+\begingl
+\glpreamble Um-\"asudda' h\"am yan i taotao ni si Juan
+   ilek-\~na nu guahu mal\"agu' gui asudd\"a'-\~na.//
+\gla Um-\"asudda' h\"am yan [ i taotao [ {\it O\/} ni si Juan
+   ilek-\~na nu guahu [ mal\"agu' gui [ asudd\"a'-\~na {\it
+   t\/} ] ] ] ] @ .//
+\glb agr-meet we with the person Op Comp the Juan say-agr Obl me
+   agr.want he {\it WH\/}[obl].meet-agr//
+\glft ``I met the person who Juan told me he wanted to
+   meet.''//
+\endgl
+\xe
+|endcodedisplay
+
+In order to discuss the options that are available, some terminology
+is convenient.  Glosses (|\begingl| \dots\ |\endgl|) have up to three
+parts.  First, an optional preamble (|\glpreamble| \dots\ |//|).
+Second, an interlinear gloss, which is also optional provided there is
+a preamble.\footnote{%
+Contrary to first impressions, there is good reason to allow the
+interlinear gloss to be omitted in certain situations.}  Third, a free
+translation (|\glft| \dots\ |//|), which can be omitted if there is an
+interlinear gloss. They are illustrated below, which repeats (\lastx)
+with a narrower hsize.
+
+\begingroup
+\input pstricks-add
+\ex
+\def\TOP{\pnode(3.4in,1.5ex)}%
+\def\BOT{\pnode(0,-.5ex)}%
+\begingl[glwidth=3.2in]
+\glpreamble \TOP{A1}Um-\"asudda' h\"am yan i taotao ni si Juan
+ilek-\~na nu guahu mal\"agu' gui
+asudd\"a'-\~na.\BOT{B1}//
+\gla \TOP{A2}Um-\"asudda' h\"am yan [ i taotao [ {\it O\/} ni si Juan
+ilek-\~na nu guahu [ mal\"agu' gui [ asudd\"a'-\~na {\it
+t\/} ] ] ] ] @ .//
+\glb agr-meet we with the person Op Comp the Juan say-agr Obl me
+agr.want he {\it WH\/}[obl].meet-agr\BOT{B2}//
+\glft \TOP{A3}``I met the person who Juan told me he wanted to
+meet.''\BOT{B3}//
+\endgl
+\SpecialCoor
+\psbrace[ref=lC](A1|B1)(A1){ preamble}
+\psbrace[ref=lC](A1|B2)(A2){ interlinear gloss}
+\psbrace[ref=lC](A1|B3)(A3){ free translation}
+\xe
+\endgroup
+
+The interlinear gloss consists of a sequence of lines of the form
+$$\hbox{|\gl|{\it levelname\/} \dots\ |//|}$$
+where {\it levelname\/} is |a|, |b|, or |c|.\footnote{%
+This will be extended later to allow the user to define new level
+names.}  There must be one and only one |\gla| line, which must come
+first in the interlinear gloss. |\glb| and |\glc| lines can come in
+any order and can be repeated arbitrarily.
+
+The material delineated by |\gl|{\it levelname\/} and |//| is parsed
+as a sequence of space separated items.  The parser only looks for
+spaces at the top-level.  Consequently, in (\blastx), for example, it
+is not sensitive to the space in items like |the-{\sc ACC}| since the
+space is inside a group, therefore not at the top level.  Spaces that
+directly preceed terminating |//| are disregarded.
+
+\subsection Parameters
+
+Suppose that rather than the gloss in (\getref{wapm}) the following
+style is desired.
+
+\framedisplay
+\ex
+\begingl
+\gla[everygla=] k- wapm -a -s'i -m -wapunin -uk //
+\glb[everyglb=\tenpoint,aboveglbskip=-.4ex]
+   Cl V Agr Neg Agr Tns Agr //
+\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glft[everyglft=\it,aboveglftskip=0pt] `you (pl) didn't see them'//
+\endgl
+\xe
+\endframedisplay
+
+There are several differences with (\getref{wapm}).  The font in the
+|\gla| line is not italic, but the font in the free translation is
+italic. The first |\glb| line is set in a smaller font, and it is
+moved up closer to the |\gla| line.  Lastly, there is no extra
+vertical skip between the free translation and the last line of the
+interlinear gloss, as there is in (\getref{wapm}).
+
+Here is one way to write the code:
+
+\codedisplay
+\ex
+\begingl
+\gla[everygla=] k- wapm -a -s'i -m -wapunin -uk //
+\glb[everyglb=\tenpoint,aboveglbskip=-.4ex]
+   Cl V Agr Neg Agr Tns Agr //
+\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glft[everyglft=\it,aboveglftskip=0pt] `you (pl) didn't see them'//
+\endgl
+\xe
+|endcodedisplay
+|\gl|{\it levelname\/} macros all accept parameters, as do
+|\glpreamble|, |\glft|, and |\begingl|.  There are parameters whose
+values are used to determine extra skip over all the interlinear gloss
+lines except for the |\gla| line.  The default is that these values
+are set to $0\,\fam0 rm$.  The setting of |aboveglbskip| above results
+in a negative vertical skip of the second line of the interlinear
+gloss.  The values of the parameters |everygla| and |everyglb| are
+inserted when items on these lines are typeset, allowing font changes
+as desired. Struts and arbitrary token lists can also be inserted.
+There are also parameters |everyglpreamble|, |everyglft|, and
+|everygl| which behave in a similar way.
+
+Here is an alternative which produces the same output.  It has the
+advantage that all of the parameter settings are gathered in one
+place, making it easier to modify.
+
+\codedisplay
+\ex
+\begingl[everygla=,everyglb=\tenpoint,aboveglbskip=-.4ex,
+   everyglft=\it,aboveglftskip=0pt]
+\gla k- wapm -a -s'i -m -wapunin -uk //
+\glb Cl V Agr Neg Agr Tns Agr //
+\glc 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glft `you (pl) didn't see them'//
+\endgl
+\xe
+|endcodedisplay
+
+If you use multiple instances of the same gloss format, a style should
+probably be defined
+
+\codedisplay
+\definelingstyle{Potawatamy}{everygla=,everyglb=\tenpoint,
+   aboveglbskip=-.4ex,everyglft=\it,aboveglftskip=0pt}
+|endcodedisplay
+
+Then, typesetting a gloss in the format is done simply by using that
+style, as follows:
+
+\codedisplay
+\ex
+\begingl[lingstyle=Potawatamy]
+\gla k- wapm -a -s'i -m -wapunin -uk //
+\glb Cl V Agr Neg Agr Tns Agr //
+\glc 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glft `you (pl) didn't see them'//
+\endgl
+\xe
+|endcodedisplay
+
+
+
+The next example gives a small taste of how parameter settings can be
+used to adapt gloss displays to your needs.
+
+\font\ips=xipasl10 at 12pt
+\font\ipss=xipasl10 at 7pt
+\def\mroot{$\surd$}
+\def\L{\char'354}
+\def\v#1{{\accent"07 #1}}
+\def\C{{\accent"07 c}}
+\def\W{$^{\hbox{\ipss w}}\mskip-2mu$}
+
+\framedisplay
+\ex
+\begingl[abovemoreglskip=2ex]
+\gla[everygla=\ips] hoi Ekn {\L}E {x\W}ElEP t{g\W}El' st{\'\i}m {hE\L}
+   {kuPEcx\W ist} {\L a} Pa{\v c}sEtqEt//
+\glb[everyglb=\ips] hoi {\mroot}PEkn {\L}E {x\W}ElEP t{g\W}El' {s +
+   \mroot t\'\i m} {hE\L} ku-PEc-\mroot{x\W}ist {\L}a Pa{\v c}sEtqEt//
+\glb[aboveglbskip=2pt] then {\mroot}say det Meadowlark why {nomlz + \mroot what} conn
+   2nom-cust-{\mroot}one.travels det {day time}//
+\glb then {she said} det Meadowlark why {what is it} conn {you travel
+   about} det {day time}//
+\glft Then Meadowlark said, ``Why do you travel about in the day
+   time?''//
+\endgl
+\xe
+\endframedisplay
+\def\goop{\thinspace\putfnno}%
+\codedisplay~
+\ex|goop
+\begingl
+\gla[everygla=\ips] hoi Ekn {\L}E {x\W}ElEP t{g\W}El' st{\'\i}m {hE\L}
+   {kuPEcx\W ist} {\L a} Pa{\v c}sEtqEt//
+\glb[everyglb=\ips] hoi {\mroot}PEkn {\L}E {x\W}ElEP t{g\W}El' {s +
+   \mroot t\'\i m} {hE\L} ku-PEc-\mroot{x\W}ist {\L}a Pa{\v c}sEtqEt//
+\glb then {\mroot}say det Meadowlark why {nomlz + \mroot what} conn
+   2nom-cust-{\mroot}one.travels det {day time}//
+\glb then {she said} det Meadowlark why {what is it} conn {you travel
+   about} det {day time}//
+\glft Then Meadowlark said, ``Why do you travel about in the day
+   time?''//
+\endgl
+\xe
+|endcodedisplay
+\vfootnote{\the\fnno}{In my Tex setup, |\ips| invokes one of the slant tipa IPA fonts, |\L|
+produces {\ips \L}, |\W| produces {\ips \W}, and |\mroot|
+(morphological root) produces {\mroot}.}
+
+\subsection The basic parameters
+
+\hfill\noindent\begininventory
+\hfil\it key& \hfil\it value& \hfil\it initial value\cr
+\idx{|glspace|}& skip& |1em|\cr
+\idx{|everygl|}& token list& \it empty\cr
+\idx{|everygla|}& token list& |\it|\cr
+\idx{|everyglb|}& token list& \it empty\cr
+\idx{|everyglft|}& token list& \it empty\cr
+\idx{|everyglword|}& token list& \it empty\cr
+\idx{|aboveglbskip|}& skip& |0pt|\cr
+\idx{|aboveglftskip|}& skip& |1ex|\cr
+\idx{|abovemoreglskip|}& skip& |1ex|\cr
+\idx{|glhangstyle|}& choice (|normal|, |none|, |cascade|)& |normal|\cr
+\idx{|glhangindent|}& skip& |1em|\cr
+\idx{|glwidth|}& skip& |0pt|\cr
+\endinventory
+
+Suppose you would like certain glosses to look like (\nextx).
+Compared with (\getref{wapm}): the first line is set in roman type,
+not italics; the second line has been set in a smaller
+font; and the gap between the first and second lines has been
+decreased.
+
+\ex
+\begingl
+\gla[everygla=] k- wapm -a -s'i -m -wapunin -uk //
+\glb[everyglb=\tenrm,aboveglbskip=-.5ex] Cl V Agr Neg Agr Tns Agr //
+\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glft `you (pl) didn't see them'//
+\endgl
+\xe
+
+Here is one way to accomplish this.
+
+\codedisplay
+\ex
+\begingl
+\gla[everygla=] k- wapm -a -s'i -m -wapunin -uk //
+\glb[everyglb=\tenrm,aboveglbskip=-.5ex] Cl V Agr Neg Agr Tns Agr //
+\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glft `you (pl) didn't see them'//
+\endgl
+\xe
+|endcodedisplay
+
+|everygl| can be used to open up the baselines in glosses.
+
+\subsection User defined levels
+
+Here is a better way to do it, assuming that you have a number of
+glosses that you want to do in this way.  First, you use
+|\definemwlevels{cat}| to define a new level.  This makes |\glcat|
+available, just like |\glb|.  It also make parameters |everyglcat| and
+|aboveglcatskip| available for adjustment.  They are initialized to
+the empty token string and to $0\,\rm pt$.  On the face of it, this
+does not seem to accomplish anything.  It seems that you still need to
+say:
+\defineglwlevels{cat}
+
+\codedisplay
+\ex
+\begingl
+\gla[everygla=] k- wapm -a -s'i -m -wapunin -uk //
+\glcat[everyglcat=\tenrm,aboveglcatskip=-.5ex] Cl V Agr Neg Agr Tns Agr //
+\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glft `you (pl) didn't see them'//
+\endgl
+\xe
+|endcodedisplay
+
+But defining the `cat' level allows you to say:
+
+\codedisplay
+\definelingstyle{Potawatomi}
+   {everygla=,everyglcat=\tenrm,aboveglcatskip=-.5ex}
+|endcodedisplay
+\definelingstyle{Potawatomi}{everygla=,everyglcat=\tenrm,aboveglcatskip=-.5ex}
+
+Then, you get (\lastx) by saying:
+
+\codedisplay
+\ex[lingstyle=Potawatomi]
+\begingl
+\gla k- wapm -a -s'i -m -wapunin -uk //
+\glcat Cl V Agr Neg Agr Tns Agr //
+\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glft `you (pl) didn't see them'//
+\endgl
+\xe
+|endcodedisplay
+
+\ex[lingstyle=Potawatomi]
+\begingl
+\gla k- wapm -a -s'i -m -wapunin -uk //
+\glcat Cl V Agr Neg Agr Tns Agr //
+\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glft `you (pl) didn't see them'//
+\endgl
+\xe
+
+
+%\defineglwlevels{aa}
+%\lingset{everygla=\ips,everyglaa=\ips}
+
+\framedisplay
+\defineglwlevels{aa}
+\ex
+\begingl[everygla=\ips,everyglaa=\ips]
+\gla hoi Ekn {\L}E {x\W}ElEP t{g\W}El' st{\'\i}m {hE\L}
+   {kuPEcx\W ist} {\L a} Pa{\v c}sEtqEt//
+\glaa hoi {\mroot}PEkn {\L}E {x\W}ElEP t{g\W}El' {s +
+   \mroot t\'\i m} {hE\L} ku-PEc-\mroot{x\W}ist {\L}a Pa{\v c}sEtqEt//
+\glb then {\mroot}say det Meadowlark why {nomlz + \mroot what} conn
+   2nom-cust-{\mroot}one.travels det {day time}//
+\glb then {she said} det Meadowlark why {what is it} conn {you travel
+   about} det {day time}//
+\glft Then Meadowlark said, ``Why do you travel about in the day
+   time?''//
+\endgl
+\xe
+\endframedisplay
+\codedisplay~
+\defineglwlevels{aa}
+
+\ex
+\begingl[everygla=\ips,everyglaa=\ips]
+\gla hoi Ekn {\L}E {x\W}ElEP t{g\W}El' st{\'\i}m {hE\L}
+   {kuPEcx\W ist} {\L a} Pa{\v c}sEtqEt//
+\glaa hoi {\mroot}PEkn {\L}E {x\W}ElEP t{g\W}El' {s +
+   \mroot t\'\i m} {hE\L} ku-PEc-\mroot{x\W}ist {\L}a Pa{\v c}sEtqEt//
+\glb then {\mroot}say det Meadowlark why {nomlz + \mroot what} conn
+   2nom-cust-{\mroot}one.travels det {day time}//
+\glb then {she said} det Meadowlark why {what is it} conn {you travel
+   about} det {day time}//
+\glft Then Meadowlark said, ``Why do you travel about in the day
+   time?''//
+\endgl
+\xe
+|endcodedisplay
+
+%(The example and the later related one are from an article by Idan
+%Landau.)
+
+\subsection The diacritics |+| and |@|
+
+Sometimes it is desirable to override natural wrapping and
+break up the gloss so that the syntax is emphasized, as in the
+following.
+
+\framedisplay
+\ex
+\begingl
+\gla Mary$_i$ ist sicher, + dass es den Hans nicht st\"oren w\"urde
++ seiner Freundin ihr$_i$ Herz auszusch\"utten.//
+\glb Mary is sure that it the\suff{ACC} Hans not annoy would
+his\suff{DAT} girlfriend\suff{DAT} her\suff{ACC} heart\suff{ACC} {out to
+throw}//
+\glft  `Mary is sure that it would not annoy John to reveal her
+heart to his girlfriend.'//
+\endgl
+\xe
+\endframedisplay
+
+\bigskip
+This is accomplished by inserting `|+|'
+appropriately, as shown in the code below.
+
+\codedisplay
+\ex
+\begingl
+\gla Mary$_i$ ist sicher, + dass es den Hans nicht st\"oren w\"urde
++ seiner Freundin ihr$_i$ Herz auszusch\"utten.//
+\glb Mary is sure that it the\suff{ACC} Hans not annoy would
+his\suff{DAT} girlfriend\suff{DAT} her\suff{ACC} heart\suff{ACC} {out to
+throw}//
+\glft  `Mary is sure that it would not annoy John to reveal her
+heart to his girlfriend.'//
+\endgl
+\xe
+|endcodedisplay
+
+Sometimes it is desirable to omit the space between two entries.
+
+\framedisplay
+\ex
+\begingl
+\gla wiye kepi e- @ ca//
+\glb two whitemen \sc1P:3D- found//
+\endgl
+\xe
+\endframedisplay
+
+This is accomplished by inserting `|@|' appropriately, as shown
+in the code below.
+
+\codedisplay
+\ex
+\begingl
+\gla wiye kepi e- @ ca//
+\glb two whitemen \sc1P:3D- found//
+\endgl
+\xe
+|endcodedisplay
+In the unlikely event that you need an entry which
+would normally be entered as |@|, enter it as |{{@}}|
+so that it is not interpreted as a directive to omit a space.
+
+\subsection The width of the gloss
+
+In the wrap style, the gloss is built in a vbox whose
+width is determined implicitly if the parameter |glwidth| is set to
+$0\,\mathrm pt$.  The width is $h-l-r$, where $h$, $l$, and $r$, are
+the current values of |\hsize|, |\leftskip|, and |\rightskip|,
+respectively.  This implicit determination of the width of the gloss
+is appropriate for use with the ExPex macros which typeset examples
+because they adjust the leftskip appropriately inside examples.
+
+If you want to supply an example number or explicit label, it will not
+work to say something like the following if |glwidth| is set to
+$0\,\mathrm pt$.
+$$
+\hbox{|[A]\quad \begingl |\dots| \endgl|}
+$$
+The vbox built by the gloss macro will not fit on the same line with
+the [A].
+
+You must say:
+$$
+\hbox{|\ex[exno={[A]}] \begingl |\dots| \endgl|}$$
+The braces around |[A]| are needed to so that the optional argument
+is correctly delineated.  The mechanism looks for the first right
+brace {\it at the top level}.  For example:
+
+\framedisplay
+\ex[exno={[(6), p. 14]}]
+\begingl
+\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
+seiner Freundin ihr$_i$ Herz auszusch\"utten.//
+\glb Mary is sure that it the\suff{ACC} Hans not annoy would
+his\suff{DAT} girfriend\suff{DAT} her\suff{ACC} heart\suff{ACC} {out to
+throw}//
+\endgl
+\xe
+\endframedisplay
+\codedisplay~
+\ex[exno={[(6), p. 14]}]
+\begingl
+\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
+seiner Freundin ihr$_i$ Herz auszusch\"utten.//
+\glb Mary is sure that it the\suff{ACC} Hans not annoy would
+his\suff{DAT} girfriend\suff{DAT} her\suff{ACC} heart\suff{ACC} {out to
+throw}//
+\endgl
+\xe
+|endcodedisplay
+
+If the parameter |glwidth| is set to a nonzero dimension, the width of
+the vbox the gloss is constructed in is the specified dimension.
+
+The following example illustrates the usefullness of the explicit
+width option.
+
+\ex
+a.\quad
+\begingl[glwidth=2.6in]
+\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
+seiner Freundin ihr$_i$ Herz auszusch\"utten.//
+\glb Mary is sure that it the\suff{ACC} Hans not annoy would
+his\suff{DAT} girfriend\suff{DAT} her\suff{ACC} heart\suff{ACC} {out to
+throw}//
+\glft  `Mary is sure that it would not annoy John to reveal her
+heart to his girlfriend.'//
+\endgl
+\hfil
+b.\quad
+\begingl[glwidth=2.6in]
+\gla Mary$_i$ ist sicher, dass seiner Freunden ihr$_i$ Herz
+auszuch\"utten dem Hans nicht schaden w\"urde.//
+\glb Mary is sure that his\suff{DAT} girlfriend\suff{DAT} her\suff{ACC}
+heart\suff{ACC} {out to throw} the\suff{DAT} Hans not damage would//
+\glft `Mary is sure that to reveal her heart to his girlfriend
+would not damage John.'//
+\endgl
+\xe
+\codedisplay~
+\ex
+a.\quad
+\begingl[glwidth=2.6in]
+\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
+seiner Freundin ihr$_i$ Herz auszusch\"utten.//
+\glb Mary is sure that it the\suff{ACC} Hans not annoy would
+his\suff{DAT} girfriend\suff{DAT} her\suff{ACC} heart\suff{ACC} {out to
+throw}//
+\glft  `Mary is sure that it would not annoy John to reveal her
+heart to his girlfriend.'//
+\endgl
+\hfil
+b.\quad
+\begingl[glwidth=2.6in]
+\gla Mary$_i$ ist sicher, dass seiner Freunden ihr$_i$ Herz
+auszuch\"utten dem Hans nicht schaden w\"urde.//
+\glb Mary is sure that his\suff{DAT} girlfriend\suff{DAT} her\suff{ACC}
+heart\suff{ACC} {out to throw} the\suff{DAT} Hans not damage would//
+\glft `Mary is sure that to reveal her heart to his girlfriend
+would not damage John.'//
+\endgl
+\xe
+|endcodedisplay
+
+
+\subsection Inline citations
+
+\noindent Macros:\quad \idx{|\pushrightcite|}
+\smallskip
+\noindent Parameters:\quad |mincitesep|
+\medskip
+
+Inline citations are possible in two ways.
+
+
+\framedisplay
+\hsize=5in
+\pex[interpartskip=2ex,glstyle=wrap,everygla=,everyglb=,everyglc=,
+   aboveglaskip=0pt,aboveglbskip=0pt,aboveglftskip=0ex]
+\a \begingl
+\gla k- wapm -a -s'i -m -wapunin -uk //
+\glb Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
+\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glft `you (pl) didn't see them'//
+\endgl \hfill\llap{(Hockett 1948, p. 143)}
+\a \begingl
+\gla k- wapm -a -s'i -m -wapunin -uk //
+\glb Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
+\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glft    `you (pl) didn't see them'\pushciteright{(Hockett 1948, p.
+143)}//
+\endgl
+\xe
+\endframedisplay
+\codedisplay~
+\hsize=5in
+\pex[interpartskip=2ex,glstyle=wrap,everygla=,everyglb=,everyglc=,
+   aboveglaskip=0pt,aboveglbskip=0pt,aboveglftskip=0ex]
+\a \begingl
+\gla k- wapm -a -s'i -m -wapunin -uk //
+\glb Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
+\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glft `you (pl) didn't see them'//
+\endgl \hfill\llap{(Hockett 1948, p. 143)}
+\a \begingl
+\gla k- wapm -a -s'i -m -wapunin -uk //
+\glb Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
+\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glft    `you (pl) didn't see them'\pushciteright{(Hockett 1948, p.
+143)}//
+\endgl
+\xe
+|endcodedisplay
+
+\def\mathrm{\fam0}
+
+|\rightcomment| is primitive, but sometimes useful.  It does not check
+to see that there is enough room for the citation.  If there is not,
+it will overwrite the gloss material.
+
+|\pushciteright| is more sophisticated.  If there is not enough room
+on the line for the citation, it will bump the citation to the next
+line, right-aligned.  The minium separation between the citation and
+the free translation can be set by the parameter |mincitesep|.  The
+default is $1.5\,\mathrm em$.
+
+
+\lingset{glstyle=wrap}
+
+\subsection Bracketing in glosses
+
+\framedisplay[doubleline=true]
+\bigskip\noindent
+\parinventory
+& \idx{|glbrackbracksep|}& dimension& |.1em|\cr
+& \idx{|glbrackwordsep|}& dimension& |.2em|\cr
+\endparinventory
+\endframedisplay
+\medskip
+
+\noindent Sometimes it is desirable to displays brackets which
+delimit grammatical constituents.  The display below is easy to
+create, but is not as attractive as it might be.
+
+\smallskip
+\framedisplay
+\ex[glstyle=wrap]
+\begingl
+\gla Mary$_i$ ist sicher, $[$dass es den Hans nicht st\"oren
+w\"urde $[$seiner Freundin ihr$_i$ Herz auszusch\"utten$]]$//
+\glb Mary is sure that it the Hans not annoy would
+his girlfriend her heart {out to throw}//
+\glft `Mary is sure that to reveal her heart to his girlfriend
+would not damage John.'//
+\endgl
+\xe
+\endframedisplay
+\smallskip
+
+\codedisplay
+\ex[glstyle=wrap]
+\begingl
+\gla Mary$_i$ ist sicher, $[$dass es den Hans nicht st\"oren
+w\"urde $[$seiner Freundin ihr$_i$ Herz auszusch\"utten$]]$//
+\glb Mary is sure that it the Hans not annoy would
+his girlfriend her heart {out to throw}//
+\glft `Mary is sure that to reveal her heart to his girlfriend
+would not damage John.'//
+\endgl
+\xe
+|endcodedisplay
+
+\framedisplay \makeatletter
+\ex[glstyle=wrap,glbrackwordsep=.1em,glbrackbracksep=.04em]
+\begingl
+\gla Mary$_i$ ist sicher, $[\,$ @ dass es den Hans nicht st\"oren
+w\"urde $[\,$ @ seiner Freundin ihr$_i$ Herz auszusch\"utten
+@ $\,]].$//
+\glb Mary is sure {} that it the Hans not annoy would
+{} his girlfriend her heart {out to throw}//
+\glft `Mary is sure that to reveal her heart to his girlfriend
+would not damage John.'//
+\endgl
+\xe
+\endframedisplay
+
+\smallskip
+\framedisplay \makeatletter
+\ex[glstyle=wrap,glbrackwordsep=.1em,glbrackbracksep=.0em]
+\begingl
+\gla Mary$_i$ ist sicher, [ dass es den Hans nicht st\"oren
+w\"urde [ seiner Freundin ihr$_i$ Herz auszusch\"utten ] @ $].$//
+\glb Mary is sure that it the Hans not annoy would
+his girlfriend her heart {out to throw}//
+\glft `Mary is sure that to reveal her heart to his girlfriend
+would not damage John.'//
+\endgl
+\xe
+\endframedisplay
+\smallskip
+
+\framedisplay
+\ex[glstyle=wrap]
+\begingl
+\gla Mary$_i$ ist sicher, $[\,$ @ dass es den Hans nicht st\"oren
+w\"urde $[\,$ @ seiner Freundin ihr$_i$ Herz auszusch\"utten$\,]]\,.$//
+\glb Mary is sure {} that it the Hans not annoy would
+{} his girlfriend her heart {out to throw}//
+\glft `Mary is sure that to reveal her heart to his girlfriend
+would not damage John.'//
+\endgl
+\xe
+\endframedisplay
+\smallskip
+
+\noindent Note that the gloss of words following brackets is
+aligned with the word, not the bracket.  Note also that some
+extra space is inserted between the brackets and the words, and
+between adjacent brackets.
+
+One relatively easy way to produce a display like this is to use
+the |@| mark to close up the space where needed and math mode to
+insert the brackets.  Placeholders (|{}|) must be inserted in the
+|\glb| line because the left delimiters are treated as items in
+the |\gla| line.  The code used for the above was.
+
+\codedisplay
+\ex[glstyle=wrap]
+\begingl
+\gla Mary$_i$ ist sicher, $[\,$ @ dass es den Hans nicht st\"oren
+w\"urde $[\,$ @ seiner Freundin ihr$_i$ Herz
+{auszusch\"utten$\,]]\,.$} //
+\glb Mary is sure {} that it the Hans not annoy would {} his
+girlfriend her heart {out to throw} //
+\glft `Mary is sure that to reveal her heart to his girlfriend
+would not damage John.'//
+\endgl
+\xe
+|endcodedisplay
+
+\noindent Recall that |\,| inserts a math `thin space' in math
+mode. It is not necessary to enclose the last item on the |\gla|
+line in brackets, but doing so makes the logic of the code
+somewhat clearer.
+
+{\it ExPex\/} provides a way to automate this process without the
+need to insert placeholders on the |\glb| line. The code below
+produces the display which follows.
+
+\codedisplay
+\pex[glstyle=wrap,everygla=,nopreamble]
+\a \begingl       % 59a, p. 237
+\gla Fa'nu'i yu' ni [ [ {\it O} t{\it in\/}aitai-mu {\it t\/} ] na
+lepblu ] @ .//
+\glb show me Obl Op {\it WH\/}[obj].read-agr {} L book//
+\glft ``Show me the book that you read.''//
+\endgl
+\a \begingl       % 82a, p. 247
+\gla Um-\"asudda' h\"am yan [ i taotao [ {\it O\/} ni si Juan
+ilek-\~na nu guahu + [ mal\"agu' gui [ asudd\"a'-\~na {\it
+t\/} ] ] ] ] @ .//
+\glb agr-meet we with the person Op Comp the Juan say-agr Obl me
+agr.want he {\it WH\/}[obl].meet-agr//
+\glft ``I met the person who Juan told me he wanted to meet.''//
+\endgl
+\xe
+|endcodedisplay
+\framedisplay
+\pex[glstyle=wrap,everygla=,nopreamble]
+\a \begingl       % 59a, p. 237
+\gla Fa'nu'i yu' ni [ [ {\it O} t{\it in\/}aitai-mu {\it t\/} ] na
+lepblu ] @ .//
+\glb show me Obl Op {\it WH\/}[obj].read-agr {} L book//
+\glft ``Show me the book that you read.''//
+\endgl
+\a \begingl       % 82a, p. 247
+\gla Um-\"asudda' h\"am yan [ i taotao [ {\it O\/} ni si Juan
+ilek-\~na nu guahu + [ mal\"agu' gui [ asudd\"a'-\~na {\it
+t\/} ] ] ] ] @ .//
+\glb agr-meet we with the person Op Comp the Juan say-agr Obl me
+agr.want he {\it WH\/}[obl].meet-agr//
+\glft ``I met the person who Juan told me he wanted to meet.''//
+\endgl
+\xe
+\endframedisplay
+
+\noindent The examples are adapted from {\it The Design of
+Agreement\/} by Sandra Chung.  See (59a) on page 237 and (82a) on
+page 247.
+
+
