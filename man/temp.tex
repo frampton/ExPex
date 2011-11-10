@@ -1,5 +1,89 @@
 
+\everyfootnote={\excnt=1 \keepexcntlocal
+   \lingset{labeltype=footnote}\tenpoint\noindent}
+\keepexcntlocal
 
+
+\ex example\xe
+
+\ex[exno={[5]}] example\xe
+
+\ex example\xe
+
+Foot\footnote{%
+\lingset{labeltype=footnote}
+Consider
+\ex example\xe
+and
+\pex
+\a one
+\a two
+\xe
+}
+More stuff
+
+And another example:
+\ex
+another
+\xe
+\endinput
+
+
+
+
+\ex[glhangstyle=cascade]
+\def\\#1{{\small\uppercase{#1}}}%
+\begingl
+\gla
+Hom\^{a}o sa \v{c}\^{o} p\^{o} tha  \~{n}u nao ng\u{a} hmua. \~{N}u
+dj\u{a} g\u{a}, \~{n}u dj\u{a} \v{c}\u{o}ng \~{n}u, laih gui r\^{e}o
+\~{n}u. Todang bboi r\^{o}k jolan \~{n}u nao hma, \~{n}u bb\^{o}h sa
+droi mr\u{a} d\u{o} bboi gah, a, hruh \~{n}u.//
+\glb
+\\{exist} one \\{clf} person old \\{3s} go do field \\{3s} hold
+machete \\{3s} hold hoe \\{3s} and carry.on.back back.basket \\{3s}
+while at along trail \\{3s} go field \\{3s} see one \\{clf} peacock
+stay at \\{drct} -- nest \\{3s}//
+\glft
+`There was an old person who went to work in the field. He took
+along his machete, he took along his hoe, and he carried his
+basket on his back. While he was on his way to the farm, he saw a
+peacock beside its nest.'//
+\endgl
+\xe
+
+
+\endinput
+
+Hom\^{a}o sa \v{c}\^{o} p\^{o} tha  \~{n}u nao ng\u{a} hmua. \~{N}u
+dj\u{a} g\u{a}, \~{n}u dj\u{a} \v{c}\u{o}ng \~{n}u, laih gui r\^{e}o
+\~{n}u. Todang bboi r\^{o}k jolan \~{n}u nao hma, \~{n}u bb\^{o}h sa
+droi mr\u{a} d\u{o} bboi gah, a, hruh \~{n}u.//
+
+{\sc exist} one {\sc clf} person old {\sc 3s} go do field {\sc 3s} hold
+machete {\sc 3s} hold hoe {\sc 3s} and carry.on.back back.basket \sc 3s
+while at along trail {\sc 3s} go field {\sc 3s} see one {\sc clf} peacock
+stay at {\sc drct} -- nest {\sc 3s} //
+
+\secno=6
+
+\section section
+
+\subsection subsection
+
+\subsection subsection\deftagsec{subsection}
+\deftag{\currsec}{AA}
+\writeln{\meaning\currsec}
+\writeln{currsec: \currsec}
+
+\subsection subsection
+
+\getref{subsection}
+
+%\makeatletter
+%\writeln{\lingtag@subsection}
+%\writeln{\lingtag@AA}
+\endinput
 
 
 \ex

@@ -34,19 +34,19 @@ satisfied if they are willing to deal with the complexities that
 complex needs inevitably involve.  If you think there are simple
 things that are not simple to do, or complex things that cannot
 be done, please write to me at {\sl j.frampton@neu.edu}.  The
-{\sl ExPex\/} macros have evolved over the last 15 or so years
+\expex\/ macros have evolved over the last 15 or so years
 and like anything which evolves, various features of the current
 state may have more to do with history than with optimal design.
 Please let me know about departures from optimal design.  Perhaps
 the next version can be improved.
 
 This User's Guide begins with four examples which demonstrate
-{\sl ExPex\/} in action.  It serves as a ``A Quick Guide to {\sl
+\expex\/ in action.  It serves as a ``A Quick Guide to {\sl
 Expex\/}''.  Each page gives some code at the top, with the
 product of this code below. Its main purpose is to give a sense
-of how {\sl ExPex\/} works, so that curious readers have some
+of how \expex\/ works, so that curious readers have some
 basis for determining whether they want to proceed with the
-details.  It is possible to begin to use {\sl ExPex\/} solely on
+details.  It is possible to begin to use \expex\/ solely on
 the basis of the four demo pages and learn the more subtle
 capabilities as needed.  A quick survey of the index and the table
 of contents should give you some idea of what is available, if
@@ -54,14 +54,15 @@ you need it.
 
 \subsection  Changes
 
-There are a number of changes in {\sl ExPex\/} from Version 1.0
-(Beta) that was circulated two years ago.
+There are a number of changes, one major, from earlier versions of
+\Expex.
 
 \medskip
-\noindent 1.  The macros for creating glosses have been
-substantially revised.  There are four different gloss styles
-available, selected by the parameter |glstyle|. Line breaking in
-glosses is automatic if |glstyle| is set to |wrap|.
+\noindent 1.  The macros for creating glosses have been substantially
+revised.  \expex\/ supported several different gloss styles, selected
+by the parameter |glstyle|. \expex2\/ currently supports only one
+gloss style and the parameter has been deactivated.  It can be
+set to anything, with no effect.
 
 \medskip
 \noindent 2. It is now possible to specify the labels in
@@ -72,24 +73,17 @@ code order in the font set.
 
 \medskip
 \noindent 3. The macros to control page breaking inside examples
-have been revised.
+have been revised and the macro |\goodpar| has been renamed |\exbreak|
+to be consistent with \Tex's naming habits.
 
 \medskip
-On the whole, this version of \Expex\ is backwards compatibility
-with the earlier version.  There are some minor differences. Some
-default settings have changed and the macro |\goodpar| has been
-renamed |\exbreak| to be consistent with \Tex's naming habits.
-The old version will be available as {\sl expex2007.tex\/} and
-{\sl expex2007.sty\/} in case you have old documents that you
-want to be able to run with only trivial modification.
+\noindent 4. Several initial settings of the parameters (settings
+established in {\sl expex2.tex\/}) have been changed.
 
-An early version of the new gloss macros has had limited
-circulation as {\sl ExPexGL}.  Those macros have been modified in
-some details in the present \Expex\ on the basis of user's
-experience with them.
-
-
-
-
-
+\medskip
+Older versions of \expex\/ will be available as {\sl expex2007.tex\/}
+and {\sl expex2007.sty}, and {\sl expex2010.tex\/} and {\sl
+expex2010.sty}, in case the user has a significant investment in
+older documents that he/she wants to be able to run with only trivial
+modification.
 

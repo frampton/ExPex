@@ -1,0 +1,170 @@
+
+\subsection The parameters {\tt exnotype}, {\tt minexnolabelsep}, and
+{\tt sampleexno}
+
+Macro:\quad |\setmaxexnowidth|\par
+\parinventory
+& \idx{|exnotype|}& choice (|arabic|, |roman|)& |arabic|\cr
+& \idx{|minexnolabelsep|}& dim& \textdim{.5 em}\cr
+& \idx{|sampleexno|}& pseudo parameter& (not relevant)\cr
+\endparinventory
+
+
+In footnotes, example numbers are commonly given as lowercase roman
+numerals.  This can be accomplished by setting |exnotype| to |roman|.
+Furthermore, in some footnote styles the label offset is measured from
+the left edge of the example number (i.e. |labelanchor| is set to
+|numleft|) and is the same for all the examples in a footnote.  Since
+the widths of the displayed example numbers vary when given as roman
+numerals, this means that the separation between the displayed example
+number and the text will be different for different examples in a
+footnote. The labeloffset is chosen so that the smallest such
+separation is equal to a fixed value (|minexnolabelsep|) which is the
+same for all footnotes.  This is tricky to implement, since the
+setting of |labeloffset| in the first example in a footnote, for
+example, can depend on what other example numbers appear in the
+footnote.  The pseudo-parameter |sampleexno| is designed to solve this
+problem.   |\lingset{sampleexno=(iv)}|, for example, has the effect of
+setting |labeloffset| to be the width of (iv) plus the value of
+|minexnolabelsep|.
+
+\excnt=34
+\input eptexfn
+
+\subsection Footnotes and endnotes
+
+Footnotes and endnotes pose a somewhat thorny problem many different
+\Tex\ and \Latex\ macros are in use.  Further, there are different
+ways of assigning example numbers and labels in multipart examples.
+The footnote referenced at the end of this sentence is
+formatted in one fairly common style. It is an
+abbreviated version of footnote 17 in Chapter 2 of Diesing's {\sl
+Indefinites}, MIT Press.%
+\footnote{%
+\setmaxexnowidth{(ii)}
+The existential reading does not seem to be available for subjects of
+small clause complements of {\it consider\/}:
+\pex
+\a I consider firemen available. (generic only)
+\a I consider firemen intelligent. (generic only)
+\xe
+Exceptional case marking (ECM) verbs seem more or less to allow both
+existential and generic interpretations of complement subjects:
+\pex
+\a I believe firemen to be available. (both generic and existential)
+\a I believe violists to be intelligent. (generic only)
+%\a \ljudge{??}I believe opera singers to know Hittite.
+\xe
+}
+
+The example numbers are roman numerals, starting at ``i'' in each
+footnote.  As opposed to examples in the running text, the labeloffset
+is measured from the left margin, not the right edge of the typeset
+example number.  Although the value of |labeloffset| is the same for
+all the examples in a footnote, it depends on the width of the widest
+example number.  It is chosen so that the label is \textdim{.5 em} to
+the right of the widest example number.
+
+%How is this formatting achieved?  We could try\footnote{
+
+
+We put off for a moment the issue of adjusting
+the labeloffset for tto take into account example numbers wider than the
+width of (\romannumeral1).  There are two things that have to be done.
+One is to provide some ``hook'' into the footnote macro so that the
+appropriate formating commands can be inserted whenever a footnote is
+processed.  We employ the method Knuth gave in the {\sl TexBook\/}.
+A token list |\everyfootnote| is defined which contains all of the
+commands needed to format footnotes appropriately.  We then modify the
+``usual'' footnoting macros appropriately so that |\everyfootnote| is
+evaluated veryearly in the process of typesetting footnotes.
+The problem is that different users employ different ``usual''
+footnoting macros.
+
+
+
+by modifying
+
+
+Below, I will describe how a command |\everyfootnote| can
+be properly inserted into
+
+\codedisplay
+\renewcommand{\@makefntext}[1]{%
+   \the\everyfootnote \@thefnmark.\enspace ##1\@finalstrut\strutbox}}
+
+\everyfootnote={%
+   \keepexcntlocal
+   \excnt=1
+   \lingset{exskip=1ex,exnotype=roman,labeltype=alpha,
+      labelanchor=numleft,minexnolabelsep=.5em,
+      sampleexno=(i),textoffset=.5em}
+   \noindent
+
+\newcommand{adjusttoexno}[1]{\lingset{sampleexno=#1}}
+|endcodedisplay
+
+
+\endinput
+
+
+
+Some relevant examples follow:
+\ex example one\xe
+
+Taking into account (45), we get:
+\pex
+\a example two, first part
+\a example two, second part
+\xe
+
+There are other possible interactions.}
+
+Others prefer this way of doing footnotes.%
+\mkeveryfootnote{\keepexcntlocal \excnt=1 \tenpoint
+   \lingset{exskip=1ex,labeltype=roman}\noindent}
+%\setfootnoteenvironment{
+%   \keepexcntlocal
+%   \excnt=1
+%   \tenpoint
+%   \lingset{exskip=1ex minus .3ex,labeltype=roman}
+%}%
+\footnote{%
+%\lingeveryfootnote
+%\keepexcntlocal \excnt=1
+%\tenpoint
+%\lingset{exskip=1ex,labeltype=roman}
+%\romanexnumbers
+Text.
+
+\ex example one\xe
+
+More text.
+
+\pex
+\a example two, first part
+\a example two, second part
+\xe
+
+Some more text.}
+
+How is this accomplished?  There are two steps.  The first step is
+relatively easy.  To get , you first execute the following code
+somewhere in the introduction to your document
+
+\codedisplay
+\setfootnoteenvironment{
+   \keepexcntlocal
+   \excnt=1
+   \tenpoint
+   \lingset{exskip=1ex minus .3ex,labeltype=roman}
+}
+|endcodedisplay
+
+
+
+
+
+The idea is to arrange things so that
+certain commands are executed when
+

@@ -3,6 +3,9 @@
 \def\Tex{\bgroup\sl Tex\@isicp}
 \def\Latex{\bgroup\sl LaTex\@isicp}
 \def\Expex{\bgroup\sl ExPex\@isicp}
+\def\expextwo{\bgroup\sl ExPex2\@isicp}
+\def\expex{\bgroup \sl ExPex\expex@a}
+\def\expex@a{\@ifnextchar2{2\@isicp\gobble}{\@isicp}}
 \def\Xkeyval{\bgroup\sl XKey\kern-.2ex Val\@isicp}
 \def\@isicp{\@ifnextchar\/{\/\egroup}{\egroup}}
 
@@ -89,7 +92,7 @@
 \def\framedisplay@a{\@getoptionalarg\framedisplay@aa}
 \def\framedisplay@aa{\bgroup
    \Ling@usearg
-   \setbox\@framedisplaybox=\vbox\bgroup\vskip-\lingaboveexskip
+   \setbox\@framedisplaybox=\vbox\bgroup\vskip-\ling@fdtopcorrect
 }
 \def\endframedisplay{%
    \vskip-\ling@fdbotcorrect
@@ -201,7 +204,7 @@
    \ifnum\secno>0 .\the\secno
    \ifnum\subsecno>0 .\the\subsecno
    \ifnum\subsubsecno>0 .\the\subsubsecno \fi\fi\fi\fi}
-\def\nochapscurrsec{\ifnum\secno>0 .\the\secno
+\def\nochapscurrsec{\ifnum\secno>0 \the\secno
    \ifnum\subsecno>0 .\the\subsecno
    \ifnum\subsubsecno>0 .\the\subsubsecno \fi\fi\fi}
 \let\currsec\nochapscurrsec
@@ -244,4 +247,7 @@
 \def\textdimA#1 #2 {#1\hskip.15em #2}
 \def\suff#1{{-\small #1}}%
 \def\small{\tenrm}
+\def\smallcaps#1{{\small\uppercase{#1}}}
+
+
 

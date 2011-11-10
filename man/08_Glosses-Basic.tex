@@ -1,22 +1,5 @@
-\def\suff#1{{-\small #1}}%
-\lingset{glstyle=wrap,abovemoreglskip=1ex}
+%\lingset{abovemoreglskip=1ex}
 \everymath={}
-
-%\pex
-%\a
-%\begingl[glbrackwordsep=.2em,glbrackbracksep=.1em]
-%\gla a [ [ b ] [ c ] ]//
-%\glb x y z//
-%\endgl
-%\a
-%\begingl[glbrackwordsep=0em,glbrackbracksep=0 em]
-%\gla a [ [ b ] [ c ] ]//
-%\glb x y z//
-%\endgl
-%\xe
-%
-%\endinput
-
 
 \section
 Basic Glosses
@@ -58,7 +41,7 @@ the initial settings of the parameters.
 |endcodedisplay
 
 \framedisplay
-\ex
+\ex<sicher>
 \begingl
 \gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
 seiner Freundin ihr$_i$ Herz auszusch\"utten.//
@@ -86,7 +69,7 @@ heart to his girlfriend.'//
 
 
 \framedisplay
-\ex
+\ex<um>
 \begingl
 \glpreamble Um-\"asudda' h\"am yan i taotao ni si Juan
 ilek-\~na nu guahu mal\"agu' gui
@@ -270,7 +253,7 @@ If you use multiple instances of the same gloss format, a style should
 probably be defined
 
 \codedisplay
-\definelingstyle{Potawatamy}{glspace=2em,everygla=,everyglb=\tenpoint,
+\definelingstyle{Potawatami}{glspace=2em,everygla=,everyglb=\tenpoint,
    aboveglbskip=-.4ex,everyglft=\it,aboveglftskip=0pt}
 |endcodedisplay
 
@@ -279,7 +262,7 @@ style, as follows:
 
 \codedisplay
 \ex
-\begingl[lingstyle=Potawatamy]
+\begingl[lingstyle=Potawatami]
 \gla k- wapm -a -s'i -m -wapunin -uk //
 \glb Cl V Agr Neg Agr Tns Agr //
 \glc 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
@@ -293,7 +276,7 @@ If you want a sequence of glosses to all be done in this style, you can say:
 \def\goop{\quad $\vdots$}
 \codedisplay
 \begingroup
-\lingset{lingstyle=Potawatamy}
+\lingset{lingstyle=Potawatami}
 |goop
 \endgroup
 |endcodedisplay
@@ -305,7 +288,7 @@ width is determined implicitly if the parameter |glwidth| is set to
 \textdim{0 pt}. The width is $h-l-r$, where $h$, $l$, and $r$, are
 the current values of |\hsize|, |\leftskip|, and |\rightskip|,
 respectively.  This implicit determination of the width of the gloss
-is appropriate for use with the ExPex macros which typeset examples
+is appropriate for use with the \expex\ macros which typeset examples
 because they adjust the leftskip appropriately inside examples.
 
 If you want to supply an example number or explicit label, it will not
@@ -324,6 +307,7 @@ The braces around |[A]| are needed to so that the optional argument
 is correctly delineated.  The mechanism looks for the first right
 brace {\it at the top level}.  For example:
 
+\def\suff#1{{-\small #1}}%
 \framedisplay
 \ex[exno={[(6), p. 14]}]
 \begingl
@@ -353,7 +337,7 @@ the vbox that the gloss is constructed in is the specified dimension.
 The following example illustrates the usefullness of the explicit
 width option.
 
-\ex
+\ex<sicher2>
 a.\quad
 \begingl[glwidth=2.6in]
 \gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
@@ -403,7 +387,8 @@ would not damage John.'//
 
 \subsection Comments and citations
 
-\noindent Macros:\quad \idx{|\pushrightcite|}
+\noindent Macros:\quad \idx{|\trailingcitation|},
+\idx{|\rightcomment|}
 \smallskip
 \noindent Parameters:\quad |mincitesep|
 \medskip
@@ -413,9 +398,8 @@ citation to a gloss.
 
 \framedisplay
 \ex
-\rightcomment{[Potawatamy]}
 \begingl
-\gla k- wapm -a -s'i -m -wapunin -uk //
+\gla \rightcomment{[Potawatami]}k- wapm -a -s'i -m -wapunin -uk //
 \glb \rightcomment{category}Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
 \glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
 \glft `you (pl) didn't see them'\trailingcitation{(Hockett 1948,
@@ -425,9 +409,8 @@ citation to a gloss.
 \endframedisplay
 \codedisplay~
 \ex
-\rightcomment{[Potawatamy]}
 \begingl
-\gla k- wapm -a -s'i -m -wapunin -uk //
+\gla \rightcomment{[Potawatami]}k- wapm -a -s'i -m -wapunin -uk //
 \glb \rightcomment{category}Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
 \glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
 \glft `you (pl) didn't see them'\trailingcitation{(Hockett 1948,
@@ -450,7 +433,7 @@ an hsize of \textdim{3.5 in} and |glspace=.5em|, the result is (\nextx).
 \framedisplay
 \hsize=3.5in
 \ex
-\rightcomment{[Potawatamy]}
+\rightcomment{[Potawatami]}
 \begingl
 \gla k- wapm -a -s'i -m -wapunin -uk //
 \glb \rightcomment{category}Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
@@ -516,7 +499,7 @@ heart to his girlfriend.'//
 Sometimes it is desirable to omit the space between two entries.
 
 \framedisplay
-\ex
+\ex<wiye>
 \begingl
 \gla wiye kepi e- @ ca//
 \glb two whitemen \sc1P:3D- found//
@@ -596,13 +579,14 @@ agr.want he {\it WH\/}[obl].meet-agr//
 |endcodedisplay
 
 \noindent Note that |@| is used to eliminate an unwanted space before
-the period on the gla-line.  The examples are adapted from {\it The
-Design of Agreement\/} by Sandra Chung.  See (59a) on page 237 and
-(82a) on page 247.
+the period on the gla-line.
 
-\endinput
+The Chamorro examples in (\getref{@period}) are adapted from Sandy
+Chung's {\it The Design of Agreement}.  See (59a) on page 237 and
+(82a) on page 247.  The Potawatami example (\getref{wapm}) is from
+Halle and Marantz's ``Distributed Morphology'' article. The German
+examples in (\getref{sicher2}) are from an article by Idan Landau. The
+Kiowa example (\getref{wiye}) was contributed by Daniel Harbor.
 
-%(The example and the later related one are from an article by Idan
-%Landau.)
 
 

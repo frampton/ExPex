@@ -44,7 +44,8 @@
 \def\\#1em{#1\hskip.2em em}
 %\lingset{lingstyle=fdabovecd}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section Examples with (and without) labeled parts: Advanced
+\section Examples with (and without) labeled parts:
+Advanced\deftagsec{advanced}
 
 \subsection Relative versus fixed dimensions
 
@@ -94,6 +95,7 @@ the |alpha| style defined.
 \subsection Anchoring (|labelanchor|,|preambleanchor|, and
 |textanchor|
 
+\deftagsec{anchors}%
 Normally, the left edge of the label slot is determined by its
 offset from the right edge of the number, the left edge of the
 preamble is also determined by its offset from the left edge of
@@ -107,16 +109,16 @@ than the right edge.
 \begingroup
 \setss .55 .38
 \beginss
-\pex[exno={47, partially repeated from
-   p. 32},labelanchor=numleft,
+\pex[exno={[47, partially repeated from
+   p. 32]},labelanchor=numleft,
    labeloffset=1.5em]
 \par
 \a[label=b] first
 \a[label=d] second
 \a[label=g] third
 \xe|midss
-\pex[exno={47, partially repeated from
-   p. 32},labelanchor=numleft,
+\pex[exno={[47, partially repeated from
+   p. 32]},labelanchor=numleft,
    labeloffset=1.5em]
 \par
 \a[label=b] first
@@ -134,7 +136,7 @@ A question for the reader:  Why does the following code work
 equally well?
 
 \codedisplay
-\pex[exno={47, partially repeated from p. 32},labelanchor=numleft,
+\pex[exno={[47, partially repeated from p. 32]},labelanchor=numleft,
    labeloffset=1.5em]\relax
 \a[label=b] first
 \a[label=d] second
@@ -165,7 +167,7 @@ inside
 
 Here is another example:
 \beginss
-\pex[exno=9,textanchor=numleft,
+\pex[exno=(9),textanchor=numleft,
    labelanchor=numleft,
    labeloffset=.35in,
    textoffset=.7in]
@@ -173,14 +175,14 @@ Here is another example:
 \a second
 \xe
 
-\pex[exno=10,textanchor=numleft,
+\pex[exno=(10),textanchor=numleft,
    labelanchor=numleft,
    labeloffset=.35in,
    textoffset=.7in]
 \a first
 \a[label=aa] second
 \xe|midss
-\pex[exno=9,textanchor=numleft,
+\pex[exno=(9),textanchor=numleft,
    labelanchor=numleft,
    labeloffset=.35in,
    textoffset=.7in]
@@ -188,7 +190,7 @@ Here is another example:
 \a second
 \xe
 \bigskip
-\pex[exno=10,textanchor=numleft,
+\pex[exno=(10),textanchor=numleft,
    labelanchor=numleft,
    labeloffset=.35in,
    textoffset=.7in]
@@ -198,9 +200,9 @@ Here is another example:
 \endss
 \noindent To my eye, this is fairly ugly. But some publications
 demand this style.  Easy on a typewriter with tabs, but
-hopelessly out of date.  Nevertheless, some {\it ExPex\/} users
+hopelessly out of date.  Nevertheless, some \expex\/ users
 may be forced to it in order to get their work published.
-(Don't do it without raising noisy objections!)
+(Don't do it without raising strenuous objections!)
 
 \subsection Formatting the labels (|everylabel| and
 |labelformat|)
@@ -260,19 +262,19 @@ The effect of the value of |labelformat| is illustrated in
 \xe
 \endss
 
-The example above is fanciful, but expex.tex uses |labelformat|
-in defining the label style |footnote|, which sets
-|labelformat=(A)|.  You might use something like what follows in
-a footnote.
+The example above is fanciful, but {\sl expex.tex\/} uses
+|labelformat| in defining the label style |footnote|, which sets
+|labelformat=(A)|.  You might use something like what follows in a
+footnote.
 
 \beginss
-\pex[exno=1,labeltype=footnote]
+\pex[exno=(1),labeltype=footnote]
 \a first
 \a second
 \a third
 \a fourth
 \xe|midss
-\pex[exno=1,labeltype=footnote]
+\pex[exno=(1),labeltype=footnote]
 \a first
 \a second
 \a third
@@ -307,7 +309,7 @@ careful.  An error might lead to very obscure error messages.
 %\noindent so it is sufficent to say:
 %\medskip
 %{\leftskip=2em
-%|\pex[exno=1,labeltype=footnote]|\par
+%|\pex[exno=(1),labeltype=footnote]|\par
 %\quad $\vdots$\par
 %}\medskip\noindent
 %in order to produce (\lastx).
@@ -333,14 +335,14 @@ labels in the label slot.  This is chosen by the parameter
 For example,
 
 \beginss
-\pex[exno=1,labeltype=footnote,
+\pex[exno=(1),labeltype=footnote,
    labelalign=right]
 \a first
 \a second
 \a third
 \a fourth
 \xe|midss
-\pex[exno=1,labeltype=footnote,labelalign=right]
+\pex[exno=(1),labeltype=footnote,labelalign=right]
 \a first
 \a second
 \a third
@@ -352,14 +354,14 @@ It looks odd to me, but this is the style for multipart examples
 and Binding}.  In footnotes, the style is:
 
 \beginss
-\pex[exno=1,labeltype=footnote,
+\pex[exno=(1),labeltype=footnote,
    labelalign=right]
 \a first
 \a second
 \a third
 \a fourth
 \xe|midss
-\pex[exno=i,labeltype=alpha,labelformat=(A)]
+\pex[exno=(i),labeltype=alpha,labelformat=(A)]
 \a first
 \a second
 \a third
@@ -680,18 +682,18 @@ parametrization.  Multipart examples look like this:
    }%
 \begingroup
 \lingset{lingstyle=IJAL}
-\pex[exno=5]<nonum>
+\pex[exno=(5)]<nonum>
 \a first
 \a second
 \xe
 
-\pex~[exno=65]
+\pex~[exno=(65)]
 Preamble
 \a first
 \a second
 \xe
 
-\pex~[exno=1026]
+\pex~[exno=(1026)]
 Preamble
 \a first
 \a second
@@ -714,18 +716,18 @@ A first approximation is
 
 %   appendtopexarg={samplelabel=(\actualexno a)}
 
-\pex[exno=5]<nonum>
+\pex[exno=(5)]<nonum>
 \a first
 \a second
 \xe
 
-\pex~[exno=65]
+\pex~[exno=(65)]
 Preamble
 \a first
 \a second
 \xe
 
-\pex~[exno=102]
+\pex~[exno=(102)]
 Preamble
 \a first
 \a second
@@ -739,7 +741,7 @@ as more digits appear in the example number and it gets wider,
 the label width must be made dependent on the particular example
 number.
 
-{\it ExPex\/} provides the boolean parameter |avoidnumlabelclash|
+\expex\/ provides the boolean parameter |avoidnumlabelclash|
 which, if set to |true|, suppresses printing the example number
 in |\pex| constructions {\it if there is no preamble}.  It has
 the XKV default value |true|, so that it can be set by giving the
@@ -748,11 +750,11 @@ has the initial value |false|.  So, with the parameters set as
 above, we get:
 
 \beginss
-\pex[exno=5,avoidnumlabelclash]
+\pex[exno=(5),avoidnumlabelclash]
 \a first
 \a second
 \xe|midss
-\pex[exno=5,avoidnumlabelclash]
+\pex[exno=(5),avoidnumlabelclash]
 \a first
 \a second
 \xe
@@ -768,7 +770,7 @@ document.  |labelwidth| will be set to whatever the current width
 of |(\actualexno a)| is, which is not likely to be what you want
 for the entire document even if |\actualexno| happens to be
 defined (which is unlikely) at the point the |\lingset| is
-executed.  To circumvent the global/local problem, {\it ExPex\/}
+executed.  To circumvent the global/local problem, \expex\/
 provides the parameter |appendtopexarg|.  Its value (unexpanded)
 is appended to whatever other arguments are given to
 |\pex| and evaluated locally.
@@ -799,30 +801,30 @@ Then
 \a second
 \xe
 
-\pex~[exno=65]
+\pex~[exno=(65)]
 Preamble
 \a first
 \a second
 \xe
 
-\pex~[exno=1026]
+\pex~[exno=(1026)]
 Preamble
 \a first
 \a second
 \xe|midss
 \lingset{lingstyle=IJAL}
-\pex~[exno=5]
+\pex~[exno=(5)]
 \a first
 \a second
 \xe
 \\
-\pex[exno=65]
+\pex[exno=(65)]
 Preamble
 \a first
 \a second
 \xe
 \\
-\pex~[exno=1026]
+\pex~[exno=(1026)]
 Preamble
 \a first
 \a second
@@ -885,7 +887,7 @@ of the labels and the extra vertical skip between the preamble
 and the first part can also be set independently of the extra
 vertical skip between the various parts.
 
-ExPex sets the label offset and the preamble offset to be equal,
+\expex\ sets the label offset and the preamble offset to be equal,
 so that the left edge of the preamble aligns with the left edge
 of the labels.  But this is under the control of the user.
 
@@ -950,7 +952,7 @@ try (\nextx), but it fails to achieve what you want.
 \a
 \xe
 \endss
-\noindent {\sl ExPex\/} provides the parameter |nopreamble| to
+\noindent \expex\/ provides the parameter |nopreamble| to
 solve the problem.  Setting it to ``true'' tells |\pex| that it
 should assume that there is no preamble, in spite of superficial
 appearances to the contrary.  So:
@@ -1081,21 +1083,20 @@ The possibility is included mostly for the sake of completeness.
    (|numright|, |labelleft|, or |text|)& |numright|\cr
 \endparinventory
 
-Some publications specify that the text and label offset are
-measured from the left margin.  ExPex 3.3 measures the label
-offset from the right edge of the example number and the
-textoffset from the right edge of the ``label gutter'' (the slot
-which labels are typeset in). ExPex already had a parameter
-|labelanchor| (with values |margin|, |numleft|, and |numright|)
-which determined how the value of |labeloffset| was used to set
-the position of the labels. A parameter has |textanchor| been
-introduced, with obvious meaning.  In multipart examples in ExPex
-3.3, the position of a preamble in multipart examples was
-measured with respect to the right edge of the typeset example
-number.  The preamble is the stuff (if any) which appears before
-the first labeled part of a multipart example.  ExPex introduces
-the parameter |preambleanchor| (with possible values |numright|,
-|numleft|, and |text|), with obvious meaning.
+Some publications specify that the text and label offset are measured
+from the left margin.  \expex\ 3.3 measures the label offset from the
+right edge of the example number and the textoffset from the right
+edge of the ``label gutter'' (the slot which labels are typeset in).
+\expex\ already had a parameter |labelanchor| (with values |margin|,
+|numleft|, and |numright|) which determined how the value of
+|labeloffset| was used to set the position of the labels. A parameter
+has |textanchor| been introduced, with obvious meaning.  In multipart
+examples in \expex\ 3.3, the position of a preamble in multipart
+examples was measured with respect to the right edge of the typeset
+example number.  The preamble is the stuff (if any) which appears
+before the first labeled part of a multipart example.  \expex\
+introduces the parameter |preambleanchor| (with possible values
+|numright|, |numleft|, and |text|), with obvious meaning.
 
 For example,
 \begingroup
@@ -1105,7 +1106,7 @@ For example,
    labelanchor=numleft,labeloffset=25pt,
    preambleanchor=text,preambleoffset=0pt,
 }
-\pex[exno=137]
+\pex[exno=(137)]
 \a first
 \a second
 \xe
@@ -1124,7 +1125,7 @@ Preamble
    labelanchor=numleft,labeloffset=2.5em,
    preambleanchor=text,preambleoffset=0pt,
 }
-\pex[exno=137]
+\pex[exno=(137)]
 \a first
 \a second
 \xe

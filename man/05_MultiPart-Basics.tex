@@ -144,10 +144,10 @@ for example.  It can be set by the user explicitly by setting
 change to its previous value (|labelwidth=!3pt|, for example,
 increases the width of the label slot by 3pt).  It can also be
 set indirectly by giving a sample label.  |labelwidth| is then
-set to the current width of that sample.  {\it ExPex\/} sets the
+set to the current width of that sample.  \expex\/ sets the
 default label width by |samplelabel=a.|.
 
-{\sl ExPex\/} comes with three label types predefined: |alpha|,
+\expex\/ comes with three label types predefined: |alpha|,
 |caps|, and |numeric|.
 
 \beginss
@@ -298,12 +298,12 @@ some parts of a multipart example are being repeated.  See
 for example (\getref{explicit}) in Section~\getref{explicit-sec}.
 
 \beginss
-\pex[exno=47]
+\pex[exno=(47)]
 \a[label=b]
 \a[label=d]
 \a[label=g]
 \xe|midss
-\pex[exno=47]
+\pex[exno=(47)]
 \a[label=b]
 \a[label=d]
 \a[label=g]
@@ -326,7 +326,7 @@ for example (\getref{explicit}) in Section~\getref{explicit-sec}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Later we will see how to define custom
-label types as needed.  {\it ExPex\/} sets the defaults by
+label types as needed.  \expex\/ sets the defaults by
 saying |labeltype=alpha|.  It contains the lines:
 
 
@@ -370,7 +370,7 @@ of the labels and the extra vertical skip between the preamble
 and the first part can also be set independently of the extra
 vertical skip between the various parts.
 
-ExPex sets the label offset and the preamble offset to be equal,
+\expex\ sets the label offset and the preamble offset to be equal,
 so that the left edge of the preamble aligns with the left edge
 of the labels.  But this is under the control of the user.
 
@@ -435,7 +435,7 @@ try (\nextx), but it fails to achieve what you want.
 \a
 \xe
 \endss
-\noindent {\sl ExPex\/} provides the parameter |nopreamble| to
+\noindent \expex\/ provides the parameter |nopreamble| to
 solve the problem.  Setting it to ``true'' tells |\pex| that it
 should assume that there is no preamble, in spite of superficial
 appearances to the contrary.  So:
