@@ -398,7 +398,7 @@ The two crucial examples in
 
 \bigskip
 \deftag{\the\secno.\the\subsecno}{explicit-sec}%
-\pex[exno=(\getref{A})]<explicit>
+\pex[exno=(\getref{A})]
 \a[label=\getref{A.X}]  \getref{1st}
 \a[label=\getref{A.Z}]  \getref{2nd}
 \xe
@@ -406,6 +406,7 @@ The two crucial examples in
 \bigskip
 \ex Numbering resumes.\xe
 \endss
+%
 {\bf Important limitation}:\enspace Inside an example that sets
 |exno| to a nonempty value, the use of |\deftaglabel| or
 |\deftagex|, or their implicit versions using the |<|\dots|>|

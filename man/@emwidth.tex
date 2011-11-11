@@ -7,7 +7,7 @@
    \advance\count1 by -\count255
    \multiply\count1 by 10
 }
-\def\emwidth#1#2{%
+\def\settoemwidth#1#2{%
    \setbox0=\hbox{#1}%
    \begingroup
    \dimen1=\wd0
@@ -27,6 +27,5 @@
    \endgroup
    \edef#2{\temp em}%
 }
-\def\reportemwidth#1{\emwidth{#1}\temp
+\def\reportemwidth#1{\settoemwidth{#1}\temp
    \writeln{em-width of "#1" is \temp}}
-

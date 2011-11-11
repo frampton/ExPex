@@ -1,3 +1,33 @@
+%
+%\beginss
+%\pex[labeltype=alpha]
+%\a First part.
+%\a Second part.
+%\xe |midss
+%\pex[labeltype=alpha]
+%\a First part.
+%\a Second part.
+%\xe
+%\endss
+%
+%\beginss
+%\pex[exno=(1),labeltype=footnote]
+%\a first
+%\a second
+%\a third
+%\a fourth
+%\xe|midss
+%\pex[labeltype=footnote]
+%\pex[exno=(1),labeltype=footnote]
+%\a first
+%\a second
+%\a third
+%\a fourth
+%\xe
+%\endss
+%
+%\endinput
+
 
 \makeatletter
 \def\showpex{%
@@ -78,16 +108,15 @@ setting |labelwidth| via |samplelabel|.  Adjusting a parameter by
 incrementing the old value, or using |samplelabel| to set the
 width of the label slot, should only be used to make local
 adjustments, not at a level which has font size changes in its
-scope.  For this reason, expex.tex specifies the label width in the label
-type |alpha| by |labelwidth=.72em|, not by
-|samplelabel=a.|.\footnote{In the font that I happen to be using
-to write this section, the alphabetical labels (including the
-period) a--d have widths varying from \\.694em to \\.75em; the
-capital labels A--D have widths varying from \\.917em to
-\\.972em; and the integer labels for 1 to 9 all have width
-\\.75em. The label width settings for the label types |alpha|
-(\\.72em) and |caps| (\\.94em) are a good compromise.}
-Setting |labelwidth| via the second method would only be
+scope.  For this reason, {\sl expex.tex\/} specifies the label width
+in the label type |alpha| by |labelwidth=.72em|, not by
+|samplelabel=a.|.\footnote{In the font that I happen to be using to
+write this section, the alphabetical labels (including the period)
+a--d have widths varying from \\.694em to \\.75em; the capital labels
+A--D have widths varying from \\.917em to \\.972em; and the integer
+labels for 1 to 9 all have width \\.75em. The label width settings for
+the label types |alpha| (\\.72em) and |caps| (\\.94em) are a good
+compromise.} Setting |labelwidth| via the second method would only be
 satisfactory if the fonts in force at the points that |\pex| is
 used is the same as the font in force when expex.tex is input and
 the |alpha| style defined.
@@ -262,19 +291,19 @@ The effect of the value of |labelformat| is illustrated in
 \xe
 \endss
 
-The example above is fanciful, but {\sl expex.tex\/} uses
-|labelformat| in defining the label style |footnote|, which sets
-|labelformat=(A)|.  You might use something like what follows in a
-footnote.
+The example above is fanciful, one sometimes see formats like the
+following used in footnotes.
 
 \beginss
-\pex[exno=(1),labeltype=footnote]
+\pex[exno=1.,labeltype=roman,
+   labelformat=(A),samplelabel=(iii)]
 \a first
 \a second
 \a third
 \a fourth
 \xe|midss
-\pex[exno=(1),labeltype=footnote]
+\pex[exno=1.,labeltype=roman,
+   labelformat=(A),samplelabel=(iii)]
 \a first
 \a second
 \a third
@@ -318,16 +347,17 @@ careful.  An error might lead to very obscure error messages.
 %The value $1.5\,\rm em$ above is the width of ``(iii)'' in the font I
 %happen to be using.
 %
-Another style common in footnotes is just like the one above,
+Another style sometimes found in footnotes is like the one above,
 except that the labels are right aligned in the label slot.
 
 \subsection Aligning the labels (|labelalign|)
 
-%\parinventory*
-%& \idx{|labelalign|}& \idx{|left|}, \idx{|right|}, \idx{|margin|}&
-%   \idx{|right|}\cr
-%\endparinventory
-%\bigskip
+\parinventory*
+& \idx{|labelalign|}& choice (\idx{|left|}, \idx{|right|},
+\idx{|margin|})&
+   \idx{|right|}\cr
+\endparinventory
+\bigskip
 
 \noindent There is a choice of left, right, or center alignment of the
 labels in the label slot.  This is chosen by the parameter
@@ -335,33 +365,37 @@ labels in the label slot.  This is chosen by the parameter
 For example,
 
 \beginss
-\pex[exno=(1),labeltype=footnote,
-   labelalign=right]
+\pex[exno=(43),labeltype=roman,
+   labelformat=(A),labelalign=right,
+   samplelabel=(iii)]
 \a first
 \a second
 \a third
 \a fourth
 \xe|midss
-\pex[exno=(1),labeltype=footnote,labelalign=right]
+\pex[exno=(43),labeltype=roman,
+   labelformat=(A),labelalign=right,
+   samplelabel=(iii)]
 \a first
 \a second
 \a third
 \a fourth
 \xe
 \endss
-It looks odd to me, but this is the style for multipart examples
+This style looks odd to me, but this is the style for multipart examples
 {\it in the main text\/} in Chomsky's {\it Lectures on Government
 and Binding}.  In footnotes, the style is:
 
 \beginss
-\pex[exno=(1),labeltype=footnote,
-   labelalign=right]
+\pex[exno=(i),labeltype=alpha,
+   samplelabel=(a),labelformat=(A)]
 \a first
 \a second
 \a third
 \a fourth
 \xe|midss
-\pex[exno=(i),labeltype=alpha,labelformat=(A)]
+\pex[exno=(i),labeltype=alpha,
+   samplelabel=(a),labelformat=(A)]
 \a first
 \a second
 \a third
@@ -682,18 +716,19 @@ parametrization.  Multipart examples look like this:
    }%
 \begingroup
 \lingset{lingstyle=IJAL}
-\pex[exno=(5)]<nonum>
+\excnt=4
+\pex<nonum>
 \a first
 \a second
 \xe
-
-\pex~[exno=(65)]
+\excnt=64
+\pex~
 Preamble
 \a first
 \a second
 \xe
-
-\pex~[exno=(1026)]
+\excnt=1025
+\pex~
 Preamble
 \a first
 \a second
@@ -704,7 +739,7 @@ A first approximation is
 
 \codedisplay
 \lingset{labelwidth=2em,labelanchor=numleft,labeloffset=0pt,
-   textanchor=normal,textoffset=1.5em, preambleanchor=text,
+   textanchor=normal,textoffset=1.5em,preambleanchor=text,
    preambleoffset=0pt,labelformat=(A),everylabel=\actualexno}
 |endcodedisplay
 
