@@ -156,8 +156,15 @@
 }
 \def\actualexno
    {\if@specialexno {\lingspecialexno}\else \the\excnt \fi}
-\def\actualexnoprint{{\if@specialexno \specialexnoprint
-   \else \exnoprint \fi}}
+\def\actualexnoprint{{%
+   \if@specialexno
+      \specialexnoprint
+   \else \ifx\ling@sampleexno\empty
+      \exnoprint
+   \else
+      \hbox to \epd@sampleexnowidth{\exnoprint\hss}%
+   \fi\fi
+}}
 \define@choicekey{ling}{exnotype}[\ling@exnotype\@N]%
    {arabic,roman}{%
       \ifcase\@N
@@ -239,14 +246,13 @@
 \define@ling@cmdkeys{appendtopexarg}                  % NEW
 \define@linginckey\dimen{}{}{labelwidth}
 \define@linginckey\dimen{}{}{labeloffset}
-\define@linginckey\dimen{}{}{minexnolabelsep}
+\newdimen\epd@sampleexnowidth
 \define@lingkey{sampleexno}{%
    \setbox0=\hbox{#1}%
-   \dimen1=\wd0
-   \advance\dimen1 by \lingminexnolabelsep
-   \lingset{labeloffset=\the\dimen1}%
-   \ignorespaces
+   \epd@sampleexnowidth=\wd0
+   \def\ling@sampleexno{#1}%
 }
+\lingset{sampleexno=}
 \def\setmaxexnowidth#1{\lingset{sampleexno={#1}}\ignorespaces}
 \define@lingcmdkeys{belowpreambleskip,interpartskip,splitexpenalty}
 \define@choicekey{ling}{labelalign}[\ling@labelalign\nr]%
@@ -556,7 +562,8 @@
    \ignorespaces
 }
 \def\lastlabel{{\epx@label}}
-\def\@expexwarn#1{\immediate\write16{====> ExPex WARNING: #1.}}
+\def\@expexwarn#1{\immediate\write16{====> EXPEX WARNING: #1.}}
+\def\@expexerror#1{\immediate\write16{====> Fatal EXPEX ERROR: #1.}}
 \newif\if@highlightref
 \@highlightreffalse
 \def\refproofing{\@highlightreftrue}

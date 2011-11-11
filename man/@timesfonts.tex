@@ -1,4 +1,3 @@
-
 %%%%%%%%%%% fonts
 % Cork encoding is used so that accents work properly with
 %  tipa fonts.  Accents must be redefined (below).
@@ -359,9 +358,9 @@
 \gdef\twelvebig#1{{\hbox{$\left#1\vbox to 9.5pt{}\right.\n@space$}}}
 \gdef\tenbig#1{{\hbox{$\left#1\vbox to 8pt{}\right.\n@space$}}}
 
-\let\normaltext=\twelvepoint
-\let\smalltext=\tenpoint
-\normaltext
+\let\normalsize=\twelvepoint
+\let\footnotesize=\tenpoint
+\normalsize
 
 %% encoding is Cork throughout
 \def\'#1{{\accent "01 #1}}

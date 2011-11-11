@@ -214,11 +214,11 @@
    \immediate\closeout\ling@notesfile
    \vskip30pt
    \vskip.3\vsize\penalty-30\vskip-.3\vsize
-   \centerline{\normaltext Notes}
+   \centerline{\normalsize Notes}
    \medskip
    \def\note ##1 {%
       \smallskip\penalty10\noindent ##1.\quad}%
-   \smalltext
+   \footnotesize
    \input G-notes.tex
 }
 %
@@ -227,12 +227,12 @@
 \def\dumprefs{%
    \vskip30pt
    \vskip.3\vsize\penalty-30\vskip-.3\vsize
-   \smalltext
+   \footnotesize
    \parindent=0pt
    \parskip=0pt plus 1pt
    \rightskip=0pt
    \tolerance=350 \interlinepenalty=400
-   \centerline{\normaltext References}
+   \centerline{\normalsize References}
    \bigskip
    \input @@refs.tex
 }

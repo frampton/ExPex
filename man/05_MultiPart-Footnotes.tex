@@ -1,47 +1,87 @@
 
-\subsection The parameters {\tt exnotype}, {\tt minexnolabelsep}, and
-{\tt sampleexno}
+\ifnum\secno<1 \secno=5 \fi
 
-Macro:\quad |\setmaxexnowidth|\par
+\subsection The parameter {\tt sampleexno}
+
 \parinventory
-& \idx{|exnotype|}& choice (|arabic|, |roman|)& |arabic|\cr
-& \idx{|minexnolabelsep|}& dim& \textdim{.5 em}\cr
-& \idx{|sampleexno|}& pseudo parameter& (not relevant)\cr
+& \idx{|sampleexno|}& token list& {\it empty}\cr
 \endparinventory
 
+In some publications, if two examples are close together in the
+running text and the widths of the typeset example numbers are
+different, the offsets are modified so that the texts in the two
+examples are aligned.  The following is considered, under this
+aesthetic, to be less than ideal.
 
-In footnotes, example numbers are commonly given as lowercase roman
-numerals.  This can be accomplished by setting |exnotype| to |roman|.
-Furthermore, in some footnote styles the label offset is measured from
-the left edge of the example number (i.e. |labelanchor| is set to
-|numleft|) and is the same for all the examples in a footnote.  Since
-the widths of the displayed example numbers vary when given as roman
-numerals, this means that the separation between the displayed example
-number and the text will be different for different examples in a
-footnote. The labeloffset is chosen so that the smallest such
-separation is equal to a fixed value (|minexnolabelsep|) which is the
-same for all footnotes.  This is tricky to implement, since the
-setting of |labeloffset| in the first example in a footnote, for
-example, can depend on what other example numbers appear in the
-footnote.  The pseudo-parameter |sampleexno| is designed to solve this
-problem.   |\lingset{sampleexno=(iv)}|, for example, has the effect of
-setting |labeloffset| to be the width of (iv) plus the value of
-|minexnolabelsep|.
+\framedisplay
+\keepexcntlocal \excnt=9
+\pex
+\a I consider firemen available. (generic only)
+\a I consider firemen intelligent. (generic only)
+\xe
+Exceptional case marking (ECM) verbs seem more or less to allow both
+existential and generic interpretations of complement subjects:
+\pex
+\a I believe firemen to be available. (both generic and existential)
+\a I believe violists to be intelligent. (generic only)
+\xe
+\endframedisplay
+
+\expex\ provides the parameter |sampleexno| to handle this formatting
+problem.  If the parameter is set to the empty token list, it has no
+effect of the formatting.  If it is set to a nonempty token list, that
+token list is put in an hbox and its width is taken to be the
+effective width typeset example numbers.
+
+\framedisplay
+\keepexcntlocal \excnt=9
+\pex[sampleexno=(10)]
+\a I consider firemen available. (generic only)
+\a I consider firemen intelligent. (generic only)
+\xe
+Exceptional case marking (ECM) verbs seem more or less to allow both
+existential and generic interpretations of complement subjects:
+\pex
+\a I believe firemen to be available. (both generic and existential)
+\a I believe violists to be intelligent. (generic only)
+\xe
+\endframedisplay
+\codedisplay~
+\pex[sampleexno=(10)]
+\a I consider firemen available. (generic only)
+\a I consider firemen intelligent. (generic only)
+\xe
+Exceptional case marking (ECM) verbs seem more or less to allow both
+existential and generic interpretations of complement subjects:
+\pex
+\a I believe firemen to be available. (both generic and existential)
+\a I believe violists to be intelligent. (generic only)
+\xe
+|endcodedisplay
+
+Clearly, fine tuning of this sort in the running text should only be
+undertaken as a last step in typesetting a document since it depends
+on knowing the final typeset example numbers.
+
+It is much more common to do fine tuning of this sort in footnotes.
+There are two reasons for this. First, lowercase roman numerals are
+commonly used and the widths vary noticably. Second, only a few
+examples are involved, assuming that examples numbers in a footnote
+start at (i).
 
 \excnt=34
-\input eptexfn
 
 \subsection Footnotes and endnotes
 
-Footnotes and endnotes pose a somewhat thorny problem many different
-\Tex\ and \Latex\ macros are in use.  Further, there are different
-ways of assigning example numbers and labels in multipart examples.
-The footnote referenced at the end of this sentence is
-formatted in one fairly common style. It is an
+Footnotes and endnotes pose a somewhat thorny problem since many different
+\Tex\ and \Latex\ macros are used to typeset footnotes and endnotes.
+Further, there are different ways of assigning example numbers and
+labels in multipart examples. The footnote referenced at the end of
+this sentence is formatted is an
 abbreviated version of footnote 17 in Chapter 2 of Diesing's {\sl
 Indefinites}, MIT Press.%
 \footnote{%
-\setmaxexnowidth{(ii)}
+\lingset{sampleexno=(ii)}
 The existential reading does not seem to be available for subjects of
 small clause complements of {\it consider\/}:
 \pex
@@ -56,53 +96,93 @@ existential and generic interpretations of complement subjects:
 %\a \ljudge{??}I believe opera singers to know Hittite.
 \xe
 }
+This footnote style is fairly common.
 
-The example numbers are roman numerals, starting at ``i'' in each
-footnote.  As opposed to examples in the running text, the labeloffset
-is measured from the left margin, not the right edge of the typeset
-example number.  Although the value of |labeloffset| is the same for
-all the examples in a footnote, it depends on the width of the widest
-example number.  It is chosen so that the label is \textdim{.5 em} to
-the right of the widest example number.
+The \expex2\/ distribution contains two files, {\it eptexfn.tex\/} and
+{\it exltxfn.sty\/} which may be helpful in producing footnotes in
+this style.  They do two things.  First, they each define a macro
+(|\everyfootnote|) which, if evaluated at the start of processing a
+footnote, ensures that examples are correctly formatted.  Second, they
+each perform minor surgery on a standard |\footnote| so that (among
+other things) |\everyfootnote| is inserted in the appropriate place.
 
-%How is this formatting achieved?  We could try\footnote{
+I intend these macro files both to be used directly or to serve as
+models for the creation of variations which satisfy user needs. To the
+latter end, I will go through {\it expex.sty\/} and explain how it
+works.  The file listing is:
 
-
-We put off for a moment the issue of adjusting
-the labeloffset for tto take into account example numbers wider than the
-width of (\romannumeral1).  There are two things that have to be done.
-One is to provide some ``hook'' into the footnote macro so that the
-appropriate formating commands can be inserted whenever a footnote is
-processed.  We employ the method Knuth gave in the {\sl TexBook\/}.
-A token list |\everyfootnote| is defined which contains all of the
-commands needed to format footnotes appropriately.  We then modify the
-``usual'' footnoting macros appropriately so that |\everyfootnote| is
-evaluated veryearly in the process of typesetting footnotes.
-The problem is that different users employ different ``usual''
-footnoting macros.
-
-
-
-by modifying
-
-
-Below, I will describe how a command |\everyfootnote| can
-be properly inserted into
-
-\codedisplay
+\CLnum
+\makeatletter
 \renewcommand{\@makefntext}[1]{%
-   \the\everyfootnote \@thefnmark.\enspace ##1\@finalstrut\strutbox}}
-
-\everyfootnote={%
+   \everyfootnote
+   \parindent 1em
+   \noindent
+   \@thefnmark.\enspace #1%
+}
+\def\everyfootnote{%
    \keepexcntlocal
    \excnt=1
-   \lingset{exskip=1ex,exnotype=roman,labeltype=alpha,
-      labelanchor=numleft,minexnolabelsep=.5em,
-      sampleexno=(i),textoffset=.5em}
-   \noindent
+   \lingset{exskip=1ex,exnotype=roman,sampleexno=,
+      labeltype=alpha,labelanchor=numright,labeloffset=.6em,
+      textoffset=.6em}
+}
+\resetatcatcode|endCLnum
 
-\newcommand{adjusttoexno}[1]{\lingset{sampleexno=#1}}
+|\footnote| uses |\@makefntext| to typeset the footnote.  It is
+defined in the {\it .cls\/} file which is used.  The redefinition in
+lines 2--7 is a modification of the |\@makefntext| macro defined in
+{\it article.cls}.  It first executes |\everyfootnote|, which allows
+the user to introduce formatting commands into the footnote
+typesetting instructions.  The number is set with no indentation and is
+set as text, not a superscript.  |\everyfootnote| first ensures that changes in
+|excnt| that are made in the footnote are kept local to the footnote.
+|\keepexcntlocal| is an \expex\/ macro. Otherwise, changes in |excnt|
+would visible outside the footnote group in which the changes occur.
+|excnt| is then initialized.  Finally, parameters are set which
+control the formatting of examples in the footnote.
+
+Assuming that |\usepackage{epltxfn}|, the folloing code
+produces fn. \the\fnno.
+\codedisplay
+\footnote{%
+\lingset{sampleexno=(ii)}
+The existential reading does not seem to be available for subjects of
+small clause complements of {\it consider\/}:
+\pex
+\a I consider firemen available. (generic only)
+\a I consider firemen intelligent. (generic only)
+\xe
+Exceptional case marking (ECM) verbs seem more or less to allow both
+existential and generic interpretations of complement subjects:
+\pex
+\a I believe firemen to be available. (both generic and existential)
+\a I believe violists to be intelligent. (generic only)
+\xe
+}
 |endcodedisplay
+
+The code in {\sl eptexfn.tex\/} is somewhat more complicated because
+\Tex\ does not number footnotes and it uses the same font for running
+text and footnotes.  |\everyfootnote| is identical.  If it is compared
+with the footnote macros in the {\sl TexBook\/} (p. 363) it is easy to
+see the significance of the various modifications. The user must
+define the macro |\footnotesize| before {\sl eptexfn.tex\/} is loaded.
+In my own work, |\twelvepoint| and |\tenpoint| are defined modeled on
+Knuth's macros on pages 414--15 in the TexBook.  Running text is done
+in the context of |\twelvepoint| and |\let\footnotesize=\tenpoint|
+is executed before typesetting starts.
+
+I anticipate that although the footnote macros in {\sl epltxfn.sty\/}
+and {\sl eptexfn.tex\/} will be useful to some readers without
+modification, other users will need to modify them for one reason or
+the other.  Endnotes, in particular, will require work.  I hope that
+these two files will serve as useful models.  Of course, trivial
+modifications of the various dimensions can be done easily.  More
+extensive modification require appropriate levels of expertise.  Users
+should feel free to write to me directly ({\sl j.frampton@neu.edu\/}) or
+post questions to the {\sl Ling-Tex\/} discussion group, or to send me
+modifications that might prove useful to others.  A file {\it
+epltxfn-endnotes.sty}, for example, would be useful.
 
 
 \endinput
