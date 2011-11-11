@@ -38,13 +38,18 @@
    \noalign{\par\nobreak}}
 \def\endparinventory{\egroup\egroup\bigskip\noindent}
 \def\begininventory{\bigskip\bgroup
-   \setbox0=\vtop\bgroup\openup2pt
-      \halign\bgroup \quad ##\hfil&& \tspace ##\hfil\cr
+   \openup2pt
+   \halign\bgroup \quad ##\hfil&& \tspace ##\hfil\cr
 }
-\def\endinventory{\egroup\egroup
-   \noindent
-      \psframebox[framesep=1ex,boxsep=false,doubleline=true]{\box0}%
-      \egroup\bigskip}
+\def\endinventory{\egroup\egroup \bigskip}
+%\def\begininventory{\bigskip\bgroup
+%   \setbox0=\vtop\bgroup\openup2pt
+%      \halign\bgroup \quad ##\hfil&& \tspace ##\hfil\cr
+%}
+%\def\endinventory{\egroup\egroup
+%   \noindent
+%      \psframebox[framesep=1ex,boxsep=false,doubleline=true]{\box0}%
+%      \egroup\bigskip}
 
 
 \def\smalldisplay{\medskip\noindent\hfil}
@@ -248,6 +253,7 @@
 \def\suff#1{{-\small #1}}%
 \def\small{\tenrm}
 \def\smallcaps#1{{\small\uppercase{#1}}}
-
+\def\public{$^{\dag}$}
+\def\inc{(!)\kern.7pt}
 
 
