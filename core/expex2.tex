@@ -253,8 +253,10 @@
    \def\ling@sampleexno{#1}%
 }
 \lingset{sampleexno=}
-\def\setmaxexnowidth#1{\lingset{sampleexno={#1}}\ignorespaces}
-\define@lingcmdkeys{belowpreambleskip,interpartskip,splitexpenalty}
+\define@linginckey\skip{}{}{belowpreambleskip}
+\define@linginckey\skip{}{}{interpartskip}
+\define@lingcmdkeys{splitexpenalty}
+%\define@lingcmdkeys{belowpreambleskip,interpartskip,splitexpenalty}
 \define@choicekey{ling}{labelalign}[\ling@labelalign\nr]%
    {left,center,right}{%
       \ifcase\nr
@@ -799,13 +801,9 @@
    everygl,everyglft,everyglword}
 \define@linginckey\dimen{}{@}{glhangindent}
 \define@linginckey\dimen{}{@}{glwidth}
-\define@linginckey\skip{}{@}{aboveglftskip}
-\define@linginckey\skip{}{@}{aboveglaskip}
-\define@linginckey\skip{}{@}{belowglpreambleskip}
+\define@linginckey\skip{}{}{aboveglftskip}
+\define@linginckey\skip{}{}{belowglpreambleskip}
 \define@ling@cmdkeys{everyglpreamble}
-%\define@boolkey{ling}[ling@]{noglpreamble}[true]{}
-%\lingset{noglpreamble=false}
-%--------------- Wrap style (W) ---------------------------
 \define@choicekey{ling}{glhangstyle}[\temp\epx@glhangstyle]%
    {none,normal,cascade}{}
 \define@ling@cmdkeys{glrightskip}
@@ -920,8 +918,10 @@
 \def\Linebreak{+}\@onelevel@sanitize\Linebreak
 \def\Lbrack{[}\@onelevel@sanitize\Lbrack
 \def\Rbrack{]}\@onelevel@sanitize\Rbrack
+\def\@alinelabel{a}
 \def\glw@gla{%
-   \if@glpreamble \vskip\ling@belowglpreambleskip \fi
+   \if@glpreamble \vskip\lingbelowglpreambleskip \fi
+   \def\lingaboveglaskip{0pt}%
    \def\gl@linelabel{a}%
    \glw@maxht=0pt
    \glw@maxdp=0pt
@@ -968,7 +968,7 @@
 }
 \newdimen\gl@maxdplast
 \def\glw@updatelists{%
-   \edef\temp{\csname ling@abovegl\gl@linelabel skip\endcsname}%
+   \edef\temp{\csname lingabovegl\gl@linelabel skip\endcsname}%
    \expandafter\glw@append\temp \to\aboveskiplist
    \edef\temp{\vrule width0pt height\the\glw@maxht\space depth\the\glw@maxdp\space }%
    \global\gl@maxdplast=\glw@maxdp
@@ -983,7 +983,7 @@
 \def\define@glwlevel#1{%
    \expandafter\ifx\csname glw@gl#1\endcsname\relax
       \define@ling@cmdkeys{everygl#1}%
-      \define@linginckey\skip{}{@}{abovegl#1skip}%
+      \define@linginckey\skip{}{}{abovegl#1skip}%
       \XKV@addtolist@o\glw@levels{#1}%
       \lingset{everygl#1=,abovegl#1skip=0pt}
       \expandafter\def\csname glw@gl#1\endcsname{\glw@glx{#1}}%
@@ -1055,18 +1055,19 @@
    {\hangindent=0pt \ling@everyglpreamble #1\par}%
 }
 \def\glw@glft{\@getoptionalarg\glw@glft@a}
+\define@linginckey\skip{}{}{abovemoreglskip}
 \def\glw@glft@a#1//{%
-   \lineskip=\ling@abovemoreglskip
+   \lineskip=\lingabovemoreglskip
    \glw@print \par\prevdepth=\gl@maxdplast
    \ling@usearg
-   \vskip\ling@aboveglftskip
+   \vskip\lingaboveglftskip
    \ling@everyglft
    \hangindent=0pt
    \let\endgl=\glw@endglB
    #1\par
 }
 \def\glw@endgl{\glw@endglA \glw@endglB}
-\def\glw@endglA{\lineskip=\ling@abovemoreglskip
+\def\glw@endglA{\lineskip=\lingabovemoreglskip
    \ifx\mainlist\empty \else \glw@print \par \fi }
 %\par}
 \def\glw@endglB{\egroup\egroup}
@@ -1079,7 +1080,7 @@
    \loop\ifgl@loopmore
       \glw@lop\mainlist\to\tempa\relax       % \tempa is one column
       \ifx\tempa\Linebreak
-            \vskip\ling@abovemoreglskip
+            \vskip\lingabovemoreglskip
             \@glaparsestate=1
             \leavevmode
          \else\ifx\tempa\Closeup
@@ -1126,101 +1127,6 @@
       \repeat
       }%
 }
-%---------------------- 3 level style (T) ---------------------
-\def\glT@addtoline#1#2{\ifx#1\empty\gltoks@a={{#2}}\else\gltoks@a={&{#2}}\fi
-   \gltoks@b=\expandafter{#1}%
-   \edef#1{\the\gltoks@b\the\gltoks@a}}
-\def\glT@begingl{\@emptyc@linetrue
-   \def\a@line{}\def\b@line{}\def\c@line{}\glT@@a
-}
-\newif\if@emptyc@line
-\def\glT@@a#1{\glT@@b#1///\@nil \glT@@c}
-\def\glT@@b#1/#2/#3/#4\@nil{%
-   \glT@addtoline\a@line{\ling@everygla #1}%
-   \glT@addtoline\b@line{\ling@everyglb #2}%
-   \def\temp{#3}\ifx\temp\empty \else \@emptyc@linefalse\fi
-   \glT@addtoline\c@line{\ling@everyglc #3}%
-}
-\def\glT@@c{\@futurenonspacelet\temp\glT@@d}
-\def\glT@@d{\ifx\temp.\let\next\glT@@e\else\let\next\glT@@a\fi\next}
-\def\glT@@e#1#2\endgl{\def\linefour{\ignorespaces #2}\glT@@f}
-\def\glT@@f{%
-   \vtop{\ling@everygl
-   \halign{##\hfil&& \hskip\ling@glspace ##\hfil\cr
-      \a@line\cr
-      \ifdim\ling@aboveglbskip=0pt
-         \else \noalign{\vskip\ling@aboveglbskip}\fi
-      \b@line\cr
-      \if@emptyc@line \else
-         \ifdim\ling@aboveglcskip=0pt
-            \else \noalign{\vskip\ling@aboveglcskip}\fi
-         \c@line\cr
-         \fi
-      \ifx\linefour\empty \else
-         \ifdim\ling@aboveglftskip=0pt
-            \else \noalign{\vskip\ling@aboveglftskip}\fi
-         \ling@everyglft \linefour\hidewidth\cr
-         \fi
-   }}%
-\egroup
-}
-%------------------- multilevel style (M) ---------------------
-\def\glm@levels{}
-\def\define@gl@level#1{%
-   \define@ling@cmdkeys{everygl#1}
-   \define@linginckey\skip{}{@}{abovegl#1skip}
-   \XKV@addtolist@o\glm@levels{#1}%
-   \lingset{everygl#1=,abovegl#1skip=0pt}
-   \edef\@above{\epx@expandonce\csname ling@abovegl#1skip\endcsname}%
-   \expandafter\edef\csname gl#1@M\endcsname{%
-      \noexpand\ifdim\epx@expandonce\@above=0pt \noexpand\else
-         \noexpand\noalign{\noexpand\vskip \epx@expandonce\@above}%
-         \noexpand\fi
-      \noexpand\global\noexpand\let\noexpand\@everygl
-         \epx@expandonce\csname ling@everygl#1\endcsname
-      \noexpand\glm@parser}%\fi
-}
-\def\defineglmlevels#1{\XKV@for@n{#1}\@X
-   {\expandafter\define@gl@level\expandafter{\@X}}}
-\def\glm@parser #1//{\gltoks@a={#1 /}\expandafter\gloss@L\the\gltoks@a}
-\defineglmlevels{a,b,c}
-\def\glft@M{\noalign\bgroup\@tildecheck\glft@M@a}
-\def\glft@M@a #1//{%
-   \if@tilde \else \vskip\ling@aboveglftskip \fi \egroup
-   \omit\rlap{\advance\hsize by -\leftskip
-      \vtop{\parindent=0pt \leftskip=0pt
-         \ling@everyglft #1\strut}}\hfil\cr
-}
-%---------------------- old style (L) -------------------------
-\define@linginckey\skip{}{@}{abovemoreglskip}
-%\define@linginckey\skip{}{@}{aboveglcskip}
-\define@linginckey\dimen{}{@}{moregloffset}
-\def\begingl@L{%
-   \leavevmode
-   \vtop\bgroup
-   \ling@usearg
-   \vtop\bgroup
-      \halign\bgroup ##\hfil &&
-         \kern\ling@glspace ##\hfil\cr
-}
-\def\moregl{%
-   \egroup\egroup \vskip\ling@abovemoreglskip
-   \vtop\bgroup
-      \halign\bgroup \kern\ling@moregloffset ##\hfil &&
-         \kern\ling@glspace ##\hfil\cr
-}
-\def\endgl@L{\egroup\egroup\egroup\egroup}
-\def\gla@L{\global\let\@everygl\ling@everygla \gloss@L}
-\def\glb@L{\global\let\@everygl\ling@everyglb \gloss@L}
-\def\gloss@L #1 {\@everygl #1\@ifnextchar/{\strut\cr\@gobble}{&
-\gloss@L}}
-\def\glc@L{\noalign\bgroup\@tildecheck\glc@L@a}
-\def\glc@L@a #1{%
-   \if@tilde \else \vskip\ling@aboveglcskip \fi \egroup
-   \omit \ling@everyglc #1\strut\hidewidth\cr
-}
-
-
 
 \newif\if@glpostbrack
 \newcount\@glaparsestate          % 0 normal, 1 post @, 2 post [, 3 post ]
@@ -1230,12 +1136,6 @@
 \def\printlbrack{$[$}
 \lingset{glbrackbracksep=.05em,glbrackwordsep=.1em}
 % ----- underfixes -----
-%\def\gluf#1#2{%
-%   \vtop{\offinterlineskip\halign{\hfil##\hfil\cr
-%      \strut #1\cr
-%      \noalign{\vskip-\ling@glufcloseup}
-%      \ling@everygluf \strut#2\cr
-%}}}
 \def\gluf/#1/#2/{%
    \vtop{\offinterlineskip\halign{\hfil##\hfil\cr
       \strut #1\cr
@@ -1245,7 +1145,6 @@
 \define@ling@cmdkeys{everygluf}
 \define@linginckey\dimen{}{@}{glufcloseup}
 \lingset{glufcloseup=.4ex,everygluf=\sc}    % underfix parameters
-%
 % ----- gloss comments and citations -----
 \def\rightcomment#1{\leavevmode\rlap{%
    \hbox to\hsize{\hfil \rm #1\hskip\leftskip}}\ignorespaces}
@@ -1288,7 +1187,7 @@
 % parameters used in glosses
    glspace=.6em,
    aboveglcskip=0pt,
-   aboveglaskip=0pt,
+%   aboveglaskip=0pt,
    aboveglftskip=1ex,
    belowglpreambleskip=1ex,
    everyglpreamble=,
@@ -1305,7 +1204,7 @@
 %   everybracket=\rm,
 %   glbracketsep=.15em,
    glstyle=wrap,
-   moregloffset=0pt,
+%   moregloffset=0pt,
    abovemoreglskip=1ex,
    mincitesep=1.5em,
 % auxiliary parameters used for building tables
@@ -1326,4 +1225,5 @@
 %   \fi
 %%% END TEMPORATY TURNOFF
 % can be used to (always) override factory settings
+
 

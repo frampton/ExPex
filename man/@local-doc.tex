@@ -37,14 +37,26 @@
       \omit Parameter{\if@star\else s\fi}:\hidewidth\cr
    \noalign{\par\nobreak}}
 \def\endparinventory{\egroup\egroup\bigskip\noindent}
-\def\begininventory{\bigskip\bgroup
-   \setbox0=\vtop\bgroup\openup2pt
-      \halign\bgroup \quad ##\hfil&& \tspace ##\hfil\cr
+\def\begininventory{\@getoptionalarg\begininventory@a}
+\def\begininventory@a{\medskip\hrule\medskip \bgroup
+   \openup2pt
+   \halign\bgroup \quad ##\hfil&&
+      \hskip \ifx\@optionalarg\empty 2em \else\@optionalarg\fi ##\hfil\cr
 }
-\def\endinventory{\egroup\egroup
-   \noindent
-      \psframebox[framesep=1ex,boxsep=false,doubleline=true]{\box0}%
-      \egroup\bigskip}
+\def\endinventory{\egroup\egroup \medskip\hrule\bigskip\noindent}
+\def\parameters{\omit Parameters:\hidewidth\cr
+   \hfil\it key& \hfil\it value& \hfil\it initial setting}
+\def\parameter{\omit Parameter:\hidewidth\cr
+   \hfil\it key& \hfil\it value& \hfil\it initial setting}
+
+%\def\begininventory{\bigskip\bgroup
+%   \setbox0=\vtop\bgroup\openup2pt
+%      \halign\bgroup \quad ##\hfil&& \tspace ##\hfil\cr
+%}
+%\def\endinventory{\egroup\egroup
+%   \noindent
+%      \psframebox[framesep=1ex,boxsep=false,doubleline=true]{\box0}%
+%      \egroup\bigskip}
 
 
 \def\smalldisplay{\medskip\noindent\hfil}
@@ -244,10 +256,11 @@
 \raggedbottom
 \def\mathrm{\fam0}
 \def\textdim#1{\textdimA#1 }
-\def\textdimA#1 #2 {#1\hskip.15em #2}
+\def\textdimA#1 #2 {#1\hskip.12em #2}
 \def\suff#1{{-\small #1}}%
 \def\small{\tenrm}
 \def\smallcaps#1{{\small\uppercase{#1}}}
-
+\def\public{$^{\dag}$}
+\def\inc{(!)\kern.7pt}
 
 
