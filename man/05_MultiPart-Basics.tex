@@ -34,11 +34,11 @@
 value}\cr
 \idx{|labeltype|}& name of a key-value list& alpha\cr
 \idx{|labeloffset|}\public & \inc dimension& \textdim{1 em}\cr
-\idx{|labelwidth|}& \inc dimension& \textdim{.72 em}\cr
-\idx{|preambleoffset|}& \inc dimension& \textdim{1 em}\cr
-\idx{|interpartskip|}& incrementable skip&
+\idx{|labelwidth|}\public & \inc dimension& \textdim{.72 em}\cr
+\idx{|preambleoffset|}\public & \inc dimension& \textdim{1 em}\cr
+\idx{|interpartskip|}\public & \inc skip&
    \textdim{1 ex} plus \textdim{.2 ex} minus \textdim{.2 ex}\cr
-\idx{|belowpreambleskip|}& incrementable skip&
+\idx{|belowpreambleskip|}\public & \inc skip&
    \textdim{1 ex} plus \textdim{.2 ex} minus \textdim{.2 ex}\cr
 \idx{|nopreamble|}& boolean& (not relevant)& \qquad true\cr
 \idx{|samplelabel|}& token list& (pseudo-parameter)\cr
@@ -86,15 +86,14 @@ visible material, if any, that appears after the example number
 and before the first part.
 
 The horizontal dimensions are parametrized as pictured
-in~(\nextx), assuming the default settings of the parameters
-|labelanchor| and |textanchor|.  (The effects of changing the
-settings of the anchoring parameters will be considered in
-Section \getref{anchors}.)  Note that the parameters |numoffset|
-and |textoffset| are also used in formatting examples without
-parts.
+below, assuming the default settings of the parameters |labelanchor|
+and |textanchor|.  (The effects of changing the settings of the
+anchoring parameters will be considered in Section \getref{anchors}.)
+Note that the parameters |numoffset| and |textoffset| are also used in
+formatting examples without parts.
 
-\ex \makeatletter \quad
-\edef\resetexcnt{\noexpand\global\noexpand\excnt=\the\excnt}%
+\exdisplay
+\makeatletter
 \vrule height1.6em depth3.5em width0pt
 \psscalebox{1.5}{%
 \parindent=0pt
@@ -103,9 +102,8 @@ parts.
    textoffset=4em,labelwidth=.8em}
 \pnode(0,0){A}
 \lower5ex\vbox{\hsize=3.8in
-\excnt=23
 \psset{arrows=<->}
-\pex
+\pex[exno=24]
 \a \pnode{E6}%
 This is an example.%
 \SpecialCoor
@@ -129,9 +127,7 @@ This is an example.%
    \pcline(E\which)([nodesep=3ex]E\which)}
 \pcline([nodesep=1.5ex]E4)([nodesep=-2ex]E4)
 \pcline([nodesep=1.5ex]E5)([nodesep=-2ex]E5)
-\resetexcnt
 \xe}}%
-\resetatcatcode
 \xe
 Adjustment for the width of the example number is automatic, but
 the width of the label slot is a parameter setting, not adjusted
@@ -161,9 +157,6 @@ default label width by |samplelabel=a.|.
 \xe
 \endss
 
-% 07/26/11 modified \@setinckey so that it does not convert a
-%   relative dimension into a fixed dimension if an increment is
-%   not specified
 \beginss
 \pex[labeltype=caps]
 \a First part.
@@ -190,29 +183,13 @@ Section \getref{advanced} will detail all the parameters relevant
 to the label types and how additional label types can be defined
 by the user.
 
-%\begingroup
-%\parindent=0pt
-%Macros:\hskip2.5em |\pex~[]|, |\a|, |\linglabeloffset|\par
-%\parinventory
-\ex Basic parameters for |\pex| formatting\smallskip
-\leftskip=0pt
-\hfil\vtop{\halign{#\hfil&& \qquad #\hfil\cr
-\hfil\it key& \hfil\it value& \hfil\it initial value\cr
-\noalign{\vskip.12ex}
-%\idx{|numoffset|}& incrementable dimension& |0pt|\cr
-\idx{|labeloffset|}& incrementable dimension& |1em|\cr
-\idx{|labelwidth|}& incrementable dimension& |.72em| (set by
-|labeltype=alpha|)\cr
-%\idx{|textoffset|}& incrementable dimension& |1em|\cr
-\idx{|interpartskip|}& skip& |1ex plus .2ex minus .2ex|\cr
-\idx{|belowpreambleskip|}& skip& |1ex plus .2ex minus .2ex|\cr
-\idx{|labeltype|}& name of a key-value list&
-   |alpha|\cr
-\idx{|nopreamble|}& |true|, |false|\cr
-\idx{|samplelabel|}& token list& \it pseudo-parameter\cr
-}}\xe
-
+%--------------------------------------
 \subsection {\tt nopreamble}
+
+\begininventory
+\parameter& \it default value\cr
+|nopreamble|& boolean& (not relevant)& \hfil true\cr
+\endinventory
 
 In order to properly format examples with parts, there are
 various reasons that |\pex| must be able to figure out whether
@@ -292,10 +269,15 @@ preamble.
 
 \subsection Stipulated labels
 
-|\a| takes an optional argument, which is inserted as the label,
-ignoring automatic label generation.  This can be useful if only
-some parts of a multipart example are being repeated.  See
-for example (\getref{explicit}) in Section~\getref{explicit-sec}.
+\begininventory
+\parameter\cr
+|label|& token list& |{}|\cr
+\endinventory
+|label| is recognized as a key only by the |\a| macro.    % =«value»
+If |label=«value»| is passed to |\a|,  that value is inserted as the
+label, ignoring automatic label generation.  This can be useful if
+only some parts of a multipart example are being repeated.  See for
+example (\getref{explicit}) in Section~\getref{explicit-sec}.
 
 \beginss
 \pex[exno=47]
@@ -311,17 +293,8 @@ for example (\getref{explicit}) in Section~\getref{explicit-sec}.
 \deftagpage{partialrepeat}
 \endss
 
-\noindent |\a| recognizes only two keys; |label| and |tag|.  See
-??? for the meaning and use of |tag|.
+\noindent |label| is the only key that |\a| recognizes.
 
-%\definelingstyle{UBC}{%
-%   avoidnumlabelclash=false,
-%   textanchor=numleft,textoffset=50pt,
-%   labelanchor=numleft,labeloffset=25pt,
-%   everylabel=,
-%   preambleanchor=text,preambleoffset=0pt,
-%   appendtopexarg=
-%}
 \endinput
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
