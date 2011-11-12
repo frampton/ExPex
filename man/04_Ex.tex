@@ -215,25 +215,26 @@ effect of |\lingset{exskip=«value»}| is
 \subsection Explicit example numbers
 
 \parinventory
-& \idx{|\exno|}&& (pseudo parameter)\cr
+& \idx{|exno|}& token list& (pseudo parameter)\cr
+& \idx{|exnoformat|}& \dots |X|\dots& command\cr
 \endparinventory
 
 \noindent Suppose that you want to repeat an example that was
 given earlier in your document.  Something like.
 
 \framedisplay
-\ex[exno=(95)] This is a crucial example.\xe
+\ex[exno=95] This is a crucial example.\xe
 
 \noindent It is clear that this example is related to the earlier
 example (14), which is repeated below.
 
-\ex[exno=(14)]
+\ex[exno=14]
 This is an example that was given many pages earlier.\xe
 
 \noindent If we are on the right track, as the saying goes,
 we expect the next example to be grammatical.  But it is not.
 
-\ex[exno=(96)] * \dots\xe
+\ex[exno=96] * \dots\xe
 \endframedisplay
 
 \codedisplay~
@@ -242,7 +243,7 @@ we expect the next example to be grammatical.  But it is not.
 \noindent It is clear that this example is related to the earlier
 example (14), which is repeated below.
 
-\ex[exno=(14)]
+\ex[exno=14]
 This is an example that was given many pages earlier.\xe
 
 \noindent If we are on the right track, as the saying goes,
@@ -256,24 +257,39 @@ by an example whose number is assigned by |exno|.
 |exno| does not have to be set to an integer.
 
 \framedisplay
-\ex[exno=($\Delta$)] Earlier example.\xe
+\ex[exno=$\Delta$] Earlier example.\xe
 \endframedisplay
 
 \codedisplay~
-\ex[exno=($\Delta$)] Earlier example.\xe |endcodedisplay
+\ex[exno=$\Delta$] Earlier example.\xe |endcodedisplay
 
 
 \framedisplay
-\ex[exno={[14, repeated]}] Earlier example.\xe
+\ex[exno={[14, repeated]},exnoformat=X] Earlier example.\xe
 \endframedisplay
 
 \codedisplay~
-\ex[exno={[14, repeated]}] Earlier example.\xe|endcodedisplay
+\ex[exno={[14, repeated]},exnoformat=X] Earlier example.\xe|endcodedisplay
 
 \noindent Note the use of braces to hide the comma in the setting
 of |exno|.  Otherwise, the key-value parser would get
-confused, interpreting 14 as the setting of |exno| and
-reporting that |repeated| is an undefined key.
+confused, interpreting |[14| as the setting of |exno| and
+reporting that |repeated| is an undefined key.  The initial setting of
+|exnoformat| is |(X)|, so this parameter must be reset to prevent
+putting parentheses around the special exno.  The label formatting mechanism is primitive.
+|labelformat| must
+be of the form\medskip
+\centerline{$\rm \langle balanced\
+text\rangle\thinspace|X|\thinspace \langle balanced\ text\rangle$}
+\medskip
+\noindent The pre-X text is inserted before the label (including
+the material specified by |everypar|) and the post-X text is
+inserted after the label. The balanced text cannot contain the
+character |X|.  {\it Balanced text\/} is a string of tokens with
+properly nested (explicit) braces. No error checking is done to
+ensure that the format specification has the required form, so be
+careful.  An error might lead to very obscure error messages.
+
 
 Section (\getref{named-reference}) will show how to name example
 numbers, so that |exno| can be set by giving the name of

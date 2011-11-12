@@ -224,10 +224,10 @@ You can also say:
 
 \sidx{|exno|}%
 \codedisplay
-\ex[exno=(\getref{snoopy})] Second example.\xe|endcodedisplay
+\ex[exno=\getref{snoopy}] Second example.\xe|endcodedisplay
 
 \framedisplay~
-\ex[exno=(\getref{snoopy})] Second example.\xe
+\ex[exno=\getref{snoopy}] Second example.\xe
 \endframedisplay
 
 An alternative is:
@@ -264,10 +264,10 @@ If you say
 some point, you can use:
 
 \codedisplay
-\ex[exno=(\getfullref{dog.G})] Second example\xe|endcodedisplay
+\ex[exno=\getfullref{dog.G}] Second example\xe|endcodedisplay
 
 \framedisplay~
-\ex[exno=(\getfullref{dog.G})] Second example\xe
+\ex[exno=\getfullref{dog.G}] Second example\xe
 \endframedisplay
 
 \subsection Extensions of the tag/reference mechanism
@@ -373,7 +373,7 @@ errors.
 The two crucial examples in
 (\getref{A}) are repeated below:
 
-\pex[exno=(\getref{A})]
+\pex[exno=\getref{A}]
 \a[label=\getref{A.X}]  \getref{1st}
 \a[label=\getref{A.Z}]  \getref{2nd}
 \xe
@@ -398,7 +398,7 @@ The two crucial examples in
 
 \bigskip
 \deftag{\the\secno.\the\subsecno}{explicit-sec}%
-\pex[exno=(\getref{A})]
+\pex[exno=\getref{A}]
 \a[label=\getref{A.X}]  \getref{1st}
 \a[label=\getref{A.Z}]  \getref{2nd}
 \xe
@@ -581,7 +581,7 @@ original number.  It is sufficient to use
 
 \sidx{|exno|, setting using |\getref|}%
 \codefragment
-|\ex[exno=(\getref{foo})]| \dots
+|\ex[exno=\getref{foo}]| \dots
 \endcodefragment
 In this context, |\getref| is redefined to strip away testing for
 tag definition and highlighting, so that it is usable as a value
@@ -593,11 +593,11 @@ informed that |\lingtag@foo| is undefined.
 
 
 
-\ex[exno=(12)] example\xe
+\ex[exno=12] example\xe
 
 \refproofing
 
-\ex[exno=(\getref{clitics})] example\xe
+\ex[exno=\getref{clitics}] example\xe
 
 \getref{mi-ti}\quad \getref{clitics}
 \endinput

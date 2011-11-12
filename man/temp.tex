@@ -1,11 +1,48 @@
 
+\begingroup
+\lingset{exskip=2pt,exnotype=roman,textanchor=numleft,
+   textoffset=5em}
+\ex they expected each other to get Bill to like them\xe
+\ex they expected each other to like each other\xe
+\ex they expected each other to hurt themselves\xe
+\endgroup
+\bigskip
+\pex[interpartskip=4pt,exnotype=roman,labelformat=(A),
+   textoffset=4em]
+\a they expected each other to get Bill to like them
+\a they expected each other to like each other
+\a they expected each other to hurt themselves
+\xe
+
+\endinput
+they expected each other to get Bill to like them
+they expected each other to like each other
+they expected each other to hurt themselves
+
+
 \lingset{exnoformat=[X],exno=43}
 
-\exnoformat{23}
+\excnt=45
+\ex[exno=22] hello\xe
 
 \endinput
 
 
+\pex[textanchor=numleft,
+   labelanchor=numleft,
+   labeloffset=.35in,
+   textoffset=.7in]
+\a first
+\a[label=aa] second
+\xe
+
+\lingset{textanchor=numleft,
+   labelanchor=numleft,
+   labeloffset=.35in,
+   textoffset=.7in}
+\a first
+\a[label=aa] second
+\xe
 
 
 \lingset{sampleexno=(ix)}

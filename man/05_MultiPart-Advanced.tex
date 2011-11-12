@@ -11,14 +11,14 @@
 %\endss
 %
 %\beginss
-%\pex[exno=(1),labeltype=footnote]
+%\pex[exno=1,labeltype=footnote]
 %\a first
 %\a second
 %\a third
 %\a fourth
 %\xe|midss
 %\pex[labeltype=footnote]
-%\pex[exno=(1),labeltype=footnote]
+%\pex[exno=1,labeltype=footnote]
 %\a first
 %\a second
 %\a third
@@ -140,14 +140,17 @@ than the right edge.
 \beginss
 \pex[exno={[47, partially repeated from
    p. 32]},labelanchor=numleft,
-   labeloffset=1.5em]
+   exnoformat=X,labeloffset=1.5em]
 \par
 \a[label=b] first
 \a[label=d] second
 \a[label=g] third
 \xe|midss
+%\pex[exno={47, partially repeated from
+%   p. 32},labelanchor=numleft,exnoformat={[X]},
+%   labeloffset=1.5em]
 \pex[exno={[47, partially repeated from
-   p. 32]},labelanchor=numleft,
+   p. 32]},labelanchor=numleft,exnoformat=X,
    labeloffset=1.5em]
 \par
 \a[label=b] first
@@ -158,30 +161,31 @@ than the right edge.
 \endgroup
 \noindent Braces are needed in the specification of the
 value of |exno|, otherwise |\pex| would think that the key |exno|
-was set to the value |47| and try to set the key |partially
-repeated from p. 32| to its default value.  Think about it.
+was set to the value |[47| and try to set the key |partially
+repeated from p. 32| to its default value. |exnoformat| is set to |X|
+so that parentheses are not put around the special exno.
 
-A question for the reader:  Why does the following code work
-equally well?
+The following would work equally well:
 
+\def\stuff{$\vdots$}
 \codedisplay
-\pex[exno={[47, partially repeated from p. 32]},labelanchor=numleft,
-   labeloffset=1.5em]\relax
-\a[label=b] first
-\a[label=d] second
-\a[label=g] third
-\xe
+\pex[exno={47, partially repeated from
+   p. 32},labelanchor=numleft,exnoformat={[X]},
+   labeloffset=1.5em]
+          |stuff
 |endcodedisplay
+Braces are needed around |[X]| so that the mechanism that reads the
+optional argument of |\pex| does not interpret the right bracket as
+the right delimiter of the optional argument.
 
-The possible setting of the anchor keys are given below.
-They are all choice keys which must be set to one of the
-possibilities listed.
+The possible setting of the anchor keys are given below. They are all
+choice keys which must be set to one of the possibilities listed.
 
 \exdisplay\noexno
-Anchoring parameters:\medskip
+Anchoring (choice) parameters:\medskip
 %\leftskip=0pt
 \qquad\vtop{\halign{#\hfil&& \qquad #\hfil\cr
-\hfil\it key& \hfil\it value& \hfil\it initial value\cr
+\hfil\it key& \hfil\it allowed values& \hfil\it initial value\cr
 \noalign{\smallskip}
 \idx{|labelanchor|}& |numright|, |numleft|, or |margin|&
    |numright|\cr
@@ -196,42 +200,37 @@ inside
 
 Here is another example:
 \beginss
-\pex[exno=(9),textanchor=numleft,
+\lingset{textanchor=numleft,
    labelanchor=numleft,
    labeloffset=.35in,
-   textoffset=.7in]
-\a first
-\a second
-\xe
-
-\pex[exno=(10),textanchor=numleft,
-   labelanchor=numleft,
-   labeloffset=.35in,
-   textoffset=.7in]
-\a first
-\a[label=aa] second
-\xe|midss
-\pex[exno=(9),textanchor=numleft,
-   labelanchor=numleft,
-   labeloffset=.35in,
-   textoffset=.7in]
+   textoffset=.7in}
+\pex[exno=9]
 \a first
 \a second
 \xe
 \bigskip
-\pex[exno=(10),textanchor=numleft,
+\pex[exno=10]
+\a first
+\a[label=aa] second
+\xe|midss
+\lingset{textanchor=numleft,
    labelanchor=numleft,
    labeloffset=.35in,
-   textoffset=.7in]
+   textoffset=.7in}
+\pex[exno=9]
+\a first
+\a second
+\xe
+\bigskip
+\pex[exno=10]
 \a first
 \a[label=aa] second
 \xe
 \endss
-\noindent To my eye, this is fairly ugly. But some publications
-demand this style.  Easy on a typewriter with tabs, but
-hopelessly out of date.  Nevertheless, some \expex\/ users
-may be forced to it in order to get their work published.
-(Don't do it without raising strenuous objections!)
+\noindent Some publications
+demand this style.  It is left over from typewriter days with
+mechanical tabs (and from {\sl Word}, which is still rooted in that
+typographic period).
 
 \subsection Formatting the labels (|everylabel| and
 |labelformat|)
@@ -278,6 +277,8 @@ There are other uses aside from setting the label font.
 The effect of the value of |labelformat| is illustrated in
 (\nextx).
 
+\setss .6 .35
+
 \beginss
 \pex[labelformat=$\langle$A$\rangle$,
    samplelabel=$\langle$a$\rangle$]
@@ -291,18 +292,18 @@ The effect of the value of |labelformat| is illustrated in
 \xe
 \endss
 
-The example above is fanciful, one sometimes see formats like the
-following used in footnotes.
+The example above is fanciful, but one sometimes see formats like the
+following.
 
 \beginss
-\pex[exno=1.,labeltype=roman,
+\pex[exno=1,exnoformat=X.,labeltype=roman,
    labelformat=(A),samplelabel=(iii)]
 \a first
 \a second
 \a third
 \a fourth
 \xe|midss
-\pex[exno=1.,labeltype=roman,
+\pex[exno=1,exnoformat=X.,labeltype=roman,
    labelformat=(A),samplelabel=(iii)]
 \a first
 \a second
@@ -325,28 +326,6 @@ properly nested (explicit) braces. No error checking is done to
 ensure that the format specification has the required form, so be
 careful.  An error might lead to very obscure error messages.
 
-%Section \getref{userdefined} will explain how label types can be
-%defined by the user and what predefined label types are
-%available.
-%defined in expex.tex the user can define
-%
-%expex.tex has the definition:
-%\codedisplay
-%\definelabeltype{footnote}{labelgen=romannumeral,pexcnt=1,
-%   labelformat=(A),fullrefformat=XA,labelalign=left,
-%   labelwidth=1.5em}|endcodedisplay
-%\noindent so it is sufficent to say:
-%\medskip
-%{\leftskip=2em
-%|\pex[exno=(1),labeltype=footnote]|\par
-%\quad $\vdots$\par
-%}\medskip\noindent
-%in order to produce (\lastx).
-%
-%
-%The value $1.5\,\rm em$ above is the width of ``(iii)'' in the font I
-%happen to be using.
-%
 Another style sometimes found in footnotes is like the one above,
 except that the labels are right aligned in the label slot.
 
@@ -365,7 +344,7 @@ labels in the label slot.  This is chosen by the parameter
 For example,
 
 \beginss
-\pex[exno=(43),labeltype=roman,
+\pex[exno=43,labeltype=roman,
    labelformat=(A),labelalign=right,
    samplelabel=(iii)]
 \a first
@@ -373,7 +352,7 @@ For example,
 \a third
 \a fourth
 \xe|midss
-\pex[exno=(43),labeltype=roman,
+\pex[exno=43,labeltype=roman,
    labelformat=(A),labelalign=right,
    samplelabel=(iii)]
 \a first
@@ -387,14 +366,14 @@ This style looks odd to me, but this is the style for multipart examples
 and Binding}.  In footnotes, the style is:
 
 \beginss
-\pex[exno=(i),labeltype=alpha,
+\pex[exno=i,labeltype=alpha,
    samplelabel=(a),labelformat=(A)]
 \a first
 \a second
 \a third
 \a fourth
 \xe|midss
-\pex[exno=(i),labeltype=alpha,
+\pex[exno=i,labeltype=alpha,
    samplelabel=(a),labelformat=(A)]
 \a first
 \a second
@@ -751,18 +730,18 @@ A first approximation is
 
 %   appendtopexarg={samplelabel=(\actualexno a)}
 
-\pex[exno=(5)]<nonum>
+\pex[exno=5]<nonum>
 \a first
 \a second
 \xe
 
-\pex~[exno=(65)]
+\pex~[exno=65]
 Preamble
 \a first
 \a second
 \xe
 
-\pex~[exno=(102)]
+\pex~[exno=102]
 Preamble
 \a first
 \a second
@@ -785,11 +764,11 @@ has the initial value |false|.  So, with the parameters set as
 above, we get:
 
 \beginss
-\pex[exno=(5),avoidnumlabelclash]
+\pex[exno=5,avoidnumlabelclash]
 \a first
 \a second
 \xe|midss
-\pex[exno=(5),avoidnumlabelclash]
+\pex[exno=5,avoidnumlabelclash]
 \a first
 \a second
 \xe
@@ -836,30 +815,30 @@ Then
 \a second
 \xe
 
-\pex~[exno=(65)]
+\pex~[exno=65]
 Preamble
 \a first
 \a second
 \xe
 
-\pex~[exno=(1026)]
+\pex~[exno=1026]
 Preamble
 \a first
 \a second
 \xe|midss
 \lingset{lingstyle=IJAL}
-\pex~[exno=(5)]
+\pex~[exno=5]
 \a first
 \a second
 \xe
 \\
-\pex[exno=(65)]
+\pex[exno=65]
 Preamble
 \a first
 \a second
 \xe
 \\
-\pex~[exno=(1026)]
+\pex~[exno=1026]
 Preamble
 \a first
 \a second
@@ -1141,7 +1120,7 @@ For example,
    labelanchor=numleft,labeloffset=25pt,
    preambleanchor=text,preambleoffset=0pt,
 }
-\pex[exno=(137)]
+\pex[exno=137]
 \a first
 \a second
 \xe
@@ -1160,7 +1139,7 @@ Preamble
    labelanchor=numleft,labeloffset=2.5em,
    preambleanchor=text,preambleoffset=0pt,
 }
-\pex[exno=(137)]
+\pex[exno=137]
 \a first
 \a second
 \xe
