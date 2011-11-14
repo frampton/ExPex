@@ -1,49 +1,44 @@
-%\lingset{numoffset=2em,textoffset=1ex,aboveexskip=1ex,belowexskip=1ex}
-%\ex[aboveexskip=1ex,belowexskip=1ex]
-%I wonder which article John filed {\sl t\/} without reading {\sl e}.
-%\xe
-%\endinput
-%\ex[numoffset=2em,textoffset=1ex,aboveexskip=1ex,belowexskip=1ex]
-%I wonder which article John filed {\sl t\/} without reading {\sl e}.
-%\xe
-%\endinput
-%\makeatletter
-%\def\parinventory@a{%
-%   \par\bgroup  \parindent=0pt
-%   \halign\bgroup ##\hfil& \quad ##\hfil&& \qquad ##\hfil\cr
-%      \omit Parameter{\if@star\else s\fi}:\hidewidth\cr
-%   \noalign{\par\nobreak}}
-%\resetatcatcode
+
 \section Examples without parts
 
-Macros:\quad \idx{|\ex|}|~[]|, \idx{|\xe|}, \idx{|\lingnumoffset|},
-   \idx{|\lingtextoffset|}\hidewidth\par
-\noindent Counter:\quad \idx{|\excnt|}\par
-\parinventory
-& \idx{|numoffset|}& incrementable dimension& 0pt\cr
-& \idx{|textoffset|}& incrementable dimension& 1em\cr
-& \idx{|exskip|}& skip& (pseudo parameter)\cr
-& \idx{|aboveexskip|}& skip& 2.7ex plus .4ex minus .4ex\cr
-& \idx{|belowexskip|}& skip& 2.7ex plus .4ex minus .4ex\cr
-\endparinventory
+\def\parameters{\omit Parameters:\hidewidth\cr
+   \hfil\it key& \hfil\it value& \hfil\it initial setting}
+
+\lingset{dima=1.3em}
+\noindent
+\begininventory
+\omit Macros:\quad \idx{|\ex|}|~[]|, \idx{|\xe|}\hidewidth\cr
+\omit Counter:\quad \idx{|\excnt|}\cr
+\parameters\cr
+\idx{|numoffset|}\public & \inc dimension& \textdim{0 pt}\cr
+\idx{|textoffset|}\public& \inc dimension& \textdim{1 em}\cr
+\idx{|aboveexskip|}\public& \inc skip&
+   \textdim{2.7 ex} plus \textdim{.4 ex} minus \textdim{.4 ex}\cr
+\idx{|belowexskip|}\public& \inc skip&
+   \textdim{2.7 ex} plus \textdim{.4 ex} minus \textdim{.4 ex}\cr
+\idx{|exskip|}& skip& (pseudo-parameter)\cr
+\endinventory
 
 \noindent
-The initial settings of parameters will be given in the section
-inventories, if they are relevant.  Pseudo parameters are set for
-their immediate effect, not to store a setting associated with
-the parameter, so the initial setting of pseudo parameters is not
-relevant. |\ex~[]| above should be taken to mean that the macro
+Sections will usually begin with an inventory of the parameters and
+user friendly macros and registers that are introduced in the section,
+The initial settings of parameters will be given if they are relevant.
+Pseudo parameters are set for their immediate effect, not to store a
+setting associated with the parameter, so the initial setting of
+pseudo parameters is not relevant.
+|\ex~[]| above should be taken to mean that the macro
 |\ex| will be described, that it is optionally modified by a
 following diacritical tilde |~| (as described below), and that it
 optionally takes an argument.  The text will describe what
-arguments are permitted.  If the value of a parameter is
-accessible by an external macro (i.e. of the form |\ling«key»|),
-the macro which expands to the value appears on the list of
-macros.
+arguments are permitted.  A $\dag$ supersript on a parameter in these
+inventories indicates a parameter whose value is
+accessible by the macro |\ling«key»|. A \inc\ prefix on ``dimension''
+or ``skip'' indicates that the parameter is incrementable, by a
+dimension or a skip as the case may be.
 
-|\xe| terminates constructions initiated by |\ex|.  The following
+|\ex| constructions are terminated by |\xe|.  The following
 sample paragraph illustrates the use of |\ex| \dots|\xe|. The
-convention in this guide is that text, {\it as it would appear in
+convention in this manual is that text, {\it as it would appear in
 a document}, is displayed in a framed box, usually with the code
 immediately following or preceding. The code assumes that the
 initial parameter settings are in effect at the point that the
@@ -94,7 +89,7 @@ The following example is well-known from the literature on
 parasitic gaps.  Here we are concerned with example formatting,
 not with the interesting syntax.
 
-\ex[numoffset=2em,textoffset=1ex,aboveexskip=1ex,belowexskip=1ex]
+\ex[numoffset=2em,textoffset=.5em,aboveexskip=1ex,belowexskip=1ex]
 I wonder which article John filed {\sl t\/} without reading {\sl e}.
 \xe
 
@@ -109,7 +104,7 @@ The following example is well-known from the literature on
 parasitic gaps.  Here we are concerned with example formatting,
 not with the interesting syntax.
 
-\ex[numoffset=2em,textoffset=1ex,aboveexskip=1ex,belowexskip=1ex]
+\ex[numoffset=2em,textoffset=.5em,aboveexskip=1ex,belowexskip=1ex]
 I wonder which article John filed {\sl t\/} without reading {\sl e}.
 \xe
 
@@ -121,7 +116,7 @@ The horizontal dimensions are illustrated below, with |numoffset|
 measured from the left margin.
 
 \bigskip
-\noindent \hfil
+\noindent
 \pspicture(0,-.9em)(4.9in,3em)
 \psscalebox{1.5}{%
 \psset{linewidth=.5pt,yunit=.2in}
@@ -144,8 +139,9 @@ measured from the left margin.
 \bigskip
 
 \noindent Example numbering is automatic.  The count is kept in
-|\excnt|.  It is incremented when |\ex| is evaluated, before the
-number is typeset.  Vertical skip is inserted before and after
+|\excnt|.  It is incremented when |\ex| is expanded, before the
+number is typeset.  |\excnt| therefore gives the count of the pervious
+example.  Vertical skip is inserted before and after
 examples, of amounts determined by the values of
 \idx{|aboveexskip|} and \idx{|belowexskip|}.
 
@@ -199,8 +195,7 @@ added both below the first example and above the second example.
 Since the need to suppress vertical skip above examples arises
 with some frequency, a shortcut is made available to accomplish
 this.  Simply say |\ex~|.  \sidx{|~| (tilde) modification}Tilde
-modification of |\ex| can be used with parameters, so
-|\ex~[|\dots|]| will be interpreted correctly.
+modification of |\ex| can be used with parameters; |\ex~[|\dots|]| will be interpreted correctly.
 
 \idx{|exskip|} is a pseudo parameter which can be used to
 simultaneously set both |aboveexskip| and |belowexskip|. The
@@ -211,12 +206,13 @@ effect of |\lingset{exskip=«value»}| is
 \endcodefragment
 
 \vfil\break
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \sidx{|exno|}
 \subsection Explicit example numbers
 
 \parinventory
 & \idx{|exno|}& token list& (pseudo parameter)\cr
-& \idx{|exnoformat|}& \dots |X|\dots& command\cr
+& \idx{|exnoformat|}& token list of the form \dots |X|\dots& |(X)|\cr
 \endparinventory
 
 \noindent Suppose that you want to repeat an example that was
@@ -251,10 +247,10 @@ we expect the next example to be grammatical.  But it is not.
 
 \ex * \dots\xe |endcodedisplay
 
-\noindent The regular sequence of example numbering is unaffected
-by an example whose number is assigned by |exno|.
+\noindent |\excnt| is not incremented if the example number is
+supplied by |exno|.
 
-|exno| does not have to be set to an integer.
+|exno| does not have to be set to an integer, as shown below.
 
 \framedisplay
 \ex[exno=$\Delta$] Earlier example.\xe
@@ -265,18 +261,34 @@ by an example whose number is assigned by |exno|.
 
 
 \framedisplay
-\ex[exno={[14, repeated]},exnoformat=X] Earlier example.\xe
+\ex[exno={14, repeated}] Earlier example.\xe
 \endframedisplay
-
 \codedisplay~
-\ex[exno={[14, repeated]},exnoformat=X] Earlier example.\xe|endcodedisplay
+\ex[exno={14, repeated}] Earlier example.\xe|endcodedisplay
 
 \noindent Note the use of braces to hide the comma in the setting
 of |exno|.  Otherwise, the key-value parser would get
-confused, interpreting |[14| as the setting of |exno| and
-reporting that |repeated| is an undefined key.  The initial setting of
-|exnoformat| is |(X)|, so this parameter must be reset to prevent
-putting parentheses around the special exno.  The label formatting mechanism is primitive.
+confused, interpreting |14| as the setting of |exno| and
+reporting that |repeated| is an undefined key.
+
+Using |exnoformat| allows variations on the last example which are
+useful in some contexts.  The inital setting of |exnoformat| is |(X)|
+formats the displayed example number with parentheses.
+
+\framedisplay
+\ex[exno={14, repeated},exnoformat={[X]}] Earlier example.\xe
+\endframedisplay
+\codedisplay
+\ex[exno={14, repeated},exnoformat={[X]}] Earlier example.\xe
+|endcodedisplay
+or
+\codedisplay
+\ex[exno={[14, repeated]},exnoformat=X] Earlier example.\xe
+|endcodedisplay
+The braces around |[X]| above are so that the optional argument of
+|\ex| is correctly delimited.
+
+The label formatting mechanism is primitive.
 |labelformat| must
 be of the form\medskip
 \centerline{$\rm \langle balanced\

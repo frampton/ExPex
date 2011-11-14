@@ -8,11 +8,11 @@ Macros:\quad \idx{|\lastx|}, \idx{|\nextx|}, \idx{|\blastx|},
 \idx{|\anextx|}, \idx{|\bblastx|}\bigskip
 
 \noindent These produce the last, next, before last, after next,
-and before last example numbers.  The example number is
-set early in the expansion of |\ex| and |\pex|, so these macros can
-be used inside an example, with ``last example'' taking on the
-meaning of ``current example'' and the others similarly
-interpreted.
+and before before last example numbers.  The example number
+counter is incremented early in the expansion of |\ex| and |\pex|,
+so these macros can be used inside an example, with ``last
+example'' taking on the meaning of ``current example'' and the
+others similarly interpreted.
 
 It is dangerous to use macros like |\bblastx| or |\anextx| for
 reference to an example because later additions or deletions in
@@ -575,8 +575,8 @@ you want.
 Another case in which it is useful to use |\getref{«tag»}| as if
 it were simply a number is in repeating earlier examples.
 Suppose that an example number has been given the tag |foo|,
-either through using |\deftagex{foo}| or |tag=foo| and that
-later in your paper you want to repeat this example with its
+either through using |\deftagex{foo}| or the |<|\dots|>| mechanism and
+that later in your paper you want to repeat this example with its
 original number.  It is sufficient to use
 
 \sidx{|exno|, setting using |\getref|}%
