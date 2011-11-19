@@ -4,17 +4,18 @@
 \section
 Basic Glosses
 
-\noindent
-Macros: \idx{|\begingl[]|},
+\medskip
+\beginmacinventory
+\idx{|\begingl[]|},
 \idx{|\glpreamble[]|},
 \idx{|\gla[]|},
 \idx{|\glb[]|},
 \idx{|\glc[]|},
 \idx{|\glft[]|},
 \idx{|\endgl|}
-
-\medskip
-\noindent Before I introduce the parameters that control the
+\endmacinventory
+%
+Before I introduce the parameters that control the
 characteristics of gloss displays, here are a few examples done with
 the initial settings of the parameters.
 
@@ -180,6 +181,8 @@ the higher line (recursively).
 \subsection Parameters
 
 \def\\#1{\noalign{\smallskip}\quad #1\cr}%
+\hrule
+\medskip
 \parinventory
 \\{Horizontal spacing\hidewidth}
 \quad & \idx{|glspace|}& dimension& \textdim{1 em}\cr
@@ -196,6 +199,9 @@ the higher line (recursively).
 & \idx{|aboveglcskip|}& dimension& \textdim{0 pt}\cr
 & \idx{|aboveglftskip|}& dimension& \textdim{0 pt}\cr
 \endparinventory
+\vskip-1ex
+\hrule
+\medskip
 
 Suppose for example that rather than the gloss in (\getref{wapm}) the
 following style is desired.
@@ -294,22 +300,28 @@ because they adjust the leftskip appropriately inside examples.
 If you want to supply an example number or explicit label, it will not
 work to say something like the following if |glwidth| is set to
 \textdim{0 pt}.
-$$
-\hbox{|[A]\quad \begingl |\dots| \endgl|}
-$$
+
+\def\goop{\dots\ }
+\codedisplay
+[A]\quad \begingl |goop \endgl
+|endcodedisplay
+%
 The vbox built by the gloss macro will not fit on the same line with
 the [A].
 
 You must say:
-$$
-\hbox{|\ex[exno={[A]}] \begingl |\dots| \endgl|}$$
+
+\def\temp{\dots }
+\codedisplay
+\ex[exno=A,exnoformat={[X]}] \begingl |temp \endgl
+|endcodedisplay
 The braces around |[A]| are needed to so that the optional argument
 is correctly delineated.  The mechanism looks for the first right
 brace {\it at the top level}.  For example:
 
 \def\suff#1{{-\small #1}}%
 \framedisplay
-\ex[exno={[(6), p. 14]}]
+\ex[exno={(6), p. 14},exnoformat={[X]}]
 \begingl
 \gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
 seiner Freundin ihr$_i$ Herz auszusch\"utten.//
@@ -320,7 +332,7 @@ throw}//
 \xe
 \endframedisplay
 \codedisplay~
-\ex[exno={[(6), p. 14]}]
+\ex[exno={(6), p. 14},exnoformat={[X]}]
 \begingl
 \gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
 seiner Freundin ihr$_i$ Herz auszusch\"utten.//
@@ -387,11 +399,12 @@ would not damage John.'//
 
 \subsection Comments and citations
 
-\noindent Macros:\quad \idx{|\trailingcitation|},
-\idx{|\rightcomment|}
-\smallskip
-\noindent Parameters:\quad |mincitesep|
-\medskip
+\begininventory
+\macros
+\idx{|\trailingcitation|}, \idx{|\rightcomment|}\endmacros
+\parameters*
+|mincitesep|& dimension& \hfil |1.5em|\cr
+\endinventory
 
 The following illustrates different ways to append a comment or
 citation to a gloss.
@@ -525,13 +538,12 @@ so that it is not interpreted as a directive to omit a space.
 
 \subsection Bracketing in glosses: {\tt [} and {\tt ]}
 
-\medskip
-\parinventory
-& \idx{|glbrackbracksep|}& dimension& \textdim{.1 em}\cr
-& \idx{|glbrackwordsep|}& dimension& \textdim{.2 em}\cr
-\endparinventory
-\bigskip
-
+\begininventory
+\parameters
+\idx{|glbrackbracksep|}& dimension& \hfil |.1em|\cr
+\idx{|glbrackwordsep|}& dimension& \hfil |.2em|\cr
+\endinventory
+%
 Suppose you want to produce a gloss display like the one below.
 
 \framedisplay
@@ -581,12 +593,16 @@ agr.want he {\it WH\/}[obl].meet-agr//
 \noindent Note that |@| is used to eliminate an unwanted space before
 the period on the gla-line.
 
+\Expex\ uses the macros \idx{|\printrbrack|} and
+\idx{|\printlbrack|} to typeset the brackets.  The definitions of
+these macros could be changed to cause [ and ] in glosses to
+insert something other than simple brackets.
+
 The Chamorro examples in (\getref{@period}) are adapted from Sandy
 Chung's {\it The Design of Agreement}.  See (59a) on page 237 and
 (82a) on page 247.  The Potawatami example (\getref{wapm}) is from
 Halle and Marantz's ``Distributed Morphology'' article. The German
 examples in (\getref{sicher2}) are from an article by Idan Landau. The
 Kiowa example (\getref{wiye}) was contributed by Daniel Harbor.
-
 
 

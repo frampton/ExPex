@@ -1,12 +1,13 @@
 
 \section User defined styles
 
-
-Macro:\quad |\definelingstyle|
-\parinventory
-& \idx{|everyex|}& token list& |{}|\cr
-& \idx{|Everyex|}& token list& |{}|\cr
-\endparinventory
+\begininventory
+\macros* \idx{|\definelingstyle|}\cr
+\parameters
+\idx{|everyex|}& token list& |{}|\cr
+\idx{|Everyex|}& token list& |{}|\cr
+\endinventory
+%
 Aside from all the \Expex\/ parameters introduced to this point,
 there are numerous \Tex\/ parameters that affect the appearance
 of examples: line spacing, hsize, font selection, etc.  These are
@@ -37,7 +38,8 @@ One straightforward way to do this is:
 \hsize=3in \it \advance\baselineskip by 2pt
 Und hier k\"onnen wir sehen was f\"ur Unfug wird gemacht
 wenn er einen ganz langen Satz binnen kriegt.
-\xe |endcodedisplay
+\xe
+|endcodedisplay
 
 If you have many examples that you want to typeset in this way
 that are scattered throughout a document, it is awkward to have
@@ -50,47 +52,46 @@ formatting changes into one named unit, called a ``style''.  If
 this style is called ``narrow italic'', then you can write the following
 to achieve the format of (\lastx).
 
-\codefragment
-|\ex[lingstyle=narrow italic]|
-\endcodefragment
+\codedisplay
+\ex[lingstyle=narrow italic]
+|endcodedisplay
 
 The various format specifications are packaged into a style
 by saying:
 
-\codefragment
-|\definelingstyle{narrow italic}{textoffset=3em,|
-|   everyex={\hsize=3in \it \advance\baselineskip by 2pt}}|
-\endcodefragment
+\codedisplay
+\definelingstyle{narrow italic}{textoffset=3em,
+   everyex={\hsize=3in \it \advance\baselineskip by 2pt}}
+|endcodedisplay
 Thereafter, setting the parameter |lingstyle| to |narrow italic|
 has the effect of setting all the parameters as specified in the
 style definition (the two parameters |textoffset| and |everyex|
 in this example). The parameter |everyex| works in the following
-way.  If |expex| is set to {\sl value\/}, a macro |\ling@everyex|
+way.  If |expex| is set to {\sl value\/}, a macro |\lingeveryex|
 is defined whose expansion is {\sl value}.  When
 an |\ex| or |\pex| construction is initiated, {\it after\/} any
-parameter settings take effect, |\ling@everyex| is executed.
+parameter settings take effect, |\lingeveryex| is executed.
 
 \Expex\ provides a second parameter, |Everyex|, which is similar to
 |expex|.  If |Expex| is set to value, a macro |ling@Everypex| is
 defined. When
 an |\ex| or |\pex| construction is initiated, {\it before\/} after any
-local parameter changes take effect, |\ling@Everyex| is executed.
+local parameter changes take effect, |\lingEveryex| is executed.
 The reasons for providing both |everyex| and |Everyex| are
 subtle. Different stages of the writing/rewriting/editing process
 may call for different treatments of example formatting,
 particularly if the final aim is a camera ready product.  Suppose
-you normally make double spaced drafts with an hsize of $6.5\,\rm
-in$ and that your final aim is to produce camera ready copy with
-an hsize of $4.375\,\rm in$.  Suppose also that you are at
+you normally make double spaced drafts with an hsize of
+\textdim{6.5 in} and that your final aim is to produce camera ready copy with
+an hsize of \textdim{4.375 in}.  Suppose also that you are at
 editing stage where you want to see exactly how the examples
 will be formatted in the finished product, but still want full width
 double spaced text.  One way to accomplish this is to say
 
-\codefragment
-|\lingset{everyex={\hsize=4.375in \normalbaselines}}|
-\endcodefragment
-
-\noindent at the beginning of your document.  |\normalbaselines|
+\codedisplay
+\lingset{everyex={\hsize=4.375in \normalbaselines}}
+|endcodedisplay
+at the beginning of your document.  |\normalbaselines|
 is a standard \Tex\/ macro which establishes the normal line
 spacing for the current font.  This makes the hsize and line
 spacing inside examples independent of the hsize and line spacing
@@ -101,9 +102,9 @@ of |everyex| in your document awkward.  If you want a particular
 example to be set in italics, for example, you might think to
 use:
 
-\codefragment
-|\ex[everyex=\it]|
-\endcodefragment
+\codedisplay
+\ex[everyex=\it]
+|endcodedisplay
 
 \noindent This will certainly produce an italicized example
 because |\it| will be evaluated early on in typesetting the
@@ -115,7 +116,7 @@ spacing within examples.
 intention is that special settings that should hold inside
 examples throughout the document are assigned to |Everyex|, with
 |expex| reserved for local variations.  Note that since
-|\ling@Everyex| is evaluated before local parameter changes take
+|\lingEveryex| is evaluated before local parameter changes take
 effect, parameter settings specified by |Expex| will be overridden
 by any local parameter settings.
 
@@ -144,11 +145,11 @@ example is printed. The effect of
 |\lingset{everyex=«value»}|
 \endcodefragment
 
-\noindent is to define a macro |\ling@everyex| which expands to
+\noindent is to define a macro |\lingeveryex| which expands to
 {\sl value}.  When |\ex| is
 expanded, a group is first initiated and
 the parameter settings furnished to |\ex| are
-passed to |\lingset|, then |\ling@everyex| is executed.
+passed to |\lingset|, then |\lingeveryex| is executed.
 
 
 

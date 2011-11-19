@@ -49,6 +49,37 @@
 \def\parameter{\omit Parameter:\hidewidth\cr
    \hfil\it key& \hfil\it value& \hfil\it initial setting}
 
+\def\begininventory{\@getoptionalarg\begininventory@a}
+\def\begininventory@a{\medskip\hrule\medskip \bgroup
+   \openup2pt
+   \halign\bgroup \quad ##\hfil&&
+      \hskip \ifx\@optionalarg\empty 2em \else\@optionalarg\fi ##\hfil\cr
+}
+\def\endinventory{\egroup\egroup \medskip\hrule\bigskip\noindent}
+\def\parameters{\omit Parameters:\hidewidth\cr
+   \hfil\it key& \hfil\it value& \hfil\it initial setting}
+\def\parameter{\omit Parameter:\hidewidth\cr
+   \hfil\it key& \hfil\it value& \hfil\it initial setting}
+\def\parameters{\omit\pst@ifstar\parameters@a}
+\def\parameters@a{Parameter\if@star\else s\fi:\hidewidth\cr
+   \hfil\it key& \hfil\it value& \hfil\it initial
+   value\cr}
+\def\parametersdef{\omit\pst@ifstar\parametersdef@a}
+\def\parametersdef@a{Parameter\if@star\else s\fi:\hidewidth\cr
+   \hfil\it key& \hfil\it value& \hfil\it initial
+   value& \hfil\it default value\cr}
+\def\macros{\omit\pst@ifstar\macros@a}
+\def\macros@a{Macro\if@star\else s\fi:\hidewidth\cr}
+\def\counter{\omit Counter:\hidewidth\cr}
+\def\endmacros{\hidewidth\cr}
+\def\macros@a{Macro\if@star\else s\fi:\enspace}
+
+\def\beginmacinventory{\pst@ifstar\beginmacinventory@a}
+\def\beginmacinventory@a{\bgroup\parindent=0pt \hrule\medskip
+   Macro{\if@star \else s\fi}:\enspace}
+\def\endmacinventory{\medskip\egroup\hrule\bigskip\noindent}
+
+
 %\def\begininventory{\bigskip\bgroup
 %   \setbox0=\vtop\bgroup\openup2pt
 %      \halign\bgroup \quad ##\hfil&& \tspace ##\hfil\cr

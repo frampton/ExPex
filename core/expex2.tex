@@ -120,7 +120,7 @@
 \define@linginckey\skip{[0pt]}{}{belowexskip}
 \define@linginckey\dimen{}{}{numoffset}
 \define@linginckey\dimen{}{}{textoffset}
-\define@ling@cmdkeys{%
+\define@lingcmdkeys{%
    Everyex,
    everyex,
    exbreakfil,
@@ -150,7 +150,7 @@
          \settosum\leftskip\epd@numright\lingtextoffset
       \fi
    \llap{\hbox to\leftskip{\unhbox\numbox \hss}}%
-   \ling@everyex
+   \lingeveryex
    \latex@tagex
    \ignorespaces
 }
@@ -186,7 +186,7 @@
 \def\ex@setup{%             also used by \pex
    \global\@specialexnofalse
    \latex@tagex
-   \ling@Everyex
+   \lingEveryex
    \let\reset@refproofing\@printref
    \let\@printref\identity    % turn off refproofing
    \Ling@usearg
@@ -210,12 +210,12 @@
 \def\exbreak{\endgraf\bgroup\@getoptionalarg\exbreak@a}
 \def\exbreak@a{%
    \ifx\@optionalarg\empty
-         \skip255=\ling@exbreakfil
+         \skip255=\lingexbreakfil
       \else
          \skip255= 0pt plus\@optionalarg
       \fi
    \vskip\skip255
-   \penalty\ling@exbreakpenalty
+   \penalty\lingexbreakpenalty
    \vskip-\skip255
    \egroup
 }
@@ -294,7 +294,7 @@
 \def\pex@g{\ifx\temp\a \let\next\pex@h
    \else \let\next\pex@e \ling@nopreamblefalse \fi \next}
 \def\pex@h#1\a{\pex@e\a}
-\def\pex@e{\pex@i \ling@everyex }
+\def\pex@e{\pex@i \lingeveryex }
 \def\pex@i{%
    \setbox\numbox=\hbox{\hskip\lingnumoffset\actualexnoprint}%
    \epx@setdimensions
@@ -353,7 +353,7 @@
             \fi
          \@firstlabelfalse
       \else
-         \par\penalty\ling@splitpartspenalty
+         \par\penalty\lingsplitpartspenalty
          \vskip\linginterpartskip
       \fi
    \def\@specialexno{}\def\@optionaltag{}%
@@ -524,7 +524,7 @@
 % ----- tags and reference -----
 %
 %----- local reference to example numbers -----
-\def\nextx{{\@printref{ \number\excnt}}}
+\def\nextx{{\@printref{\number\excnt}}}
 \def\anextx{{\@printref{\advance\excnt by 1 \number\excnt}}}
 \def\lastx{{\@printref{\advance\excnt by -1 \number\excnt}}}
 \def\currx{\the\excnt\relax}
@@ -533,7 +533,7 @@
 % ----- defining tags -----
 \def\deftag#1#2{%
    {\let\@printref=\identity
-   \expandafter\xdef\csname lingtag@#2\endcsname{{#1}}%
+   \expandafter\xdef\csname lingtag@#2\endcsname{#1}%
    \if@g@thertags
       \immediate\write@tags{\noexpand\@fd@f {#2} {{#1}} }%
       \fi}%
@@ -584,31 +584,39 @@
 \def\@printref#1{%
    \if@highlightref \@highlightprint{#1}\else #1\fi}
 %%%%
-\newif\if@specialget
-\def\specialexno@a{\futurelet\temp\specialexno@b}
-\def\specialexno@b{%
-   \ifx\temp\getref  \@specialgettrue
-      \else \ifx\temp\getfullref \@specialgettrue
-      \else \@specialgetfalse \fi\fi
-   \specialexno@c
-}
-\def\specialexno@c #1#2#3\@nil{%
-   \if@specialget
-      \begingroup
-      \let\@printref\gobble
-      #1{#2}%
-      \xdef\temp{\noexpand\edef\noexpand\lingspecialexno{\temp#3}}%
-      \aftergroup\temp
-      \endgroup
-   \else %
-      \def\lingspecialexno{#1#2#3}%
-   \fi
-}
+%\newif\if@specialget
+%\def\specialexno@a{\futurelet\temp\specialexno@b}
+%\def\specialexno@b{%
+%   \ifx\temp\getref  \@specialgettrue
+%      \else \ifx\temp\getfullref \@specialgettrue
+%      \else \@specialgetfalse \fi\fi
+%   \specialexno@c
+%}
+%\def\specialexno@c #1#2#3\@nil{%
+%   \if@specialget
+%      \begingroup
+%      \let\@printref\gobble
+%      #1{#2}%
+%      \xdef\temp{\noexpand\edef\noexpand\lingspecialexno{\temp#3}}%
+%      \aftergroup\temp
+%      \endgroup
+%   \else %
+%      \def\lingspecialexno{#1#2#3}%
+%   \fi
+%}
+%\define@key{ling}{exno}{%
+%   \global\@specialexnotrue
+%   \let\latex@tagexlabel\gobble
+%   \let\latex@tagex\gobble
+%   \specialexno@a #1\relax\@nil
+%}
+\newbox\exnobox
 \define@key{ling}{exno}{%
    \global\@specialexnotrue
    \let\latex@tagexlabel\gobble
    \let\latex@tagex\gobble
-   \specialexno@a #1\relax\@nil
+   \setbox\exnobox=\hbox{#1}%
+   \def\lingspecialexno{\unhcopy\exnobox}%
 }
 % ----- opening the tag file -----
 \newif\if@g@thertags
@@ -743,56 +751,20 @@
 \def\chooseref@g#1#2{#1}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% glosses
-%\define@choicekey{ling}{glstyle}[\ling@glstyle\gl@stylenum]%
-%   {wrap,3level,oldstyle,multilevel,multiwrap}{%
-% % \ling@glstylenum is used to identify wrap style, so it should stay first
-%      \ifcase\gl@stylenum
-%            \let\gl@beginglstyle\glw@begingl
-%            \let\endgl\glw@endgl
-%            \glw@assignlevels
-%            \let\glft=\glw@glft
-%         \or
-%            \let\gl@beginglstyle=\glT@begingl
-%            \let\endgl\endgl@T
-%            \glw@assignlevels
-%            \let\glft=\glw@glft
-%         \or
-%            \let\gl@beginglstyle=\begingl@L
-%            \let\endgl=\endgl@L
-%            \let\gla=\gla@L
-%            \let\glb=\glb@L
-%            \let\glc=\glc@L
-%         \or
-%            \let\gl@beginglstyle=\begingl@L
-%            \let\endgl=\endgl@L
-%            \glm@assignlevels
-%            \let\glft=\glft@M
-%         \fi
-%}
-% BELOW RENDER glstyle IMPOTENT
-% it could be brought back to life by code along the lines of the code above
-\define@key{ling}{glstyle}{%    any setting of glstyle gives the wrap style
-   \let\gl@beginglstyle\glw@begingl
-   \let\endgl\glw@endgl
-   \glw@assignlevels
-   \let\glft=\glw@glft
+% Presently, the glstyle key is a dummy and can only be set to the
+% value wrap.  It is anticipated that in the future there will be
+% other glstyles.  It must set \gl@beginstyle, which is inserted
+% immediately after \begingl is called, the various level macros
+% (\gla,\glb,\glft,etc.) and \endgl.
+\define@choicekey{ling}{glstyle}[\ling@glstyle\gl@stylenum]{wrap}{%
+   \ifcase\gl@stylenum
+      \let\gl@beginglstyle\glw@begingl
+      \let\endgl\glw@endgl
+      \glw@assignlevels
+      \let\glft=\glw@glft
+      \fi
 }
-\def\ling@glstyle{wrap}
-\def\glm@assignlevels{%
-   \expandafter\XKV@for@n\expandafter{\glm@levels}\levelname
-   {\edef\temp{\noexpand\let
-   \expandafter\noexpand\csname gl\levelname\endcsname
-   \expandafter\noexpand\csname gl\levelname @M\endcsname}%
-   \temp}%
-}
-\def\glw@assignlevels{%
-   \expandafter\XKV@for@n\expandafter{\glw@levels}\levelname
-   {\edef\temp{\noexpand\let
-   \expandafter\noexpand\csname gl\levelname\endcsname
-   \expandafter\noexpand\csname glw@gl\levelname\endcsname}%
-   \temp}%
-}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \def\begingl{\bgroup\@getoptionalarg\gl@begingl}
 \def\gl@begingl{\ling@usearg\gl@beginglstyle}
@@ -808,72 +780,6 @@
    {none,normal,cascade}{}
 \define@ling@cmdkeys{glrightskip}
 \lingset{glhangstyle=normal,glrightskip=0pt plus .25\hsize}
-% ----- side by side (ss) gloss style -----
-\define@choicekey{ling}{glftpos}[\temp\epx@glftpos]%
-   {below,right}{%
-      \ifcase\epx@glftpos
-         \let\gl@beginglstyle\glw@begingl
-         \let\endgl\glw@endgl
-         \let\glft=\glw@glft
-      \or
-         \let\gl@beginglstyle=\glw@ss@begingl
-         \let\endgl=\glw@ss@endgl
-         \let\glft\glw@ss@glft
-      \fi
-}
-\define@lingcmdkeys{sssep,ssratio,ssrightskip}
-\lingset{sssep=2em,ssratio=.6,ssrightskip=0pt plus 1em}
-\newdimen\ssleftwd
-\newdimen\ssrightwd
-\def\glw@ss@begingl{%
-   \dimen0 =\hsize
-   \advance\dimen0 by -\leftskip
-   \advance\dimen0 by -\lingsssep
-   \ssleftwd=\lingssratio\dimen0
-   \ssrightwd=\dimen0
-   \advance\ssrightwd by -\ssleftwd
-   \leavevmode\bgroup\hbox\bgroup
-      \hsize=\ssleftwd
-      \lingset{glwidth=\ssleftwd}
-      \glw@begingl
-}
-\def\glw@ss@endgl{\egroup\egroup}
-\def\glw@ss@glft #1//{%
-   \glw@endgl
-   \hskip\lingsssep
-   \vtop{%
-      \leftskip=0pt
-      \rightskip=\lingssrightskip
-      \parindent=0pt
-      \hsize=\ssrightwd
-      \ling@everyglft
-      #1}%
-      \ignorespaces
-}
-% ----- plumbing needed for cascading hanging indentation -----
-\newdimen\glwcascade@pshapeindent
-\newdimen\glwcascade@pshapelinewd
-\def\glwcascade@parshapetarget{}
-\def\glwcascade@mkshapeaux{%
-   \edef\glwcascade@parshapetarget
-      {\glwcascade@parshapetarget\space
-         \the\glwcascade@pshapeindent\space\the\glwcascade@pshapelinewd}%
-   \advance\glwcascade@pshapeindent by \ling@glhangindent
-   \advance\glwcascade@pshapelinewd by -\ling@glhangindent
-}
-\def\glwcascade@mkshapeauxaux{\glwcascade@mkshapeaux\glwcascade@mkshapeaux
-   \glwcascade@mkshapeaux}
-\def\glwcascade@makeshape{%
-   \glwcascade@pshapeindent=0pt
-   \glwcascade@pshapelinewd=\hsize
-   \glwcascade@mkshapeaux\glwcascade@mkshapeaux
-   \glwcascade@mkshapeaux\glwcascade@mkshapeaux
-}
-\def\glwcascade@makeshape{%
-   \glwcascade@pshapeindent=0pt
-   \glwcascade@pshapelinewd=\hsize
-   \glwcascade@mkshapeauxaux\glwcascade@mkshapeauxaux\glwcascade@mkshapeauxaux
-}
 %---------------------- Wrap style (w) ---------------------
 \newtoks\gltoks@a
 \newtoks\gltoks@b
@@ -953,13 +859,7 @@
    \ifglw@word
       \gltoks@a={#1#2}%
       \gltoks@b=\expandafter{\ling@everygla}%
-%<<
-%      \edef\temp{\noexpand\\{\the\gltoks@b \the\gltoks@a}}%
-%      \expandafter\glw@append\temp\to\mainlist
-%--
-%>>
       \glw@append \\{#1#2}\to\mainlist
-%--
       \setbox0=\hbox{\ling@everygla #1#2}%
       \ifdim\glw@maxht<\ht0 \glw@maxht=\ht0 \fi
       \ifdim\glw@maxdp<\dp0 \glw@maxdp=\dp0 \fi
@@ -978,22 +878,35 @@
       \to\everylist
    \gltoks@a=\expandafter{\everylist}%
 }
-\def\gl@stylenum{0}
+\def\glw@assignlevels{%
+   \expandafter\XKV@for@n\expandafter{\glw@levels}\levelname
+   {\glw@assign@level\levelname}%
+}
+\def\glw@assign@level#1{%
+   \edef\temp{\noexpand\let
+      \expandafter\noexpand\csname gl#1\endcsname
+      \expandafter\noexpand\csname glw@gl#1\endcsname}%
+   \temp
+}
+% \glw@gla and \glw@glft get their definitions directly
+% \glw@glx gets defined via \defineglwlevels, which adds x to the
+% list \glw@levels of defined glw levels
 \def\glw@levels{a,ft}
-\def\define@glwlevel#1{%
+\def\define@glw@level#1{%
    \expandafter\ifx\csname glw@gl#1\endcsname\relax
       \define@ling@cmdkeys{everygl#1}%
       \define@linginckey\skip{}{}{abovegl#1skip}%
       \XKV@addtolist@o\glw@levels{#1}%
       \lingset{everygl#1=,abovegl#1skip=0pt}
       \expandafter\def\csname glw@gl#1\endcsname{\glw@glx{#1}}%
+      \ifx\gl@stylenum\undefined \else
+         \ifnum\gl@stylenum=0 \glw@assign@level{#1}\fi\fi
    \else
-      \message{>>>>ExPex Warning: Level #1 is already defined.}%
+      \@expexwarn{Level #1 is already defined}
    \fi
 }
-\def\definegllevels#1{\XKV@for@n{#1}\thislevel
-   {\expandafter\define@glwlevel\expandafter{\thislevel}}%
-   \ifnum\gl@stylenum=0 \lingset{glstyle=wrap}\fi
+\def\defineglwlevels#1{\XKV@for@n{#1}\thislevel
+   {\expandafter\define@glw@level\expandafter{\thislevel}}%
 }
 \def\glw@glx#1{%   x suggests any label (as argument to \glw@glx)
    \def\worklist{}%
@@ -1016,7 +929,7 @@
    \glw@append #1\to\worklist
    \glw@glx@b
 }
-\definegllevels{b,c}
+\defineglwlevels{b,c}
 \newif\ifglw@spacebefore
 \def\glw@begingl{%
    \parindent=0pt
@@ -1127,7 +1040,7 @@
       \repeat
       }%
 }
-
+% ----- brackets -----
 \newif\if@glpostbrack
 \newcount\@glaparsestate          % 0 normal, 1 post @, 2 post [, 3 post ]
 \define@linginckey\dimen{}{}{glbrackbracksep}
@@ -1135,6 +1048,72 @@
 \def\printrbrack{$]$}
 \def\printlbrack{$[$}
 \lingset{glbrackbracksep=.05em,glbrackwordsep=.1em}
+% ----- cascading hanging indentation -----
+\newdimen\glwcascade@pshapeindent
+\newdimen\glwcascade@pshapelinewd
+\def\glwcascade@parshapetarget{}
+\def\glwcascade@mkshapeaux{%
+   \edef\glwcascade@parshapetarget
+      {\glwcascade@parshapetarget\space
+         \the\glwcascade@pshapeindent\space\the\glwcascade@pshapelinewd}%
+   \advance\glwcascade@pshapeindent by \ling@glhangindent
+   \advance\glwcascade@pshapelinewd by -\ling@glhangindent
+}
+\def\glwcascade@mkshapeauxaux{\glwcascade@mkshapeaux\glwcascade@mkshapeaux
+   \glwcascade@mkshapeaux}
+\def\glwcascade@makeshape{%
+   \glwcascade@pshapeindent=0pt
+   \glwcascade@pshapelinewd=\hsize
+   \glwcascade@mkshapeaux\glwcascade@mkshapeaux
+   \glwcascade@mkshapeaux\glwcascade@mkshapeaux
+}
+\def\glwcascade@makeshape{%
+   \glwcascade@pshapeindent=0pt
+   \glwcascade@pshapelinewd=\hsize
+   \glwcascade@mkshapeauxaux\glwcascade@mkshapeauxaux\glwcascade@mkshapeauxaux
+}
+% ----- side by side (ss) gloss style -----
+\define@choicekey{ling}{glftpos}[\temp\epx@glftpos]%
+   {below,right}{%
+      \ifcase\epx@glftpos
+         \let\gl@beginglstyle\glw@begingl
+         \let\endgl\glw@endgl
+         \let\glft=\glw@glft
+      \or
+         \let\gl@beginglstyle=\glw@ss@begingl
+         \let\endgl=\glw@ss@endgl
+         \let\glft\glw@ss@glft
+      \fi
+}
+\define@lingcmdkeys{sssep,ssratio,ssrightskip}
+\lingset{sssep=2em,ssratio=.6,ssrightskip=0pt plus 2em}
+\newdimen\ssleftwd
+\newdimen\ssrightwd
+\def\glw@ss@begingl{%
+   \dimen0 =\hsize
+   \advance\dimen0 by -\leftskip
+   \advance\dimen0 by -\lingsssep
+   \ssleftwd=\lingssratio\dimen0
+   \ssrightwd=\dimen0
+   \advance\ssrightwd by -\ssleftwd
+   \leavevmode\bgroup\hbox\bgroup
+      \hsize=\ssleftwd
+      \lingset{glwidth=\ssleftwd}
+      \glw@begingl
+}
+\def\glw@ss@endgl{\egroup\egroup}
+\def\glw@ss@glft #1//{%
+   \glw@endgl
+   \hskip\lingsssep
+   \vtop{%
+      \leftskip=0pt
+      \rightskip=\lingssrightskip
+      \parindent=0pt
+      \hsize=\ssrightwd
+      \ling@everyglft
+      #1}%
+      \ignorespaces
+}
 % ----- underfixes -----
 \def\gluf/#1/#2/{%
    \vtop{\offinterlineskip\halign{\hfil##\hfil\cr
@@ -1187,7 +1166,6 @@
 % parameters used in glosses
    glspace=.6em,
    aboveglcskip=0pt,
-%   aboveglaskip=0pt,
    aboveglftskip=1ex,
    belowglpreambleskip=1ex,
    everyglpreamble=,

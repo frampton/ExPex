@@ -1,21 +1,21 @@
 
 \section Examples without parts
 
-\def\parameters{\omit Parameters:\hidewidth\cr
-   \hfil\it key& \hfil\it value& \hfil\it initial setting}
+%\def\parameters{\omit Parameters:\hidewidth\cr
+%   \hfil\it key& \hfil\it value& \hfil\it initial setting}
 
 \lingset{dima=1.3em}
 \noindent
 \begininventory
-\omit Macros:\quad \idx{|\ex|}|~[]|, \idx{|\xe|}\hidewidth\cr
-\omit Counter:\quad \idx{|\excnt|}\cr
-\parameters\cr
-\idx{|numoffset|}\public & \inc dimension& \textdim{0 pt}\cr
-\idx{|textoffset|}\public& \inc dimension& \textdim{1 em}\cr
+\macros \idx{|\ex|}|~[]|, \idx{|\xe|}\endmacros
+\counter \idx{|\excnt|}\endmacros
+\parameters
+\idx{|numoffset|}\public & \inc dimension& |0pt|\cr
+\idx{|textoffset|}\public& \inc dimension& |1em|\cr
 \idx{|aboveexskip|}\public& \inc skip&
-   \textdim{2.7 ex} plus \textdim{.4 ex} minus \textdim{.4 ex}\cr
+   |2.7ex plus .4ex minus .4ex|\cr
 \idx{|belowexskip|}\public& \inc skip&
-   \textdim{2.7 ex} plus \textdim{.4 ex} minus \textdim{.4 ex}\cr
+   |2.7ex plus .4ex minus .4ex|\cr
 \idx{|exskip|}& skip& (pseudo-parameter)\cr
 \endinventory
 
@@ -210,13 +210,14 @@ effect of |\lingset{exskip=«value»}| is
 \sidx{|exno|}
 \subsection Explicit example numbers
 
-\parinventory
-& \idx{|exno|}& token list& (pseudo parameter)\cr
-& \idx{|exnoformat|}& token list of the form \dots |X|\dots& |(X)|\cr
-\endparinventory
-
-\noindent Suppose that you want to repeat an example that was
-given earlier in your document.  Something like.
+\begininventory
+\parameters
+\idx{|exno|}& token list& (pseudo parameter)\cr
+\idx{|exnoformat|}& token list of the form $\;\ldots\,|X|\,\ldots$& |(X)|\cr
+\endinventory
+%
+Suppose that you want to repeat an example that was given earlier
+in your document.  Something like.
 
 \framedisplay
 \ex[exno=95] This is a crucial example.\xe

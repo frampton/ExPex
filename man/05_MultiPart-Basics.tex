@@ -21,32 +21,31 @@
 %
 %\endinput
 
+\makeatletter
+\resetatcatcode
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section Examples with labeled parts: Basics
 
-\lingset{dima=1.3em}
-\noindent\begininventory
-\omit Macros:\hidewidth\cr
-\idx{|\pex~[]|}, \idx{|\a[]|}\cr
-\omit Parameters:\hidewidth\cr
-\hfil\it key& \hfil\it value& \hfil\it initial value& \qquad\hwit{default
-value}\cr
-\idx{|labeltype|}& name of a key-value list& alpha\cr
-\idx{|labeloffset|}\public & \inc dimension& \textdim{1 em}\cr
-\idx{|labelwidth|}\public & \inc dimension& \textdim{.72 em}\cr
-\idx{|preambleoffset|}\public & \inc dimension& \textdim{1 em}\cr
+\begininventory
+\macros
+\idx{|\pex~[]|},
+\idx{|\a[]|}\cr
+\parameters
+\idx{|labeltype|}& name of a key-value list& |alpha|\cr
+\idx{|labeloffset|}\public & \inc dimension& |1em|\cr
+\idx{|labelwidth|}\public & \inc dimension& |.72em|\cr
+\idx{|preambleoffset|}\public & \inc dimension& |1em|\cr
 \idx{|interpartskip|}\public & \inc skip&
-   \textdim{1 ex} plus \textdim{.2 ex} minus \textdim{.2 ex}\cr
+   |1ex plus .2ex minus .2ex|\cr
 \idx{|belowpreambleskip|}\public & \inc skip&
-   \textdim{1 ex} plus \textdim{.2 ex} minus \textdim{.2 ex}\cr
-\idx{|nopreamble|}& boolean& (not relevant)& \qquad true\cr
+   |1ex plus .2ex minus .2ex|\cr
+%\idx{|nopreamble|}& boolean& (not relevant)\quad [{\it Default\/}: |true|]\cr
 \idx{|samplelabel|}& token list& (pseudo-parameter)\cr
 \endinventory
-
-\medskip
-\noindent Typical examples are given below, with the initial
-parameter settings.\medskip
+%
+Typical examples are given below, with the initial parameter
+settings.\medskip
 
 \framedisplay
 \pex
@@ -85,12 +84,12 @@ the {\it preamble\/} and the first part.  The preamble is the
 visible material, if any, that appears after the example number
 and before the first part.
 
-The horizontal dimensions are parametrized as pictured
-below, assuming the default settings of the parameters |labelanchor|
-and |textanchor|.  (The effects of changing the settings of the
-anchoring parameters will be considered in Section \getref{anchors}.)
-Note that the parameters |numoffset| and |textoffset| are also used in
-formatting examples without parts.
+The horizontal dimensions are parametrized as pictured below,
+assuming the default settings of the parameters |labelanchor| and
+|textanchor|.  (The effects of changing the settings of the
+anchoring parameters will be considered in Section
+\getref{anchors}.) Note that the parameters |numoffset| and
+|textoffset| are also used in formatting examples without parts.
 
 \exdisplay
 \makeatletter
@@ -187,7 +186,7 @@ by the user.
 \subsection {\tt nopreamble}
 
 \begininventory
-\parameter& \it default value\cr
+\parametersdef*
 |nopreamble|& boolean& (not relevant)& \hfil true\cr
 \endinventory
 
@@ -270,9 +269,10 @@ preamble.
 \subsection Stipulated labels
 
 \begininventory
-\parameter\cr
+\parameters*
 |label|& token list& |{}|\cr
 \endinventory
+%
 |label| is recognized as a key only by the |\a| macro.    % =«value»
 If |label=«value»| is passed to |\a|,  that value is inserted as the
 label, ignoring automatic label generation.  This can be useful if
@@ -329,10 +329,11 @@ or 3) incrementing the contextual setting of
 
 \subsection Formatting the preamble
 
-\parinventory
-& \idx{|preambleoffset|}& incrementable dimension& |1em|\cr
-& \idx{|belowpreambleskip|}& skip& |1ex|\cr
-& \idx{|nopreamble|}&& (default only)\cr
+\begininventory
+\parameters
+\idx{|preambleoffset|}& incrementable dimension& |1em|\cr
+\idx{|belowpreambleskip|}& skip& |1ex|\cr
+\idx{|nopreamble|}&& (default only)\cr
 \endparinventory
 
 \noindent Visible material which occurs before the first labeled

@@ -80,25 +80,33 @@ scope.  For this reason, {\sl expex.tex\/} specifies the label width
 in the label type |alpha| by |labelwidth=.72em|, not by
 |samplelabel=a.|.\footnote{In the font that I happen to be using to
 write this section, the alphabetical labels (including the period)
-a--d have widths varying from \\.694em to \\.75em; the capital labels
-A--D have widths varying from \\.917em to \\.972em; and the integer
-labels for 1 to 9 all have width \\.75em. The label width settings for
-the label types |alpha| (\\.72em) and |caps| (\\.94em) are a good
-compromise.} Setting |labelwidth| via the second method would only be
+a--d have widths varying from \textdim{.694 em} to \textdim{.75 em}; the capital labels
+A--D have widths varying from \textdim{.917 em} to \textdim{.972 em}; and the integer
+labels for 1 to 9 all have width \textdim{.75 em}. The label width settings for
+the label types |alpha| (\textdim{.72 em}) and |caps| (\textdim{.94 em}) are good
+compromises.} Setting |labelwidth| via the second method would only be
 satisfactory if the fonts in force at the points that |\pex| is
 used is the same as the font in force when expex.tex is input and
 the |alpha| style defined.
 
-\subsection Anchoring (|labelanchor|,|preambleanchor|, and
-|textanchor|
+\subsection Anchoring
 
+\begininventory
+\parameters
+\idx{|labelanchor|}& |numright|, |numleft|, or |margin|&
+   |numright|\cr
+\idx{|preambleanchor|}& |numright|, |labelleft|, or |text|&
+   |numright|\cr
+\idx{|textanchor|}& |numleft| or |normal|& |normal|\cr
+\endinventory
+%
 \deftagsec{anchors}%
-Normally, the left edge of the label slot is determined by its
+Initially, the left edge of the label slot is determined by its
 offset from the right edge of the number, the left edge of the
 preamble is also determined by its offset from the left edge of
 the number, and the left edge of the text is determined by its
-offset from the right edge of the label slot.  The ``anchor'' for
-the offset is parametrized.  Below, for example, is a more
+offset from the right edge of the label slot.  But the ``anchor''
+for an offset is parametrized.  Below, for example, is a more
 refined version of example on page \getref{partialrepeat}; the
 labels are anchored at the left edge of the example number rather
 than the right edge.
@@ -146,21 +154,6 @@ Braces are needed around |[X]| so that the mechanism that reads the
 optional argument of |\pex| does not interpret the right bracket as
 the right delimiter of the optional argument.
 
-The possible setting of the anchor keys are given below. They are all
-choice keys which must be set to one of the possibilities listed.
-
-\exdisplay\noexno
-Anchoring (choice) parameters:\medskip
-%\leftskip=0pt
-\qquad\vtop{\halign{#\hfil&& \qquad #\hfil\cr
-\hfil\it key& \hfil\it allowed values& \hfil\it initial value\cr
-\noalign{\smallskip}
-\idx{|labelanchor|}& |numright|, |numleft|, or |margin|&
-   |numright|\cr
-\idx{|preambleanchor|}& |numright|, |labelleft|, or |text|&
-   |numright|\cr
-\idx{|textanchor|}& |numleft| or |normal|& |normal|\cr
-}}\xe
 The |normal| setting of the |textanchor| parameter is the right
 edge of the number inside |\ex| and right edge of the label slot
 inside
@@ -195,15 +188,15 @@ Here is another example:
 \a[label=aa] second
 \xe
 \endss
-\noindent Some publications
-demand this style.  It is left over from typewriter days with
-mechanical tabs (and from {\sl Word}, which is still rooted in that
-typographic period).
+\noindent Some publications demand this style, in which both the
+label and text offsets are measured from the left edge of the
+number, or from the margin. It is left over from typewriter days
+with mechanical tabs.
 
 \subsection Formatting the labels
 
 \begininventory
-\parameters\cr
+\parameters
 \idx{|everylabel|}& token list\qquad& |{}|\cr
 \idx{|labelformat|}& \dots\ |A| \dots & |A.|\cr
 \endinventory
@@ -315,7 +308,7 @@ label slot.
 \subsection Aligning the labels
 
 \begininventory
-\parameter\cr
+\parameters
 \idx{|labelalign|}& \idx{|left|}, \idx{|right|}, or
 \idx{|margin|}&
    \hfil |left|\cr
@@ -507,9 +500,10 @@ side examples.
 \subsection User designed labeling
 
 \begininventory
-\omit Macro:\quad \idx{|\definelabeltype|}\hidewidth\cr
-\omit Counter:\quad \idx{|\pexcnt|}\hidewidth\cr
-\parameters\cr
+\macros*
+\idx{|\definelabeltype|}\cr
+%\omit Counter:\quad \idx{|\pexcnt|}\hidewidth\cr
+\parameters
 \idx{|labelgen|}& \idx{|char|}, \idx{|number|}, or \idx{|list|}&
    |char|\cr
 \idx{|pexcnt|}& integer& |97|\cr
@@ -636,7 +630,7 @@ starts over again at the beginning and a warning is issued.
 \subsection IJAL style format of multiline examples
 
 \begininventory
-\parameters& default setting\cr
+\parametersdef
 |avoidnumlabelclash|& boolean& |false|& |true|\cr
 |appendtopexarg|& {\it key\/}|=|{\it value}& |{}|\cr
 \endinventory
@@ -647,27 +641,27 @@ parametrization.  Multipart examples look like this:
 \definelingstyle{IJAL}{%
    avoidnumlabelclash=true,
    labelanchor=numleft,labeloffset=0pt,
-   textanchor=normal,textoffset=1.5em,
+   textanchor=normal,textoffset=1em,
    preambleanchor=text,preambleoffset=0pt,
    labelformat=(A),
    everylabel=\actualexno,
    appendtopexarg={samplelabel=(\actualexno a)}
    }%
 \begingroup
+
 \lingset{lingstyle=IJAL}
-\excnt=4
-\pex<nonum>
+\pex[exno=4]<nonum>
 \a first
 \a second
 \xe
-\excnt=64
-\pex~
+
+\pex~[exno=64]
 Preamble
 \a first
 \a second
 \xe
-\excnt=1025
-\pex~
+
+\pex~[exno=1025]
 Preamble
 \a first
 \a second
@@ -677,19 +671,22 @@ Preamble
 A first approximation is
 
 \codedisplay
-\lingset{labelwidth=2em,labelanchor=numleft,labeloffset=0pt,
-   textanchor=normal,textoffset=1.5em,preambleanchor=text,
-   preambleoffset=0pt,labelformat=(A),everylabel=\actualexno}
+\lingset{labelanchor=numleft,labeloffset=0pt,
+   textanchor=normal,textoffset=1.8em,
+   preambleanchor=text,preambleoffset=0pt,
+   labelformat=(A),everylabel=\actualexno}
 |endcodedisplay
 But the results (below) have some deficiencies.
 
 \begingroup
-\lingset{labelwidth=2em,labelanchor=numleft,labeloffset=0pt,
-   labelformat=(A),everylabel=\actualexno,textanchor=normal,
-   textoffset=1.5em,preambleanchor=text,preambleoffset=0pt}
-\pex[exno=5]<nonum>
+\lingset{labelanchor=numleft,labeloffset=0pt,
+   textanchor=normal,textoffset=1.8em,
+   preambleanchor=text,preambleoffset=0pt,
+   labelformat=(A),everylabel=\actualexno}
+\pex[exno=5]
 \a first
 \a second
+\deftag{5}{IJAL1}
 \xe
 
 \pex~[exno=65]
@@ -706,7 +703,7 @@ Preamble
 
 There are two things that need to be done.  First, in order to avoid
 printing both the example number and the label of the first part if
-there is no preamble, as happens in (\getref{nonum}), printing the
+there is no preamble, as happens in (\getref{IJAL1}), printing the
 example number must be suppressed if there is no preamble. Second, in
 order to avoid the shrinking gap between the label and the text as
 more digits appear in the example number and it gets wider, the label
@@ -725,6 +722,10 @@ above, we get:
 \a first
 \a second
 \xe|midss
+\lingset{labelanchor=numleft,labeloffset=0pt,
+   textanchor=normal,textoffset=1.8em,
+   preambleanchor=text,preambleoffset=0pt,
+   labelformat=(A),everylabel=\actualexno}
 \pex[exno=5,avoidnumlabelclash]
 \a first
 \a second
@@ -767,7 +768,7 @@ Then
 \edef\\{\noexpand\vskip\lingbelowexskip}%
 \beginss
 \lingset{lingstyle=IJAL}
-\pex
+\pex[exno=5]
 \a first
 \a second
 \xe
@@ -804,23 +805,6 @@ Preamble
 
 \endgroup
 
-
-
-
-
-{crskip}
-{glspace}
-{aboveglcskip}
-{glhangindent}
-{glwidth}
-{aboveglcskip}
-{aboveglftskip}
-{abovegl\#1skip}
-{abovemoreglskip}
-{aboveglcskip}
-{moregloffset}
-{glufcloseup}
-{glbracketsep}
 
 \endinput
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

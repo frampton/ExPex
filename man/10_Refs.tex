@@ -1,36 +1,44 @@
 
+\ifnum\secno < 1 \secno=11 \excnt=34 \fi
+
 \section Referring to examples and labeled parts of examples
 
 \vskip-1ex
-\subsection Unnamed reference
+\subsection Unnamed reference\deftagsec{unnamedref}
 
+\beginmacinventory
 Macros:\quad \idx{|\lastx|}, \idx{|\nextx|}, \idx{|\blastx|},
-\idx{|\anextx|}, \idx{|\bblastx|}\bigskip
+\idx{|\anextx|}, \idx{|\bblastx|}
+\endmacinventory
 
-\noindent These produce the last, next, before last, after next,
-and before before last example numbers.  The example number
+\noindent If $x$ is the number of the last example, these
+produce $x$, $x+1$, $x-1$, $x+2$, and $x-2$, respectively.
+The example number
 counter is incremented early in the expansion of |\ex| and |\pex|,
-so these macros can be used inside an example, with ``last
-example'' taking on the meaning of ``current example'' and the
-others similarly interpreted.
+so if one of these macros is inside an example, with ``last
+example'' taking on the meaning of ``current example''.  If any
+of these macros is used in setting parameters in the optional
+argument of |\ex| or |\pex|, they act as if they were being
+evaluated just before |\ex| or |\pex|.
 
-It is dangerous to use macros like |\bblastx| or |\anextx| for
-reference to an example because later additions or deletions in
-the document can throw off the reference.  This kind of
-misreference is easy to overlook in proofing a document. It is
-better to assign names to the things you want to refer to and to
-refer to them by name. If an intervening example is deleted or
-added, no problem arises. If the example which is referred to is
-deleted, then \Tex\/ can report a missing reference.
+It is potentially dangerous to use macros like |\bblastx| or
+|\anextx| for reference to an example because later additions or
+deletions in the document can throw off the reference.  This kind
+of misreference is particularly easy to overlook in proofing a
+document. It is better to assign names to the things you want to
+refer to and to refer to them by name, particularly in a document
+that will undergo a lot of rewriting.  If reference by name is
+used and an intervening example is deleted or added, no problem
+arises.  If the example which is referred to is deleted, then
+\Tex\/ will report a missing reference.
 
 \subsection Named reference
 
 \deftagsec{named-reference}
-\halign{& #\hfil\cr
-Macros:\quad & |\deftag|, |\deftagex|, |\deftaglabel|,
-   |\deftagpage|, |\a<>|, |\getref|\cr
-&  |\getfullref|, |\refproofing|\cr}
-\bigskip
+\beginmacinventory
+\idx{|\deftag|}, \idx{|\deftagex|}, \idx{|\deftaglabel|},
+   \idx{|\deftagpage|}, \idx{|\getref|}, \idx{|\getfullref|}%
+\endmacinventory
 
 \noindent The core macros are \idx{|\deftag|} and
 \idx{|\getref|}. |\deftag| takes two (obligatory) arguments.
@@ -51,8 +59,7 @@ The evaluation of \idx{|\deftaglabel|}|{«tag»}| is more complex.
 or a number).  The tag which is submitted to |\deftag| is $\sl
 tag'\!|.|tag$, where $\sl tag'$ is the example number tag.
 
-The code below produces (\nextx), with the deftag commands
-invisible.
+The code below produces (\nextx).
 
 \codedisplay
 \pex[interpartskip=0pt]
@@ -86,15 +93,16 @@ redefined in the interim\par\nobreak\medskip
 }}
 
 \medskip
-\noindent A spurious reference is produced if the tag |dog| is
-defined somewhere else in your document. |\deftaglabel| must
-know, at the point that it is expanded, what tag has been
-attached to the example number. If the example number has not
-been tagged at that point, a warning message is issued.
+\noindent |\getref{dog}| will produce a spurious reference if the
+tag |dog| is defined somewhere else in your document.
+|\deftaglabel| must know, at the point that it is expanded, what
+tag has been attached to the example number. If the example
+number has not been tagged at that point, a warning message is
+issued.
 
-There are shortcuts for tagging example numbers and labels, which,
-unlike most shortcuts, make the code easier to read as well.
-One can write:
+There is a shortcut for tagging example numbers and labels,
+which, unlike most shortcuts, makes the code easier to read as
+well. After
 
 \codedisplay
 \pex[interpartskip=0pt,labeltype=alpha]<snoopy>
@@ -103,15 +111,19 @@ One can write:
 \a<A> Third
 \xe |endcodedisplay
 
-\noindent |<«\dots»>| delimits an optional argument which is
-interpreted as either a tag of the example number, or of the
-label, depending on where it occurs.
+\noindent |\getref{snoopy}|, |\getref{snoopy.A}|, and
+|\getfullref{snoopy.A}| are all interpreted as~expected.
 
 If |\getref{sometag}| is evaluated and the tag is undefined, a
 warning message to this effect is generated
 and~\hbox{$\bullet$|sometag|} is typeset instead of the intended
 reference.
 
+\subsection Proofing references
+
+\beginmacinventory*
+|\refproofing|
+\endmacinventory
 It is tedious to check that references to example numbers and the
 like are correct (i.e. refer to what you think they refer to).
 \Expex\ provides a little help. If you execute
@@ -141,7 +153,9 @@ Consider (\getfullref{snoopy.dog}), for example.}\qquad
 
 \subsection The tag/reference file
 
-Macros:\quad |\gathertags|, |tagfilesuffix|\bigskip
+\beginmacinventory
+|\gathertags|, |tagfilesuffix|
+\endmacinventory
 
 \noindent Forward references require writing tag/reference
 associations to a file in one run, then reading this file in a
@@ -188,37 +202,35 @@ created.
 
 \subsection References to references, references as values
 
-Macro:\quad |\lastlabel|\bigskip
-
-\noindent If, for some reason, you want to refer to a specific
+\beginmacinventory*
+\idx{|\lastlabel|}
+\endmacinventory
+%
+If, for some reason, you want to refer to a specific
 part of a multipart example without tagging the example number,
-it can be done as follows.
+it can be done as follows, assuming that the part labels are
+alphabetical.
 
-\sidx{|\lastlabel|}\codedisplay
+\codedisplay
 \pex[everylabel=\it]
 \a First Example.
 \a Second Example.\deftag{\lastx\lastlabel}{snoopy}
 \a Third Example.
 \xe
-
-\noindent You can then refer to (\getref{snoopy}) later in your
-document.|endcodedisplay
-
-\framedisplay~[fdcorrect=top]
-\sidx{|\lastx|}
+|endcodedisplay
+\framedisplay
 \pex[everylabel=\it]
 \a First Example.
 \a Second Example.\deftag{\lastx\lastlabel}{snoopy}
 \a Third Example.
 \xe
-
-\noindent You can then refer to (\getref{snoopy}) later in your
-document.
 \endframedisplay
 
-\noindent |\lastlabel| expands to the most recent label, in
-the form in which it is printed (i.e. containing the expansion of
-|\everylabel|).
+\noindent You can then use |\getref{snoopy}| to retrieve
+\getref{snoopy}. |\lastlabel| expands to the most recent label,
+in the form in which it is printed (i.e. containing the expansion
+of |\everylabel|). If the part labels are numerical, then
+|\deftag{\lastx.\lastlabel}| is required.
 
 You can also say:
 
@@ -229,15 +241,17 @@ You can also say:
 \framedisplay~
 \ex[exno=\getref{snoopy}] Second example.\xe
 \endframedisplay
+\medskip
 
-An alternative is:
+Or you can say:
 
 \codedisplay
-\ex[exno={\getref{snoopy}, repeated}]
-Second example.\xe|endcodedisplay
+\ex[exno={\getref{snoopy}, repeated},exnoformat={[X]}]
+Second example.\xe
+|endcodedisplay
 
 \framedisplay~
-\ex[exno={\getref{snoopy}, repeated}]
+\ex[exno={\getref{snoopy}, repeated},exnoformat={[X]}]
 Second example.\xe
 \endframedisplay
 
@@ -264,10 +278,11 @@ If you say
 some point, you can use:
 
 \codedisplay
-\ex[exno=\getfullref{dog.G}] Second example\xe|endcodedisplay
+\ex[exno=\getfullref{dog.G}] Second example\xe
+|endcodedisplay
 
 \framedisplay~
-\ex[exno=\getfullref{dog.G}] Second example\xe
+\ex[exno={\getfullref{dog.G}}] Second example\xe
 \endframedisplay
 
 \subsection Extensions of the tag/reference mechanism
@@ -295,10 +310,11 @@ use, modify, or ignore.)
 
 \subsection The parameter {\tt fullreformat}
 
-\parinventory
-& \idx{|labelformat|}& format string (see discussion)& |A|\cr
-& \idx{|fullrefformat|}& format string (see discussion)& |XA|\cr
-\endparinventory
+\begininventory
+\parameters
+\idx{|labelformat|}& $\ldots\,|A|\,\ldots$ & |A.|\cr
+\idx{|fullrefformat|}& $\ldots\,|X|\,\ldots\,|A|\,\ldots$ & |XA|\cr
+\endinventory
 
 \begingroup
 \parindent=0pt \leftskip=1.2em

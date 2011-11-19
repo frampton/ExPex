@@ -33,20 +33,21 @@
 
 \subsection User defined levels
 
-Macro: |\definegllevels|
-\medskip
-
-\noindent |\glb| and |\glc| are given definitions in {\it expex.tex\/}
-by the command |\definegllevels{b,c}|.  The command also creates the
+\beginmacinventory
+|\defineglwlevels|
+\endmacinventory
+%
+|\glb| and |\glc| are given definitions in {\it expex.tex\/}
+by the command |\defineglwlevels{b,c}|.  The command also creates the
 parameters |everyglb|, |everyglc|, |aboveglbskip|, and |aboveglcskip|.
 |everyglb| and |everyglc| are initialized to empty token lists and
 |aboveglbskip| and |aboveglcskip| to \textdim{0 pt}. The user may want
-to use |\definegllevels| to create and name new gloss levels.
+to use |\defineglwlevels| to create and name new gloss levels.
 
 For example, suppose more suggestive level names are desired.
 
 \codedisplay
-\definegllevels{cat,gloss}
+\defineglwlevels{cat,gloss}
 \lingset{everyglcat=\tenrm,aboveglcatskip=-.5ex}
 
 \ex
@@ -60,7 +61,7 @@ For example, suppose more suggestive level names are desired.
 |endcodedisplay
 produces
 \framedisplay
-\definegllevels{cat,gloss}
+\defineglwlevels{cat,gloss}
 \lingset{everyglcat=\tenrm,aboveglcatskip=-.5ex}
 
 \ex
@@ -80,15 +81,17 @@ or |\glc|.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection
-{Positioning the free translation to the right of the interlinear gloss}
+\subsection Positioning the free translation to the right of the
+interlinear gloss
 
-\parinventory
-& \idx{|ftpos|}& choice (|below| or |right|)& |below|\cr
-& \idx{|sssep|}& dimension& |3em|\cr
-& \idx{|ssratio|}& decimal& |.6 |\cr
-& \idx{|ssrightskip|}& skip& |0pt plus 2em|\cr
-\endparinventory
+\begininventory
+\parameters
+\idx{|ftpos|}& choice (|below| or |right|)& |below|\cr
+\idx{|sssep|}& dimension& |3em|\cr
+\idx{|ssratio|}& decimal& |.6 |\cr
+\idx{|ssrightskip|}& skip& |0pt plus 2em|\cr
+\idx{|glhangstyle|}& |normal|, |none|, or |cascade|& |normal|\cr
+\endinventory
 
 \lingset{everygl=\openup.5ex,
    everyglword=\normalbaselines,everyglft=\normalbaselines,
@@ -156,9 +159,9 @@ cascading or not) indentation with the free translation on the right.
 
 Line breaking in the free translation is delicate because it will
 generally set in a narrow column. The default setting of |ssrightskip|
-allows up to 1em departure from right alignment. This usually avoids
+allows up to \textdim{2 em} departure from right alignment. This usually avoids
 overfull lines and awkward hyphenation.  |ssrightskip| can be
-increased (all the way to \hbox{|0pt plus 1fil|}) if there is a
+increased (all the way to \textdim{0 pt} plus \textdim{1 fil}) if there is a
 problem, at the cost of a more ragged appearance.  This can be done
 globally, or simply in troublesome examples.
 
@@ -219,11 +222,12 @@ peacock beside its nest.'//
 
 \subsection  Gloss underfixes
 
-Macro:\quad |\gluf|\par
-\parinventory
-& \idx{|glufcloseup|}& dimension& |.4ex|\cr
-& \idx{|everygluf|}& token list& |{}|\cr
-\endparinventory
+\begininventory
+\macros* |\gluf|\endmacros
+\parameters
+\idx{|glufcloseup|}& dimension& |.4ex|\cr
+\idx{|everygluf|}& token list& |{}|\cr
+\endinventory
 
 \noindent Sometimes, gloss displays like the following are
 desired, with grammatical markings written below the gloss.
@@ -500,7 +504,7 @@ heart to his girlfriend.'//
 
 
 
-\definegllevels{d,e,f}
+\defineglwlevels{d,e,f}
 
 \ex
 \begingl[everygla=\ninerm,everyglb=\tenrm,

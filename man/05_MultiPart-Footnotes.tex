@@ -3,15 +3,16 @@
 
 \subsection The parameter {\tt sampleexno}
 
-\parinventory
-& \idx{|sampleexno|}& token list& {\it empty}\cr
-\endparinventory
+\begininventory
+\parameters*
+\idx{|sampleexno|}& token list& \hfil |{}|\cr
+\endinventory
 
 In some publications, if two examples are close together in the
 running text and the widths of the typeset example numbers are
 different, the offsets are modified so that the texts in the two
 examples are aligned.  The following is considered, under this
-aesthetic, to be less than ideal.
+stringent aesthetic, to be less than ideal.
 
 \framedisplay
 \keepexcntlocal \excnt=9
@@ -31,11 +32,11 @@ existential and generic interpretations of complement subjects:
 problem.  If the parameter is set to the empty token list, it has no
 effect of the formatting.  If it is set to a nonempty token list, that
 token list is put in an hbox and its width is taken to be the
-effective width typeset example numbers.
+effective typeset width of the example number.
 
 \framedisplay
 \keepexcntlocal \excnt=9
-\pex[sampleexno=(10)]
+\pex[sampleexno=(\anextx)]
 \a I consider firemen available. (generic only)
 \a I consider firemen intelligent. (generic only)
 \xe
@@ -47,7 +48,7 @@ existential and generic interpretations of complement subjects:
 \xe
 \endframedisplay
 \codedisplay~
-\pex[sampleexno=(10)]
+\pex[sampleexno=(\anextx)]
 \a I consider firemen available. (generic only)
 \a I consider firemen intelligent. (generic only)
 \xe
@@ -58,12 +59,13 @@ existential and generic interpretations of complement subjects:
 \a I believe violists to be intelligent. (generic only)
 \xe
 |endcodedisplay
+Parameter settings prescribed the optional argument of |\ex| and
+|\pex| are made before |\excnt| is incremented, so |\excnt| gives
+the number of the previous example in the context of this
+parameter setting.  Therefore |\anextx| is required above to
+correspond to the next example number.
 
-Clearly, fine tuning of this sort in the running text should only be
-undertaken as a last step in typesetting a document since it depends
-on knowing the final typeset example numbers.
-
-It is much more common to do fine tuning of this sort in footnotes.
+It seems to be common to do fine tuning of this sort in footnotes.
 There are two reasons for this. First, lowercase roman numerals are
 commonly used and the widths vary noticably. Second, only a few
 examples are involved, assuming that examples numbers in a footnote
@@ -73,6 +75,10 @@ start at (i).
 
 \subsection Footnotes and endnotes
 
+\beginmacinventory
+\idx{|\keepexcntlocal|}
+\endmacinventory
+%
 Footnotes and endnotes pose a somewhat thorny problem since many different
 \Tex\ and \Latex\ macros are used to typeset footnotes and endnotes.
 Further, there are different ways of assigning example numbers and
@@ -103,8 +109,9 @@ The \expex2\/ distribution contains two files, {\it eptexfn.tex\/} and
 this style.  They do two things.  First, they each define a macro
 (|\everyfootnote|) which, if evaluated at the start of processing a
 footnote, ensures that examples are correctly formatted.  Second, they
-each perform minor surgery on a standard |\footnote| so that (among
-other things) |\everyfootnote| is inserted in the appropriate place.
+each perform minor surgery on a standard |\footnote| macro so
+that (among other things) |\everyfootnote| is inserted in the
+appropriate place.
 
 I intend these macro files both to be used directly or to serve as
 models for the creation of variations which satisfy user needs. To the
@@ -128,18 +135,22 @@ works.  The file listing is:
 }
 \resetatcatcode|endCLnum
 
-|\footnote| uses |\@makefntext| to typeset the footnote.  It is
-defined in the {\it .cls\/} file which is used.  The redefinition in
-lines 2--7 is a modification of the |\@makefntext| macro defined in
-{\it article.cls}.  It first executes |\everyfootnote|, which allows
-the user to introduce formatting commands into the footnote
-typesetting instructions.  The number is set with no indentation and is
-set as text, not a superscript.  |\everyfootnote| first ensures that changes in
-|excnt| that are made in the footnote are kept local to the footnote.
-|\keepexcntlocal| is an \expex\/ macro. Otherwise, changes in |excnt|
-would visible outside the footnote group in which the changes occur.
-|excnt| is then initialized.  Finally, parameters are set which
-control the formatting of examples in the footnote.
+The LaTex |\footnote| uses |\@makefntext| to typeset the
+footnote.  It is defined in the {\it .cls\/} file which is used.
+The redefinition in lines 2--7 is a modification of the
+|\@makefntext| macro defined in {\it article.cls}.  It first
+executes |\everyfootnote|, which allows the user to introduce
+formatting commands into the footnote typesetting instructions.
+The number is set with no indentation and is set as text, not a
+superscript.  |\everyfootnote| first ensures that changes in
+|excnt| that are made in the footnote are kept local to the
+footnote.  |\keepexcntlocal| is an \expex\/ macro whose execution
+causes changes in |\exnt| to be local to the group in which
+|\keepexntlocalo| is executed.  Without |\keepexcntlocal|,
+changes in |excnt| would visible outside the footnote group in
+which the changes occur. |excnt| is then initialized.  Finally,
+parameters are set which control the formatting of examples in
+the footnote.
 
 Assuming that |\usepackage{epltxfn}|, the folloing code
 produces fn. \the\fnno.
