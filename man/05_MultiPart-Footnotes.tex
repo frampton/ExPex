@@ -7,7 +7,7 @@
 \parameters*
 \idx{|sampleexno|}& token list& \hfil |{}|\cr
 \endinventory
-
+%
 In some publications, if two examples are close together in the
 running text and the widths of the typeset example numbers are
 different, the offsets are modified so that the texts in the two
@@ -28,7 +28,7 @@ existential and generic interpretations of complement subjects:
 \xe
 \endframedisplay
 
-\expex\ provides the parameter |sampleexno| to handle this formatting
+\ExPex\ provides the parameter |sampleexno| to handle this formatting
 problem.  If the parameter is set to the empty token list, it has no
 effect of the formatting.  If it is set to a nonempty token list, that
 token list is put in an hbox and its width is taken to be the
@@ -75,12 +75,12 @@ start at (i).
 
 \subsection Footnotes and endnotes
 
-\beginmacinventory
-\idx{|\keepexcntlocal|}
-\endmacinventory
+\begininventory
+\macros* \idx{|\keepexcntlocal|}\endmc
+\endinventory
 %
 Footnotes and endnotes pose a somewhat thorny problem since many different
-\Tex\ and \Latex\ macros are used to typeset footnotes and endnotes.
+\Tex\ and \LaTex\ macros are used to typeset footnotes and endnotes.
 Further, there are different ways of assigning example numbers and
 labels in multipart examples. The footnote referenced at the end of
 this sentence is formatted is an
@@ -104,7 +104,7 @@ existential and generic interpretations of complement subjects:
 }
 This footnote style is fairly common.
 
-The \expex2\/ distribution contains two files, {\it eptexfn.tex\/} and
+The \ExPex\ distribution contains two files, {\it eptexfn.tex\/} and
 {\it exltxfn.sty\/} which may be helpful in producing footnotes in
 this style.  They do two things.  First, they each define a macro
 (|\everyfootnote|) which, if evaluated at the start of processing a
@@ -144,7 +144,7 @@ formatting commands into the footnote typesetting instructions.
 The number is set with no indentation and is set as text, not a
 superscript.  |\everyfootnote| first ensures that changes in
 |excnt| that are made in the footnote are kept local to the
-footnote.  |\keepexcntlocal| is an \expex\/ macro whose execution
+footnote.  |\keepexcntlocal| is an \ExPex\ macro whose execution
 causes changes in |\exnt| to be local to the group in which
 |\keepexntlocalo| is executed.  Without |\keepexcntlocal|,
 changes in |excnt| would visible outside the footnote group in

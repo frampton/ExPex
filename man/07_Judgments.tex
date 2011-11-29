@@ -3,7 +3,7 @@
 
 \deftagsec{starsec}
 \begininventory
-\macros \idx{|\judge|}, \idx{|\ljudge|}\hidewidth\cr
+\macros \idx{|\judge|}, \idx{|\ljudge|}\endmc
 \parametersdef*
 \hfil \idx{|*|}& sample judgment string& \hfil |*|& \hfil |*|\cr
 \endinventory
@@ -29,7 +29,7 @@ the asterisk and the example sentence, looks somewhat better than
 \ex \judge* Jack and Jill wented up the hill.\xe
 \endframedisplay
 
-\noindent \Expex\/ provides the macro \idx{|\judge|} to
+\noindent \ExPex\ provides the macro \idx{|\judge|} to
 accomplish this. |\judge| takes one argument.  A multi-character
 judgment diacritic therefore needs to be surrounded in braces.
 |\judge| also ignores following spaces.  So
@@ -49,7 +49,7 @@ including the judgment marks) to be aligned, read on.
 \xe
 \endframedisplay
 
-\Expex\/ provides the macro \idx{|\ljudge|} which pushes the judgment
+\ExPex\ provides the macro \idx{|\ljudge|} which pushes the judgment
 diacritics into the gap between the labels and the examples,
 instead of pushing the examples to the right to make room for the
 judgment diacritics.  So
@@ -76,7 +76,7 @@ judgment diacritics.  So
 judgment diacritics in between the labels and the examples.
 |textoffset| needs to be increased to make room.
 
-\Expex\/ provides the pseudo parameter |*|\sidx{|*| key}\ to
+\ExPex\ provides the pseudo parameter |*|\sidx{|*| key}\ to
 facilitate adjusting the text offset.
 
 \codedisplay

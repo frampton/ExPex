@@ -28,19 +28,16 @@
 \section Examples with labeled parts: Basics
 
 \begininventory
-\macros
-\idx{|\pex~[]|},
-\idx{|\a[]|}\cr
-\parameters
+\macros \idx{|\pex~[]|}, \idx{|\a[]|}\endmc
+\parametersdef
 \idx{|labeltype|}& name of a key-value list& |alpha|\cr
-\idx{|labeloffset|}\public & \inc dimension& |1em|\cr
-\idx{|labelwidth|}\public & \inc dimension& |.72em|\cr
-\idx{|preambleoffset|}\public & \inc dimension& |1em|\cr
-\idx{|interpartskip|}\public & \inc skip&
+\idx{|labeloffset|\user} & \inc dimension& |1em|\cr
+\idx{|labelwidth|\user} & \inc dimension& |.72em|\cr
+\idx{|preambleoffset|\user} & \inc dimension& |1em|\cr
+\idx{|interpartskip|\user} & \inc skip&
    |1ex plus .2ex minus .2ex|\cr
-\idx{|belowpreambleskip|}\public & \inc skip&
+\idx{|belowpreambleskip|\user} & \inc skip&
    |1ex plus .2ex minus .2ex|\cr
-%\idx{|nopreamble|}& boolean& (not relevant)\quad [{\it Default\/}: |true|]\cr
 \idx{|samplelabel|}& token list& (pseudo-parameter)\cr
 \endinventory
 %
@@ -139,10 +136,10 @@ for example.  It can be set by the user explicitly by setting
 change to its previous value (|labelwidth=!3pt|, for example,
 increases the width of the label slot by 3pt).  It can also be
 set indirectly by giving a sample label.  |labelwidth| is then
-set to the current width of that sample.  \expex\/ sets the
+set to the current width of that sample.  \ExPex\ sets the
 default label width by |samplelabel=a.|.
 
-\expex\/ comes with three label types predefined: |alpha|,
+\ExPex\ comes with three label types predefined: |alpha|,
 |caps|, and |numeric|.
 
 \beginss
@@ -187,9 +184,9 @@ by the user.
 
 \begininventory
 \parametersdef*
-|nopreamble|& boolean& (not relevant)& \hfil true\cr
+\idx{|nopreamble|}& boolean& (not relevant)& \hfil true\cr
 \endinventory
-
+%
 In order to properly format examples with parts, there are
 various reasons that |\pex| must be able to figure out whether
 or not there is a preamble.  One reason is fairly obvious.  If
@@ -299,7 +296,7 @@ example (\getref{explicit}) in Section~\getref{explicit-sec}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Later we will see how to define custom
-label types as needed.  \expex\/ sets the defaults by
+label types as needed.  \ExPex\ sets the defaults by
 saying |labeltype=alpha|.  It contains the lines:
 
 
@@ -334,8 +331,8 @@ or 3) incrementing the contextual setting of
 \idx{|preambleoffset|}& incrementable dimension& |1em|\cr
 \idx{|belowpreambleskip|}& skip& |1ex|\cr
 \idx{|nopreamble|}&& (default only)\cr
-\endparinventory
-
+\endinventory
+%
 \noindent Visible material which occurs before the first labeled
 entry, as in (\getref{Pre}) for example, is called the preamble.
 Although the initial settings produce the format in (\blastx),
@@ -344,7 +341,7 @@ of the labels and the extra vertical skip between the preamble
 and the first part can also be set independently of the extra
 vertical skip between the various parts.
 
-\expex\ sets the label offset and the preamble offset to be equal,
+\ExPex\ sets the label offset and the preamble offset to be equal,
 so that the left edge of the preamble aligns with the left edge
 of the labels.  But this is under the control of the user.
 
@@ -409,7 +406,7 @@ try (\nextx), but it fails to achieve what you want.
 \a
 \xe
 \endss
-\noindent \expex\/ provides the parameter |nopreamble| to
+\noindent \ExPex\ provides the parameter |nopreamble| to
 solve the problem.  Setting it to ``true'' tells |\pex| that it
 should assume that there is no preamble, in spite of superficial
 appearances to the contrary.  So:

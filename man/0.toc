@@ -1,39 +1,55 @@
 \sec {1} {Introduction } \writefill 1\par 
 \subsec {1.1} {Changes } \writefill 1\par 
-\sec {2} {ExPex in action } \writefill 3\par 
+\subsec {1.2} {LaTex/Tex cooperation } \writefill 2\par 
+\subsec {1.3} {The file expex-demo.tex } \writefill 2\par 
+\subsec {1.4} {Acknowledgements } \writefill 3\par 
+\sec {2} {Some preliminary examples } \writefill 3\par 
 \sec {3} {XKV parameterization } \writefill 8\par 
-\sec {4} {Examples without parts } \writefill 10\par 
+\sec {4} {Examples without parts } \writefill 9\par 
 \subsec {4.1} {Explicit example numbers } \writefill 13\par 
-\sec {5} {Examples with labeled parts } \writefill 15\par 
-\subsec {5.1} {Formatting the preamble } \writefill 16\par 
-\subsec {5.2} {Formatting the labels } \writefill 18\par 
-\subsec {5.3} {Aligning the labels } \writefill 19\par 
-\subsec {5.4} {Anchoring the labels } \writefill 20\par 
-\subsec {5.5} {User designed labeling } \writefill 22\par 
-\subsec {5.6} {Stipulated labels } \writefill 23\par 
-\sec {6} {User defined styles } \writefill 24\par 
-\sec {7} {Judgment marks } \writefill 26\par 
-\sec {8} {Glosses } \writefill 28\par 
-\subsec {8.1} {Glosses which wrap, ({\fam \ttfam \twelvett glstyle=wrap}) } \writefill 28\par 
-\subsec {8.2} {Changing the gloss parameters } \writefill 31\par 
-\subsec {8.3} {Multiple gloss lines ({\fam \ttfam \twelvett glstyle=multilevel}) } \writefill 32\par 
-\subsec {8.4} {An alternate gloss description syntax ({\fam \ttfam \twelvett glstyle=3level}) } \writefill 37\par 
-\sec {9} {Referring to examples and labeled parts of examples } \writefill 39\par 
-\subsec {9.1} {Unnamed reference } \writefill 39\par 
-\subsec {9.2} {Named reference } \writefill 39\par 
-\subsec {9.3} {The tag/reference file } \writefill 40\par 
-\subsec {9.4} {References to references, references as values } \writefill 41\par 
-\subsec {9.5} {Extensions of the tag/reference mechanism } \writefill 42\par 
-\subsec {9.6} {The parameter {\fam \ttfam \twelvett fullreformat} } \writefill 43\par 
-\subsec {9.7} {Reference to a part of a multipart example } \writefill 43\par 
-\subsec {9.8} {Support for the LaTex {\fam \ttfam \twelvett \char "5C label} and {\fam \ttfam \twelvett \char "5C ref} commands} \writefill 44\par 
-\sec {10} {Tables in examples } \writefill 46\par 
-\subsec {10.1} {Tables with labeled lines } \writefill 47\par 
-\subsec {10.2} {Tagging implicit labels in tables } \writefill 48\par 
-\subsec {10.3} {Some useful table making tools } \writefill 49\par 
-\subsec {10.4} {Tables that can break between pages } \writefill 50\par 
-\subsec {10.5} {Squeezing tables into tight places } \writefill 51\par 
-\sec {11} {ExPex and PSTricks } \writefill 53\par 
-\sec {12} {Control over page breaking inside examples } \writefill 55\par 
-\subsec {12.1} {Discouraging page breaks in examples } \writefill 55\par 
-\subsec {12.2} {Controlling where page breaks occur in examples (if they must) } \writefill 56\par 
+\sec {5} {Examples with labeled parts: Basics } \writefill 14\par 
+\subsec {5.1} {{\fam \ttfam \twelvett nopreamble} } \writefill 16\par 
+\subsec {5.2} {Stipulated labels } \writefill 17\par 
+\sec {6} {Examples with (and without) labeled parts: Advanced } \writefill 18\par 
+\subsec {6.1} {Relative versus fixed dimensions } \writefill 18\par 
+\subsec {6.2} {Anchoring } \writefill 18\par 
+\subsec {6.3} {Formatting the labels } \writefill 19\par 
+\subsec {6.4} {Aligning the labels } \writefill 21\par 
+\subsec {6.5} {User designed labeling } \writefill 23\par 
+\subsec {6.6} {IJAL style format of multiline examples } \writefill 24\par 
+\subsec {6.7} {The parameter {\fam \ttfam \twelvett sampleexno} } \writefill 26\par 
+\subsec {6.8} {Footnotes and endnotes } \writefill 28\par 
+\sec {7} {User defined styles } \writefill 30\par 
+\sec {8} {Judgment marks } \writefill 31\par 
+\sec {9} {Basic Glosses } \writefill 34\par 
+\subsec {9.1} {Parameters } \writefill 36\par 
+\subsec {9.2} {The width of the gloss } \writefill 38\par 
+\subsec {9.3} {Comments and citations } \writefill 39\par 
+\subsec {9.4} {Exceptional {\fam \ttfam \twelvett \char "5C gla} items } \writefill 40\par 
+\subsec {9.5} {Bracketing in glosses: {\fam \ttfam \twelvett [} and {\fam \ttfam \twelvett ]} } \writefill 41\par 
+\sec {10} {More on Glosses } \writefill 43\par 
+\subsec {10.1} {User defined levels } \writefill 43\par 
+\subsec {10.2} {Positioning the free translation to the right of the interlinear gloss } \writefill 43\par 
+\subsec {10.3} {Glosses with a side panel } \writefill 45\par 
+\subsec {10.4} {Cascading hanging indentation in glosses } \writefill 47\par 
+\subsec {10.5} {Gloss underfixes } \writefill 47\par 
+\sec {11} {Referring to examples and labeled parts of examples } \writefill 48\par 
+\subsec {11.1} {Unnamed reference } \writefill 48\par 
+\subsec {11.2} {Named reference } \writefill 49\par 
+\subsec {11.3} {Proofing references } \writefill 50\par 
+\subsec {11.4} {The tag/reference file } \writefill 51\par 
+\subsec {11.5} {References to references, references as values } \writefill 51\par 
+\subsec {11.6} {Extensions of the tag/reference mechanism } \writefill 53\par 
+\subsec {11.7} {The parameter {\fam \ttfam \twelvett fullreformat} } \writefill 53\par 
+\subsec {11.8} {Reference to a part of a multipart example } \writefill 54\par 
+\subsec {11.9} {Support for the LaTex {\fam \ttfam \twelvett \char "5C label} and {\fam \ttfam \twelvett \char "5C ref} commands} \writefill 54\par 
+\sec {12} {Tables in examples } \writefill 55\par 
+\subsec {12.1} {Tables with labeled lines } \writefill 56\par 
+\subsec {12.2} {Tagging implicit labels in tables } \writefill 58\par 
+\subsec {12.3} {Some useful table making tools } \writefill 58\par 
+\subsec {12.4} {Tables that can break between pages } \writefill 59\par 
+\subsec {12.5} {Squeezing tables into tight places } \writefill 61\par 
+\sec {13} {ExPex and PSTricks } \writefill 62\par 
+\sec {14} {Control over page breaking inside examples } \writefill 63\par 
+\subsec {14.1} {Discouraging page breaks in examples } \writefill 64\par 
+\subsec {14.2} {Controlling where page breaks occur in examples (if they must) } \writefill 65\par 

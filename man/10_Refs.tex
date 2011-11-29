@@ -4,12 +4,13 @@
 \section Referring to examples and labeled parts of examples
 
 \vskip-1ex
-\subsection Unnamed reference\deftagsec{unnamedref}
+\subsection Unnamed reference
 
-\beginmacinventory
-Macros:\quad \idx{|\lastx|}, \idx{|\nextx|}, \idx{|\blastx|},
-\idx{|\anextx|}, \idx{|\bblastx|}
-\endmacinventory
+\deftagsec{unnamedref}
+\begininventory
+\macros \idx{|\lastx|}, \idx{|\nextx|}, \idx{|\blastx|},
+\idx{|\anextx|}, \idx{|\bblastx|}\endmc
+\endinventory
 
 \noindent If $x$ is the number of the last example, these
 produce $x$, $x+1$, $x-1$, $x+2$, and $x-2$, respectively.
@@ -30,15 +31,18 @@ refer to and to refer to them by name, particularly in a document
 that will undergo a lot of rewriting.  If reference by name is
 used and an intervening example is deleted or added, no problem
 arises.  If the example which is referred to is deleted, then
-\Tex\/ will report a missing reference.
+\Tex\ will report a missing reference.
 
 \subsection Named reference
 
 \deftagsec{named-reference}
-\beginmacinventory
-\idx{|\deftag|}, \idx{|\deftagex|}, \idx{|\deftaglabel|},
-   \idx{|\deftagpage|}, \idx{|\getref|}, \idx{|\getfullref|}%
-\endmacinventory
+\begininventory
+\macros \idx{|\deftag|}, \idx{|\deftagex|}, \idx{|\deftaglabel|},
+   \idx{|\deftagpage|}, \idx{|\getref|},
+   \idx{|\getfullref|}\endmc
+\parameters*
+\idx{|tag|}& character string& (none)\cr
+\endinventory
 
 \noindent The core macros are \idx{|\deftag|} and
 \idx{|\getref|}. |\deftag| takes two (obligatory) arguments.
@@ -100,19 +104,35 @@ tag has been attached to the example number. If the example
 number has not been tagged at that point, a warning message is
 issued.
 
-There is a shortcut for tagging example numbers and labels,
-which, unlike most shortcuts, makes the code easier to read as
-well. After
+There are two alternatives to the explicit use of |\deftagex| and
+|\deftaglabel|.  One is the use of the parameter |tag|. After
+
+\codedisplay
+\pex[interpartskip=0pt,labeltype=alpha,tag=snoopy]
+\a First
+\a[tag=dog] Second
+\a Third\deftaglabel{A}
+\xe |endcodedisplay
+
+\noindent |\getref{snoopy}|, |\getref{snoopy.dog}|,
+and |\getref{snoopy.A}| are interpreted as expected, as are
+|\getfullref{snoopy.dog}| and
+|\getfullref{snoopy.A}|.
+
+The other alternative is a special ``tagging notation'' which,
+unlike most shortcuts, makes the code easier to read as well.
+After
 
 \codedisplay
 \pex[interpartskip=0pt,labeltype=alpha]<snoopy>
 \a First
 \a<dog> Second
-\a<A> Third
+\a[tag=A] Third
 \xe |endcodedisplay
 
-\noindent |\getref{snoopy}|, |\getref{snoopy.A}|, and
-|\getfullref{snoopy.A}| are all interpreted as~expected.
+\noindent |\getref{snoopy}|, |\getref{snoopy.dog}|, and
+|\getref{snoopy.A}| are also interpreted as expected, as are
+|\getfullref{snoopy.dog}| and |\getfullref{snoopy.A}|.
 
 If |\getref{sometag}| is evaluated and the tag is undefined, a
 warning message to this effect is generated
@@ -121,15 +141,15 @@ reference.
 
 \subsection Proofing references
 
-\beginmacinventory*
-|\refproofing|
-\endmacinventory
+\begininventory
+\macros* |\refproofing|\endmc
+\endinventory
 It is tedious to check that references to example numbers and the
 like are correct (i.e. refer to what you think they refer to).
-\Expex\ provides a little help. If you execute
+\ExPex\ provides a little help. If you execute
 \idx{|\refproofing|}, then all the references that are generated
 by |\bblastx|, |\blastx|, |\lastx|, |\nextx|, |\anextx|,
-|\getref|, and |\getfullref| are highlighted.  If \Pstricks\/ is
+|\getref|, and |\getfullref| are highlighted.  If \PSTricks\ is
 loaded at the point that |\refproofing| is evaluated, the
 highlighting consists of a box around the reference.  If not, the
 reference is under- and overlined. Highlighting is a significant
@@ -140,22 +160,22 @@ aid in copy editing.  The difference is illustrated below.
 example.\qquad default behavior
 \refproofing
 \a Consider (\getfullref{snoopy.dog}), for example.\qquad
-|\refproofing|, \Pstricks\/ available
+|\refproofing|, \PSTricks\ available
 \a {\let\PSTricksLoaded\relax \refproofing
 \makeatletter
 \let\@highlightprint\mathhigh@lightref
 \resetatcatcode
 Consider (\getfullref{snoopy.dog}), for example.}\qquad
-|\refproofing|, \Pstricks\/ not available
+|\refproofing|, \PSTricks\ not available
 \xe
 
 
 
 \subsection The tag/reference file
 
-\beginmacinventory
-|\gathertags|, |tagfilesuffix|
-\endmacinventory
+\begininventory
+\macros \idx{|\gathertags|}, \idx{|\tagfilesuffix|}\endmc
+\endinventory
 
 \noindent Forward references require writing tag/reference
 associations to a file in one run, then reading this file in a
@@ -168,12 +188,12 @@ on. If you say \idx{|\gatherftags|}, the tag/reference pairs will
 be written to a file as they are established.  If your main file
 is named {\sl foop.tex}, for example, the default is to write the
 tag/ref pairs to {\sl foop-tags.tex}.  But you can modify this by
-using the command \idx{|\tagfilesuffix|}.  {\sl expex.tex\/}
+using the command \idx{|\tagfilesuffix|}.  \slname{expex.tex}
 contains |\tagfilesuffix{-tags}|, but you can overrule this with
 |\tagfilesuffix{«your suffix»}|.
 
 When the first |\getref|, |\getfullref|, or |\gathertags| command
-is encountered, \Expex\/ checks to see if there is a tag file.  If
+is encountered, \ExPex\ checks to see if there is a tag file.  If
 the file does exist, it is read and all the tag/reference pairs
 it encodes are established.  No testing is done for conflicting
 tag/reference pairs with the same tag, so it is the
@@ -202,9 +222,9 @@ created.
 
 \subsection References to references, references as values
 
-\beginmacinventory*
-\idx{|\lastlabel|}
-\endmacinventory
+\begininventory
+\macros* \idx{|\lastlabel|}\endmc
+\endinventory
 %
 If, for some reason, you want to refer to a specific
 part of a multipart example without tagging the example number,
@@ -272,7 +292,8 @@ If you say
 \a First Example.
 \a<G> Second Example.
 \a Third Example.
-\xe\endframedisplay
+\xe
+\endframedisplay
 
 \noindent then, if you want to repeat (\getfullref{dog.G}) at
 some point, you can use:
@@ -304,7 +325,7 @@ subsection number, and subsubsection number.  One might define:
 is initiated, |\secno| is set to 0, when a section is initiated,
 |\secsecno| is set to 0, and that when a subsection is initiated,
 |\subsubsecno| is set to 0.  (Lines 1--5, commented out,
-are included at the end of {\sl expex.tex\/} for the user to
+are included at the end of \slname{expex.tex} for the user to
 use, modify, or ignore.)
 
 
@@ -414,7 +435,7 @@ The two crucial examples in
 
 \bigskip
 \deftag{\the\secno.\the\subsecno}{explicit-sec}%
-\pex[exno=\getref{A}]
+\pex[exno=\getref{A}]<explicit>
 \a[label=\getref{A.X}]  \getref{1st}
 \a[label=\getref{A.Z}]  \getref{2nd}
 \xe
@@ -481,9 +502,8 @@ the |\deftag|-|\getref| mechanism.
 
 \smallskip
 \noindent 1.\enspace
-|\ref{|{\it tag}|}| cannot be used as a
-special example number, nor can it be given as an optional
-argument to |\a|.
+|\ref{|{\it tag}|}| cannot be used as a special example number,
+nor can it be given as an optional argument to |\a|.
 
 \smallskip
 \noindent 2.\enspace
@@ -535,7 +555,7 @@ that expect a number.
 
 
 
-\Expex\/ makes special provisions to allow |\lastx| and |\getref|
+\ExPex\ makes special provisions to allow |\lastx| and |\getref|
 to be used in certain contexts where it is convenient to be able
 to use them, but would not be allowed without special provisions.
 The following illustrates one such context. Suppose you want to
@@ -563,7 +583,8 @@ b.\tspace
 \glb me showed-3sg to you/you-pl /
 \glc{`He showed me to you/you guys'}
 \endgl
-\xe\endframedisplay
+\xe
+\endframedisplay
 
 \codedisplay~
 \ex[dima=1em]
@@ -596,14 +617,14 @@ that later in your paper you want to repeat this example with its
 original number.  It is sufficient to use
 
 \sidx{|exno|, setting using |\getref|}%
-\codefragment
+\exfrag
 |\ex[exno=\getref{foo}]| \dots
-\endcodefragment
+\xe
 In this context, |\getref| is redefined to strip away testing for
 tag definition and highlighting, so that it is usable as a value
 associated with |exno|.  Since no testing is done to first
 check if the tag is defined, an undefined tag will not produce a
-user friendly warning message, simply a \Tex\/ crash of the
+user friendly warning message, simply a \Tex\ crash of the
 familiar kind.  If the tag |foo| is undefined, you will be
 informed that |\lingtag@foo| is undefined.
 

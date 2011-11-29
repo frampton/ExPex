@@ -11,7 +11,7 @@ that a page break does not occur, or if it does, it happens at a
 form subgroups, it is desirable to encourage a break between
 subgroups and discourage a break inside a subgroup.
 
-\expex\ attempts to provide tools to help avoid breaking examples
+\ExPex\ attempts to provide tools to help avoid breaking examples
 between pages and, if they must be split, making it easy to
 specify where in the example splitting should be encouraged or
 discouraged. This must be balanced with limitations on how much
@@ -24,7 +24,7 @@ different intended purposes: handout, draft, paper, camera-ready
 paper, lecture notes, camera-ready book manuscript, etc.  It will
 also vary between different stages of production. There is no
 sense in spending time on formatting while you are still working
-on a draft.  \expex\ therefore provides a number of parameters
+on a draft.  \ExPex\ therefore provides a number of parameters
 which can be adjusted to control various aspects of page
 breaking.
 
@@ -53,26 +53,25 @@ to break the page by inserting |\eject| or |\vfil\eject| in the
 appropriate place.  The drawback to an explicit order is that it
 remains in force after revisions are made to the document.  If it
 causes page breaking that is obviously bad, the problem will
-usually be seen when editing.  The danger is that either the
-problem is missed, or the output is not obviously bad, but less
-than ideal.
+usually be seen when editing.  The biggest danger is that
+the output is not terrible, but it is less than ideal.
 
 \subsection Discouraging page breaks in examples
 
 Macro:\quad |\exbreak|
 \parinventory
 & \idx{|exbreakfil|}& skip& |0pt plus 4ex|\cr
-& \idx{|exbreakpenalty|}& integer& -500\cr
-& \idx{|splitpartspenalty|}& integer& 200\cr
+& \idx{|exbreakpenalty|}& integer& |-500|\cr
+& \idx{|splitpartspenalty|}& integer& |200|\cr
 \endparinventory
 
-\noindent \Tex\/ carries out page breaking by assigning a cost
+\noindent \Tex\ carries out page breaking by assigning a cost
 (via penalties) to each possible page break and choosing the
-lowest cost option.  Plain \Tex\/ defines a macro |\goodbreak|
+lowest cost option.  Plain \Tex\ defines a macro |\goodbreak|
 which ends the current paragraph and gives a negative penalty
 ($-500$) if a page break is taken after the paragraph.  A
 negative penalty is a reward, which encourages page-breaking at
-that point.  The \Expex\ macro |\exbreak| is a variant of
+that point.  The \ExPex\ macro |\exbreak| is a variant of
 |\goodbreak|.  It not only ends the current paragraph and awards a
 penalty (a reward if the penalty is negative) if a page break is
 taken at that point, but makes it easier for a satisfactory page
@@ -100,7 +99,7 @@ breaks in examples are eliminated, which is what I prefer in
 writing a draft.  The default value is more suitable for finished
 documents.
 
-In the beta version of \Expex, |\exbreak| was called |\goodpar|.
+In the beta version of \ExPex\relax, |\exbreak| was called |\goodpar|.
 The present name is more consistent with \Tex's naming habits.
 
 
@@ -128,7 +127,7 @@ page break is made.  Consider for example a display like
 
 Suppose the logic of the examples pairs a and b, c--f, and g and
 h.  How do you avoid a page break which interrupts the logic of
-the collection of examples?  One option is the standard \Tex\/
+the collection of examples?  One option is the standard \Tex\
 method of using |\nobreak| to prevent a page break, as in the
 code below:
 
@@ -148,7 +147,7 @@ code below:
 interested in preventing a page break in the process of adding
 lines to the current page, not in preventing a break in the
 process of building the lines which are added to the current
-page.  |\par| breaks the line, which takes \Tex\/  out of line
+page.  |\par| breaks the line, which takes \Tex\  out of line
 building mode and puts it into page building mode.
 
 |\exbreak| offers an alternative.
@@ -169,7 +168,7 @@ building mode and puts it into page building mode.
 %kinds of documents
 %
 %Different kinds of documents call for different settings of the
-%basic parameters, \Expex\/ parameters and basic \Tex\/ or
+%basic parameters, \ExPex\ parameters and basic \Tex\ or
 %\Latex\/ parameters.
 %
 %\codefragment

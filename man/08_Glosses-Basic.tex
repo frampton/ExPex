@@ -1,11 +1,10 @@
-%\lingset{abovemoreglskip=1ex}
 \everymath={}
 
 \section
 Basic Glosses
 
-\medskip
-\beginmacinventory
+\begininventory
+\macros
 \idx{|\begingl[]|},
 \idx{|\glpreamble[]|},
 \idx{|\gla[]|},
@@ -13,19 +12,20 @@ Basic Glosses
 \idx{|\glc[]|},
 \idx{|\glft[]|},
 \idx{|\endgl|}
-\endmacinventory
+\endmc
+\endinventory
 %
 Before I introduce the parameters that control the
-characteristics of gloss displays, here are a few examples done with
-the initial settings of the parameters.
+characteristics of gloss displays, here are a few examples done
+with the initial settings of the parameters.
 
 \medskip
 \framedisplay
 \ex<wapm>
 \begingl
 \gla k- wapm -a -s'i -m -wapunin -uk //
-\glb Cl V Agr Neg Agr Tns Agr //
-\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glb CL V AGR NEG AGR TNS AGR //
+\glb 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
 \glft `you (pl) didn't see them'//
 \endgl
 \xe
@@ -34,8 +34,8 @@ the initial settings of the parameters.
 \ex
 \begingl
 \gla k- wapm -a -s'i -m -wapunin -uk //
-\glb Cl V Agr Neg Agr Tns Agr //
-\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glb CL V AGR NEG AGR TNS AGR //
+\glb 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
 \glft `you (pl) didn't see them'//
 \endgl
 \xe
@@ -46,8 +46,8 @@ the initial settings of the parameters.
 \begingl
 \gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
 seiner Freundin ihr$_i$ Herz auszusch\"utten.//
-\glb Mary is sure that it the-{\sc ACC} Hans not annoy would
-his-{\sc DAT} girlfriend-{\sc DAT} her-{\sc ACC} heart-{\sc ACC} {out to
+\glb Mary is sure that it the-{\sc acc} Hans not annoy would
+his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
 throw}//
 \glft  `Mary is sure that it would not annoy John to reveal her
 heart to his girlfriend.'//
@@ -59,9 +59,9 @@ heart to his girlfriend.'//
 \begingl
 \gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
 seiner Freundin ihr$_i$ Herz auszusch\"utten.//
-\glb Mary is sure that it the-{\sc ACC} Hans not annoy would his-{\sc
-DAT} girlfriend-{\sc DAT} her-{\sc ACC} heart-{\sc ACC} {out to
-throw}//
+\glb Mary is sure that it the-{\sc acc} Hans not annoy would
+his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc}
+heart-{\sc acc} {out to throw}//
 \glft  `Mary is sure that it would not annoy John to reveal her
 heart to his girlfriend.'//
 \endgl
@@ -146,7 +146,7 @@ any order and can be repeated arbitrarily.
 The material delineated by |\gl|{\it levelname\/} and |//| is parsed
 as a sequence of space separated items.  The parser only looks for
 spaces at the top-level.  Consequently, in (\blastx), for example, it
-is not sensitive to the space in items like |the-{\sc ACC}| since the
+is not sensitive to the space in items like |the-{\sc acc}| since the
 space is inside a group, therefore not at the top level.  Spaces that
 directly preceed terminating |//| are disregarded.  A line in the
 interliear gloss can have fewer items on it than the line above it. It
@@ -185,7 +185,7 @@ the higher line (recursively).
 \medskip
 \parinventory
 \\{Horizontal spacing\hidewidth}
-\quad & \idx{|glspace|}& dimension& \textdim{1 em}\cr
+\quad & \idx{|glspace|\user}& \inc dimension& \textdim{1 em}\cr
 \\{Font changes, struts, etc.\hidewidth}
 & \idx{|everygl|}& token list& |{}|\cr
 & \idx{|everyglpreamble|}& token list& |{}|\cr
@@ -210,13 +210,24 @@ following style is desired.
 \ex
 \begingl[glspace=2em]
 \gla[everygla=] k- wapm -a -s'i -m -wapunin -uk //
-\glb[everyglb=\tenpoint,aboveglbskip=-.4ex]
-   Cl V Agr Neg Agr Tns Agr //
-\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glb[everyglb=\sc,aboveglbskip=-.4ex]
+   cl v agr neg agr tns agr //
+\glb 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
 \glft[everyglft=\it,aboveglftskip=0pt] `you (pl) didn't see them'//
 \endgl
 \xe
 \endframedisplay
+\codedisplay~
+\ex
+\begingl[glspace=2em]
+\gla[everygla=] k- wapm -a -s'i -m -wapunin -uk //
+\glb[everyglb=\sc,aboveglbskip=-.4ex]
+   cl v agr neg agr tns agr //
+\glb 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
+\glft[everyglft=\it,aboveglftskip=0pt] `you (pl) didn't see them'//
+\endgl
+\xe
+|endcodedisplay
 
 There are several differences with (\getref{wapm}).  The words are
 more widely separated; the font in the |\gla| line is not italic;  the
@@ -231,9 +242,9 @@ Here is one way to write the code:
 \ex
 \begingl[glspace=2em]
 \gla[everygla=] k- wapm -a -s'i -m -wapunin -uk //
-\glb[everyglb=\tenpoint,aboveglbskip=-.4ex]
-   Cl V Agr Neg Agr Tns Agr //
-\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glb[everyglb=\sc,aboveglbskip=-.4ex]
+   cl v agr neg agr tns agr //
+\glb 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
 \glft[everyglft=\it,aboveglftskip=0pt] `you (pl) didn't see them'//
 \endgl
 \xe
@@ -245,11 +256,11 @@ place, making it easier to modify.
 
 \codedisplay
 \ex
-\begingl[glspace=2em,everygla=,everyglb=\tenpoint,
+\begingl[glspace=2em,everygla=,everyglb=\sc,
    aboveglbskip=-.4ex,everyglft=\it,aboveglftskip=0pt]
 \gla k- wapm -a -s'i -m -wapunin -uk //
-\glb Cl V Agr Neg Agr Tns Agr //
-\glc 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glb Ccl V Agr Neg Agr Tns Agr //
+\glc 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
 \glft `you (pl) didn't see them'//
 \endgl
 \xe
@@ -259,7 +270,7 @@ If you use multiple instances of the same gloss format, a style should
 probably be defined
 
 \codedisplay
-\definelingstyle{Potawatami}{glspace=2em,everygla=,everyglb=\tenpoint,
+\definelingstyle{Potawatami}{glspace=2em,everygla=,everyglb=\sc,
    aboveglbskip=-.4ex,everyglft=\it,aboveglftskip=0pt}
 |endcodedisplay
 
@@ -270,8 +281,8 @@ style, as follows:
 \ex
 \begingl[lingstyle=Potawatami]
 \gla k- wapm -a -s'i -m -wapunin -uk //
-\glb Cl V Agr Neg Agr Tns Agr //
-\glc 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glb Ccl V Agr Neg Agr Tns Agr //
+\glc 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
 \glft `you (pl) didn't see them'//
 \endgl
 \xe
@@ -289,13 +300,14 @@ If you want a sequence of glosses to all be done in this style, you can say:
 
 \subsection The width of the gloss
 
-In the wrap style, the gloss is built in a vbox whose
-width is determined implicitly if the parameter |glwidth| is set to
-\textdim{0 pt}. The width is $h-l-r$, where $h$, $l$, and $r$, are
-the current values of |\hsize|, |\leftskip|, and |\rightskip|,
-respectively.  This implicit determination of the width of the gloss
-is appropriate for use with the \expex\ macros which typeset examples
-because they adjust the leftskip appropriately inside examples.
+In the wrap style (the only gloss style currently implemented),
+the gloss is built in a vbox whose width is determined implicitly
+if the parameter |glwidth| is set to \textdim{0 pt}. The width is
+$h-l-r$, where $h$, $l$, and $r$, are the current values of
+|\hsize|, |\leftskip|, and |\rightskip|, respectively.  This
+implicit determination of the width of the gloss is appropriate
+for use with the \ExPex\ macros which typeset examples because
+they adjust the leftskip appropriately inside examples.
 
 If you want to supply an example number or explicit label, it will not
 work to say something like the following if |glwidth| is set to
@@ -319,14 +331,13 @@ The braces around |[A]| are needed to so that the optional argument
 is correctly delineated.  The mechanism looks for the first right
 brace {\it at the top level}.  For example:
 
-\def\suff#1{{-\small #1}}%
 \framedisplay
 \ex[exno={(6), p. 14},exnoformat={[X]}]
 \begingl
 \gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
 seiner Freundin ihr$_i$ Herz auszusch\"utten.//
-\glb Mary is sure that it the\suff{ACC} Hans not annoy would
-his\suff{DAT} girfriend\suff{DAT} her\suff{ACC} heart\suff{ACC} {out to
+\glb Mary is sure that it the-{\sc acc} Hans not annoy would
+his-{\sc dat} girfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
 throw}//
 \endgl
 \xe
@@ -336,8 +347,8 @@ throw}//
 \begingl
 \gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
 seiner Freundin ihr$_i$ Herz auszusch\"utten.//
-\glb Mary is sure that it the\suff{ACC} Hans not annoy would
-his\suff{DAT} girfriend\suff{DAT} her\suff{ACC} heart\suff{ACC} {out to
+\glb Mary is sure that it the-{\sc acc} Hans not annoy would
+his-{\sc dat} girfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
 throw}//
 \endgl
 \xe
@@ -354,8 +365,8 @@ a.\quad
 \begingl[glwidth=2.6in]
 \gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
 seiner Freundin ihr$_i$ Herz auszusch\"utten.//
-\glb Mary is sure that it the\suff{ACC} Hans not annoy would
-his\suff{DAT} girfriend\suff{DAT} her\suff{ACC} heart\suff{ACC} {out to
+\glb Mary is sure that it the-{\sc acc} Hans not annoy would
+his-{\sc dat} girfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
 throw}//
 \glft  `Mary is sure that it would not annoy John to reveal her
 heart to his girlfriend.'//
@@ -365,8 +376,8 @@ b.\quad
 \begingl[glwidth=2.6in]
 \gla Mary$_i$ ist sicher, dass seiner Freunden ihr$_i$ Herz
 auszuch\"utten dem Hans nicht schaden w\"urde.//
-\glb Mary is sure that his\suff{DAT} girlfriend\suff{DAT} her\suff{ACC}
-heart\suff{ACC} {out to throw} the\suff{DAT} Hans not damage would//
+\glb Mary is sure that his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc}
+heart-{\sc acc} {out to throw} the-{\sc dat} Hans not damage would//
 \glft `Mary is sure that to reveal her heart to his girlfriend
 would not damage John.'//
 \endgl
@@ -377,8 +388,8 @@ a.\quad
 \begingl[glwidth=2.6in]
 \gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
 seiner Freundin ihr$_i$ Herz auszusch\"utten.//
-\glb Mary is sure that it the\suff{ACC} Hans not annoy would
-his\suff{DAT} girfriend\suff{DAT} her\suff{ACC} heart\suff{ACC} {out to
+\glb Mary is sure that it the-{\sc acc} Hans not annoy would
+his-{\sc dat} girfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
 throw}//
 \glft  `Mary is sure that it would not annoy John to reveal her
 heart to his girlfriend.'//
@@ -388,8 +399,8 @@ b.\quad
 \begingl[glwidth=2.6in]
 \gla Mary$_i$ ist sicher, dass seiner Freunden ihr$_i$ Herz
 auszuch\"utten dem Hans nicht schaden w\"urde.//
-\glb Mary is sure that his\suff{DAT} girlfriend\suff{DAT} her\suff{ACC}
-heart\suff{ACC} {out to throw} the\suff{DAT} Hans not damage would//
+\glb Mary is sure that his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc}
+heart-{\sc acc} {out to throw} the-{\sc dat} Hans not damage would//
 \glft `Mary is sure that to reveal her heart to his girlfriend
 would not damage John.'//
 \endgl
@@ -401,7 +412,7 @@ would not damage John.'//
 
 \begininventory
 \macros
-\idx{|\trailingcitation|}, \idx{|\rightcomment|}\endmacros
+\idx{|\trailingcitation|}, \idx{|\rightcomment|}\endmc
 \parameters*
 |mincitesep|& dimension& \hfil |1.5em|\cr
 \endinventory
@@ -414,7 +425,7 @@ citation to a gloss.
 \begingl
 \gla \rightcomment{[Potawatami]}k- wapm -a -s'i -m -wapunin -uk //
 \glb \rightcomment{category}Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
-\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glb 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
 \glft `you (pl) didn't see them'\trailingcitation{(Hockett 1948,
    p. 143)}//
 \endgl
@@ -425,7 +436,7 @@ citation to a gloss.
 \begingl
 \gla \rightcomment{[Potawatami]}k- wapm -a -s'i -m -wapunin -uk //
 \glb \rightcomment{category}Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
-\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glb 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
 \glft `you (pl) didn't see them'\trailingcitation{(Hockett 1948,
    p. 143)}//
 \endgl
@@ -450,7 +461,7 @@ an hsize of \textdim{3.5 in} and |glspace=.5em|, the result is (\nextx).
 \begingl
 \gla k- wapm -a -s'i -m -wapunin -uk //
 \glb \rightcomment{category}Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
-\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glb 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
 \glft `you (pl) didn't see them'\trailingcitation{(Hockett 1948,
    p. 143)}//
 \endgl
@@ -470,6 +481,7 @@ fashion. There are four exceptional items, all consisting of a single character;
 
 \subsubsection {\tt +}
 
+\sidx{|+|, exceptional gloss item}%
 Sometimes it is desirable to override natural wrapping and
 break up the gloss so that the syntax is emphasized, as in the
 following.
@@ -479,8 +491,8 @@ following.
 \begingl
 \gla Mary$_i$ ist sicher, + dass es den Hans nicht st\"oren w\"urde
 + seiner Freundin ihr$_i$ Herz auszusch\"utten.//
-\glb Mary is sure that it the\suff{ACC} Hans not annoy would
-his\suff{DAT} girlfriend\suff{DAT} her\suff{ACC} heart\suff{ACC} {out to
+\glb Mary is sure that it the-{\sc acc} Hans not annoy would
+his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
 throw}//
 \glft  `Mary is sure that it would not annoy John to reveal her
 heart to his girlfriend.'//
@@ -498,8 +510,8 @@ line started, ignoring any hanging indentation.
 \begingl
 \gla Mary$_i$ ist sicher, + dass es den Hans nicht st\"oren w\"urde
 + seiner Freundin ihr$_i$ Herz auszusch\"utten.//
-\glb Mary is sure that it the\suff{ACC} Hans not annoy would
-his\suff{DAT} girlfriend\suff{DAT} her\suff{ACC} heart\suff{ACC} {out to
+\glb Mary is sure that it the-{\sc acc} Hans not annoy would
+his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
 throw}//
 \glft  `Mary is sure that it would not annoy John to reveal her
 heart to his girlfriend.'//
@@ -509,13 +521,14 @@ heart to his girlfriend.'//
 
 \subsubsection {\tt @}
 
+\sidx{|@|, exceptional gloss item}%
 Sometimes it is desirable to omit the space between two entries.
 
 \framedisplay
 \ex<wiye>
 \begingl
 \gla wiye kepi e- @ ca//
-\glb two whitemen \sc1P:3D- found//
+\glb two whitemen {\sc 1p:3d}- found//
 \endgl
 \xe
 \endframedisplay
@@ -527,7 +540,7 @@ in the code below.
 \ex
 \begingl
 \gla wiye kepi e- @ ca//
-\glb two whitemen \sc1P:3D- found//
+\glb two whitemen {\sc 1p:3d}- found//
 \endgl
 \xe
 |endcodedisplay
@@ -538,6 +551,8 @@ so that it is not interpreted as a directive to omit a space.
 
 \subsection Bracketing in glosses: {\tt [} and {\tt ]}
 
+\sidx{|[|, exceptional gloss item}%
+\sidx{|]|, exceptional gloss item}%
 \begininventory
 \parameters
 \idx{|glbrackbracksep|}& dimension& \hfil |.1em|\cr
@@ -593,7 +608,7 @@ agr.want he {\it WH\/}[obl].meet-agr//
 \noindent Note that |@| is used to eliminate an unwanted space before
 the period on the gla-line.
 
-\Expex\ uses the macros \idx{|\printrbrack|} and
+\ExPex\ uses the macros \idx{|\printrbrack|} and
 \idx{|\printlbrack|} to typeset the brackets.  The definitions of
 these macros could be changed to cause [ and ] in glosses to
 insert something other than simple brackets.

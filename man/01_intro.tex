@@ -5,27 +5,28 @@
 \section Introduction
 
 Many of the needs of linguists who wish to produce
-typographically attractive papers using \Tex\/ or {\sl Latex\/}
+typographically attractive papers using \Tex\ or \LaTex\
 are not specific to linguistic papers.  There are therefore many
 macro packages which deal with tables of contents, references,
 section headings, font selection, indexing, etc. But linguistics
 does have some special typographic needs. I addressed two of
 these with the macro packages {\sl PST-JTree\/} and {\sl
 PST-ASR\/}, which typeset syntactic trees and autosegmental
-representations. \Expex\/ addresses the main remaining special
-\Tex\/ need in linguistics: formatting examples, examples with
+representations. \ExPex\ addresses the main remaining special
+\Tex\ need in linguistics: formatting examples, examples with
 multiple parts, glosses, and the like, and referring to examples
 and parts of examples. The name comes from the two central
 macros, |\ex| and |\pex|, used to typeset examples and examples
 with labeled parts.
 
 {\sl PST-JTree\/} and {\sl PST-ASR\/} rely heavily on Hendri
-Adriaens' \Xkeyval\/ package, which has become the standard for
-\Pstricks\/ based macro packages.  Although \Expex\/ is not based
-on \Pstricks, it does handle parameterization in the same way that
-{\sl PST-JTree\/} and {\sl PST-ASR\/} do. When {\sl expex.tex\/}
-is loaded, it immediately checks to see whether {\sl
-xkeyval.tex\/} has already been loaded.  If not, it does so.
+Adriaens' \XKeyVal\ package, which has become the standard for
+\PSTricks\ based macro packages.  Although \ExPex\ is not based
+on \PSTricks\relax, it does handle parameterization in the same
+way that {\sl PST-JTree\/} and {\sl PST-ASR\/} do. When
+{\sl expex.tex} is loaded, it immediately checks to see
+whether {\sl xkeyval.tex} has already been loaded.  If not,
+it does so.
 
 The goal in writing a macro package for general use is to make it
 simple to use if only simple things need to be done, but powerful
@@ -34,19 +35,19 @@ satisfied if they are willing to deal with the complexities that
 complex needs inevitably involve.  If you think there are simple
 things that are not simple to do, or complex things that cannot
 be done, please write to me at {\sl j.frampton@neu.edu}.  The
-\expex\/ macros have evolved over the last 15 or so years
+\ExPex\ macros have evolved over the last 15 or so years
 and like anything which evolves, various features of the current
 state may have more to do with history than with optimal design.
 Please let me know about departures from optimal design.  Perhaps
 the next version can be improved.
 
 This User's Guide begins with four examples which demonstrate
-\expex\/ in action.  It serves as a ``A Quick Guide to {\sl
+\ExPex\ in action.  It serves as a ``A Quick Guide to {\sl
 Expex\/}''.  Each page gives some code at the top, with the
 product of this code below. Its main purpose is to give a sense
-of how \expex\/ works, so that curious readers have some
+of how \ExPex\ works, so that curious readers have some
 basis for determining whether they want to proceed with the
-details.  It is possible to begin to use \expex\/ solely on
+details.  It is possible to begin to use \ExPex\ solely on
 the basis of the four demo pages and learn the more subtle
 capabilities as needed.  A quick survey of the index and the table
 of contents should give you some idea of what is available, if
@@ -54,15 +55,30 @@ you need it.
 
 \subsection  Changes
 
-There are a number of changes, one major, from earlier versions of
-\Expex.
+There are a number of changes from earlier versions of
+\ExPex\relax. This version does not maintain backward
+compatibility with earlier versions, particularly with respect to
+the glossing macros.  The older versions will still be available
+on my website. {\sl expex2008.zip\/} contains
+{\sl expex.tex}, {\sl expex.sty}, and
+{\sl expex-doc.pdf}, Version 1.0 (beta).
+{\sl expex2011.zip} contains {\sl expex.tex},
+{\sl expex.sty}, and {\sl expex-doc.pdf}, Version 3.3.
+My intention is that the current version will be stable for a
+long time, except for bug fixes and extensions, so that backwards
+compatibility will be maintained.
 
 \medskip
-\noindent 1.  The macros for creating glosses have been substantially
-revised.  \expex\/ supported several different gloss styles, selected
-by the parameter |glstyle|. \expex2\/ currently supports only one
-gloss style and the parameter has been deactivated.  It can be
-set to anything, with no effect.
+\noindent 1.  The macros for creating glosses have been
+substantially revised.  \ExPex\
+currently supports only one gloss style, which is an extension of
+the ``wrap style'' in earlier versions.\footnote{%
+\ExPex\ supported several different gloss styles, selected by
+the parameter |glstyle|. The parameter has been maintained, but
+can only be set to |wrap|.  The parameter was retained in spite of the fact
+that it currently has no use because my
+intention is that other gloss styles will be added in the
+future.}
 
 \medskip
 \noindent 2. It is now possible to specify the labels in
@@ -73,17 +89,89 @@ code order in the font set.
 
 \medskip
 \noindent 3. The macros to control page breaking inside examples
-have been revised and the macro |\goodpar| has been renamed |\exbreak|
-to be consistent with \Tex's naming habits.
+have been revised and the macro |\goodpar| has been renamed
+|\exbreak| to be consistent with \Tex's naming habits.
 
 \medskip
-\noindent 4. Several initial settings of the parameters (settings
-established in {\sl expex2.tex\/}) have been changed.
+\noindent 4. Several initial settings of the parameters have been
+changed.
 
-\medskip
-Older versions of \expex\/ will be available as {\sl expex2007.tex\/}
-and {\sl expex2007.sty}, and {\sl expex2010.tex\/} and {\sl
-expex2010.sty}, in case the user has a significant investment in
-older documents that he/she wants to be able to run with only trivial
-modification.
+\subsection LaTex/Tex cooperation
+
+\ExPex\ is designed to be equally usable by \Tex\ and \LaTex\
+users.  \LaTex\ users say |\usepackage{expex}| and \Tex\ users
+say |\input expex|.  All of the code for the examples in this
+documentation should run equally well in either system, subject
+to the notes below.
+
+\subsubsection Note to \LaTex\ users
+
+|\it| (now a deprecated \LaTex\ command) is used in a few places.
+Because its use is so limited, no problems should arise.
+
+\subsubsection Note to \Tex\ users
+
+Three macros are used in the examples in this documentation which
+are defined in \LaTex\ but not in {\it Plain Tex}: |\footnotesize|,
+|\sc|, and |\textsc|.  Assuming, for example, that text is set in
+10pt type, the following suffices for all the examples in this
+documentation.
+
+\codedisplay
+\font\eightrm=cmr8
+\font\eightit=cmti8
+\def\footnotesize{\eightrm \let\it=\eightit \baselineskip=9pt}
+\font\tensc=cmcsc10
+\let\sc=\tensc
+\def\textsc#1{{\sc #1}}
+|endcodedisplay
+
+Most \Tex\ users will have much more general size changing macros
+at their disposal.  The code is barely sufficient to handle this
+documentation, but it will do the job. For what it is worth, this
+documentation was typeset using \Tex. |\twelvepoint| and
+|\tenpoint| were defined modeled on pages 414--415 in the {\sl
+TeXbook\/} and |\let\footnotesize=\tenpoint| was executed to define
+|\footnotesize|.  The running text is \textdim{12 pt}. |\sc| was
+defined by |\font\twelvesc=cmcsc10
+scaled\magstep1|%
+\footnote{cmcsc10 scaled was used rather than
+cmcsc12 because Postscript fonts for cmcsc10 are more readily
+available than those for cmcsc12.}
+and
+|\let\sc=\twelvesc|%
+\footnote{Small caps are used only in text size}%
+.
+
+\subsection The file expex-demo.tex
+
+This file contains the code for all of the examples in this
+documention.  It is constructed so that one can say either
+\exfrag
+|tex expex-demo|
+\xe
+or
+\exfrag
+|latex expex-demo|
+\xe
+to typeset the examples.
+
+The examples were extracted to give users a broad sample of
+easily accessible working code which can serve as starting points
+for experimenting with \ExPex, or as useful models.
+
+
+\subsection Acknowledgements
+
+Many participants in the {\sl Ling-Tex\/} discussion group have
+contributed to the development of \ExPex\relax, either by posing
+good questions, solving problems, or providing informed
+discussion of desirable features.  In particular, I thank Alexis
+Dimitriadis, Claude Dionne, Kevin Donnely, Antonio Fortin, Daniel
+Harbor, Joshua Jensen, Joost Kremers, John Lyon, Alan Munn,
+Christos Vlachos, and Natalie Weber.
+
+
+
+
 

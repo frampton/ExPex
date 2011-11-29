@@ -1,25 +1,21 @@
 
 \section Examples without parts
 
-%\def\parameters{\omit Parameters:\hidewidth\cr
-%   \hfil\it key& \hfil\it value& \hfil\it initial setting}
-
 \lingset{dima=1.3em}
 \noindent
 \begininventory
-\macros \idx{|\ex|}|~[]|, \idx{|\xe|}\endmacros
-\counter \idx{|\excnt|}\endmacros
+\macros \idx{|\ex|}|~[]|, \idx{|\xe|}\endmc
+\counter \idx{|\excnt|}\endmc
 \parameters
-\idx{|numoffset|}\public & \inc dimension& |0pt|\cr
-\idx{|textoffset|}\public& \inc dimension& |1em|\cr
-\idx{|aboveexskip|}\public& \inc skip&
+\idx{|numoffset|\user} & \inc dimension& |0pt|\cr
+\idx{|textoffset|\user}& \inc dimension& |1em|\cr
+\idx{|aboveexskip|\user}& \inc skip&
    |2.7ex plus .4ex minus .4ex|\cr
-\idx{|belowexskip|}\public& \inc skip&
+\idx{|belowexskip|\user}& \inc skip&
    |2.7ex plus .4ex minus .4ex|\cr
 \idx{|exskip|}& skip& (pseudo-parameter)\cr
 \endinventory
-
-\noindent
+%
 Sections will usually begin with an inventory of the parameters and
 user friendly macros and registers that are introduced in the section,
 The initial settings of parameters will be given if they are relevant.
@@ -56,7 +52,8 @@ Various aspects of the format are controlled by parameters, which
 can be set either globally or via an optional argument.
 \xe
 \endframedisplay
-
+%\endgroup
+%\endinput
 \codedisplay~
 The following example is well-known from the literature on
 parasitic gaps.  Here we are concerned with example formatting,
@@ -184,9 +181,9 @@ is not protected by a maximal projection.
 
 \noindent |\par\nobreak| is used to illustrate how a page break
 between two consecutive examples can be suppressed. This is
-sometimes desirable.  |\par| puts \Tex\/ in the mode of adding
-lines to the page, and |\nobreak| tells \Tex\/ to avoid a break
-(which is a page break when \Tex\/ is in the mode of adding
+sometimes desirable.  |\par| puts \Tex\ in the mode of adding
+lines to the page, and |\nobreak| tells \Tex\ to avoid a break
+(which is a page break when \Tex\ is in the mode of adding
 lines), essentially until after more text is added to the page.
 |aboveexskip=0pt| is used in the second example to avoid double
 spacing between the examples.  Otherwise vertical skip would be
@@ -201,9 +198,9 @@ modification of |\ex| can be used with parameters; |\ex~[|\dots|]| will be inter
 simultaneously set both |aboveexskip| and |belowexskip|. The
 effect of |\lingset{exskip=«value»}| is
 
-\codefragment
+\exfrag
 |\lingset{aboveexskip=«value»,belowexskip=«value»}|
-\endcodefragment
+\xe
 
 \vfil\break
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

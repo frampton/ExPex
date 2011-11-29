@@ -1,41 +1,13 @@
 
 \ifnum\secno<1 \secno=7\fi
 
-\makeatletter
-\def\glw@printcolframed{%
-   \psframebox[framesep=0]{\vtop{%
-      \ling@everyglword
-      \gl@loopmoretrue
-      \loop\ifgl@loopmore
-         \glw@lop\tempa\to\@tempa
-         \glw@lop\aboveskiplist\to\@aboveskip
-         \glw@lop\strutlist\to\@strut
-         \expandafter\ifdim\@aboveskip=0pt \else
-            \vskip\@aboveskip \fi
-            \hbox{\@strut\@tempa}%
-         \ifx\tempa\empty \gl@loopmorefalse \fi
-      \repeat
-      }}%
-}
-\def\framewords{\let\glw@printcol=\glw@printcolframed}
-\resetatcatcode
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\font\ips=xipasl10 at 12pt
-\font\ipss=xipasl10 at 7pt
-\def\mroot{$\surd$}
-\def\L{\char'354}
-\def\v#1{{\accent"07 #1}}
-\def\C{{\accent"07 c}}
-\def\W{$^{\hbox{\ipss w}}\mskip-2mu$}
-
-
 \section More on Glosses
 
 \subsection User defined levels
 
-\beginmacinventory
-|\defineglwlevels|
-\endmacinventory
+\begininventory
+\macros* |\defineglwlevels|\endmc
+\endinventory
 %
 |\glb| and |\glc| are given definitions in {\it expex.tex\/}
 by the command |\defineglwlevels{b,c}|.  The command also creates the
@@ -48,27 +20,28 @@ For example, suppose more suggestive level names are desired.
 
 \codedisplay
 \defineglwlevels{cat,gloss}
-\lingset{everyglcat=\tenrm,aboveglcatskip=-.5ex}
+\lingset{everyglcat=\footnotesize,aboveglcatskip=-.5ex}
 
 \ex
 \begingl
 \gla k- wapm -a -s'i -m -wapunin -uk //
 \glcat Cl V Agr Neg Agr Tns Agr //
-\glgloss 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glgloss 2 see 3{\sc acc} {} {2\sc pl} preterit {3\sc pl} //
 \glft `you (pl) didn't see them'//
 \endgl
 \xe
 |endcodedisplay
 produces
+
 \framedisplay
 \defineglwlevels{cat,gloss}
-\lingset{everyglcat=\tenrm,aboveglcatskip=-.5ex}
+\lingset{everyglcat=\footnotesize,aboveglcatskip=-.5ex}
 
 \ex
 \begingl
 \gla k- wapm -a -s'i -m -wapunin -uk //
 \glcat Cl V Agr Neg Agr Tns Agr //
-\glgloss 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glgloss 2 see {3\sc acc} {} {2\sc pl} preterit {3\sc pl} //
 \glft `you (pl) didn't see them'//
 \endgl
 \xe
@@ -99,7 +72,7 @@ interlinear gloss
 
 \framedisplay
 \ex[glftpos=right,glhangstyle=none]
-\let\\=\smallcaps
+\let\\=\textsc
 \begingl
 \gla
 Hom\^{a}o sa \v{c}\^{o} p\^{o} tha  \~{n}u nao ng\u{a} hmua. \~{N}u
@@ -123,7 +96,7 @@ peacock beside its nest.'//
 \noindent is achieved by
 \codedisplay~
 \ex[glftpos=right,glhangstyle=none]
-\let\\=\smallcaps
+\let\\=\textsc
 \begingl
 \gla
 Hom\^{a}o sa \v{c}\^{o} p\^{o} tha  \~{n}u nao ng\u{a} hmua. \~{N}u
@@ -143,10 +116,11 @@ peacock beside its nest.'//
 \endgl
 \xe
 |endcodedisplay
-(This example from Jarai was contributed by Joshua Jensen.  The story
-teller was Hyech Ksor.  The orthography here is slightly impoverished,
-simplified in order keep the Tex requirements for the examples in this
-documentation elementary.)
+(This example, as well as (\getref{panelex}), was contributed by
+Joshua Jensen.  It is from Jarai, an Austronesian language.  The
+story teller was Hyech Ksor.  The orthography here is somewhat
+simplified in order to keep the font requirements for the
+examples in this documentation elementary.)
 
 |ss| stands for ``side-by-side''. |sssep| gives the separation of the
 gloss and the free translation. |ssratio| gives the proportion of the
@@ -154,7 +128,7 @@ available space (which is the leftskip minus the value of |sssep|)
 which the gloss occupies. The point of hanging indentation is to
 visually separate the free translation and the gloss, so
 |glhangstyle=none| is completely satisfactory if the tree translation
-is on the right. But \expex2\ will happily use hanging (either
+is on the right. But \ExPex\ will happily use hanging (either
 cascading or not) indentation with the free translation on the right.
 
 Line breaking in the free translation is delicate because it will
@@ -164,6 +138,133 @@ overfull lines and awkward hyphenation.  |ssrightskip| can be
 increased (all the way to \textdim{0 pt} plus \textdim{1 fil}) if there is a
 problem, at the cost of a more ragged appearance.  This can be done
 globally, or simply in troublesome examples.
+
+\subsection Glosses with a side panel
+
+\begininventory
+\macros
+\idx{|\beginglpanel|}, \idx{|\endpanel|}\endmc
+\parameters*
+\idx{|everypanel|}\user& token list& |{}|\cr
+\endinventory
+The mechanism for positioning the free translation to the right of the
+interlinear gloss can be adapted to create a side panel for
+glosses which can be used for other purposes, as illustrated
+below.
+
+\framedisplay
+\ex[everypanel=\footnotesize]<panelex>
+\let\\=\textsc
+\beginglpanel[ssratio=.5,glhangstyle=none]
+\gla Hom\^{a}o$^1$ sa \v{c}\^{o} p\^{o} tha  \~{n}u nao ng\u{a}
+hmua. \~{N}u dj\u{a} g\u{a}, \~{n}u dj\u{a} \v{c}\u{o}ng \~{n}u,
+laih gui r\^{e}o \~{n}u. Todang bboi r\^{o}k jolan \~{n}u nao
+hma, \~{n}u bb\^{o}h sa droi mr\u{a} d\u{o}$\,^4$ bboi gah, a, hruh
+\~{n}u.//
+\glb \\{exist} one \\{clf} person old \\{3s} go$^2$ do field
+\\{3s} hold machete \\{3s} hold hoe \\{3s} and$^3$ carry.on.back
+back.basket \\{3s} while at along trail \\{3s} go field \\{3s}
+see one \\{clf} peacock stay at \\{drct} -- nest \\{3s}
+//
+\endgl
+1.\enspace {\it hom\^{a}o} also means `have', reflecting the
+strong tendency across languages to use the same word for
+possession and the existential. {\it hom\^{a}o} is clause-initial
+in existential clauses, but it comes after the subject in
+possession clauses.
+
+2.\enspace All verbs are glossed with a bare form, as Jarai has
+no inflectional morphology. Although Jarai has lexical items that
+encode tense, they are relatively infrequent in text.
+
+3.\enspace The word {\it laih} is literally `after; finish', but
+that is clearly not the meaning here. Probably {\it laih} here is
+an abbreviation for {\it laih an\u{u}n}, `after that; and', hence
+the gloss `and'.
+
+4.\enspace {\it d\u{o}} `sit, stay' is used like a copula in
+locative clauses, which is what I assume here (`a~peacock
+[which was] beside its nest'); however, this could just as well
+mean `a peacock sitting beside its nest', retaining the posture
+semantics.
+\endpanel
+\bigskip
+`There was an old person who went to work in the field. He took
+along his machete, he took along his hoe, and he carried his
+basket on his back. While he was on his way to the farm, he saw a
+peacock beside its nest.'
+\xe
+\endframedisplay
+
+The syntax is:
+\codedisplay
+\beginglpanel |dots \endgl |dots \endpanel
+|endcodedisplay
+The first part is the gloss, with the usual syntax.  The second
+part is put in a vbox and set alongside the gloss. The tokens
+|lingeverypanel| are inserted when the vbox begins. All of the
+parameters which are special to positioning the free translation
+to the right of the gloss apply here as well, with the obvious
+meanings.
+
+The complete code for the example above is:
+
+\codedisplay
+\ex[everypanel=\footnotesize]<panelex>
+\def\\#1{{\footnotesize\uppercase{#1}}}%
+\let\\=\textsc
+\beginglpanel[ssratio=.5,glhangstyle=none]
+\gla Hom\^{a}o$^1$ sa \v{c}\^{o} p\^{o} tha  \~{n}u nao ng\u{a}
+hmua. \~{N}u dj\u{a} g\u{a}, \~{n}u dj\u{a} \v{c}\u{o}ng \~{n}u,
+laih gui r\^{e}o \~{n}u. Todang bboi r\^{o}k jolan \~{n}u nao
+hma, \~{n}u bb\^{o}h sa droi mr\u{a} d\u{o}$\,^4$ bboi gah, a, hruh
+\~{n}u.//
+\glb \\{exist} one \\{clf} person old \\{3s} go$^2$ do field
+\\{3s} hold machete \\{3s} hold hoe \\{3s} and$^3$ carry.on.back
+back.basket \\{3s} while at along trail \\{3s} go field \\{3s}
+see one \\{clf} peacock stay at \\{drct} -- nest \\{3s}//
+\endgl
+1.\enspace {\it hom\^{a}o} also means `have', reflecting the
+strong tendency across languages to use the same word for
+possession and the existential. {\it hom\^{a}o} is clause-initial
+in existential clauses, but it comes after the subject in
+possession clauses.
+
+2.\enspace All verbs are glossed with a bare form, as Jarai has
+no inflectional morphology. Although Jarai has lexical items that
+encode tense, they are relatively infrequent in text.
+
+3.\enspace The word {\it laih} is literally `after; finish', but
+that is clearly not the meaning here. Probably {\it laih} here is
+an abbreviation for {\it laih an\u{u}n}, `after that; and', hence
+the gloss `and'.
+
+4.\enspace {\it d\u{o}} `sit, stay' is used like a copula in
+locative clauses, which is what I assume here (`a~peacock [which
+was] beside its nest'); however, this could just as well mean `a
+peacock sitting beside its nest', retaining the posture
+semantics.
+\endpanel
+\bigskip
+`There was an old person who went to work in the field. He took
+along his machete, he took along his hoe, and he carried his
+basket on his back. While he was on his way to the farm, he saw a
+peacock beside its nest.'
+\xe
+|endcodedisplay
+Note that the free translation here comes after |\endpanel| and is
+typeset the way any material inside an |\ex| construction is
+typeset.  This allows it to have full width, spanning both the
+gloss and notes.  It could have been part of the gloss, with a
+different result.
+
+No support is given to side note numbering.  It must be done ``by
+hand''.  If the construction turns out to be sufficiently useful
+and hand numbering is sufficiently tedious, a more automatic
+scheme might be possible.  It would not be trivial, because the
+order in which the notes appear inside the gloss before it is
+typeset is not necessarily the same as the order in which they
+appear after it is typeset.
 
 \subsection Cascading hanging indentation in glosses
 
@@ -175,7 +276,7 @@ globally, or simply in troublesome examples.
 \lingset{glhangstyle=none}
 \framedisplay
 \ex[glhangstyle=cascade]
-\let\\=\smallcaps
+\let\\=\textsc
 \begingl
 \gla
 Hom\^{a}o sa \v{c}\^{o} p\^{o} tha  \~{n}u nao ng\u{a} hmua. \~{N}u
@@ -199,7 +300,7 @@ peacock beside its nest.'//
 is achieved by
 \codedisplay~
 \ex[glhangstyle=cascade]
-\let\\=\smallcaps
+\let\\=\textsc
 \begingl
 \gla
 Hom\^{a}o sa \v{c}\^{o} p\^{o} tha  \~{n}u nao ng\u{a} hmua. \~{N}u
@@ -223,7 +324,7 @@ peacock beside its nest.'//
 \subsection  Gloss underfixes
 
 \begininventory
-\macros* |\gluf|\endmacros
+\macros* |\gluf|\endmc
 \parameters
 \idx{|glufcloseup|}& dimension& |.4ex|\cr
 \idx{|everygluf|}& token list& |{}|\cr
@@ -233,7 +334,7 @@ peacock beside its nest.'//
 desired, with grammatical markings written below the gloss.
 
 \framedisplay
-\ex[glhangstyle=normal,glufcloseup=.4ex,everygluf=\tenrm]
+\ex[glhangstyle=normal,glufcloseup=.4ex,everygluf=\footnotesize]
 \begingl
 \gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren
    w\"urde seiner Freundin ihr$_i$ Herz auszusch\"utten.//
@@ -246,11 +347,11 @@ would not damage John.'//
 \xe
 \endframedisplay
 
-\expex\/ provides the macro |\gluf| which can be used to
+\ExPex\ provides the macro |\gluf| which can be used to
 construct such a display.
 
 \codedisplay
-\ex[glhangstyle=normal,glufcloseup=.4ex,everygluf=\tenrm]
+\ex[glhangstyle=normal,glufcloseup=.4ex,everygluf=\footnotesize]
 \begingl
 \gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren
    w\"urde seiner Freundin ihr$_i$ Herz auszusch\"utten.//
@@ -274,6 +375,10 @@ enough to the glosses they modify (in my opinion). The macro |\gluf|
 centers the underfix below the word it annotates.  Its syntax should
 be clear from the example above.
 
+\endinput
+================================================
+================================================
+
 %\subsection An alternate gloss description syntax
 %({\tt glstyle=3level})
 %
@@ -294,8 +399,8 @@ be clear from the example above.
 %\codedisplay
 %\ex[glstyle=3level]
 %\begingl
-%{k-/Cl/2} {wapm/V/see} {-a/Agr/3\sc ACC} {-s'i/Neg} {-m/Agr/\sc PL}
-%{-wapunin/Tns/preterit} {-uk/Agr/\sc PL}.
+%{k-/Cl/2} {wapm/V/see} {-a/Agr/3\sc ACC} {-s'i/Neg} {-m/Agr/\sc pl}
+%{-wapunin/Tns/preterit} {-uk/Agr/\sc pl}.
 %`you (pl) didn't see them'.
 %\endgl
 %\xe
@@ -304,7 +409,7 @@ be clear from the example above.
 %\ex[glstyle=3level,aboveglaskip=0pt,aboveglbskip=0pt]
 %\begingl
 %{k-/Cl/2} {wapm/V/see} {-a/Agr/3\sc ACC} {-s'i/Neg}
-%{-m/Agr/\sc PL} {-wapunin/Tns/preterit} {-uk/Agr/\sc PL}.
+%{-m/Agr/\sc pl} {-wapunin/Tns/preterit} {-uk/Agr/\sc PL}.
 %`you (pl) didn't see them'.
 %\endgl
 %\xe
@@ -436,16 +541,32 @@ be clear from the example above.
 %apply and have the same meaning as in the wrap style.
 
 
+\makeatletter
+\def\glw@printcolframed{%
+   \psframebox[framesep=-.3pt]{\vtop{%
+      \ling@everyglword
+      \gl@loopmoretrue
+      \loop\ifgl@loopmore
+         \glw@lop\tempa\to\@tempa
+         \glw@lop\aboveskiplist\to\@aboveskip
+         \glw@lop\strutlist\to\@strut
+         \expandafter\ifdim\@aboveskip=0pt \else
+            \vskip\@aboveskip \fi
+            \hbox{\psframebox[framesep=-.3pt]{\@strut\@tempa}}%
+         \ifx\tempa\empty \gl@loopmorefalse \fi
+      \repeat
+      }}%
+}
+\def\framewords{\let\glw@printcol=\glw@printcolframed}
+\resetatcatcode
 
-\endinput
-%% OMIT THIS SECTION FOR THE PRESENT
 \subsection Interline skip in the interlinear gloss
 
 Macro: |everyglword|
 
 \medskip
 
-\noindent This section will not be of any use to most \expex\/
+\noindent This section will not be of any use to most \ExPex\
 users and should therefore be omitted unless curiosity or some special
 need prompts you to read it.
 
@@ -460,21 +581,26 @@ construct the interlinear gloss.  The baseline of each gl word is the
 baseline of the top item in the box. A horizontal space (determined by
 the parameter |glspace|) is inserted between these boxes.
 
-\ex
+\ex[linewidth=.6pt]
 \framewords
 \begingl
-\gla k- wapm -a -s'i -m -wapunin -uk //
+\gla k- wapm -$\left\{{\hbox{a}\atop\hbox{e}}\right\}8$ -s'i -m -wapunin -uk //
 \glb Cl V Agr Neg Agr Tns Agr //
-\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glb 2 see {3\sc ACC} {} {2\sc PL} preterit {3\sc PL} //
 \glft `you (pl) didn't see them'//
 \endgl
 \xe
+
+
+
+
+
 
 \ex
 \begingl[everyglword=\offinterlineskip]
 \gla k- wapm -a -s'i -m -wapunin -uk //
 \glb Cl V Agr Neg Agr Tns Agr //
-\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glb 2 see {3\sc ACC} {} {2\sc PL} preterit {3\sc PL} //
 \glft `you (pl) didn't see them'//
 \endgl
 \xe
@@ -483,8 +609,8 @@ the parameter |glspace|) is inserted between these boxes.
 \begingl
 \gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
 seiner Freundin ihr$_i$ Herz auszusch\"utten.//
-\glb Mary is sure that it the\suff{ACC} Hans not annoy would
-his\suff{DAT} girfriend\suff{DAT} her\suff{ACC} heart\suff{ACC} {out to
+\glb Mary is sure that it the-{\sc ACC} Hans not annoy would
+his-{\sc DAT} girfriend-{\sc DAT} her-{\sc ACC} heart-{\sc ACC} {out to
 throw}//
 \glft  `Mary is sure that it would not annoy John to reveal her
 heart to his girlfriend.'//
@@ -496,7 +622,7 @@ heart to his girlfriend.'//
 \begingl
 \gla k- wapm -a -s'i -m -wapunin -uk //
 \glb[everyglb=\ninerm] Cl V Agr Neg Agr Tns Agr //
-\glb 2 see {3\sc ACC} {} 2{\sc PL} preterit 3{\sc PL} //
+\glb 2 see {3\sc ACC} {} {2\sc PL} preterit {3\sc PL} //
 \glft `you (pl) didn't see them'//
 \endgl
 \xe
@@ -598,7 +724,6 @@ heart to his girlfriend.'//
 \glf Resist illegitimate authority.//
 \endgl
 \xe
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -833,4 +958,11 @@ basket on his back. While he was on his way to the farm, he saw a
 peacock beside its nest.'//
 \endgl
 \xe
+
+
+
+
+
+
+
 

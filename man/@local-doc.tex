@@ -1,13 +1,10 @@
 \makeatletter
-\def\Pstricks{\bgroup\sl PSTricks\@isicp}
-\def\Tex{\bgroup\sl Tex\@isicp}
-\def\Latex{\bgroup\sl LaTex\@isicp}
-\def\Expex{\bgroup\sl ExPex\@isicp}
-\def\expextwo{\bgroup\sl ExPex2\@isicp}
-\def\expex{\bgroup \sl ExPex\expex@a}
-\def\expex@a{\@ifnextchar2{2\@isicp\gobble}{\@isicp}}
-\def\Xkeyval{\bgroup\sl XKey\kern-.2ex Val\@isicp}
-\def\@isicp{\@ifnextchar\/{\/\egroup}{\egroup}}
+\def\slname#1{\@ifnextchar\relax{{\sl #1}}{{\sl #1\/}}}
+\def\ExPex{\slname{ExPex}}
+\def\LaTex{\slname{LaTex}}
+\def\Tex{\slname{Tex}}
+\def\XKeyVal{\slname{XKeyVal}}
+\def\PSTricks{\slname{PSTricks}}
 
 \def\index#1{%
    \ifgatherindex
@@ -69,9 +66,8 @@
    \hfil\it key& \hfil\it value& \hfil\it initial
    value& \hfil\it default value\cr}
 \def\macros{\omit\pst@ifstar\macros@a}
-\def\macros@a{Macro\if@star\else s\fi:\hidewidth\cr}
-\def\counter{\omit Counter:\hidewidth\cr}
-\def\endmacros{\hidewidth\cr}
+\def\counter{\omit Counter:\enspace}
+\def\endmc{\hidewidth\cr}
 \def\macros@a{Macro\if@star\else s\fi:\enspace}
 
 \def\beginmacinventory{\pst@ifstar\beginmacinventory@a}
@@ -164,11 +160,12 @@
 }
 \lingset{fdcorrect=both}
 
-% small code display
+% code fragment display
 \def\codefragment{\medskip\begingroup \leftskip=3em \parindent=0pt
    \obeylines}
 \def\endcodefragment{\medskip\endgroup \noindent}
-
+\def\exfrag{%
+   \exdisplay[exskip=1.3ex plus.4ex minus.4ex]\noexno}
 % #2 can be \par, so \long is needed
 \long\def\if@tildeverb#1#2{\ifx#2~\@tildetrue\def\next{#1}\else
    \@tildefalse\def\next{\expandafter #1\string#2}\fi \next}
@@ -237,7 +234,7 @@
       \expandafter\writecontents\temp{#1}\sec\fi \nobreak
    \medskip\nobreak\noindent
 }
-\def\mkheadline{%\rput[Bl](0,\ling@headlinelevel){%
+\def\mkheadline{%\rput[Bl](0,\lingheadlinelevel){%
    \rput[Bl](0,5.5ex){\hbox to\hsize{\sectiontitle\hfil
       \ifnum\pageno>0 \the\pageno \fi}}}
 \def\sectiontitle{}
@@ -277,21 +274,17 @@
    \medskip\nobreak\noindent
 }
 \lingset{secfil=.2\vsize}
-%%% displaying the macro/parameter inventory
-
-
 
 \resetatcatcode
 
 \lingset{exbreakfil=8ex}
 \raggedbottom
-\def\mathrm{\fam0}
 \def\textdim#1{\textdimA#1 }
 \def\textdimA#1 #2 {#1\hskip.12em #2}
-\def\suff#1{{-\small #1}}%
-\def\small{\tenrm}
-\def\smallcaps#1{{\small\uppercase{#1}}}
-\def\public{$^{\dag}$}
+\def\user{\raise.2ex\hbox{$\dag $}}
 \def\inc{(!)\kern.7pt}
-
+% ---- small caps
+\font\twelvesc=cmcsc10 scaled\magstep1
+\let\sc=\twelvesc
+\def\textsc#1{{\sc #1}}
 

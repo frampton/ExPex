@@ -1,11 +1,10 @@
-
 %\def\epdir{c:/users/john/ling/tex/expex/}
 \input eplain
 \input c:/users/john/ling/tex/expex/man/@mybasics
 \input pstricks
 \input pst-node \catcode`\@=12
-%\input c:/users/john/ling/tex/expex/man/expex-bak
-\input c:/users/john/ling/tex/expex/core/expex2
+\input c:/users/john/ling/tex/expex/core/expex-src
+%\input @texlatex
 \input c:/users/john/ling/tex/expex/man/@lingdoc
 \input c:/users/john/ling/tex/expex/man/@code-beta
 \input c:/users/john/ling/tex/expex/man/@timesfonts
@@ -21,16 +20,19 @@
 %\refproofing
 %\indexproofingtrue
 
+%\input collectedexamples \bye
+%\input usestyle  \bye
 %\input temp \bye
 %\input glunderfix \bye
 %\get 08_glpars  \bye
 %\input @3level  \bye
 %\input example3  \bye
 %\input ./tests/tag  \bye
+%\input jarai \bye
 
 %\global\pageno=-1
-%\get 000doc-cover
-%\get @contents
+\get 000doc-cover
+\get @contents
 \get 01_intro
 \get 02_examples2
 \get 03_XKV
@@ -46,7 +48,7 @@
 \get 09_Tables
 \get 11_PSTricks
 \get 12_PageBreaks
-%
+
 %\input mkindex
 
 

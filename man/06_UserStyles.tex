@@ -2,16 +2,16 @@
 \section User defined styles
 
 \begininventory
-\macros* \idx{|\definelingstyle|}\cr
+\macros* \idx{|\definelingstyle|}\endmc
 \parameters
 \idx{|everyex|}& token list& |{}|\cr
 \idx{|Everyex|}& token list& |{}|\cr
 \endinventory
 %
-Aside from all the \Expex\/ parameters introduced to this point,
-there are numerous \Tex\/ parameters that affect the appearance
+Aside from all the \ExPex\ parameters introduced to this point,
+there are numerous \Tex\ parameters that affect the appearance
 of examples: line spacing, hsize, font selection, etc.  These are
-all quantities that \Tex\/ itself provides mechanisms for setting
+all quantities that \Tex\ itself provides mechanisms for setting
 to suit the user.  You may want to make adjustments of these
 parameters every time a particular kind of example is typeset, so
 that special settings hold inside these examples independently of
@@ -24,7 +24,7 @@ separation between baselines.
 \framedisplay
 \leftline{\vbox{%
 \ex[textoffset=3em]
-\hsize=3in \it \advance\baselineskip by 2pt
+\hsize=3in \rightskip=0pt plus 2em \it \advance\baselineskip by 2pt
 Und hier k\"onnen wir sehen was f\"ur Unfug wird gemacht
 wenn er einen ganz langen Satz binnen kriegt.
 \xe
@@ -35,11 +35,13 @@ One straightforward way to do this is:
 
 \codedisplay~
 \ex[textoffset=3em]
-\hsize=3in \it \advance\baselineskip by 2pt
+\hsize=3in \rightskip=0pt plus 2em \it \advance\baselineskip by 2pt
 Und hier k\"onnen wir sehen was f\"ur Unfug wird gemacht
 wenn er einen ganz langen Satz binnen kriegt.
 \xe
 |endcodedisplay
+Some rightskip is included because with such a narrow width it is
+otherwise difficult to avoid overfull lines.
 
 If you have many examples that you want to typeset in this way
 that are scattered throughout a document, it is awkward to have
@@ -47,7 +49,7 @@ to remember all of these settings and enter them each time an
 example of this kind needs to be formatted.  Furthermore, if you
 change your mind about some detail of this special formatting,
 you need to go through the document and change each instance of
-this formatting.  \Expex\ allows you to package all the
+this formatting.  \ExPex\ allows you to package all the
 formatting changes into one named unit, called a ``style''.  If
 this style is called ``narrow italic'', then you can write the following
 to achieve the format of (\lastx).
@@ -61,7 +63,8 @@ by saying:
 
 \codedisplay
 \definelingstyle{narrow italic}{textoffset=3em,
-   everyex={\hsize=3in \it \advance\baselineskip by 2pt}}
+   everyex={\hsize=3in \rightskip=0pt plus 2em
+      \it \advance\baselineskip by 2pt}}
 |endcodedisplay
 Thereafter, setting the parameter |lingstyle| to |narrow italic|
 has the effect of setting all the parameters as specified in the
@@ -72,7 +75,7 @@ is defined whose expansion is {\sl value}.  When
 an |\ex| or |\pex| construction is initiated, {\it after\/} any
 parameter settings take effect, |\lingeveryex| is executed.
 
-\Expex\ provides a second parameter, |Everyex|, which is similar to
+\ExPex\ provides a second parameter, |Everyex|, which is similar to
 |expex|.  If |Expex| is set to value, a macro |ling@Everypex| is
 defined. When
 an |\ex| or |\pex| construction is initiated, {\it before\/} after any
@@ -92,7 +95,7 @@ double spaced text.  One way to accomplish this is to say
 \lingset{everyex={\hsize=4.375in \normalbaselines}}
 |endcodedisplay
 at the beginning of your document.  |\normalbaselines|
-is a standard \Tex\/ macro which establishes the normal line
+is a standard \Tex\ macro which establishes the normal line
 spacing for the current font.  This makes the hsize and line
 spacing inside examples independent of the hsize and line spacing
 you select for the text (outside examples).
@@ -115,208 +118,8 @@ spacing within examples.
 |Everyex| is provided to accommodate situations like this. The
 intention is that special settings that should hold inside
 examples throughout the document are assigned to |Everyex|, with
-|expex| reserved for local variations.  Note that since
-|\lingEveryex| is evaluated before local parameter changes take
-effect, parameter settings specified by |Expex| will be overridden
-by any local parameter settings.
-
-\endinput
-
-
-
-
-
-\codedisplay~
-\ex[textoffset=3em,
-   everyex={\hsize=3in \it \advance\baselineskip by 2pt}]
-Und hier k\"onnen wir sehen was f\"ur Unfug wird gemacht
-wenn er einen ganz langen Satz binnen kriegt.
-\xe |endcodedisplay
-
-
-
-
-The parameters |everyex| and |Everyex| are provided by \Expex\/
-to facilitate making these kind of adjustments every time an
-example is printed. The effect of
-
-\codefragment
-|\lingset{everyex=«value»}|
-|\lingset{everyex=«value»}|
-\endcodefragment
-
-\noindent is to define a macro |\lingeveryex| which expands to
-{\sl value}.  When |\ex| is
-expanded, a group is first initiated and
-the parameter settings furnished to |\ex| are
-passed to |\lingset|, then |\lingeveryex| is executed.
-
-
-
-
-
-In order to illustrate this, suppose you have many examples that
-you want to typeset in the following way:
-
-\endinput
-
-
-
-
-
-
-consider the code below:
-
-\codedisplay
-\ex[textoffset=3em,
-   everyex={\hsize=3in \it \advance\baselineskip by 2pt}]
-Und hier k\"onnen wir sehen was f\"ur Unfug wird gemacht
-wenn er einen ganz langen Satz binnen kriegt.
-\xe |endcodedisplay
-
-\noindent The XKV evaluator will remove surrounding braces from
-values associated with keys.  The braces around the value
-associated with |everyex| above are not required by the syntax,
-but do make the code much more readable.  If a value contains a
-comma, however, braces are mandatory.  The XKV evaluator uses
-commas to parse the key/value pairs and a comma inside a value
-which is not hidden by braces will be incorrectly interpreted as
-separating key/value pairs.  Chaos will ensue.
-
-The code above produces:
-
-Since the following code produces the same thing, the utility of
-the parameter |everyex| is not yet evident. It does have the
-advantage that all the special settings are put in one place, the
-optional argument of |\ex|.  More substantial advantages will
-become clearer after the parameter |lingstyle| is discussed in
-the next section.
-
-\codedisplay
-\ex[textoffset=3em]
-\hsize=3in \it \advance\baselineskip by 2pt
-Und hier k\"onnen wir sehen was f\"ur Unfug wird gemacht
-wenn er einen ganz langen Satz binnen kriegt.
-\xe |endcodedisplay
-
-The reasons for providing both |everyex| and |Everyex| are
-subtle. Different stages of the writing/rewriting/editing process
-may call for different treatments of example formatting,
-particularly if the final aim is a camera ready product.  Suppose
-you normally make double spaced drafts with an hsize of $6.5\,\rm
-in$ and that your final aim is to produce camera ready copy with
-an hsize of $4.375\,\rm in$.  Suppose also that you are at
-editing stage where you want to see exactly what the examples
-will look like in the finished product, but still want full width
-double spaced text.  One way to accomplish this is to say
-
-\codefragment
-|\lingset{everyex={\hsize=4.375in \normalbaselines}}|
-\endcodefragment
-
-\noindent at the beginning of your document.  |\normalbaselines|
-is a standard \Tex\/ macro which establishes the normal line
-spacing for the current font.  This makes the hsize and line
-spacing inside examples independent of the hsize and line spacing
-you select for the text (outside examples).
-
-This will accomplish what you want.  But it makes the further use
-of |everyex| in your document awkward.  If you want a particular
-example to be set in italics, for example, you might think to
-use:
-
-\codefragment
-|\ex[everyex=\it]|
-\endcodefragment
-
-\noindent This will certainly produce an italicized example
-because |\it| will be evaluated early on in typesetting the
-example.  But it has the unfortunate consequence of overwriting
-the initial setting of |everyex|, removing the special line
-spacing within examples.
-
-The parameter |Expex| is provided to accommodate this situation.
-The intention is that special settings that should hold
-throughout the document are assigned to |Expex|, with |expex|
-reserved for local variations.
-
-\subsection User defined styles
-
-\noindent Macro:\quad \idx{|\definelingstyle|}\par
-\parinventory*
-& \idx{|lingstyle|}& name of user defined style\cr
-\endparinventory
-
-\noindent After
-
-\codefragment
-|\definelingstyle{«name»}{«key$_1$»=«value$_1$»,« \dots\ »,«key$_n$»=«value$_n$»}|
-\endcodefragment
-
-\noindent then
-
-\codefragment
-|\lingset{lingstyle=«name»}|
-\endcodefragment
-
-\noindent is equivalent to
-
-\codefragment
-|\lingset{«key$_1$»=«value$_1$»,« \dots\ »,«key$_n$»=«value$_n$»}|
-\endcodefragment
-
-If you have multiple special examples in your document which all
-require the same special parameter settings, the array of
-parameter settings (perhaps only a single change) which is
-required can be given a style name and the parameter changes can
-be simply made.
-
-Suppose, for example, that you have multiple examples that you
-want to format in the same way as (\lastx). If you first define
-the style  ``narrow italic'' by:
-
-\codefragment
-|\definelingstyle{narrowitalic}{textoffset=3em,|\par\nobreak
-|   everyex={\hsize=3in \it \advance\baselineskip by 2pt}}|
-\endcodefragment
-\definelingstyle{narrowitalic}%
-   {textoffset=3em,everyex={\hsize=3in \it \advance\baselineskip
-   by 2pt}}%
-
-\noindent Then examples like (\lastx) can be simply formatted by
-using:
-
-\codefragment
-|\ex[lingstyle=narrowitalic]|
-\endcodefragment
-
-Aside from relatively trivial benefit of saving typing, the
-ability to define styles has all the well-known advantages of
-uniformity, ease of modification, and clarity of typographic
-organization. |lingstyle| is a parameter like all others in that
-it can be set along with other parameters with standard left to
-right key setting.
-
-You could say, for example:\exbreak
-
-\codedisplay
-\ex[lingstyle=narrowitalic,textoffset=1em]
-Und hier k\"onnen wir sehen was f\"ur Unfug wird gemacht
-wenn er einen ganz langen Satz binnen kriegt.
-\xe |endcodedisplay
-
-\framedisplay~ \leftline{\vbox{%
-\ex[lingstyle=narrowitalic,textoffset=1em]
-Und hier k\"onnen wir sehen was f\"ur Unfug wird gemacht
-wenn er einen ganz langen Satz binnen kriegt.
-\xe
-}}\endframedisplay
-
-
-
-
-
-
-
-
+|expex| reserved for local variations.  Since |\lingEveryex| is
+evaluated before local parameter changes take effect, parameter
+settings specified by |Expex| will be overridden by any local
+parameter settings.
 
