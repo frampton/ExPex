@@ -1,20 +1,24 @@
 
 \section Tables in examples
 
-Macros:\quad |\tspace[]|, |\exnoprint|, |\crnb|
-\bigskip
-
-\noindent Most of the difficulty of formatting example displays
-which contain tables comes from formatting the table itself. This
-manual will not teach the reader how to use \Tex\/ to format
+\begininventory
+\macros* \idx{|\hwit|}\endmc
+\endinventory
+Most of the difficulty of formatting example displays which
+contain tables comes from formatting the table itself. This
+manual will not teach the reader how to use \Tex\ to format
 tables. It will be assumed that the reader knows how to use the
-\Tex\/ primitive |\halign|.
+\Tex\ primitive |\halign| or the \LaTex\ macros based on
+|\halign|.  But this section might contribute something to
+understanding how to use the table making tools in linguistics
+examples.
 
 Many tabular examples have the form
 
-\codefragment
-|\ex \vtop{\halign{|\quad\dots\quad |}}\xe|
-\endcodefragment
+\def\goop{\enspace\dots\enspace}
+\codedisplay
+\ex \vtop{\halign{|goop}}\xe
+|endcodedisplay
 
 For example:
 
@@ -27,7 +31,8 @@ suap& su-suap& sleep\cr
 miaks& mi-miaks& glitter\cr
 auc& u-auc& please\cr
 }}
-\xe\endframedisplay
+\xe
+\endframedisplay
 
 \codedisplay
 \ex \vtop{\halign{%
@@ -85,12 +90,12 @@ not detach the title from the table that follows.
 
 \subsection Tables with labeled lines
 
-Macros:\quad  |\labels[]|, |\tl|, |\nl|
-\bigskip
-
-\noindent If reference must be made to particular lines in
-(\lastx), the lines need labels of some sort.  One approach is to
-explicitly enter the line labels a--e:
+\begininventory
+\macros \idx{|\labels[]|}, \idx{|\tl|}, \idx{|\nl|}\endmc
+\endinventory
+If reference must be made to particular lines in (\lastx), the
+lines need labels of some sort.  One approach is to explicitly
+enter the line labels a--e:
 
 \framedisplay
 \ex  The perfect stems of some roots with a
@@ -127,7 +132,7 @@ e.& auc& u-auc& `please'\cr
 interchanged for some reason, considerable relabeling may be
 required.
 
-\Expex\/  provides some macros which simplify this code and make
+\ExPex\  provides some macros which simplify this code and make
 it easier to manipulate.  They are used in the alternate code for
 (\lastx) below and described below. \idx{|\labels|} initializes
 the counter |\pexcnt|, which is then used to generate the labels.
@@ -161,9 +166,8 @@ an entry.  If the labels are inserted explicitly, this usually
 requires changing multiple labels.  If the table has many lines,
 this is particularly onerous.  References in the text to
 particular lines also need to changed to match the new labeling.
-We will see in Section \getref{named-reference} that lines in
-tables can be named and reference made by name, using
-implicit line numbering.
+We will see below that lines in tables can be named and reference
+made by name, using implicit line numbering.
 
 \exbreak
 \subsection Tagging implicit labels in tables
@@ -171,7 +175,7 @@ implicit line numbering.
 \sidx{|\deftaglabel| inside tables}
 |\deftaglabel| can be used to associate a tag with a label that is
 introduced into a table by |\tl|~(``table label'').  |\tl| can
-read an optional tag using the |<|\dots|>| mechanism.
+also read an optional tag using the |<|\dots|>| mechanism.
 
 \codedisplay
 \ex<Washo>
@@ -208,19 +212,20 @@ the most complex, and therefore the most revealing.
 
 \subsection Some useful table making tools
 
-Macros: \idx{|\lingdima|}, \idx{|\lingdimb|},
-   \idx{|\lingdimc|}, \idx{|\tspace|}|[]|
-\parinventory
-& \idx{|dima|}& dimension& |2.4em|\cr
-& \idx{|dimb|}& dimension&\cr
-& \idx{|dimc|}& dimension&\cr
-& \idx{|crskip|}& skip& |1.2ex|\cr
-\endparinventory
-
-\noindent Tables often need considerable adjustment in order to
+\begininventory
+\macros* % \idx{|\lingdima|}, \idx{|\lingdimb|}, \idx{|\lingdimc|},
+   \idx{|\tspace|}|[]|\endmc
+\parameters
+\idx{|dima|\user}& dimension& |2.4em|\cr
+\idx{|dimb|\user}& dimension& (not set)\cr
+\idx{|dimc|\user}& dimension& (not set)\cr
+\idx{|crskip|}& skip& |1.2ex|\cr
+\endinventory
+%
+Tables often need considerable adjustment in order to
 balance the needs of readability, space limitations, and matching
 the typographic structure to the conceptual structure.
-Sometimes this requires a delicate balancing act. \Expex\/
+Sometimes this requires a delicate balancing act. \ExPex\
 provides three parameters (scratch dimensions) |dima|, |dimb|,
 and |dimc|, and corresponding macros which expand to their
 settings, which can be used for this.  Additionally,
@@ -237,9 +242,9 @@ nucleus\par\nobreak\medskip
 \tl #\hfil& \tspace[textoffset]#\hfil&& \tspace[dimb]#\hfil\cr
 \nl & \hfil\hwit{root}& \hfil\hwit{perfect stem}&
    \hfil\hwit{gloss}\cr |endcodedisplay
-\removelastskip
-\hskip.7in $\vdots$
-\vskip1em
+\removelastskip\vskip-1ex
+$\vdots$
+\bigskip
 
 \noindent Localizing all the parameters which might need
 adjustment in the optional argument of |\ex| helps organize the
@@ -251,32 +256,33 @@ If no optional argument is supplied to |\tspace|, it expands to
 The macro \idx{|\crs|} and command key \idx{|crskip|} are
 provided to assist in fine tuning the vertical spacing inside an
 alignment. |\ling@crskip| expands to the setting of |crskip|, and
-\codefragment |\crs|\quad $\to$\quad |\cr \noalign{\vskip\ling@crskip}|
-\endcodefragment
+
+\exfrag |\crs|\quad $\to$\quad |\cr \noalign{\vskip\ling@crskip}|
+\xe
 
 \exbreak
 \subsection Tables that can break between pages
 
-Macros:\quad |\exdisplay|, |\noexno|, |\exnoprint|, |\crnb|
-\par\nobreak\bigskip
-
-\noindent Up to this point, only tables that are typeset in a
-vbox have been considered.  The \Tex\/ page breaking algorithm
-does not split a box between pages.  Sometimes, an especially
-tall table is needed and one has the choice of floating the table
-to the top of the next page (using \Tex's |\topinsert|) or
-constructing a breakable table.  The latter choice is often
-preferable and can be implemented using \Tex's primitive
-|\halign|.
+\begininventory
+\macros \idx{|\exdisplay|}, \idx{|\noexno|}, \idx{|\exnoprint|},
+   \idx{|\crnb|}\endmc
+\endinventory
+Up to this point, only tables that are typeset in a vbox have
+been considered.  The \Tex\ page breaking algorithm does not
+split a box between pages.  Sometimes, an especially tall table
+is needed and one has the choice of floating the table to the top
+of the next page (using \Tex's |\topinsert|) or constructing a
+breakable table.  The latter choice is often preferable and can
+be implemented using \Tex's primitive |\halign|.
 
 The example number must be part of the |\halign|, not inserted by
-|\ex|.  \idx{|\exdisplay|} is designed to accommodate an unboxed
+|\ex|.  |\exdisplay| is designed to accommodate an unboxed
 |\halign|. Like |\ex|, |\exdisplay| must be closed by |\xe|.
 |\exdisplay| \dots|\xe| is just like |\ex| \dots|\xe| except that
 an example number is not printed and the horizontal dimensions
 |\numoffset| and |\textoffset| are irrelevant. |aboveexskip| and
 |belowexskip| play the same role, paragraph indentation is
-cancelled, |\ling@everyex| and |\ling@Everyex| are executed, and
+cancelled, |\lingeveryex| and |\lingEveryex| are executed, and
 |\excnt| is advanced.
 
 |\noexno| is provided in case the user wants to use |\exdisplay|
@@ -381,13 +387,14 @@ dve\.s\kern.6pt/dvi\.s\/} `hate'.
 
 \framedisplay
 \hsize=4.3in
-\exdisplay[labeloffset=.5em,dima=.6em,textoffset=.6em]
+\exdisplay[dima=.5em,dimb=.4em,textoffset=.5em]
 \def\\#1{$\acute{\hbox{\=#1}}$}%
-\tabskip=0pt \openup1pt
-\halign to \hsize{\tspace[labeloffset]#\tspace[textoffset]\hfil&
-   # \hfil\tabskip=0pt plus 1fil&
-   # \hfil& # \hfil& \tspace # \hfil&
-   # \hfil &  #\hfil\tabskip=0pt\cr
+\tabskip=0pt
+\openup.4ex
+\halign to \hsize{\tspace[dima]#\tspace[textoffset]\hfil&
+   #\hfil\tabskip=0pt plus 1fil&
+   #\hfil& #\hfil& \tspace[dimb]#\hfil&
+   #\hfil &  #\hfil\tabskip=0pt\cr
 \omit\exnoprint\hidewidth&
    \multispan6 \hwit{Present Indicative}\crnb
 &\multispan3 \hwit{active}& \multispan3 \hwit{middle}\cr
@@ -399,7 +406,8 @@ dve\.s\kern.6pt/dvi\.s\/} `hate'.
    dvik\.s-\'e& dvi\.s-\\athe& dvi\.d-\.dhv\'e\cr
 \it 3& {\bf dv\'e\.s}-\.ti& dvi\.s-\.t\'as& dvi\.s-\'anti&
    dvi\.s-\.t\'e& dvi\.s-\\ate& dvi\.s-\'ate\cr
-}\xe
+}
+\xe
 \endframedisplay
 
 Assuming that the page width has been set to $4.3\,\rm in$
@@ -407,13 +415,14 @@ Assuming that the page width has been set to $4.3\,\rm in$
 precisely $4.3\,\rm in$ wide.
 
 \codedisplay
-\exdisplay[labeloffset=.5em,dima=.6em,textoffset=.6em]
+\exdisplay[dima=.5em,dimb=.4em,textoffset=.5em]
 \def\\#1{$\acute{\hbox{\=#1}}$}%
-\tabskip=0pt \openup1pt
-\halign to \hsize{\tspace[labeloffset]#\tspace[textoffset]\hfil&
-   # \hfil\tabskip=0pt plus 1fil&
-   # \hfil& # \hfil& \tspace # \hfil&
-   # \hfil &  #\hfil\tabskip=0pt\cr
+\tabskip=0pt
+\openup.4ex
+\halign to \hsize{\tspace[dima]#\tspace[textoffset]\hfil&
+   #\hfil\tabskip=0pt plus 1fil&
+   #\hfil& #\hfil& \tspace[dimb]#\hfil&
+   #\hfil &  #\hfil\tabskip=0pt\cr
 \omit\exnoprint\hidewidth&
    \multispan6 \hwit{Present Indicative}\crnb
 &\multispan3 \hwit{active}& \multispan3 \hwit{middle}\cr
@@ -425,6 +434,9 @@ precisely $4.3\,\rm in$ wide.
    dvik\.s-\'e& dvi\.s-\\athe& dvi\.d-\.dhv\'e\cr
 \it 3& {\bf dv\'e\.s}-\.ti& dvi\.s-\.t\'as& dvi\.s-\'anti&
    dvi\.s-\.t\'e& dvi\.s-\\ate& dvi\.s-\'ate\cr
-}\xe |endcodedisplay
+}
+\xe
+|endcodedisplay
+
 
 

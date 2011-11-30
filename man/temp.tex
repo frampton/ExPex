@@ -1,4 +1,89 @@
 
+\documentclass{article}
+\begin{document}
+\textit{happy}
+{\bf\itshape happy}
+\end{document}
+
+
+
+
+\def\\#1#2{\pnode(0,#2){#1}}
+\psset{unit=.4,nodesep=.5}
+
+B: A\\{A}{2}\ \\{B}{2}driv\\{C}{4}ing instruct\\{D}{1.5}or\\{E}{2}!?
+
+\SpecialCoor
+\pscurve (A)(B)([angle=225]C)(C)([angle=335]C)(D)(E)
+
+\endinput
+
+
+
+
+
+
+
+\ex
+\vtop{\hsize=.6\hsize \leftskip=0pt
+\begingl
+\gla
+Hmao sa co po tha  nu nao nga hmua. Nu dja ga, nu dja cog nu laih
+gui reo ne. Todang$^2$ bboi rok jolan nu nao hma, nu bboh sa droi mra
+do bboi gah, a, hruh nu.//
+\glb
+exist one {clf}$^1$ person old 3s go do field 3s hold machete 3s hold
+hoe 3s pst carry.on.back back.basket 3s while at {along} trail 3s
+go field 3s see one clf peacock stay at drct {?} nest 3s//
+\endgl
+}\hfil
+\vtop{\hsize=.25\hsize \rightskip=0pt plus 4em \leftskip=0pt
+\footnotesize
+1.\kern.5em clf here denotes something.  The reader can determine what by
+consulting any good grammar.
+\smallskip
+2.\kern.5em This should also be noted.  There is a long history of
+comments on words like this, particularly among scholars writing
+their dissertations.
+}
+\bigskip
+`There was an old person who went to work in the field. He took
+along his machete, he took along his hoe, and he carried his
+basket on his back. While he was on his way to the farm, he saw a
+peacock beside its nest.'
+\xe
+
+\endinput
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\ex
+\begingl
+\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren
+w\"urde seiner Freundin ihr$_i$ Herz auszusch\"utten.//
+\glb Mary is sure that it the-ACC Hans not annoy would
+his-DAT girlfriend-DAT her-ACC heart-ACC {out to throw}//
+\glft  `Mary is sure that it would not annoy John to reveal her
+heart to his girlfriend.'//
+\endgl
+\xe
+\endinput
+
+
+
 \begingroup
 \lingset{exskip=2pt,exnotype=roman,textanchor=numleft,
    textoffset=5em}
@@ -92,51 +177,4 @@ basket on his back. While he was on his way to the farm, he saw a
 peacock beside its nest.'//
 \endgl
 \xe
-
-
-\endinput
-
-Hom\^{a}o sa \v{c}\^{o} p\^{o} tha  \~{n}u nao ng\u{a} hmua. \~{N}u
-dj\u{a} g\u{a}, \~{n}u dj\u{a} \v{c}\u{o}ng \~{n}u, laih gui r\^{e}o
-\~{n}u. Todang bboi r\^{o}k jolan \~{n}u nao hma, \~{n}u bb\^{o}h sa
-droi mr\u{a} d\u{o} bboi gah, a, hruh \~{n}u.//
-
-{\sc exist} one {\sc clf} person old {\sc 3s} go do field {\sc 3s} hold
-machete {\sc 3s} hold hoe {\sc 3s} and carry.on.back back.basket \sc 3s
-while at along trail {\sc 3s} go field {\sc 3s} see one {\sc clf} peacock
-stay at {\sc drct} -- nest {\sc 3s} //
-
-\secno=6
-
-\section section
-
-\subsection subsection
-
-\subsection subsection\deftagsec{subsection}
-\deftag{\currsec}{AA}
-\writeln{\meaning\currsec}
-\writeln{currsec: \currsec}
-
-\subsection subsection
-
-\getref{subsection}
-
-%\makeatletter
-%\writeln{\lingtag@subsection}
-%\writeln{\lingtag@AA}
-\endinput
-
-
-\ex
-\begingl
-\glpreamble ggg ggg//
-%\gla
-%xxx xx yyy zzz//
-%\glb
-%xx ppp zzz//
-\glft This is a free translation.//
-\endgl
-\xe
-
-
 

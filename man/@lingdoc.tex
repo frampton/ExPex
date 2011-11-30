@@ -14,10 +14,10 @@
 \psteverypage={\mkheadline}
 %\psteverypage={\mkheadline\showindexproofs}
 %\def\showindexproofs{\showbox\@indexproof}
-\def\mkheadline{\rput[Bl](0,\ling@headlinelevel)%
+\def\mkheadline{\rput[Bl](0,\lingheadlinelevel)%
    {\hbox to\hsize{\spaceskip=0pt \ling@headline}}}
 \define@ling@cmdkeys{headline}
-\define@linginckey\dimen{}{@}{headlinelevel}
+\define@linginckey\dimen{headlinelevel}
 %\define@ling@inckey{headlinelevel}
 \lingset{headline=\HLfilename,headlinelevel=.5truein}
 \def\HLfilename{%
@@ -253,18 +253,18 @@
 \def\lingbuildrel#1#2{%
    \hskip\ling@toskip
    \hbox{$\buildrel {\rm #2}
-      \vrule width0pt depth\ling@torise height0pt
+      \vrule width0pt depth\lingtorise height0pt
       \over#1$}%
    \hskip\ling@toskip
 }
 \def\tooby #1 {\lingbuildrel\longrightarrow{#1}}
 %   \hskip\ling@toskip
 %   \hbox{$\buildrel {\rm #1}
-%      \vrule width0pt depth\ling@torise height0pt
+%      \vrule width0pt depth\lingtorise height0pt
 %      \over\longrightarrow$}%
 %   \hskip\ling@toskip
 %}
-\define@linginckey\dimen{}{@}{torise}
+\define@linginckey\dimen{torise}
 \def\normaltorise{\lingset{torise=1ex}}
 \normaltorise
 %

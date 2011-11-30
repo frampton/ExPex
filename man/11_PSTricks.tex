@@ -3,9 +3,9 @@
 
 \section ExPex and PSTricks
 
-Several features of \expex, listed in (\nextx), come into
+Several features of \ExPex\relax, listed in (\nextx), come into
 play only if {\sl pstricks.tex\/} has been loaded at the point
-that {\sl expex.tex\/} is loaded.  They are intended to make it
+that \slname{expex.tex} is loaded.  They are intended to make it
 easier to use {\sl PSTricks\/} in examples.
 
 \pex[labeltype=numeric]
@@ -27,7 +27,7 @@ the meaning of |\lingset|.
 This is illustrated by (\nextx).
 
 \medskip
-\framedisplay
+\framedisplay%[exclude]
 \ex[angle=-90,nodesep=0pt,arrows=->,labelsep=.25ex,linearc=.7ex,
    dima=.2em]
 \def\\#1(#2){\rnode{#2}{\strut #1}}%
@@ -46,8 +46,8 @@ of Economy Principles in Linguistic Theory}.)
 
 In the code below, note that the optional argument of |\ex| is
 used to set the {\sl PSTtricks\/} parameters |angle|, |arrows|,
-|nodesep|, |labelsep|, and |linearc|, and the \Expex\/ parameter
-|dima|.  Note also that the \expex\/ scratch dimension
+|nodesep|, |labelsep|, and |linearc|, and the \ExPex\ parameter
+|dima|.  Note also that the \ExPex\ scratch dimension
 |\lingdima| is used seemlessly by the {\sl PST-Node\/} macros.
 
 \CLnum
@@ -79,7 +79,7 @@ The following gives the same result.
 \vskip1em
 
 |\Lingset| and |\psset| are not entirely equivalent, even when
-\Pstricks\/ is active.  If a key
+\PSTricks\ is active.  If a key
 name in the family {\sl ling\/} is the same as a key name in
 another family which has also been added as part of the {\sl
 PSTricks\/} extended family, |\Lingset| will treat it

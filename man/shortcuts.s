@@ -2,7 +2,7 @@
 proc InsertInventory ()
 InsertLine("\begininventory")
 InsertLine("\omit Macro:\quad")
-In
+end
 
 menu ShortCuts ()
 "TT &Escape"           ,  InsertText("«»")

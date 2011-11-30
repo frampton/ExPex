@@ -1,0 +1,13 @@
+.dvi
+.pdf
+.ps
+.zip
+.bak
+.dat
+.lnk
+.mac
+.LSD
+.bat
+.log
+.rar
+.idx

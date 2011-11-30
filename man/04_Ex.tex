@@ -1,25 +1,21 @@
 
 \section Examples without parts
 
-\def\parameters{\omit Parameters:\hidewidth\cr
-   \hfil\it key& \hfil\it value& \hfil\it initial setting}
-
 \lingset{dima=1.3em}
 \noindent
 \begininventory
-\omit Macros:\quad \idx{|\ex|}|~[]|, \idx{|\xe|}\hidewidth\cr
-\omit Counter:\quad \idx{|\excnt|}\cr
-\parameters\cr
-\idx{|numoffset|}\public & \inc dimension& \textdim{0 pt}\cr
-\idx{|textoffset|}\public& \inc dimension& \textdim{1 em}\cr
-\idx{|aboveexskip|}\public& \inc skip&
-   \textdim{2.7 ex} plus \textdim{.4 ex} minus \textdim{.4 ex}\cr
-\idx{|belowexskip|}\public& \inc skip&
-   \textdim{2.7 ex} plus \textdim{.4 ex} minus \textdim{.4 ex}\cr
+\macros \idx{|\ex|}|~[]|, \idx{|\xe|}\endmc
+\counter \idx{|\excnt|}\endmc
+\parameters
+\idx{|numoffset|\user} & \inc dimension& |0pt|\cr
+\idx{|textoffset|\user}& \inc dimension& |1em|\cr
+\idx{|aboveexskip|\user}& \inc skip&
+   |2.7ex plus .4ex minus .4ex|\cr
+\idx{|belowexskip|\user}& \inc skip&
+   |2.7ex plus .4ex minus .4ex|\cr
 \idx{|exskip|}& skip& (pseudo-parameter)\cr
 \endinventory
-
-\noindent
+%
 Sections will usually begin with an inventory of the parameters and
 user friendly macros and registers that are introduced in the section,
 The initial settings of parameters will be given if they are relevant.
@@ -56,7 +52,8 @@ Various aspects of the format are controlled by parameters, which
 can be set either globally or via an optional argument.
 \xe
 \endframedisplay
-
+%\endgroup
+%\endinput
 \codedisplay~
 The following example is well-known from the literature on
 parasitic gaps.  Here we are concerned with example formatting,
@@ -140,7 +137,7 @@ measured from the left margin.
 
 \noindent Example numbering is automatic.  The count is kept in
 |\excnt|.  It is incremented when |\ex| is expanded, before the
-number is typeset.  |\excnt| therefore gives the count of the pervious
+number is typeset.  |\excnt| therefore gives the count of the previous
 example.  Vertical skip is inserted before and after
 examples, of amounts determined by the values of
 \idx{|aboveexskip|} and \idx{|belowexskip|}.
@@ -184,9 +181,9 @@ is not protected by a maximal projection.
 
 \noindent |\par\nobreak| is used to illustrate how a page break
 between two consecutive examples can be suppressed. This is
-sometimes desirable.  |\par| puts \Tex\/ in the mode of adding
-lines to the page, and |\nobreak| tells \Tex\/ to avoid a break
-(which is a page break when \Tex\/ is in the mode of adding
+sometimes desirable.  |\par| puts \Tex\ in the mode of adding
+lines to the page, and |\nobreak| tells \Tex\ to avoid a break
+(which is a page break when \Tex\ is in the mode of adding
 lines), essentially until after more text is added to the page.
 |aboveexskip=0pt| is used in the second example to avoid double
 spacing between the examples.  Otherwise vertical skip would be
@@ -201,22 +198,23 @@ modification of |\ex| can be used with parameters; |\ex~[|\dots|]| will be inter
 simultaneously set both |aboveexskip| and |belowexskip|. The
 effect of |\lingset{exskip=«value»}| is
 
-\codefragment
+\exfrag
 |\lingset{aboveexskip=«value»,belowexskip=«value»}|
-\endcodefragment
+\xe
 
 \vfil\break
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \sidx{|exno|}
 \subsection Explicit example numbers
 
-\parinventory
-& \idx{|exno|}& token list& (pseudo parameter)\cr
-& \idx{|exnoformat|}& \dots |X|\dots& command\cr
-\endparinventory
-
-\noindent Suppose that you want to repeat an example that was
-given earlier in your document.  Something like.
+\begininventory
+\parameters
+\idx{|exno|}& token list& (pseudo parameter)\cr
+\idx{|exnoformat|}& token list of the form $\;\ldots\,|X|\,\ldots$& |(X)|\cr
+\endinventory
+%
+Suppose that you want to repeat an example that was given earlier
+in your document.  Something like.
 
 \framedisplay
 \ex[exno=95] This is a crucial example.\xe

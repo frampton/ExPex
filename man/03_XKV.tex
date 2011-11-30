@@ -5,55 +5,58 @@
 
 \section XKV parameterization
 
-Macro:\quad |\lingset|
-\bigskip
-
-\noindent (Here and in following sections and subsections, an
-inventory of the macros, parameters, and count registers which
-are described in what follows appears at the beginning of the
-section. ``What follows'' refers to the text up to the next
-section or subsection heading.)
+\begininventory
+\macros* \idx{|\lingset|}\endmc
+\endinventory
+%
+(Here and in following sections and subsections, an inventory of
+the macros, parameters, and count registers which are described
+in what follows appears at the beginning of the section. ``What
+follows'' refers to the text up to the next section or subsection
+heading.)
 
 The key-value approach to parameter setting in \Tex, which
 originated with David Carlisle's |keyval| package, is illustrated
-by the key |glspace|, which \Expex\/ uses to set one of the
+by the key |glspace|. \ExPex\ uses to it set one of the
 parameters used in typesetting glosses.  Executing the command
 
 
-\codefragment
-\sidx{|\lingset|}|\lingset{glspace=1.3em}|
-\endcodefragment
+\sidx{|\lingset|}
+\exfrag
+|\lingset{glspace=1.3em}|
+\xe
 
 \noindent results in the definition (or redefinition) of the
-macro |\ling@glspace| so that it expands to the value |1.3em|.
+macro |\lingglspace| so that it expands to the value \textdim{1.3
+em}.
 The macro |\begingl|, which is used to typeset glosses, uses
-|\ling@glspace|, typesetting the gloss so that the minimal
-interword separation is the dimension which |\ling@glspace|
-expands~to.  But \Expex\/ users never have to concern themselves
-with the macro |\ling@glspace|.  If they are not satisfied with
+|\lingglspace|, typesetting the gloss so that the minimal
+interword separation is the dimension which |\lingglspace|
+expands~to.  But \ExPex\ users never have to concern themselves
+with the macro |\lingglspace|.  If they are not satisfied with
 the default spacing, they simply have to know that |glspace| is
 the key to setting the word spacing in glosses.
 
 The argument of |\lingset| can be a comma separated sequence of
 key/value pairs. The syntax is:
 
-\codefragment  \everymath={}%
+\exfrag \everymath={}%
 |\lingset{«key$_1$»=«value$_1$»,«\dots»,«key$_n$»=«value$_n$»}|
-\endcodefragment
+\xe
 %
 The comma separated key/value pairs are processed sequentially,
 from left to right. If a value contains a comma, it must be
-hidden from the parser by putting the value in braces. The braces
-are removed by the parser.
+hidden from the mechanism which parses the list by putting the
+value in braces. The braces are removed by the parser.
 
-Several \Expex\/ macros take an optional argument, delimited by
+Several \ExPex\ macros take an optional argument, delimited by
 brackets, which is passed to |\lingset|.  |\begingl|, used to
 typeset glosses, takes an optional argument.  You might say, for
 example,
 
-\codefragment
+\exfrag
 |\begingl[glspace=.9em,everyglc=\it]|
-\endcodefragment
+\xe
 
 \noindent The optional argument of |\begingl| will be passed to
 |\lingset| and the result evaluated, so that the gloss will be
@@ -62,32 +65,38 @@ inside a group, so the global settings of the parameters are not
 affected. As we will see later, |everyglc=\it| will result in an
 italicized translation.
 
-\Expex\/ has various kinds of keys.  The distinctions depend on
-the effect of executing~(\nextx) and the restrictions on
-the possible values which can appear.
+\ExPex\ has various kinds of keys.  The distinctions depend on
+the effect of executing (\nextx) and the restrictions on the
+possible values which can appear.
 
 \ex
-\hskip-\leftskip\hfil|\lingset{«key»=«value»}|\xe
+|\lingset{«key»=«value»}|
+\xe
 
-\noindent {\it Command key}:\enspace
-{\sl value\/} is stored in the macro |\ling@«key»|.  More precisely,
-after (\lastx) is executed the macro |\ling@«key»| expands to
-{\sl value}.
+\noindent {\it Command key\/}:\enspace
+After (\lastx) is executed, the macro |\ling«key»| or
+|\ling@«key»| expands to {\sl value}.  It will be made clear when
+the key is introduced whether it is |\ling«key»| or |\ling@«key»|
+that is
+defined.
 
-\smallskip
-\noindent {\it Incremental dimension parameter}:\enspace
-{\sl value\/} must be a dimension or a dimension prefixed by |!|.
-If {\sl value\/} is a dimension, it is stored in |\ling@«key»|.
-If it is a !-prefixed dimension, the prefixed dimension is added
-to its former dimension and the result stored in |\ling@«key»|.
-If |\ling@«key»| was undefined or did not expand to a dimension,
-a fatal error results.  Incremental parameters are very useful if
-minor adjustments to the format are desired.
 
 \smallskip
-\noindent {\it Choice parameter}:\enspace
+\noindent {\it Incremental dimension parameter\/}:\enspace {\sl
+value\/} must be a dimension or a dimension prefixed by |!|. If
+{\sl value\/} is a dimension, it is stored in |\ling«key»|. If it
+is a !-prefixed dimension, the prefixed dimension is added to its
+former dimension and the result stored in |\ling«key»|. If
+|\ling@«key»| is undefined or does not expand to a dimension, a
+fatal error results.  Incremental parameters are very useful if
+minor adjustments to the format are desired.  There are {\it
+incremental skip parameters\/} as well, which operate on an
+entirely parallel manner.
+
+\smallskip
+\noindent {\it Choice parameter\/}:\enspace
 {\sl value\/} must be drawn from a prescribed list.  Although the
-\Expex\/ choice parameters do store {\sl value\/} when (\lastx)
+\ExPex\ choice parameters do store {\sl value\/} when (\lastx)
 is executed, the main purpose of executing (\lastx) is the side
 effects which are coded into the definition of the key.
 
@@ -100,7 +109,7 @@ multipart examples.
 \smallskip
 
 \smallskip
-\noindent {\it Pseudo parameter}: (\lastx) is executed for its
+\noindent {\it Pseudo parameter\/}: (\lastx) is executed for its
 side effects.  {\sl value\/} is not stored. The key |samplelabel|
 illustrates this.  When |\lingset{samplelabel=A.}| is executed,
 for example, the macro |\ling@samplelabel| is not defined.
@@ -118,17 +127,12 @@ appeared that there is a significant chance that some users will
 want easy access to the value of a parameter at some point, the
 macro name |\ling«key»| was used rather than |\ling@«key»|.
 
-\medskip  \makeatletter
 When keys are defined, they can be given default values, as part
 of their definitions.  If a key |foo|, for example, is given the
 default value |2pt|, then executing |\lingset{foo}| is equivalent
-to executing |\lingset{foo=2pt}|.  Only one \Expex\/ key (see
-Section \getref{starsec}, which will make clear why I am not
-giving its name) has a default value in this sense, but many
-\Expex\/ keys are set in {\sl expex.tex\/}.  Since the
-distinction is not generally significant in what follows I will
-use the terms ``default value'' and ``initial setting''
-interchangeably.
+to executing |\lingset{foo=2pt}|.  Only a few \ExPex\ keys have
+default values, but most are set to an initial value
+{\sl expex.tex}.
 
 
 
