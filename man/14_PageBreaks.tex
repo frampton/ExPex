@@ -58,7 +58,8 @@ the output is not terrible, but it is less than ideal.
 
 \subsection Discouraging page breaks in examples
 
-Macro:\quad |\exbreak|
+\deftagpage{exbreakpage}%
+Macro:\quad \idx{|\exbreak|}
 \parinventory
 & \idx{|exbreakfil|}& skip& |0pt plus 4ex|\cr
 & \idx{|exbreakpenalty|}& integer& |-500|\cr
@@ -86,7 +87,7 @@ the publisher is willing to tolerate a small amount of whitespace
 at the bottom of a page in return for keeping an example intact.
 $4\,\rm\,ex$ is about $1.5$ times the distance between baselines
 in most fonts.  For drafts, I set |exbreakfil=.3\vsize|, which
-keeps most examples intact at the cost of allowing substantial
+keeps almost all examples intact at the cost of allowing substantial
 whitespace to appear at the bottom of the page.
 
 Page breaks right before an example part in a |\pex| construction
@@ -163,30 +164,6 @@ building mode and puts it into page building mode.
 \a example C
 \a contrast with example C
 \xe |endcodedisplay
-
-%\subsection  User defined choice of formatting between different
-%kinds of documents
-%
-%Different kinds of documents call for different settings of the
-%basic parameters, \ExPex\ parameters and basic \Tex\ or
-%\Latex\/ parameters.
-%
-%\codefragment
-%|\def\draft{%|
-%\quad |\lingset{|\dots|}|\par
-%\quad {\sl set the headline to give the date on each page}\par
-%\quad {\sl set the baseline to twice the normal baseline}\par
-%\quad |\rightskip=0pt plus 3em|\par
-%\quad |\raggedbottom|
-%
-%
-%
-%\endcodefragment
-
-
-
-\endinput
-
 
 
 

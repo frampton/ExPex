@@ -52,8 +52,6 @@ Various aspects of the format are controlled by parameters, which
 can be set either globally or via an optional argument.
 \xe
 \endframedisplay
-%\endgroup
-%\endinput
 \codedisplay~
 The following example is well-known from the literature on
 parasitic gaps.  Here we are concerned with example formatting,
@@ -109,7 +107,7 @@ I wonder which article John filed {\sl t\/} without reading {\sl e}.
 parameters, which can be set either globally or via an optional
 argument.|endcodedisplay
 
-The horizontal dimensions are illustrated below, with |numoffset|
+The horizontal dimensions are illustrated below. |numoffset| is
 measured from the left margin.
 
 \bigskip
@@ -137,10 +135,11 @@ measured from the left margin.
 
 \noindent Example numbering is automatic.  The count is kept in
 |\excnt|.  It is incremented when |\ex| is expanded, before the
-number is typeset.  |\excnt| therefore gives the count of the previous
-example.  Vertical skip is inserted before and after
-examples, of amounts determined by the values of
-\idx{|aboveexskip|} and \idx{|belowexskip|}.
+number is typeset.  Before |\ex| is entered, |\excnt| gives the count
+of the previous example.  After |\ex|, until |xe| is encountered, it
+gives the count of the current example.  Vertical skip is
+inserted before and after examples, of amounts determined by the
+values of \idx{|aboveexskip|} and \idx{|belowexskip|}.
 
 Inside |\ex| constructions, the example text is wrapped as
 ordinary text, with |\leftskip| set by |\ex|.  Since |\ex|
@@ -202,9 +201,6 @@ effect of |\lingset{exskip=«value»}| is
 |\lingset{aboveexskip=«value»,belowexskip=«value»}|
 \xe
 
-\vfil\break
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\sidx{|exno|}
 \subsection Explicit example numbers
 
 \begininventory
@@ -217,35 +213,29 @@ Suppose that you want to repeat an example that was given earlier
 in your document.  Something like.
 
 \framedisplay
-\ex[exno=95] This is a crucial example.\xe
-
-\noindent It is clear that this example is related to the earlier
+\excnt=94
+\ex This is a crucial example.\xe
+It is clear that this example is related to the earlier
 example (14), which is repeated below.
-
 \ex[exno=14]
 This is an example that was given many pages earlier.\xe
-
-\noindent If we are on the right track, as the saying goes,
+If we are on the right track, as the saying goes,
 we expect the next example to be grammatical.  But it is not.
-
-\ex[exno=96] * \dots\xe
+\ex * \dots\xe
 \endframedisplay
 
 \codedisplay~
 \ex This is a crucial example.\xe
-
-\noindent It is clear that this example is related to the earlier
+It is clear that this example is related to the earlier
 example (14), which is repeated below.
-
 \ex[exno=14]
 This is an example that was given many pages earlier.\xe
-
-\noindent If we are on the right track, as the saying goes,
+If we are on the right track, as the saying goes,
 we expect the next example to be grammatical.  But it is not.
+\ex * \dots\xe
+|endcodedisplay
 
-\ex * \dots\xe |endcodedisplay
-
-\noindent |\excnt| is not incremented if the example number is
+|\excnt| is not incremented if the example number is
 supplied by |exno|.
 
 |exno| does not have to be set to an integer, as shown below.
@@ -283,40 +273,18 @@ properly nested (explicit) braces. No error checking is done to
 ensure that the format specification has the required form, so be
 careful.  An error might lead to very obscure error messages.
 
-Using |exnoformat| allows variations on the last example which are
-useful in some contexts.  The inital setting of |exnoformat| is |(X)|
-formats the displayed example number with parentheses.
-
-\framedisplay
-\ex[exno={14, repeated},exnoformat={[X]}] Earlier example.\xe
-\endframedisplay
-\codedisplay
-\ex[exno={14, repeated},exnoformat={[X]}] Earlier example.\xe
-|endcodedisplay
-or
-\codedisplay
-\ex[exno={[14, repeated]},exnoformat=X] Earlier example.\xe
-|endcodedisplay
-The braces around |[X]| above are so that the optional argument of
-|\ex| is correctly delimited.
-
-The label formatting mechanism is primitive.
-|labelformat| must
-be of the form\medskip
-\centerline{$\rm \langle balanced\
-text\rangle\thinspace|X|\thinspace \langle balanced\ text\rangle$}
-\medskip
-\noindent The pre-X text is inserted before the label (including
-the material specified by |everypar|) and the post-X text is
-inserted after the label. The balanced text cannot contain the
-character |X|.  {\it Balanced text\/} is a string of tokens with
-properly nested (explicit) braces. No error checking is done to
-ensure that the format specification has the required form, so be
-careful.  An error might lead to very obscure error messages.
-
+Note that
+\exfrag
+|\ex[exno={14, repeated},exnoformat={[X]}] Earlier example.\xe|
+\xe
+and
+\exfrag
+|\ex[exno={[14, repeated]},exnoformat=X] Earlier example.\xe|
+\xe
+give the same result.
 
 Section (\getref{named-reference}) will show how to name example
 numbers, so that |exno| can be set by giving the name of
-the example number.
+an example number.
 
 

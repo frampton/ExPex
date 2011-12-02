@@ -55,14 +55,14 @@ typeset glosses, takes an optional argument.  You might say, for
 example,
 
 \exfrag
-|\begingl[glspace=.9em,everyglc=\it]|
+|\begingl[glspace=.9em,everyglft=\it]|
 \xe
 
 \noindent The optional argument of |\begingl| will be passed to
 |\lingset| and the result evaluated, so that the gloss will be
 typeset with these parameter settings.  This is carried out
 inside a group, so the global settings of the parameters are not
-affected. As we will see later, |everyglc=\it| will result in an
+affected. As we will see later, |everyglft=\it| will result in an
 italicized translation.
 
 \ExPex\ has various kinds of keys.  The distinctions depend on
@@ -131,8 +131,8 @@ When keys are defined, they can be given default values, as part
 of their definitions.  If a key |foo|, for example, is given the
 default value |2pt|, then executing |\lingset{foo}| is equivalent
 to executing |\lingset{foo=2pt}|.  Only a few \ExPex\ keys have
-default values, but most are set to an initial value
-{\sl expex.tex}.
+default values, but most are set to an initial value in {\sl
+expex.tex}.
 
 
 

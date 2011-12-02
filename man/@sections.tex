@@ -20,8 +20,8 @@
    {\noindent \titlefont{sub}%
       \the\secno .\the\subsecno.\enskip \ignorespaces #1}\par\nobreak
    \ifgathercontents \edef\temp{{\the\secno.\the\subsecno}}%
-      \expandafter\writecontents\temp{#1}\subsec\fi \nobreak
-   \medskip\nobreak\noindent
+      \expandafter\writecontents\temp{#1}\subsec\fi
+   \par\nobreak\medskip\nobreak\noindent
 }
 \def\writecontents#1#2#3{%
    \write@contents{\noexpand#3{#1} {#2}

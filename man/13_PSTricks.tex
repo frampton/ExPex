@@ -5,7 +5,7 @@
 
 Several features of \ExPex\relax, listed in (\nextx), come into
 play only if {\sl pstricks.tex\/} has been loaded at the point
-that \slname{expex.tex} is loaded.  They are intended to make it
+that {\sl expex.tex\/} is loaded.  They are intended to make it
 easier to use {\sl PSTricks\/} in examples.
 
 \pex[labeltype=numeric]
@@ -45,7 +45,7 @@ This is illustrated by (\nextx).
 of Economy Principles in Linguistic Theory}.)
 
 In the code below, note that the optional argument of |\ex| is
-used to set the {\sl PSTtricks\/} parameters |angle|, |arrows|,
+used to set the \PSTricks\ parameters |angle|, |arrows|,
 |nodesep|, |labelsep|, and |linearc|, and the \ExPex\ parameter
 |dima|.  Note also that the \ExPex\ scratch dimension
 |\lingdima| is used seemlessly by the {\sl PST-Node\/} macros.
@@ -63,7 +63,7 @@ used to set the {\sl PSTtricks\/} parameters |angle|, |arrows|,
 \bput{0}(1.2){$M_{sp}=6$}
 \xe |endCLnum
 
-\noindent Since the connections which {\sl PSTricks\/} draws are
+\noindent Since the connections which \PSTricks\ draws are
 dimensionless, a zero width |\vrule| is used to give correct
 spacing.  (The width can first be made nonzero so it is visible,
 and the depth adjusted.)
@@ -79,72 +79,13 @@ The following gives the same result.
 \vskip1em
 
 |\Lingset| and |\psset| are not entirely equivalent, even when
-\PSTricks\ is active.  If a key
-name in the family {\sl ling\/} is the same as a key name in
-another family which has also been added as part of the {\sl
-PSTricks\/} extended family, |\Lingset| will treat it
-unambiguously as in the {\sl ling\/} family.   |\psset|, on the
-other hand, does not give priority to keys in the {\sl ling\/}
-family.  Exactly how |\psset| establishes priority is a
+\PSTricks\ is active.  If a key name in the family {\sl ling\/}
+is the same as a key name in another family which has also been
+added as part of the \PSTricks\ extended family, |\Lingset| will
+treat it unambiguously as in the {\sl ling\/} family.   |\psset|,
+on the other hand, does not give priority to keys in the {\sl
+ling\/} family.  Exactly how |\psset| establishes priority is a
 complex matter, depending on the history of the formation of the
-{\sl PSTricks\/} extended family.
+\PSTricks\ extended family.
 
-\endinput
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Below, a complex display appears in a labeled part of a |\pex|
-construction.
-
-\pex[interpartskip=1em,nopreamble]
-\def\\#1(#2){\rnode{#2}{\strut #1}}%
-\def\[#1{$[_{\rm #1}$}%
-\def\,{\hskip.25ex}%
-%
-\a
-\[{TP} Juan se lo [\,[ mostr\'o[$v$]\,]
-\[{VP} t
-\[{XP} \dots t\,\dots]\,[\,t t\,]\,]\,]\,]
-%
-\a \vrule height2em depth3em width0pt
-\[{TP} \\Juan(J) \\se(se) \\lo(lo) [\,[ \\mostr\'o(V)[$v$]\,]
-\[{VP} \\t(t1)
-\[{XP} \dots \\t(t2)\,\dots]\,[\,\\t(t3) \\t(t4)\,]\,]\,]\,]
-\psset{angle=90,nodesep=0pt,armA=1em,arrows=-}
-\ncbar{t2}{J}
-\ncbar{t1}{se}
-\ncbar{t4}{t2}
-\mput*{$\times$}
-\psset{angle=-90,arrows=->}
-\ncbar{t1}{J}
-\ncbar[armA=1.5em]{t2}{se}
-\ncbar[armA=2em]{t4}{lo}
-\ncbar[armA=2.5em]{t3}{V}
-\xe
-
-
-\CLnum
-\pex[interpartskip=1em,nopreamble]
-\def\\#1(#2){\rnode{#2}{\strut #1}}%
-\def\[#1{$[_{\rm #1}$}%
-\def\,{\hskip.25ex}%
-%
-\a
-\[{TP} Juan se lo [\,[ mostr\'o[$v$]\,]
-\[{VP} t
-\[{XP} \dots t\,\dots]\,[\,t t\,]\,]\,]\,]
-%
-\a \vrule height2em depth3em width0pt
-\[{TP} \\Juan(J) \\se(se) \\lo(lo) [\,[ \\mostr\'o(V)[$v$]\,]
-\[{VP} \\t(t1)
-\[{XP} \dots \\t(t2)\,\dots]\,[\,\\t(t3) \\t(t4)\,]\,]\,]\,]
-\psset{angle=90,nodesep=0pt,armA=1em,arrows=-}
-\ncbar{t2}{J}
-\ncbar{t1}{se}
-\ncbar{t4}{t2}
-\mput*{$\times$}
-\psset{angle=-90,arrows=->}
-\ncbar{t1}{J}
-\ncbar[armA=1.5em]{t2}{se}
-\ncbar[armA=2em]{t4}{lo}
-\ncbar[armA=2.5em]{t3}{V}
-\xe |endCL
 

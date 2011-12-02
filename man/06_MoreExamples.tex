@@ -42,10 +42,13 @@
 }
 \resetatcatcode
 %--------------------------------------
-\section Examples with (and without) labeled parts:
-Advanced
+\section More on examples, with and without labeled parts
 
 \deftagsec{advanced}
+In this section, we take up complications and fine points.  Users
+should ignore it until they face a problem that the earlier
+sections do not deal with.
+
 \subsection Relative versus fixed dimensions
 
 {\it Tex\/} has two kinds of dimensional units.  Dimensions
@@ -430,7 +433,6 @@ If the labels are numeric, label alignment can have an even bigger
 effect.  Again, individual tastes and publishers' demands may
 differ.  My preference is right alignment in this case.
 
-\exbreak[8ex]
 \line{%
 \lingset{interpartskip=.3ex,labeltype=numeric,
    everyex=\advance\pexcnt by 6,samplelabel=10.}%
@@ -579,7 +581,7 @@ and that |\gr| selects one of the grmn series of fonts
 in the cb family of Greek fonts.
 
 \begingroup
-\let\gr=\twelverm  %% TEMPORARY %% TEMPORARY %% TEMPORARY %%
+%\let\gr=\twelverm  %% TEMPORARY %% TEMPORARY %% TEMPORARY %%
 %\font\gr=grmn1200
 \gr
 
@@ -807,297 +809,198 @@ Preamble
 
 \endgroup
 
+\subsection The parameter {\tt sampleexno}
 
-\endinput
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection Formatting the preamble
-
-\parinventory
-& \idx{|preambleoffset|}& incrementable dimension& |1em|\cr
-& \idx{|belowpreambleskip|}& skip& |1ex|\cr
-& \idx{|nopreamble|}&& (default only)\cr
-\endparinventory
-
-\noindent Visible material which occurs before the first labeled
-entry, as in (\getref{Pre}) for example, is called the preamble.
-Although the initial settings produce the format in (\blastx),
-the offset of the preamble can be set independently of the offset
-of the labels and the extra vertical skip between the preamble
-and the first part can also be set independently of the extra
-vertical skip between the various parts.
-
-\ExPex\ sets the label offset and the preamble offset to be equal,
-so that the left edge of the preamble aligns with the left edge
-of the labels.  But this is under the control of the user.
+\begininventory
+\parameters*
+\idx{|sampleexno|}& token list& \hfil |{}|\cr
+\endinventory
+%
+In some publications, if two examples are close together in the
+running text and the widths of the typeset example numbers are
+different, the offsets are modified so that the texts in the two
+examples are aligned.  The following is considered, under this
+stringent aesthetic, to be less than ideal.
 
 \framedisplay
-\pex[labeltype=caps,labeloffset=!.8em]
-{\it Principles of the Theory of Binding}
-\a An anaphor is bound in its governing category.
-\a A pronomial is free in its governing category.
-\a An R-expression is free
-\xe
-\endframedisplay
-
-\codedisplay
-\pex[labeltype=caps,labeloffset=!.8em]
-{\it Principles of the Theory of Binding}
-\a An anaphor is bound in its governing category.
-\a A pronomial is free in its governing category.
-\a An R-expression is free
-\xe |endcodedisplay
-
-
-The different effects of |interpartskip| and |belowpreambleskip|
-are illustrated below.
-
-\framedisplay
-\pex[labeltype=caps,belowpreambleskip=.75ex,interpartskip=.25ex]
-{\it Principles of the Theory of Binding}
-\a An anaphor is bound in its governing category.
-\a A pronomial is free in its governing category.
-\a An R-expression is free.
-\xe
-\endframedisplay
-
-\goodbreak
-\codedisplay
-\pex[labeltype=caps,belowpreambleskip=.75ex,interpartskip=.25ex]
-{\it Principles of the Theory of Binding}
-\a An anaphor is bound in its governing category.
-\a A pronomial is free in its governing category.
-\a An R-expression is free.
-\xe
-|endcodedisplay
-
-If |\a| or |\label| (see Section \getref{labelsec}) directly follows
-|\pex| (and a possible tilde diacritic
-and parameter settings), |\pex| assumes that
-there is no preamble, otherwise it assumes that there is.
-This poses a problem if you want to have nonprinting material
-other than a label specification before the first part.  For example,
-suppose you want to increase the baselineskip by 2pt.  You might
-try (\nextx), but it fails to achieve what you want.
-
-\beginss
-\pex \openup2pt
-\a
-\a
-\a
-\xe|midss
-\pex \openup2pt
-\a
-\a
-\a
-\xe
-\endss
-\noindent \ExPex\ provides the parameter |nopreamble| to
-solve the problem.  Setting it to ``true'' tells |\pex| that it
-should assume that there is no preamble, in spite of superficial
-appearances to the contrary.  So:
-
-\beginss
-\pex[nopreamble] \openup2pt
-\a
-\a
-\a
-\xe|midss
-\pex[nopreamble] \openup2pt
-\a
-\a
-\a
-\xe
-\endss
-\noindent Invoking |nopreamble| with no specified value sets it
-to the stipulated default value ``true''.  Setting
-|nopreamble=false| has no effect since |\pex| always starts out
-assuming that there is a preamble (i.e. that |nopreamble| has
-been set to |false|) and this is always overridden
-if a following |\a| or |\label| is detected, regardless of the
-setting of |nopreamble|.
-
-\font\titlett=txtt at 13.3pt
-\subsection  Anchoring the labels, text, and preamble%
-\deftag{\the\secno.\the\subsecno}{anchors}
-
-%Choice parameter:\quad |labelanchor|\qquad set to |numright| or
-%|margin|
-\parinventory*
-& \idx{|labelanchor|}& \idx{|numright|}, \idx{|numleft|},
-   \idx{|margin|}& \idx{|numright|}\cr
-& \idx{|textanchor|}& \idx{|normal|}, \idx{|numleft|}&
-   \idx{|normal|}\cr
-& \idx{|preambleanchor|}& \idx{|numright|}, \idx{|labelleft|}&
-   \idx{|text|}\cr
-\endparinventory
-
-\noindent Ordinarily, the label offset is measured from the right
-edge of the example number.  There is little choice if a label
-occurs on the same line as the example number (i.e. there is no
-preamble).  In example displays with a preamble, however, it is
-sometimes desirable to measure the labeloffset from the left
-margin, as shown below.
-
-\ex[labelanchor=margin] \showpex \xe
-
-One application of anchoring the label offset at the
-left margin is in examples like the following.  If it is
-impossible or undesirable to break a line (or graphic display of
-some kind), (\anextx) is an alternative to (\nextx).  There is a
-different kind of example on page \getref{partialrepeat}.
-
-\framedisplay
+\keepexcntlocal \excnt=9
 \pex
-\a A long example that will not fit in one line and
-should not be broken if that is at all possible.
-\a A short line might be more interesting linguistically, but less
-interesting typographically.
+\a I consider firemen available. (generic only)
+\a I consider firemen intelligent. (generic only)
 \xe
-
-\pex~[labelanchor=margin,labeloffset=1em] Make up a title.
-Typographically, almost anything looks better than nothing.
-\a A long example that will not fit in one line and
-should not be broken if that is at all possible.
-\a A short line might be more interesting linguistically, but less
-interesting typographically.
+Exceptional case marking (ECM) verbs seem more or less to allow both
+existential and generic interpretations of complement subjects:
+\pex
+\a I believe firemen to be available. (both generic and existential)
+\a I believe violists to be intelligent. (generic only)
 \xe
 \endframedisplay
 
-It is produced by:
+\ExPex\ provides the parameter |sampleexno| to handle this formatting
+problem.  If the parameter is set to the empty token list, it has no
+effect of the formatting.  If it is set to a nonempty token list, that
+token list is put in an hbox and its width is taken to be the
+effective typeset width of the example number.
 
-\vbox{\codedisplay
-\pex[labelanchor=margin,labeloffset=1em]\par
-\a A long example that will not fit in one line and
-should not be broken if that is at all possible.
-\a A short line might be more interesting linguistically, but less
-interesting typographically.
+\framedisplay
+\keepexcntlocal \excnt=9
+\pex[sampleexno=(\anextx)]
+\a I consider firemen available. (generic only)
+\a I consider firemen intelligent. (generic only)
 \xe
-|endcodedisplay}
-
-
-\noindent Note that the preamble in the
-second |\pex| is |\par|.  |\relax| would accomplish the same
-thing.  Something must come before the first |\a|, otherwise
-|\pex| will think there is no preamble.
-
-Another way to handle situations like this is to use |\ex| and
-insert explicit labels.  Something like the following works well.
-
-
-\codedisplay
-\ex \smallskip \leftskip=1em
-a.\enspace This is a very long example that will not fit in one
-line and cannot be broken for some reason.
-\smallskip
-b.\enspace A short line might be more interesting linguistically,
-but less interesting typographically.
-\xe |endcodedisplay
-
-\framedisplay~
-\ex \smallskip \leftskip=1em
-a.\enspace
-A long example that will not fit in one line and
-should not be broken if that is at all possible.
-\smallskip
-b.\enspace A short line might be more interesting linguistically,
-but less interesting typographically.
+Exceptional case marking (ECM) verbs seem more or less to allow both
+existential and generic interpretations of complement subjects:
+\pex
+\a I believe firemen to be available. (both generic and existential)
+\a I believe violists to be intelligent. (generic only)
 \xe
 \endframedisplay
-
-\noindent If you can think up a title, so that the top line
-contains more than the example number, the appearance is
-improved.
-
-Anchoring the label offset at the left edge of the example number
-(setting |labelanchor| to |numleft|) is unlikely to be useful.
-The possibility is included mostly for the sake of completeness.
-
-\exbreak[25ex]
-\subsection Tabular format in multiline examples
-
-\parinventory
-& \idx{|textanchor|}&  choice\enspace
-   (|numleft|, |numright|, or |labelleft|)& |numright|\cr
-& \idx{|preambleanchor|}& choice\enspace
-   (|numright|, |labelleft|, or |text|)& |numright|\cr
-\endparinventory
-
-Some publications specify that the text and label offset are measured
-from the left margin.  \ExPex\ 3.3 measures the label offset from the
-right edge of the example number and the textoffset from the right
-edge of the ``label gutter'' (the slot which labels are typeset in).
-\ExPex\ already had a parameter |labelanchor| (with values |margin|,
-|numleft|, and |numright|) which determined how the value of
-|labeloffset| was used to set the position of the labels. A parameter
-has |textanchor| been introduced, with obvious meaning.  In multipart
-examples in \ExPex\ 3.3, the position of a preamble in multipart
-examples was measured with respect to the right edge of the typeset
-example number.  The preamble is the stuff (if any) which appears
-before the first labeled part of a multipart example.  \ExPex\
-introduces the parameter |preambleanchor| (with possible values
-|numright|, |numleft|, and |text|), with obvious meaning.
-
-For example,
-\begingroup
-\codedisplay
-\lingset{%
-   textanchor=numleft,textoffset=50pt,
-   labelanchor=numleft,labeloffset=25pt,
-   preambleanchor=text,preambleoffset=0pt,
-}
-\pex[exno=137]
-\a first
-\a second
+\codedisplay~
+\pex[sampleexno=(\anextx)]
+\a I consider firemen available. (generic only)
+\a I consider firemen intelligent. (generic only)
 \xe
-
-\pex~[labelwidth=2in]
-Preamble
-\a first
-\a[label=bb] second
+Exceptional case marking (ECM) verbs seem more or less to allow both
+existential and generic interpretations of complement subjects:
+\pex
+\a I believe firemen to be available. (both generic and existential)
+\a I believe violists to be intelligent. (generic only)
 \xe
 |endcodedisplay
+Parameter settings prescribed the optional argument of |\ex| and
+|\pex| are made before |\excnt| is incremented, so |\excnt| gives
+the number of the previous example in the context of this
+parameter setting.  Therefore |\anextx| is required above to
+correspond to the next example number.
 
-\noindent produces
+It seems to be common to do fine tuning of this sort in footnotes.
+There are two reasons for this. First, lowercase roman numerals are
+commonly used and the widths vary noticeably. Second, only a few
+examples are involved, assuming that examples numbers in a footnote
+start at (i).
 
-\lingset{%
-   textanchor=numleft,textoffset=5em,
-   labelanchor=numleft,labeloffset=2.5em,
-   preambleanchor=text,preambleoffset=0pt,
+\excnt=34
+
+\subsection Footnotes and endnotes
+
+\begininventory
+\macros* \idx{|\keepexcntlocal|}\endmc
+\endinventory
+%
+Footnotes and endnotes pose a somewhat thorny problem since many different
+\Tex\ and \LaTex\ macros are used to typeset footnotes and endnotes.
+Further, there are different ways of assigning example numbers and
+labels in multipart examples. The footnote referenced at the end of
+this sentence is formatted is an
+abbreviated version of footnote 17 in Chapter 2 of Diesing's {\sl
+Indefinites}, MIT Press.%
+\footnote{%
+\lingset{sampleexno=(ii)}
+The existential reading does not seem to be available for subjects of
+small clause complements of {\it consider\/}:
+\pex
+\a I consider firemen available. (generic only)
+\a I consider firemen intelligent. (generic only)
+\xe
+Exceptional case marking (ECM) verbs seem more or less to allow both
+existential and generic interpretations of complement subjects:
+\pex
+\a I believe firemen to be available. (both generic and existential)
+\a I believe violists to be intelligent. (generic only)
+%\a \ljudge{??}I believe opera singers to know Hittite.
+\xe
 }
-\pex[exno=137]
-\a first
-\a second
+This footnote style is fairly common.
+
+The \ExPex\ distribution contains two files, {\it eptexfn.tex\/} and
+{\it exltxfn.sty\/} which may be helpful in producing footnotes in
+this style.  They do two things.  First, they each define a macro
+(|\everyfootnote|) which, if evaluated at the start of processing a
+footnote, ensures that examples are correctly formatted.  Second, they
+each perform minor surgery on a standard |\footnote| macro so
+that (among other things) |\everyfootnote| is inserted in the
+appropriate place.
+
+I intend these macro files both to be used directly or to serve as
+models for the creation of variations which satisfy user needs. To the
+latter end, I will go through {\it expex.sty\/} and explain how it
+works.  The file listing is:
+
+\CLnum
+\makeatletter
+\renewcommand{\@makefntext}[1]{%
+   \everyfootnote
+   \parindent=1em
+   \noindent
+   \@thefnmark.\enspace #1%
+}
+\def\everyfootnote{%
+   \keepexcntlocal
+   \excnt=1
+   \lingset{exskip=1ex,exnotype=roman,sampleexno=,
+      labeltype=alpha,labelanchor=numright,labeloffset=.6em,
+      textoffset=.6em}
+}
+\resetatcatcode|endCLnum
+
+The LaTex |\footnote| uses |\@makefntext| to typeset the
+footnote.  It is defined in the {\it .cls\/} file which is used.
+The redefinition in lines 2--7 is a modification of the
+|\@makefntext| macro defined in {\it article.cls}.  It first
+executes |\everyfootnote|, which allows the user to introduce
+formatting commands into the footnote typesetting instructions.
+The number is set with no indentation and is set as text, not a
+superscript.  |\everyfootnote| first ensures that changes in
+|excnt| that are made in the footnote are kept local to the
+footnote.  |\keepexcntlocal| is an \ExPex\ macro whose execution
+causes changes in |\exnt| to be local to the group in which
+|\keepexntlocalo| is executed.  Without |\keepexcntlocal|,
+changes in |excnt| would visible outside the footnote group in
+which the changes occur. |excnt| is then initialized.  Finally,
+parameters are set which control the formatting of examples in
+the footnote.
+
+Assuming that |\usepackage{epltxfn}|, the folloing code
+produces fn. \the\fnno.
+\codedisplay
+\footnote{%
+\lingset{sampleexno=(ii)}
+The existential reading does not seem to be available for subjects of
+small clause complements of {\it consider\/}:
+\pex
+\a I consider firemen available. (generic only)
+\a I consider firemen intelligent. (generic only)
 \xe
-
-\pex~[labelwidth=2in]
-Preamble
-\a first
-\a[label=bb] second
+Exceptional case marking (ECM) verbs seem more or less to allow both
+existential and generic interpretations of complement subjects:
+\pex
+\a I believe firemen to be available. (both generic and existential)
+\a I believe violists to be intelligent. (generic only)
 \xe
-The position of the labels and text is unaffected by the
-width of the typeset example numer, the specified labelwidth, or
-the actual label width.
+}
+|endcodedisplay
 
-\subsection Access to the plumbing
+The code in {\sl eptexfn.tex\/} is somewhat more complicated because
+\Tex\ does not number footnotes and it uses the same font for running
+text and footnotes.  |\everyfootnote| is identical.  If it is compared
+with the footnote macros in the {\sl TexBook\/} (p. 363) it is easy to
+see the significance of the various modifications. The user must
+define the macro |\footnotesize| before {\sl eptexfn.tex\/} is loaded.
+In my own work, |\twelvepoint| and |\tenpoint| are defined modeled on
+Knuth's macros on pages 414--15 in the TexBook.  Running text is done
+in the context of |\twelvepoint| and |\let\footnotesize=\tenpoint|
+is executed before typesetting starts.
 
-%{aboveexskip}
-%{belowexskip}
-%{numoffset}
-%{textoffset}
-{preambleoffset}
-{labelwidth}
-{labeloffset}
+I anticipate that although the footnote macros in {\sl epltxfn.sty\/}
+and {\sl eptexfn.tex\/} will be useful to some readers without
+modification, other users will need to modify them for one reason or
+the other.  Endnotes, in particular, will require work.  I hope that
+these two files will serve as useful models.  Of course, trivial
+modifications of the various dimensions can be done easily.  More
+extensive modification require appropriate levels of expertise.  Users
+should feel free to write to me directly ({\sl j.frampton@neu.edu\/}) or
+post questions to the {\sl Ling-Tex\/} discussion group, or to send me
+modifications that might prove useful to others.  A file {\it
+epltxfn-endnotes.sty}, for example, would be useful.
 
-{glspace}
-{glhangindent}
-{glwidth}
-{aboveglftskip}
-{abovegl#1skip}
-{abovemoreglskip}
-{moregloffset}
-
-{crskip}
-{glufcloseup}
-{glbracketsep}
 

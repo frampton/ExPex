@@ -169,7 +169,6 @@ particular lines also need to changed to match the new labeling.
 We will see below that lines in tables can be named and reference
 made by name, using implicit line numbering.
 
-\exbreak
 \subsection Tagging implicit labels in tables
 
 \sidx{|\deftaglabel| inside tables}
@@ -260,7 +259,6 @@ alignment. |\ling@crskip| expands to the setting of |crskip|, and
 \exfrag |\crs|\quad $\to$\quad |\cr \noalign{\vskip\ling@crskip}|
 \xe
 
-\exbreak
 \subsection Tables that can break between pages
 
 \begininventory
@@ -332,13 +330,19 @@ The example number in the code below is inserted by
 If, by the way, you don't like the way example numbers are
 inserted (surrounded by parentheses), you can redefine
 |\exnoprint|. The code uses \idx{|\crnb|}, which expands to
-|\cr\noalign{\par\nobreak}| to prevent a page
+|\cr\noalign{\par\nobreak}|, to prevent a page
 break between a heading and the remainder of the table which
 follows. Page breaks are encouraged by |\exbreak| at a few points
-where it is judged that the logic of the table can tolerate it. A
+where it is judged that the logic of the table can tolerate it.
+|\exbreak| encourages a page break at the cost of allowing a
+certain amount of white space at the bottom of the broken
+page.\footnote{See page \getref{exbreakpage} for a more complete
+discussion of |\exbreak|.  The amount of encouragement and the amount of
+whitespace are parametrized.}
+A
 negative horizontal skip |\tspace[dimc]| is used to highlight the
 subheadings (and to show the reader that it is a possibility, if
-you need it).\exbreak[.2\vsize]
+you need it).
 
 \vbox{\codedisplay
 \exdisplay[labeloffset=2em,dima=2em,dimb=1em,dimc=-.8em]

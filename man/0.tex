@@ -1,16 +1,16 @@
 %\def\epdir{c:/ling/tex/expex/}
 \input eplain
-\input c:/ling/tex/expex/man/@mybasics.tex
+\input @mybasics.tex
 \input pstricks
 \input pst-node \catcode`\@=12
-\input c:/ling/tex/expex/core/expex-src
+\input ../core/expex-src
 %\input @texlatex
-\input c:/ling/tex/expex/man/@lingdoc
-\input c:/ling/tex/expex/man/@code-beta
-\input c:/ling/tex/expex/man/@timesfonts
+\input @lingdoc
+\input @code-beta
+\input @timesfonts
 \input @sections
-\input c:/ling/tex/expex/man/@local-doc
-\input c:/ling/tex/expex/core/eptexfn
+\input @local-doc
+\input ../core/eptexfn
 %\input @emwidth
 
 %\gathertags
@@ -20,34 +20,23 @@
 %\refproofing
 %\indexproofingtrue
 
-%\input collectedexamples \bye
-%\input usestyle  \bye
-%\input temp \bye
-%\input glunderfix \bye
-%\get 08_glpars  \bye
-%\input @3level  \bye
-%\input example3  \bye
-%\input ./tests/tag  \bye
-%\input jarai \bye
-
-%\global\pageno=-1
-\get 000doc-cover
-\get @contents
+\pageno=-1
+%\get 000doc-cover
+%\get @contents
 \get 01_intro
-\get 02_examples2
+\get 02_Examples
 \get 03_XKV
-\get 04_ex
+\get 04_Ex
 \get 05_MultiPart-Basics
-\get 05_MultiPart-Advanced
-\get 05_MultiPart-Footnotes
-\get 06_UserStyles
-\get 07_Judgments
-\get 08_Glosses-Basic
-\get 08_Glosses-Advanced
-\get 10_Refs
-\get 09_Tables
-\get 11_PSTricks
-\get 12_PageBreaks
+\get 06_MoreExamples
+\get 07_UserStyles
+\get 08_Judgments
+\get 09_Glosses-Basic
+\get 10_Glosses-Advanced
+\get 11_Refs
+\get 12_Tables
+\get 13_PSTricks
+\get 14_PageBreaks
 
 %\input mkindex
 

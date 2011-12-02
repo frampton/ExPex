@@ -155,29 +155,6 @@ interlinear gloss can have more items than the line above it}.  If
 there are ``excess'' items on a line, they will act as if they are on
 the higher line (recursively).
 
-%\bigskip
-%\framedisplay[doubleline=true]
-%\bigskip\noindent
-%Macros:\par
-%\noindent\quad
-%|\begingl|, |\endgl|, |\glpreamble|, |\gla|, |\glb|, |\glc|,
-%|\glft|
-%\parinventory
-%& \idx{|glbrackbracksep|}& dimension& |.1em|\cr
-%& \idx{|glbrackwordsep|}& dimension& |.2em|\cr
-%\endparinventory
-%\endframedisplay
-%\bigskip
-%Now is the time for all good men to come to the aid of the party.
-%Now is the time for all good men to come to the aid of the party.
-%Now is the time for all good men to come to the aid of the party.
-%Now is the time for all good men to come to the aid of the party.
-%Now is the time for all good men to come to the aid of the party.
-%
-%
-%\endinput
-
-
 \subsection Parameters
 
 \def\\#1{\noalign{\smallskip}\quad #1\cr}%
@@ -194,10 +171,10 @@ the higher line (recursively).
 & \idx{|everyglc|}& token list& |{}|\cr
 & \idx{|everyglft|}& token list& |{}|\cr
 \\{Vertical spacing\hidewidth}
-& \idx{|belowpreambleskip|}& dimension& \textdim{1 ex}\cr
-& \idx{|aboveglbskip|}& dimension& \textdim{0 pt}\cr
-& \idx{|aboveglcskip|}& dimension& \textdim{0 pt}\cr
-& \idx{|aboveglftskip|}& dimension& \textdim{0 pt}\cr
+& \idx{|belowpreambleskip|\user}& dimension& \textdim{1 ex}\cr
+& \idx{|aboveglbskip|\user}& dimension& \textdim{0 pt}\cr
+& \idx{|aboveglcskip|\user}& dimension& \textdim{0 pt}\cr
+& \idx{|aboveglftskip|\user}& dimension& \textdim{0 pt}\cr
 \endparinventory
 \vskip-1ex
 \hrule
@@ -549,14 +526,15 @@ would normally be entered as |@|, enter it as |{{@}}|
 so that it is not interpreted as a directive to omit a space.
 (\getref{@period}) below shows another use for the |@| diacritic.
 
+\exbreak
 \subsection Bracketing in glosses: {\tt [} and {\tt ]}
 
 \sidx{|[|, exceptional gloss item}%
 \sidx{|]|, exceptional gloss item}%
 \begininventory
 \parameters
-\idx{|glbrackbracksep|}& dimension& \hfil |.1em|\cr
-\idx{|glbrackwordsep|}& dimension& \hfil |.2em|\cr
+\idx{|glbrackbracksep|\user}& dimension& \hfil |.05em|\cr
+\idx{|glbrackwordsep|\user}& dimension& \hfil |.1em|\cr
 \endinventory
 %
 Suppose you want to produce a gloss display like the one below.
