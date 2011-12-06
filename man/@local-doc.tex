@@ -34,25 +34,25 @@
       \omit Parameter{\if@star\else s\fi}:\hidewidth\cr
    \noalign{\par\nobreak}}
 \def\endparinventory{\egroup\egroup\bigskip\noindent}
-\def\begininventory{\@getoptionalarg\begininventory@a}
-\def\begininventory@a{\medskip\hrule\medskip \bgroup
-   \openup2pt
-   \halign\bgroup \quad ##\hfil&&
-      \hskip \ifx\@optionalarg\empty 2em \else\@optionalarg\fi ##\hfil\cr
-}
-\def\endinventory{\egroup\egroup \medskip\hrule\bigskip\noindent}
+%\def\begininventory{\@getoptionalarg\begininventory@a}
+%\def\begininventory@a{\medskip\vbox\bgroup\hrule\medskip \bgroup
+%   \openup2pt
+%   \halign\bgroup \quad ##\hfil&&
+%      \hskip \ifx\@optionalarg\empty 2em \else\@optionalarg\fi ##\hfil\cr
+%}
+%\def\endinventory{\egroup\egroup \medskip\hrule\bigskip\egroup\noindent}
 \def\parameters{\omit Parameters:\hidewidth\cr
    \hfil\it key& \hfil\it value& \hfil\it initial setting}
 \def\parameter{\omit Parameter:\hidewidth\cr
    \hfil\it key& \hfil\it value& \hfil\it initial setting}
 
 \def\begininventory{\@getoptionalarg\begininventory@a}
-\def\begininventory@a{\medskip\hrule\nobreak\medskip \bgroup
+\def\begininventory@a{\medskip\vbox\bgroup\line{\leaders\hrule\hfil}\bgroup
    \openup2pt
    \halign\bgroup \quad ##\hfil&&
       \hskip \ifx\@optionalarg\empty 2em \else\@optionalarg\fi ##\hfil\cr
 }
-\def\endinventory{\egroup\egroup \medskip\hrule\bigskip\noindent}
+\def\endinventory{\egroup\egroup \medskip\hrule\egroup\bigskip\noindent}
 \def\parameters{\omit Parameters:\hidewidth\cr
    \hfil\it key& \hfil\it value& \hfil\it initial setting}
 \def\parameter{\omit Parameter:\hidewidth\cr
@@ -216,8 +216,6 @@
 % auxiliary fonts
 \font\spacefont=txsya at 10pt
 \font\titlett=txtt at 13.3pt
-\font\gr=grmn1200
-%\let\gr=\rm
 
 \edef\spacesym{\lower1.6pt
    \hbox to\wd0{\spacefont \kern.3pt\char"78 \hss\char"79 \kern.3pt}}
@@ -268,10 +266,10 @@
    \bigskip
    \vskip\parskip
    {\noindent \titlefont{main}
-       \the\secno.\enskip #1\par}\nobreak
+       \the\secno.\enskip #1}\par\nobreak
    \ifgathercontents \edef\temp{{\the\secno}}%
-      \expandafter\writecontents\temp{#1}\sec\fi \nobreak
-   \medskip\nobreak\noindent
+      \expandafter\writecontents\temp{#1}\sec\fi
+   \medskip\noindent
 }
 \lingset{secfil=.2\vsize}
 
@@ -284,7 +282,8 @@
 \def\user{\raise.2ex\hbox{$\dag $}}
 \def\inc{(!)\kern.7pt}
 % ---- small caps
-\font\twelvesc=cmcsc10 scaled\magstep1
+\font\twelvesc=t1xsc at 12pt
+%\font\twelvesc=cmcsc10 scaled\magstep1
 \let\sc=\twelvesc
 \def\textsc#1{{\sc #1}}
 

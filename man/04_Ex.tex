@@ -135,11 +135,11 @@ measured from the left margin.
 
 \noindent Example numbering is automatic.  The count is kept in
 |\excnt|.  It is incremented when |\ex| is expanded, before the
-number is typeset.  Before |\ex| is entered, |\excnt| gives the count
-of the previous example.  After |\ex|, until |xe| is encountered, it
-gives the count of the current example.  Vertical skip is
+number is typeset.  Outside examples, |\excnt| gives the count
+of the next example.   Inside examples, it also gives the count of the
+next example, not the current one.  previous example.  Vertical skip is
 inserted before and after examples, of amounts determined by the
-values of \idx{|aboveexskip|} and \idx{|belowexskip|}.
+values of |aboveexskip| and |belowexskip|.
 
 Inside |\ex| constructions, the example text is wrapped as
 ordinary text, with |\leftskip| set by |\ex|.  Since |\ex|
@@ -190,10 +190,10 @@ added both below the first example and above the second example.
 
 Since the need to suppress vertical skip above examples arises
 with some frequency, a shortcut is made available to accomplish
-this.  Simply say |\ex~|.  \sidx{|~| (tilde) modification}Tilde
+this.  Simply say |\ex~|.  \sidx{|~|, tilde modification}Tilde
 modification of |\ex| can be used with parameters; |\ex~[|\dots|]| will be interpreted correctly.
 
-\idx{|exskip|} is a pseudo parameter which can be used to
+|exskip| is a pseudo parameter which can be used to
 simultaneously set both |aboveexskip| and |belowexskip|. The
 effect of |\lingset{exskip=«value»}| is
 

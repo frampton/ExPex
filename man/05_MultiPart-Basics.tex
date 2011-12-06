@@ -2,15 +2,16 @@
 \section Examples with labeled parts: Basics
 
 \begininventory
+\counter \idx{|\pexcnt|}\endmc
 \macros \idx{|\pex~[]|}, \idx{|\a[]|}\endmc
-\parametersdef
+\parameters
 \idx{|labeltype|}& name of a key-value list& |alpha|\cr
 \idx{|labeloffset|\user} & \inc dimension& |1em|\cr
 \idx{|labelwidth|\user} & \inc dimension& |.72em|\cr
 \idx{|preambleoffset|\user} & \inc dimension& |1em|\cr
 \idx{|interpartskip|\user} & \inc skip&
    |1ex plus .2ex minus .2ex|\cr
-\idx{|belowpreambleskip|\user} & \inc skip&
+\idx{|belowgpreambleskip|\user} & \inc skip&
    |1ex plus .2ex minus .2ex|\cr
 \idx{|samplelabel|}& token list& (pseudo-parameter)\cr
 \endinventory
@@ -56,11 +57,12 @@ visible material, if any, that appears after the example number
 and before the first part.
 
 The horizontal dimensions are parameterized as pictured below,
-assuming the default settings of the parameters |labelanchor| and
-|textanchor|.  (The effects of changing the settings of the
-anchoring parameters will be considered in Section
-\getref{anchors}.) Note that the parameters |numoffset| and
-|textoffset| are also used in formatting examples without parts.
+provided that the anchoring parameters have their initial values.
+The parameters |numoffset| and |textoffset| are used in both
+|\ex| and |\pex| constructions.
+The effects of changing the settings of the
+anchoring parameters (|labelanchor| and |textanchor|) will be
+considered in Section \getref{anchors}.
 
 \exdisplay
 \makeatletter
@@ -102,7 +104,7 @@ This is an example.%
 Adjustment for the width of the example number is automatic, but
 the width of the label slot is a parameter setting, not adjusted
 to the width of the particular label which appears in the label
-slot. The initial setting of |labelwidth| is the width of ``a.''
+slot.  The initial setting of |labelwidth| is the width of ``a.''
 at the point that the default setting is established.  This does
 not automatically change if the font is changed, in a footnote
 for example.  It can be set by the user explicitly by setting
@@ -184,6 +186,7 @@ primitive.  The following, for example, will confuse |\pex|.
 \a second
 \xe
 \endss
+The |\it| command is interpreted as a preamb
 
 |\pex| needs some guidance in this case.  It is provided by the
 parameter |nopreamble|.
@@ -218,9 +221,10 @@ sufficient.
 \endss
 
 The global setting of |nopreamble| is irrelevant to |\pex|, which
-always assumes there is a preamble unless it sees a directly
-following |\a| or |\pex| is told directly that there is no
-preamble.
+always assumes there is a preamble unless it sees an immediately
+following |\a| or |\pex| or is told directly that there is no
+preamble. In the following, for example, the setting of
+|nopreamble| outside |\pex| has no effect.
 
 \beginss
 \lingset{nopreamble=true}
@@ -246,9 +250,7 @@ preamble.
 %
 |label| is recognized as a key only by the |\a| macro.    % =«value»
 If |label=«value»| is passed to |\a|,  that value is inserted as the
-label, ignoring automatic label generation.  This can be useful if
-only some parts of a multipart example are being repeated.  See for
-example (\getref{explicit}) in Section~\getref{explicit-sec}.
+label, ignoring automatic label generation.
 
 \beginss
 \pex[exno=47]
@@ -261,8 +263,7 @@ example (\getref{explicit}) in Section~\getref{explicit-sec}.
 \a[label=d]
 \a[label=g]
 \xe
-\deftagpage{partialrepeat}
 \endss
 
-\noindent |label| is the only key that |\a| recognizes.
-
+\noindent Besides |label|, the only other key that |\a|
+recognizes is |tag|.  See Section \getref{named-reference}.

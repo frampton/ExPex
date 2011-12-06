@@ -4,7 +4,7 @@
 \outer\def\section #1\par{%
    \global\advance\secno by 1  \global\subsecno=0
       \global\subsubsecno=0
-   \vskip0pt plus.4\vsize\penalty-20
+   \vskip0pt plus.4\vsize\penalty-120
    \vskip0pt plus-.4\vsize\bigskip\vskip\parskip
    {\noindent \titlefont{sec}
        \the\secno.\enskip #1\par}\nobreak
@@ -12,11 +12,17 @@
       \expandafter\writecontents\temp{#1}\sec\fi \nobreak
    \medskip\nobreak\noindent
 }
-\def\subsection #1\par{%
+% The starred version does not introduce a breakpoint, so that an
+% immediately preceeding section heading is not orphaned.
+\def\subsection{\pst@ifstar\sub@section}
+\def\sub@section #1\par{%
    \global\advance \subsecno by 1
    \global\subsubsecno=0
-   \vskip0pt plus.1\vsize\penalty0
-   \vskip0pt plus-.1\vsize\bigskip\vskip\parskip
+   \if@star \else
+      \vskip0pt plus.1\vsize\penalty-100
+      \vskip0pt plus-.1\vsize
+      \fi
+   \bigskip\vskip\parskip
    {\noindent \titlefont{sub}%
       \the\secno .\the\subsecno.\enskip \ignorespaces #1}\par\nobreak
    \ifgathercontents \edef\temp{{\the\secno.\the\subsecno}}%

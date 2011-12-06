@@ -1,10 +1,11 @@
 
+
 \ifnum\secno < 1 \secno=11 \excnt=34 \fi
 
 \section Referring to examples and labeled parts of examples
 
-\vskip-1ex
-\subsection Unnamed reference
+\nobreak\vskip-2ex
+\subsection* Unnamed reference
 
 \deftagsec{unnamedref}
 \begininventory
@@ -12,14 +13,17 @@
 \idx{|\anextx|}, \idx{|\bblastx|}\endmc
 \endinventory
 
-\noindent If $x$ is the number of the last example, these
-produce $x$, $x+1$, $x-1$, $x+2$, and $x-2$, respectively.
-The example number
-counter is incremented early in the expansion of |\ex| and |\pex|,
-so if one of these macros is inside an example, with ``last
-example'' taking on the meaning of ``current example''.  If any
-of these macros is used in setting parameters in the optional
-argument of |\ex| or |\pex|, they act as if they were being
+\noindent If $x$ is the value of |\excnt|, these macros produce
+$x-1$, $x$, $x-2$, $x+1$, $x-3$, respectively, expressed as an
+either an arabic or roman numeral, depending on the setting of
+|exnotype|.  The example number counter is incremented early in
+the expansion of |\ex|
+and |\pex|, so if one of these macros is used inside an example,
+``last example'' has the meaning ``current example number''.
+Although |\excnt| is incremented early, it is incremented after
+local parameters are set.  Consequently, if
+any of these macros is used in setting parameters in the optional
+argument of |\ex| or |\pex|, it acts as if it were being
 evaluated just before |\ex| or |\pex|.
 
 It is potentially dangerous to use macros like |\bblastx| or
@@ -41,7 +45,7 @@ arises.  If the example which is referred to is deleted, then
    \idx{|\deftagpage|}, \idx{|\getref|},
    \idx{|\getfullref|}\endmc
 \parameters*
-\idx{|tag|}& character string& (none)\cr
+\idx{|tag|}& character string& \hfil (none)\cr
 \endinventory
 
 \noindent The core macros are \idx{|\deftag|} and
@@ -84,7 +88,6 @@ The code below produces (\nextx).
 redefined in the interim\par\nobreak\medskip
 
 \hskip3em
-\sidx{|\getfullref|}%
 \vtop{\openup1pt
 \halign{#\hfil& \quad$\to$\quad #\hfil\cr
 |\getref{snoopy}|& \getref{snoopy}\cr
@@ -131,7 +134,7 @@ After
 \xe |endcodedisplay
 
 \noindent |\getref{snoopy}|, |\getref{snoopy.dog}|, and
-|\getref{snoopy.A}| are also interpreted as expected, as are
+|\getref{snoopy.A}| are interpreted as expected, as are
 |\getfullref{snoopy.dog}| and |\getfullref{snoopy.A}|.
 
 If |\getref{sometag}| is evaluated and the tag is undefined, a
@@ -152,8 +155,8 @@ by |\bblastx|, |\blastx|, |\lastx|, |\nextx|, |\anextx|,
 |\getref|, and |\getfullref| are highlighted.  If \PSTricks\ is
 loaded at the point that |\refproofing| is evaluated, the
 highlighting consists of a box around the reference.  If not, the
-reference is under- and overlined. Highlighting is a significant
-aid in copy editing.  The difference is illustrated below.
+reference is under- and overlined. Highlighting is helpful
+in copy editing.  The difference is illustrated below.
 
 \pex
 \a Consider (\getfullref{snoopy.dog}), for
@@ -254,7 +257,7 @@ of |\everylabel|). If the part labels are numerical, then
 
 You can also say:
 
-\sidx{|exno|}%
+\sidx{|exno|, setting by reference}%
 \codedisplay
 \ex[exno=\getref{snoopy}] Second example.\xe|endcodedisplay
 
@@ -274,9 +277,8 @@ Second example.\xe
 \ex[exno={\getref{snoopy}, repeated},exnoformat={[X]}]
 Second example.\xe
 \endframedisplay
-
-\noindent Note that braces must hide the comma in the value which
-sets the key.
+%
+Braces must hide the comma in the value which sets the key.
 
 If you say
 
@@ -332,15 +334,14 @@ use, modify, or ignore.)
 \subsection The parameter {\tt fullreformat}
 
 \begininventory
-\parameters
-\idx{|labelformat|}& $\ldots\,|A|\,\ldots$ & |A.|\cr
+\parameters*
 \idx{|fullrefformat|}& $\ldots\,|X|\,\ldots\,|A|\,\ldots$ & |XA|\cr
 \endinventory
 
 \begingroup
 \parindent=0pt \leftskip=1.2em
 
-1. |labelformat| determines how the labels are formatted.
+1. |labelformat| (see page \getref{labelformatpage}) determines how the labels are formatted.
 Generally they are followed by a period, but this parameter
 allows other possibilities.
 \smallskip
@@ -432,7 +433,7 @@ The two crucial examples in
 
 \bigskip
 \deftag{\the\secno.\the\subsecno}{explicit-sec}%
-\pex[exno=\getref{A}]<explicit>
+\pex[exno=\getref{A}]
 \a[label=\getref{A.X}]  \getref{1st}
 \a[label=\getref{A.Z}]  \getref{2nd}
 \xe

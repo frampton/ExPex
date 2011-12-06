@@ -22,11 +22,13 @@ variability in the vertical skip between examples and the
 surrounding text is acceptable will probably vary between
 different intended purposes: handout, draft, paper, camera-ready
 paper, lecture notes, camera-ready book manuscript, etc.  It will
-also vary between different stages of production. There is no
-sense in spending time on formatting while you are still working
-on a draft.  \ExPex\ therefore provides a number of parameters
-which can be adjusted to control various aspects of page
-breaking.
+also vary between different stages of production.  Different
+editors may have different views of the tradeoff between keeping
+examples intact and allowing whitespace at the bottom of pages.
+There is no sense in spending time on formatting while you are
+still working on a draft.  \ExPex\ therefore provides a number of
+parameters which can be adjusted to control various aspects of
+page breaking.
 
 In spite of efforts to guide \TEX\ in making good decisions about
 page breaking, the results are not always satisfactory.
@@ -54,17 +56,19 @@ appropriate place.  The drawback to an explicit order is that it
 remains in force after revisions are made to the document.  If it
 causes page breaking that is obviously bad, the problem will
 usually be seen when editing.  The biggest danger is that
-the output is not terrible, but it is less than ideal.
+the output is not terrible, but it is less than ideal and can be
+missed in less than meticulous copy editing.
 
 \subsection Discouraging page breaks in examples
 
 \deftagpage{exbreakpage}%
-Macro:\quad \idx{|\exbreak|}
-\parinventory
-& \idx{|exbreakfil|}& skip& |0pt plus 4ex|\cr
-& \idx{|exbreakpenalty|}& integer& |-500|\cr
-& \idx{|splitpartspenalty|}& integer& |200|\cr
-\endparinventory
+\begininventory
+\macros* \idx{|\exbreak|}\endmc
+\parameters
+\idx{|exbreakfil|}& skip& |0pt plus 4ex|\cr
+\idx{|exbreakpenalty|}& integer& |-500|\cr
+\idx{|splitpartspenalty|}& integer& |200|\cr
+\endinventory
 
 \noindent \Tex\ carries out page breaking by assigning a cost
 (via penalties) to each possible page break and choosing the
@@ -78,7 +82,7 @@ penalty (a reward if the penalty is negative) if a page break is
 taken at that point, but makes it easier for a satisfactory page
 break to be taken by allowing the page to end with some vertical
 fill, allowing some whitespace to appear at the bottom of the
-page.
+broken page.
 
 |\exbreak| is inserted at the beginning of every |\ex| or |\pex|
 block.  The penalty and amount of fill are parameterized.  The
@@ -88,7 +92,12 @@ at the bottom of a page in return for keeping an example intact.
 $4\,\rm\,ex$ is about $1.5$ times the distance between baselines
 in most fonts.  For drafts, I set |exbreakfil=.3\vsize|, which
 keeps almost all examples intact at the cost of allowing substantial
-whitespace to appear at the bottom of the page.
+whitespace to appear at the bottom of a page.
+
+The setting of |exbreakfil| can be overridden by supplying a
+value directly as an optional argument of |\exbreak|.  For
+example, |\exbreak[5ex]| acts like |\exbreak| (with no argument)
+with |exbreakfil| is set to \textdim{5 ex}.
 
 Page breaks right before an example part in a |\pex| construction
 introduced by |\a| are discouraged by imposing a penalty
@@ -100,7 +109,7 @@ breaks in examples are eliminated, which is what I prefer in
 writing a draft.  The default value is more suitable for finished
 documents.
 
-In the beta version of \ExPex\relax, |\exbreak| was called |\goodpar|.
+In older versions of \ExPex\relax, |\exbreak| was called |\goodpar|.
 The present name is more consistent with \Tex's naming habits.
 
 

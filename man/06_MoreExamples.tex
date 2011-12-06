@@ -1,46 +1,46 @@
 
-\makeatletter
-\def\showpex{%
-   \edef\resetexcnt{\noexpand\global\noexpand\excnt=\the\excnt}%
-   \quad
-   \psscalebox{1.5}{%
-   \vrule height.5em depth4.6em width0pt
-   \parindent=0pt
-   \leavevmode
-   \Lingset{numoffset=4.5em,preambleoffset=4em,labeloffset=3em,
-      textoffset=4em,labelwidth=.8em,arrows=<->}
-   \pnode(0,0){A}
-   \lower10ex\vbox{\hsize=3.8in
-   \excnt=23
-   \pex
-   \pnode(-\lingpreambleoffset,0){B3}\pnode{B4}
-   This is the preamble.
-   \a \pnode{E4}%
-   This is an example.%
-   \SpecialCoor
-   \rput(A|B3){\pnode{B1}}
-   \rput(B1){\pnode(\lingnumoffset,0){B2}}
-   \rput(E4){\pnode(-\lingtextoffset,0){E3}}
-   \rput(E3){\pnode(-\linglabelwidth,0){E2}}
-   \rput(E2){\pnode(-\linglabeloffset,0){E1}}
-   \psset{nodesep=0,labelsep=0}
-   \pcline[offset=2.5ex](B1)(B2)
-   \Aput{\strut\eighttt numoffset}
-   \pcline[offset=2.5ex](B3)(B4)
-   \Aput{\strut\eighttt preambleoffset}
-   \pcline[offset=-1.5ex](E1)(E2)
-   \Bput{\strut\eighttt labeloffset}
-   \pcline[offset=-1.5ex](E3)(E4)
-   \Bput{\strut\eighttt textoffset}
-   \psset{offset=0,angle=90,linestyle=dotted,arrows=-}
-   \XKV@for@n{1,2,3,4}\which{%
-      \pcline(B\which)([nodesep=3ex]B\which)}%
-   \XKV@for@n{1,2,3,4}\which{%
-      \pcline([nodesep=1.5ex]E\which)([nodesep=-2ex]E\which)}%
-   \xe}}%
-   \resetexcnt
-}
-\resetatcatcode
+%\makeatletter
+%\def\showpex{%
+%   \edef\resetexcnt{\noexpand\global\noexpand\excnt=\the\excnt}%
+%   \quad
+%   \psscalebox{1.5}{%
+%   \vrule height.5em depth4.6em width0pt
+%   \parindent=0pt
+%   \leavevmode
+%   \Lingset{numoffset=4.5em,preambleoffset=4em,labeloffset=3em,
+%      textoffset=4em,labelwidth=.8em,arrows=<->}
+%   \pnode(0,0){A}
+%   \lower10ex\vbox{\hsize=3.8in
+%   \excnt=23
+%   \pex
+%   \pnode(-\lingpreambleoffset,0){B3}\pnode{B4}
+%   This is the preamble.
+%   \a \pnode{E4}%
+%   This is an example.%
+%   \SpecialCoor
+%   \rput(A|B3){\pnode{B1}}
+%   \rput(B1){\pnode(\lingnumoffset,0){B2}}
+%   \rput(E4){\pnode(-\lingtextoffset,0){E3}}
+%   \rput(E3){\pnode(-\linglabelwidth,0){E2}}
+%   \rput(E2){\pnode(-\linglabeloffset,0){E1}}
+%   \psset{nodesep=0,labelsep=0}
+%   \pcline[offset=2.5ex](B1)(B2)
+%   \Aput{\strut\eighttt numoffset}
+%   \pcline[offset=2.5ex](B3)(B4)
+%   \Aput{\strut\eighttt preambleoffset}
+%   \pcline[offset=-1.5ex](E1)(E2)
+%   \Bput{\strut\eighttt labeloffset}
+%   \pcline[offset=-1.5ex](E3)(E4)
+%   \Bput{\strut\eighttt textoffset}
+%   \psset{offset=0,angle=90,linestyle=dotted,arrows=-}
+%   \XKV@for@n{1,2,3,4}\which{%
+%      \pcline(B\which)([nodesep=3ex]B\which)}%
+%   \XKV@for@n{1,2,3,4}\which{%
+%      \pcline([nodesep=1.5ex]E\which)([nodesep=-2ex]E\which)}%
+%   \xe}}%
+%   \resetexcnt
+%}
+%\resetatcatcode
 %--------------------------------------
 \section More on examples, with and without labeled parts
 
@@ -73,25 +73,30 @@ used.  If we switch to a font with a 10pt em unit, then the first
 specification will give a physical offset of 10pt, but the second
 will give a physical offset of 12pt.
 
-Setting a dimension or skip parameter by incrementing the old
-value specifies the new value as a fixed dimension, which will
-not scale with font changes.  The same is true of specifying
-setting |labelwidth| via |samplelabel|.  Adjusting a parameter by
-incrementing the old value, or using |samplelabel| to set the
-width of the label slot, should only be used to make local
-adjustments, not at a level which has font size changes in its
-scope.  For this reason, {\sl expex.tex\/} specifies the label width
-in the label type |alpha| by |labelwidth=.72em|, not by
-|samplelabel=a.|.\footnote{In the font that I happen to be using to
-write this section, the alphabetical labels (including the period)
-a--d have widths varying from \textdim{.694 em} to \textdim{.75 em}; the capital labels
-A--D have widths varying from \textdim{.917 em} to \textdim{.972 em}; and the integer
-labels for 1 to 9 all have width \textdim{.75 em}. The label width settings for
-the label types |alpha| (\textdim{.72 em}) and |caps| (\textdim{.94 em}) are good
-compromises.} Setting |labelwidth| via the second method would only be
+When a dimension or skip parameter is reset by incrementing the old
+value, the new value is specified as a fixed dimension, which will
+not scale with font changes.  The same is true of setting lengths
+indirectly by setting |labelwidth| or |exnowidth|.  Adjusting a
+parameter by incrementing the old value, or using |samplelabel|
+or |exnowidth| to set the width of the label slot or the
+effective width of the example number, should only be used to
+make local adjustments, not at a level which has font size
+changes in its scope.  For this reason, {\sl expex.tex\/}
+specifies the label width in the label type |alpha| by
+|labelwidth=.72em|, not by |samplelabel=a.|.\footnote{%
+In the font
+that I happen to be using to write this section, the alphabetical
+labels (including the period) a--d have widths varying from
+\textdim{.694 em} to \textdim{.75 em}; the capital labels A--D
+have widths varying from \textdim{.917 em} to \textdim{.972 em};
+and the integer labels for 1 to 9 all have width \textdim{.75
+em}. The label width settings for the label types |alpha|
+(\textdim{.72 em}) and |caps| (\textdim{.94 em}) are good
+compromises.}
+Setting |labelwidth| via the second method would only be
 satisfactory if the fonts in force at the points that |\pex| is
-used is the same as the font in force when expex.tex is input and
-the |alpha| style defined.
+used is the same as the font in force when {\sl expex.tex\/} is
+input and the |alpha| style defined.
 
 \subsection Anchoring
 
@@ -104,16 +109,17 @@ the |alpha| style defined.
    |numright|\cr
 \idx{|textanchor|}& |numleft| or |normal|& |normal|\cr
 \endinventory
+%\sidx{|numleft| (|textanchor| value)}%
+%\sidx{|normal| (|textanchor| value)}%
 %
 Initially, the left edge of the label slot is determined by its
 offset from the right edge of the number, the left edge of the
 preamble is also determined by its offset from the left edge of
 the number, and the left edge of the text is determined by its
 offset from the right edge of the label slot.  But the ``anchor''
-for an offset is parametrized.  Below, for example, is a more
-refined version of example on page \getref{partialrepeat}; the
-labels are anchored at the left edge of the example number rather
-than the right edge.
+for an offset is parametrized.  In the example below, it is
+useful to anchor the labeloffset at the left edge of the example
+number.
 
 \begingroup
 \setss .55 .38
@@ -158,10 +164,9 @@ Braces are needed around |[X]| so that the mechanism that reads the
 optional argument of |\pex| does not interpret the right bracket as
 the right delimiter of the optional argument.
 
-The |normal| setting of the |textanchor| parameter is the right
-edge of the number inside |\ex| and right edge of the label slot
-inside
-|\pex|.
+The |normal| setting of |textanchor| anchors the text at the
+right edge of the number for |\ex| constructions and the right edge
+of the label slot for |\pex| constructions.
 
 Here is another example:
 \beginss
@@ -194,8 +199,8 @@ Here is another example:
 \endss
 \noindent Some publications demand this style, in which both the
 label and text offsets are measured from the left edge of the
-number, or from the margin. It is left over from typewriter days
-with mechanical tabs.
+number, or from the margin. It is a relic of typewriter days with
+mechanical tabs.
 
 \subsection Formatting the labels
 
@@ -204,6 +209,7 @@ with mechanical tabs.
 \idx{|everylabel|}& token list\qquad& |{}|\cr
 \idx{|labelformat|}& \dots\ |A| \dots & |A.|\cr
 \endinventory
+\deftagpage{labelformatpage}
 %
 \noindent The token list |everylabel| is inserted just before labels
 are typeset.  It is grouped so that it affects only the label.  The
@@ -313,8 +319,7 @@ label slot.
 
 \begininventory
 \parameters
-\idx{|labelalign|}& \idx{|left|}, \idx{|right|}, or
-\idx{|margin|}&
+\idx{|labelalign|}& |left|, |right|, or |margin|&
    \hfil |left|\cr
 \endinventory
 
@@ -364,7 +369,7 @@ and Binding}.  In footnotes, the style is:
 
 If you look carefully, the vertical column of parts labels in the last
 example looks somewhat ragged because the width of ``(b)'' is
-noticably larger than the width of ``(c)''.  Center alignement of the
+slightly larger than the width of ``(c)''.  Center alignment of the
 labels gives a neater appearance.
 
 \beginss
@@ -485,9 +490,13 @@ simple.  You say:
    \vbox{\pex|verbdots\xe}\hss
    \vbox{\pex|verbdots \xe}}
 |endcodedisplay
-|\hss| is used to give a little stretch or shrink so
-that dimensional rounding does not lead to an under or overfull
-|\line{| \dots|}|.
+|\hss| is used to give a little stretch or shrink so that
+dimensional rounding does not lead to an under or overfull
+|\line{| \dots|}|.  It is important in examples like this that
+|\pexcnt| is incremented globally, so that the latter vboxes see
+the |\excnt| which results from an operation inside a previous
+vbox.  We will see later that in some situations this behaviour
+is not desirable and how it can be altered.
 
 Variations are useful.  One can easily imagine a situation in
 which something like the following is appropriate for two side by
@@ -506,9 +515,9 @@ side examples.
 \macros* \idx{|\definelabeltype|}\endmc
 \counter \idx{|\pexcnt|}\endmc
 \parameters
-\idx{|labelgen|}& \idx{|char|}, \idx{|number|}, or \idx{|list|}&
+\idx{|labelgen|}& |char|, |number|, or |list|&
    |char|\cr
-\idx{|pexcnt|}& integer& |97|\cr
+|pexcnt|\sidx{|pexcnt|, parameter}& integer& |97|\cr
 \idx{|labellist|}& comma separated list& |{}|\cr
 \endinventory
 %
@@ -523,7 +532,7 @@ order of the character codes of the characters.  Setting
 is initialized to 65, the character code of uppercase A.  If
 |labeltype| is set to |numeric|, |labelgen| is set to |number|
 and |\pexcnt| is initialized to 1.  The labels are generated by
-taking the number corresponding to value of |\pexcnt|.
+taking the number corresponding to the value of |\pexcnt|.
 
 \let\mit=\twelvei
 Something like the following might be useful.  In the format I am
@@ -581,8 +590,8 @@ and that |\gr| selects one of the grmn series of fonts
 in the cb family of Greek fonts.
 
 \begingroup
-%\let\gr=\twelverm  %% TEMPORARY %% TEMPORARY %% TEMPORARY %%
-%\font\gr=grmn1200
+%\let\gr=\twelverm
+\font\gr=grmn1200
 \gr
 
 \definelabeltype{greek}{labelgen=list,
@@ -632,9 +641,10 @@ warning is issued.
 \subsection IJAL style format of multiline examples
 
 \begininventory
+\macros* \idx{|\actualexno|}\endmc
 \parametersdef
 \idx{|avoidnumlabelclash|}& boolean& |false|& |true|\cr
-\idx{|appendtopexarg|}& {\it key\/}|=|{\it value}& |{}|\cr
+\idx{|appendtopexarg|}& token list& |{}|\cr
 \endinventory
 The formatting demands of the International Journal of
 American Linguistics (IJAL) require some additional
@@ -678,7 +688,10 @@ A first approximation is
    preambleanchor=text,preambleoffset=0pt,
    labelformat=(A),everylabel=\actualexno}
 |endcodedisplay
-But the results (below) have some deficiencies.
+|\actualexno| expands to the numerical value in |\excnt|, provided
+no special example number is set by |exno|, otherwise to the
+special example number. But the results (below) have some
+major problems.
 
 \begingroup
 \lingset{labelanchor=numleft,labeloffset=0pt,
@@ -703,13 +716,14 @@ Preamble
 \a second
 \xe
 
-There are two things that need to be done.  First, in order to avoid
-printing both the example number and the label of the first part if
-there is no preamble, as happens in (\getref{IJAL1}), printing the
-example number must be suppressed if there is no preamble. Second, in
-order to avoid the shrinking gap between the label and the text as
-more digits appear in the example number and it gets wider, the label
-width must be made dependent on the particular example number.
+There are two things that need to be done.  First, in order to
+avoid printing both the example number and the label of the first
+part in examples with no preamble, as is the case in
+(\getref{IJAL1}), printing the example number must be suppressed
+if there is no preamble. Second, in order to avoid the shrinking
+gap between the label and the text as more digits appear in the
+example number and it gets wider, the label width must be made
+dependent on the example number.
 
 \ExPex\ provides the boolean parameter |avoidnumlabelclash|
 which, if set to |true|, suppresses printing the example number
@@ -743,11 +757,12 @@ not produce the desired result to put
 document.  |labelwidth| will be set to whatever the current width
 of |(\actualexno a)| is, which is not likely to be what you want
 for the entire document even if |\actualexno| happens to be
-defined (which is unlikely) at the point the |\lingset| is
+defined at the point that the |\lingset| is
 executed.  To circumvent the global/local problem, \ExPex\
 provides the parameter |appendtopexarg|.  Its value (unexpanded)
 is appended to whatever other arguments are given to
 |\pex| and evaluated locally.
+
 \exfrag
 |\lingset{appendtopexarg={samplelabel=(\actualexno a)}|
 \xe
@@ -844,7 +859,7 @@ effective typeset width of the example number.
 
 \framedisplay
 \keepexcntlocal \excnt=9
-\pex[sampleexno=(\anextx)]
+\pex[sampleexno=(10)]
 \a I consider firemen available. (generic only)
 \a I consider firemen intelligent. (generic only)
 \xe
@@ -856,7 +871,7 @@ existential and generic interpretations of complement subjects:
 \xe
 \endframedisplay
 \codedisplay~
-\pex[sampleexno=(\anextx)]
+\pex[sampleexno=(10)]
 \a I consider firemen available. (generic only)
 \a I consider firemen intelligent. (generic only)
 \xe
@@ -867,21 +882,23 @@ existential and generic interpretations of complement subjects:
 \a I believe violists to be intelligent. (generic only)
 \xe
 |endcodedisplay
-Parameter settings prescribed the optional argument of |\ex| and
-|\pex| are made before |\excnt| is incremented, so |\excnt| gives
-the number of the previous example in the context of this
-parameter setting.  Therefore |\anextx| is required above to
-correspond to the next example number.
 
-It seems to be common to do fine tuning of this sort in footnotes.
-There are two reasons for this. First, lowercase roman numerals are
-commonly used and the widths vary noticeably. Second, only a few
-examples are involved, assuming that examples numbers in a footnote
-start at (i).
+This kind of fine tuning should only be done at the immediately
+pre-publication point because it depends upon the final
+assignment of example numbers and an aesthetic judgement of when
+two multipart examples are ``visually close'' in the finished
+product.
+
+It seems to be common for publishers to do fine tuning of this
+sort in footnotes. There are two reasons for this. First,
+lowercase roman numerals are commonly used and the widths vary
+noticeably. Second, only a few examples are involved, assuming
+that examples numbers in a footnote start at (i), so the final
+assigments of example numbers is relatively easy to determine.
 
 \excnt=34
 
-\subsection Footnotes and endnotes
+ \subsection Footnotes and endnotes
 
 \begininventory
 \macros* \idx{|\keepexcntlocal|}\endmc
@@ -890,10 +907,8 @@ start at (i).
 Footnotes and endnotes pose a somewhat thorny problem since many different
 \Tex\ and \LaTex\ macros are used to typeset footnotes and endnotes.
 Further, there are different ways of assigning example numbers and
-labels in multipart examples. The footnote referenced at the end of
-this sentence is formatted is an
-abbreviated version of footnote 17 in Chapter 2 of Diesing's {\sl
-Indefinites}, MIT Press.%
+labels in multipart examples in footnotes. The footnote
+referenced at the end of this sentence is representative.
 \footnote{%
 \lingset{sampleexno=(ii)}
 The existential reading does not seem to be available for subjects of
@@ -910,6 +925,8 @@ existential and generic interpretations of complement subjects:
 %\a \ljudge{??}I believe opera singers to know Hittite.
 \xe
 }
+It is an abbreviated version of footnote 17 in Chapter 2 of
+Diesing's {\sl Indefinites}, MIT Press.%
 This footnote style is fairly common.
 
 The \ExPex\ distribution contains two files, {\it eptexfn.tex\/} and
@@ -917,8 +934,8 @@ The \ExPex\ distribution contains two files, {\it eptexfn.tex\/} and
 this style.  They do two things.  First, they each define a macro
 (|\everyfootnote|) which, if evaluated at the start of processing a
 footnote, ensures that examples are correctly formatted.  Second, they
-each perform minor surgery on a standard |\footnote| macro so
-that (among other things) |\everyfootnote| is inserted in the
+each perform surgery on a standard |\footnote| macro so that
+(among other things) |\everyfootnote| is inserted in the
 appropriate place.
 
 I intend these macro files both to be used directly or to serve as
@@ -928,12 +945,6 @@ works.  The file listing is:
 
 \CLnum
 \makeatletter
-\renewcommand{\@makefntext}[1]{%
-   \everyfootnote
-   \parindent=1em
-   \noindent
-   \@thefnmark.\enspace #1%
-}
 \def\everyfootnote{%
    \keepexcntlocal
    \excnt=1
@@ -941,27 +952,32 @@ works.  The file listing is:
       labeltype=alpha,labelanchor=numright,labeloffset=.6em,
       textoffset=.6em}
 }
+\renewcommand{\@makefntext}[1]{%
+   \everyfootnote
+   \parindent=1em
+   \noindent
+   \@thefnmark.\enspace #1%
+}
 \resetatcatcode|endCLnum
 
-The LaTex |\footnote| uses |\@makefntext| to typeset the
-footnote.  It is defined in the {\it .cls\/} file which is used.
-The redefinition in lines 2--7 is a modification of the
-|\@makefntext| macro defined in {\it article.cls}.  It first
-executes |\everyfootnote|, which allows the user to introduce
-formatting commands into the footnote typesetting instructions.
-The number is set with no indentation and is set as text, not a
-superscript.  |\everyfootnote| first ensures that changes in
-|excnt| that are made in the footnote are kept local to the
+Lines 2--8 define the macro |\everyfootnote| which will be
+inserted into the footnote macro. It first ensures that changes
+in |excnt| that are made in the footnote are kept local to the
 footnote.  |\keepexcntlocal| is an \ExPex\ macro whose execution
-causes changes in |\exnt| to be local to the group in which
+causes changes in |\exnt| to be kept local to the group in which
 |\keepexntlocalo| is executed.  Without |\keepexcntlocal|,
-changes in |excnt| would visible outside the footnote group in
+changes in |excnt| inside a footnote would be visible outside the footnote group in
 which the changes occur. |excnt| is then initialized.  Finally,
 parameters are set which control the formatting of examples in
-the footnote.
+the footnote. The LaTex |\footnote| command uses |\@makefntext| to
+typeset the footnote.  It is defined in the cls file
+which is used. The redefinition in lines 9--14 is a modification
+of the |\@makefntext| macro defined in {\it article.cls}. It
+first executes |\everyfootnote|, then prints the footnote number
+flush left at full footnote size, not as a superscript.
 
-Assuming that |\usepackage{epltxfn}|, the folloing code
-produces fn. \the\fnno.
+Assuming that |\usepackage{epltxfn}| has been executed, the
+following code produces fn.~\the\fnno.
 \codedisplay
 \footnote{%
 \lingset{sampleexno=(ii)}
@@ -980,16 +996,12 @@ existential and generic interpretations of complement subjects:
 }
 |endcodedisplay
 
-The code in {\sl eptexfn.tex\/} is somewhat more complicated because
-\Tex\ does not number footnotes and it uses the same font for running
-text and footnotes.  |\everyfootnote| is identical.  If it is compared
-with the footnote macros in the {\sl TexBook\/} (p. 363) it is easy to
-see the significance of the various modifications. The user must
-define the macro |\footnotesize| before {\sl eptexfn.tex\/} is loaded.
-In my own work, |\twelvepoint| and |\tenpoint| are defined modeled on
-Knuth's macros on pages 414--15 in the TexBook.  Running text is done
-in the context of |\twelvepoint| and |\let\footnotesize=\tenpoint|
-is executed before typesetting starts.
+The code in {\sl eptexfn.tex\/} is somewhat more complicated
+because {\it Plain Tex\/} does not number footnotes and uses the
+same font for running text and footnotes.  |\everyfootnote| is
+identical.  If it is compared with the footnote macros in the
+{\sl TexBook\/} (p. 363), on which it is modeled, it is easy to
+see the significance of the various modifications.
 
 I anticipate that although the footnote macros in {\sl epltxfn.sty\/}
 and {\sl eptexfn.tex\/} will be useful to some readers without

@@ -14,7 +14,6 @@
 \else
    \let\it=\itshape
 \fi
-% define eplain primitives, if necessary
 \ifx\eplain\@undefined  % eplain stuff
 \def\@futurenonspacelet#1{\def\@cs{#1}%
    \afterassignment\@stepone\let\@nexttoken= }%
@@ -40,7 +39,6 @@
    \@optionaltemp
 }
 \fi
-%----- end of eplain inclusions
 \def\ep@identity#1{#1}
 \def\ep@expandonce{\expandafter\noexpand}
 \def\ep@expandtwice{\expandafter\expandafter\expandafter\noexpand}
@@ -59,7 +57,6 @@
       {\@tildetrue\expandafter#1\ep@gobble}%
       {\@tildefalse#1}%
 }
-%------- XKV parametrization ------
 \def\define@lingkey{\define@key{ling}}
 \def\define@ling@cmdkeys{\define@cmdkeys{ling}[ling@]}
 \def\define@lingcmdkeys{\define@cmdkeys{ling}[ling]}
@@ -89,10 +86,7 @@
          \def#2{#3#4}%
       \fi
 }
-%
 \def\lingset#1{\setkeys{ling}{#1}\ignorespaces}
-% \Lingset first sets ling keys, if there are non-ling keys
-% remaining, these are then passed to \psset
 \def\Lingset#1{\setkeys*{ling}{#1}%
    \ifx\XKV@rm\@empty \else
       \ep@expandafterafter\psset{\XKV@rm}\fi
@@ -102,7 +96,6 @@
       \else \ep@expandafterafter\Lingset{\@optionalarg}\fi
 }
 \def\ling@usearg{\ep@expandafterafter\lingset{\@optionalarg}}
-% styles
 \def\e@let#1#2{%
    \ep@expandafterafter\let#1\csname #2\endcsname\ignorespaces
 }
@@ -111,14 +104,11 @@
       \ep@expandafterafter\Lingset{\temp}}
 \def\definelingstyle#1#2{%
    \expandafter\def\csname ling@#1style\endcsname{#2}}
-% if PST available, allow \psset to set ling parameters,
-% otherwise cancel \Lingset's ability to set PST parameters
 \ifx\PSTricksLoaded\endinput
       \pst@addfams{ling}
    \else
       \let\Lingset=\lingset
    \fi
-%------ \ex -----
 \newcount\excnt
 \excnt=1
 \newbox\numbox
@@ -165,19 +155,13 @@
 \define@choicekey{ling}{exnotype}[\ling@exnotype\@N]%
    {arabic,roman}{%
       \ifcase\@N
-%            \let\exnoprint=\ep@arabicexnoprint
             \def\ep@rawexnoprint{\number\excnt}%
          \or
-%            \let\exnoprint=\ep@romanexnoprint
             \def\ep@rawexnoprint{\romannumeral\the\excnt}%
          \fi
 }
 \def\exnoprint{\ep@exnoformat{\ep@rawexnoprint}}
-%\def\ep@arabicexnoprint{\ep@exnoformat{\the\excnt}}
-%\def\ep@romanexnoprint{\ep@exnoformat{\romannumeral\the\excnt}}
 \lingset{exnotype=arabic}
-%\def\romanexnumbers{\let\exnoprint=\ep@romanexnoprint}
-%\def\ep@specialexnoprint{(\ep@specialexno)}
 \def\ep@specialexnoprint{\ep@exnoformat{\ep@specialexno}}  % unformatted
 \def\ep@globalstepexcnt{\global\advance\excnt by 1 }
 \def\ep@localstepexcnt{\advance\excnt by 1 }
@@ -230,7 +214,6 @@
 \def\exdisplay{\bgroup\@tildecheck\exdisplay@a}
 \def\exdisplay@a{\@getoptionalarg\exdisplay@b}
 \def\exdisplay@b{\let\@optionaltag=\empty \ex@setup}
-%------ \pex -----
 \newcount\pexcnt
 \newdimen\epd@labelleft
 \newdimen\epd@labelright
@@ -251,7 +234,6 @@
 }
 \lingset{sampleexno=}
 \define@lingcmdkeys{splitexpenalty}
-%\define@lingcmdkeys{belowpreambleskip,interpartskip,splitexpenalty}
 \define@choicekey{ling}{labelalign}[\ling@labelalign\nr]%
    {left,center,right}{%
       \ifcase\nr
@@ -268,7 +250,6 @@
 }
 \define@boolkey{ling}[ling@]{nopreamble}[true]{}
 \def\pex{\bgroup\@tildecheck\pex@a}
-%\def\pexns{\bgroup \@tildetrue\pex@a}
 \def\pex@a{\def\@optionaltag{}\def\@specialexno{}%
    \@getoptionalarg\pex@b}
 \def\pex@b{%
@@ -313,16 +294,13 @@
    \epd@labelleft=\linglabeloffset
       \advance\epd@labelleft by \ifcase\ep@labelanchor
          \epd@numright\or \lingnumoffset\or  0pt \fi
-%   \ep@setdimlabelleft
    \ep@settosum\epd@labelright\epd@labelleft\linglabelwidth
   \ifcase\ep@textanchor   % numleft
          \ep@settosum\epd@textleft\lingnumoffset\lingtextoffset
       \or                 % normal
          \ep@settosum\epd@textleft\epd@labelright\lingtextoffset
       \fi
-%   \ep@setdimtextleft
 }
-%\def\lingnumrightoffset{\the\epd@numright}%
 \def\ep@setdimpreambleleft{%
    \epd@preambleleft=\lingpreambleoffset
    \advance\epd@preambleleft by \ifcase\ep@preambleanchor
@@ -339,7 +317,6 @@
 \define@lingkey{tag}{\def\@optionaltag{#1}}
 \newtoks\ep@everylabel  % \ep@everylabel is a token list
 \define@lingkey{everylabel}{\ep@everylabel{#1}}
-%
 \def\ep@putlabel{%
    \if@firstlabel
          \ifling@nopreamble \else
@@ -387,19 +364,15 @@
    \latex@tagexlabel
    \ignorespaces
 }
-%
 \define@choicekey{ling}{labelanchor}[\scratch\ep@labelanchor]%
    {numright,numleft,margin}[]{}
 \define@lingkey{pexcnt}{\edef\ling@pexcnt{#1}}
-%-----------------------------------------
-%----- judgments -----
 \def\judge#1{\rm #1\kern .1em \ignorespaces}
 \def\ljudge#1{\llap{\judge{#1}}\ignorespaces}
 \define@key{ling}{*}[*]%
    {\setbox0=\hbox{#1}%
    \lingset{textoffset=!\wd0}%
 }
-%------ table support -----
 \define@lingcmdkeys{dima,dimb,dimc}
 \lingset{dima=2.4em}
 \def\tspace{\@getoptionalarg\ep@tabelspace}
@@ -438,13 +411,11 @@
    \edef\foop{\ep@label.}\foop
 }
 \def\ep@omitlabel{\omit\hskip\linglabeloffset\hfil}
-%\def\endpextable{\egroup\egroup \par \prevdepth=\dp\strutbox}
 \def\hwit#1{\hidewidth \it #1\hidewidth}
 \define@ling@cmdkeys{crskip}
 \lingset{crskip=.6em}
 \def\crs{\cr\noalign{\vskip\ling@crskip}}
 \def\crnb{\cr\noalign{\par\nobreak}}
-% LL is "label list"
 \define@lingkey{labellist}{%
    \edef\ling@LL{#1,}%
    \edef\@currLL{#1,}%  current LL
@@ -490,7 +461,6 @@
 \define@lingkey{fullrefformat}{\@fullrefformat #1\@nil}
 \def\@fullrefformat #1X#2A#3\@nil{%
    \def\ep@fullrefformat##1##2{#1##1#2##2#3}}
-%------ support for LaTex \label macro -----
 \let\latex@tagex\relax
 \let\latex@tagexlabel\relax
 \ifx\label\relax \else    % else = LaTex is loaded
@@ -498,7 +468,6 @@
       {\ep@fullrefformat{{\the\excnt}}{\ep@label}}}%
    \def\latex@tagex{\edef\@currentlabel{\the\excnt}}%
    \fi
-%-----------------------------------------
 \definelabeltype{alpha}{labelgen=char,pexcnt=`a,labelformat=A.,
    fullrefformat=XA,labelalign=left,labelwidth=.72em}
 \definelabeltype{caps}{labelgen=char,pexcnt=`A,labelformat=A.,
@@ -507,29 +476,11 @@
    fullrefformat=X.A,labelalign=right,labelwidth=.75em}
 \definelabeltype{roman}{labelgen=romannumeral,pexcnt=1,labelformat=(A),
    fullrefformat=XA,labelalign=left,labelwidth=1.5em}
-%%%%%
-%\lingset{%
-%   labeltype=alpha,
-%   everylabel=,
-%   labelalign=left,
-%   belowpreambleskip=1ex,        % vskip after the preamble
-%   interpartskip=1ex,            % vskip between parts
-%   splitexpenalty=200,
-%}
-%------ tags and reference -----
-%
-%----- local reference to example numbers -----
-%\def\nextx{{\@printref{\number\excnt}}}
-%\def\anextx{{\@printref{\advance\excnt by 1 \number\excnt}}}
-%\def\lastx{{\@printref{\advance\excnt by -1 \number\excnt}}}
-%\def\blastx{{\@printref{\advance\excnt by -2 \number\excnt}}}
-%\def\bblastx{{\@printref{\advance\excnt by -3 \number\excnt}}}
 \def\nextx{{\@printref{\ep@rawexnoprint}}}
 \def\anextx{{\@printref{\advance\excnt by 1 \ep@rawexnoprint}}}
 \def\lastx{{\@printref{\advance\excnt by -1 \ep@rawexnoprint}}}
 \def\blastx{{\@printref{\advance\excnt by -2 \ep@rawexnoprint}}}
 \def\bblastx{{\@printref{\advance\excnt by -3 \ep@rawexnoprint}}}
-%------ defining tags -----
 \def\deftag#1#2{%
    {\let\@printref=\ep@identity
    \expandafter\xdef\csname lingtag@#2\endcsname{#1}%
@@ -581,7 +532,6 @@
    \fi
 \def\@printref#1{%
    \ifep@highlightref \@highlightprint{#1}\else #1\fi}
-%%%%
 \newbox\exnobox
 \define@key{ling}{exno}{%
    \global\@specialexnotrue
@@ -590,7 +540,6 @@
    \setbox\exnobox=\hbox{#1}%
    \def\ep@specialexno{\unhcopy\exnobox}%
 }
-%------ opening the tag file -----
 \newif\if@g@thertags
 \@g@thertagsfalse
 \newwrite\ling@tagsfile
@@ -603,7 +552,6 @@
    \immediate\openout\ling@tagsfile=\jobname\@tagfilesuffix\relax
    \immediate\write@tags{\noexpand\relax}%
 }
-%------ reading the tag file and defining the tags it encodes -----
 \newif\if@epx@goodtagsfile
 \newread\ling@tagsin
 \gdef\@fd@f#1 #2 {%
@@ -639,18 +587,6 @@
 %\let\currsec\chapscurrsec
 %\def\deftagsec#1{\deftag\currsec{#1}}
 %!/
-%
-%\def\deftaglabel#1{%
-%   \expandafter\xdef\csname lingtag@\@localextag.#1\endcsname
-%      {%
-%      {\ep@expandonce\ep@label}%
-%      {\ep@fullrefformat{\@actualexno}\ep@expandonce\ep@label}%
-%      }%
-%   \ignorespaces
-%}
-% Uncomment and use the following for debugging if needed
-%\def\reporttag#1%
-%  {\writeln{\expandafter\meaning\csname lingtag@#1\endcsname}}
 \def\getref@aa#1#2{#1}%
 \def\getref@ab#1#2{#2}%
 \def\getref#1{\getref@a{#1}\getref@aa}
@@ -677,31 +613,6 @@
    \ifx\temp\empty \partlabelfalse \else \partlabeltrue\fi}
 \def\getref{\fullreffalse \getref@a}
 \def\getfullref{\fullreftrue \getref@a}
-%\def\getref@a#1{%
-%   \if@readtags \@setupreadtags \fi
-%   \ep@ispartlabelcheck{#1}%
-%   \ifpartlabel
-%         \iffullref
-%               \let\@chooseref\chooseref@a
-%            \else
-%               \let\@chooseref\chooseref@g
-%            \fi
-%      \else
-%         \let\@chooseref\relax
-%      \fi
-%   \expandafter \ifcsname lingtag@#1\endcsname
-%   \edef\temp{\ep@expandtwice\csname lingtag@#1\endcsname}%
-%   \ifx\temp\empty
-%            \@expexwarn{+++tag #1 has no full reference}%
-%            \@printref{Missing!}%
-%         \else
-%            {\@printref{\expandafter\@chooseref\temp}}%
-%         \fi
-%      \else
-%         \@expexwarn{tag #1 is called but not defined}%
-%         {\@printref{\tt [#1]}}%
-%      \fi
-%}
 \def\getref@a#1{%
    \if@readtags \@setupreadtags \fi
    \ep@ispartlabelcheck{#1}%
@@ -725,12 +636,6 @@
 }
 \def\chooseref@a#1#2{#2}
 \def\chooseref@g#1#2{#1}
-%------ glosses
-% Presently, the glstyle key is a dummy and can only be set to the
-% value wrap.  It is anticipated that in the future there will be
-% other glstyles.  It must set \gl@beginstyle, which is inserted
-% immediately after \begingl is called, the various level macros
-% (\gla,\glb,\glft,etc.) and \endgl.
 \define@choicekey{ling}{glstyle}[\ling@glstyle\gl@stylenum]{wrap}{%
    \ifcase\gl@stylenum
       \let\gl@beginglstyle\glw@begingl
@@ -739,7 +644,6 @@
       \let\glft=\glw@glft
       \fi
 }
-%
 \def\begingl{\bgroup\@getoptionalarg\gl@begingl}
 \def\gl@begingl{\ling@usearg\gl@beginglstyle}
 \define@ling@cmdkeys{everygl,everyglpreamble,everygla,everyglb,
@@ -751,18 +655,6 @@
 \define@choicekey{ling}{glhangstyle}[\temp\ep@glhangstyle]%
    {none,normal,cascade}{}
 \lingset{glhangstyle=normal,glrightskip=0pt plus .25\hsize}
-%----- wrap style (the only style for the present) -----
-% The input (something like the following)
-% \gla x1 x2 x3 //
-% \glb y1 y2 y3 //
-% \glc z1 z2 z3 //
-% gets converted into a list of lists (using Knuth's list macros)
-%    {{x1,y1,z1},{x2,y2,z2},{x3,y3,z3}}
-% auxiliary lists are also made at the same time
-%    list of struts, list of "everygl?"
-% Then these lists are popped, one position at a time, and vboxes
-% are built.  The vboxes are fed into Tex's regular paragraph
-% building machinary.
 \newtoks\gltoks@a
 \newtoks\gltoks@b
 \def\glw@append #1\to #2{%
@@ -799,14 +691,8 @@
       \fi\fi\fi\fi
    \ifx\alist\empty \ifx\blist\empty \gl@loopmorefalse \fi\fi
 }
-%\def\\{\par}
-% As the list of lists is assembled, heights and depths of each
-% item are computed and maximum row heights and maximum row depths
-% are computed in each row.  These are used to make struts which
-% are used to assemble the vboxes.
 \newdimen\glw@maxht
 \newdimen\glw@maxdp
-% exceptional items
 \def\ep@Closeup{@}\@onelevel@sanitize\ep@Closeup
 \def\ep@Linebreak{+}\@onelevel@sanitize\ep@Linebreak
 \def\ep@Lbrack{[}\@onelevel@sanitize\ep@Lbrack
@@ -875,9 +761,6 @@
       \expandafter\noexpand\csname glw@gl#1\endcsname}%
    \temp
 }
-% \glw@gla and \glw@glft get their definitions directly
-% \glw@glx gets defined via \defineglwlevels, which adds x to the
-% list \glw@levels of defined glw levels
 \def\glw@levels{a,ft}
 \def\define@glw@level#1{%
    \expandafter\ifx\csname glw@gl#1\endcsname\relax
@@ -892,8 +775,6 @@
       \@expexwarn{Level #1 is already defined}
    \fi
 }
-% It is anticipated that \definegl?levels will be defined in the
-% future.
 \def\defineglwlevels#1{\XKV@for@n{#1}\thislevel
    {\expandafter\define@glw@level\expandafter{\thislevel}}%
 }
@@ -970,7 +851,6 @@
 \def\glw@endgl{\glw@endglA \glw@endglB}
 \def\glw@endglA{\lineskip=\lingabovemoreglskip
    \ifx\mainlist\empty \else \glw@print \par \fi }
-%\par}
 \def\glw@endglB{\egroup\egroup}
 \def\glw@print{%
    \glw@spacebeforefalse
@@ -1028,14 +908,12 @@
       \repeat
       }%
 }
-% ----- brackets -----
 \newif\if@glpostbrack
 \newcount\@glaparsestate          % 0 normal, 1 post @, 2 post [, 3 post ]
 \define@lingincdimenkeys{glbrackbracksep,glbrackwordsep}
 \def\printrbrack{$]$}
 \def\printlbrack{$[$}
 \lingset{glbrackbracksep=.05em,glbrackwordsep=.1em}
-% ----- cascading hanging indentation -----
 \newdimen\glwcascade@pshapeindent
 \newdimen\glwcascade@pshapelinewd
 \def\glwcascade@parshapetarget{}
@@ -1059,7 +937,6 @@
    \glwcascade@pshapelinewd=\hsize
    \glwcascade@mkshapeauxaux\glwcascade@mkshapeauxaux\glwcascade@mkshapeauxaux
 }
-% ----- side by side (ss) gloss style -----
 \define@choicekey{ling}{glftpos}[\temp\ep@glftpos]%
    {below,right}{%
       \ifcase\ep@glftpos
@@ -1104,7 +981,6 @@
       #1}%
       \ignorespaces
 }
-% ----- gloss with a side panel
 \define@lingcmdkeys{everypanel}
 \lingset{everypanel={}}
 \def\beginglpanel{\@getoptionalarg\beginglpanel@a}
@@ -1127,7 +1003,6 @@
    \lingeverypanel
 }
 \def\endpanel{\egroup\egroup\par}
-% ----- underfixes -----
 \def\gluf/#1/#2/{%
    \vtop{\offinterlineskip\halign{\hfil##\hfil\cr
       \strut #1\cr
@@ -1135,8 +1010,6 @@
       \ling@everygluf \strut#2\cr
 }}}
 \define@ling@cmdkeys{everygluf,glufcloseup}
-%\lingset{glufcloseup=.4ex,everygluf=\sc}
-% ----- gloss comments and citations -----
 \def\rightcomment#1{\leavevmode\rlap{%
    \hbox to\hsize{\hfil \rm #1\hskip\leftskip}}\ignorespaces}
 \let\rightcite=\rightcomment % for backwards compatability
@@ -1148,7 +1021,6 @@
    \hbox{#1}%
 }
 \resetatcatcode
-% ----- initial settings -----
 \definelingstyle{factorysettings}{%
    aboveexskip=2.7ex plus .8ex minus .8ex,
    belowexskip=2.7ex plus .8ex minus .8ex,
@@ -1173,7 +1045,6 @@
    exbreakfil=0pt plus 4ex,
    exbreakpenalty=-50,
    splitpartspenalty=200,
-% parameters used in glosses
    glspace=.6em,
    aboveglcskip=0pt,
    aboveglftskip=1ex,
@@ -1189,13 +1060,9 @@
    glwidth=0pt,
    glufcloseup=.4ex,
    everygluf=,
-%   everybracket=\rm,
-%   glbracketsep=.15em,
    glstyle=wrap,
-%   moregloffset=0pt,
    abovemoreglskip=1ex,
    mincitesep=1.5em,
-% auxiliary parameters used for building tables
    dima=2.4em,
    crskip=.6em
 }

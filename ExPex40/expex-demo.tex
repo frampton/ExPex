@@ -3,27 +3,31 @@
 % to be Texed or LaTexed as is.
 
 \ifx\ProvidesFile\undefined
-      \input expex
+      % if Tex
+      \input ../../core/expex-src
       \font\eightrm=cmr8
       \font\eightit=cmti8
+      \font\tensc=cmcsc10
+      \let\sc=\tensc
+      \def\textsc#1{{\sc #1}}
       \def\footnotesize{\eightrm \let\it=\eightit \baselineskip=9pt}
       \def\enddemo #1#2{}
       \magnification=\magstep1
    \else
+      % if LaTex
       \documentclass[12pt]{article}
       \usepackage{expex}
       \textwidth=6.5in
       \let\enddemo=\relax
       \begin{document}
    \fi
-\def\SC #1{{\footnotesize\uppercase{#1}}}
 %--------------------------------------------------------------------
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \vskip\lingaboveexskip
 Example (\nextx) is well-known from the literature on parasitic
-gaps.  Here we are concerned with example formating, not with the
+gaps.  Here we are concerned with example formatting, not with the
 interesting syntax.
 
 \ex
@@ -32,7 +36,7 @@ I wonder which article John filed {\sl t\/} without reading {\sl e}.
 It is beyond the scope of this investigation to determine exactly why
 John did not read the article.
 
-Multipart examples are equally straighforward.
+Multipart examples are equally straightforward.
 
 \pex Two examples of parasitic gaps.
 \a He is the man that John did not interview {\sl e\/} before
@@ -45,11 +49,10 @@ recommending the person for a job.  It is likely that the person
 was a crony of John.  In (\lastx b), perhaps John knew that
 the ``someone'' went to prep school with the owner of the
 business.
-\vskip\lingbelowexskip
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \bigskip
@@ -78,15 +81,15 @@ tag, {\sl ExPex\/} will let you know about that as well.
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \ex
 \begingl
 \gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren
 w\"urde seiner Freundin ihr$_i$ Herz auszusch\"utten.//
-\glb Mary is sure that it the-ACC Hans not annoy would
-his-DAT girlfriend-DAT her-ACC heart-ACC {out to throw}//
+\glb Mary is sure that it the-{\sc acc} Hans not annoy would
+his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to throw}//
 \glft  `Mary is sure that it would not annoy John to reveal her
 heart to his girlfriend.'//
 \endgl
@@ -94,7 +97,21 @@ heart to his girlfriend.'//
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
+
+\begingroup
+\ex
+\begingl
+\gla k- wapm -a -s'i -m -wapunin -uk //
+\glb Cl V Agr Neg Agr Tns Agr //
+\glc 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
+\glft `you (pl) didn't see them'//
+\endgl
+\xe
+\endgroup
+\bigskip
+
+\filbreak\hrule\medskip
 
 \begingroup
 \pex[interpartskip=3ex]
@@ -102,7 +119,7 @@ heart to his girlfriend.'//
 \begingl
 \gla pwa- min -kwa -pun//
 \glb Neg V Agr Tns //
-\glc {} give 2pl\SC{nom}.3pl\SC{acc} preterit //
+\glc {} give 2pl{\sc nom}.3pl{\sc acc} preterit //
 \glft `you (pl) didn't give them (something)'//
 \endgl
 \a
@@ -110,7 +127,7 @@ heart to his girlfriend.'//
    everyglft=\it,aboveglftskip=1.5ex]
 \gla pwa- min -kwa -pun//
 \glb Neg V Agr Tns //
-\glc {} give 2pl\SC{nom}.3pl\SC{acc} preterit //
+\glc {} give 2pl{\sc nom}.3pl{\sc acc} preterit //
 \glft `you (pl) didn't give them (something)'//
 \endgl
 \a
@@ -118,14 +135,14 @@ heart to his girlfriend.'//
    everyglft=,aboveglftskip=0pt]
 \gla pwa- min -kwa -pun //
 \glb Neg V Agr Tns //
-\glc {} give 2pl\SC{nom}.3pl\SC{acc} preterit //
+\glc {} give 2pl{\sc nom}.3pl{\sc acc} preterit //
 \glft `you (pl) didn't give them (something)'//
 \endgl
 \xe
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \exdisplay
@@ -141,7 +158,7 @@ can be set either globally or via an optional argument.
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \exdisplay
@@ -160,7 +177,7 @@ argument.
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \ex
@@ -176,46 +193,36 @@ is not protected by a maximal projection.
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
-\ex[exno=95] This is a crucial example.\xe
-
-\noindent It is clear that this example is related to the earlier
+\excnt=94
+\ex This is a crucial example.\xe
+It is clear that this example is related to the earlier
 example (14), which is repeated below.
-
 \ex[exno=14]
 This is an example that was given many pages earlier.\xe
-
-\noindent If we are on the right track, as the saying goes,
+If we are on the right track, as the saying goes,
 we expect the next example to be grammatical.  But it is not.
-
-\ex[exno=96] * \dots\xe
+\ex * \dots\xe
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \ex[exno=$\Delta$] Earlier example.\xe
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
-\ex[exno={14, repeated}] Earlier example.\xe
+\ex[exno={[14, repeated]},exnoformat=X] Earlier example.\xe
 \endgroup
 \bigskip
 
-\hrule\medskip
-
-\begingroup
-\ex[exno={14, repeated},exnoformat={[X]}] Earlier example.\xe
-\endgroup
-\bigskip
-
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \pex
@@ -231,7 +238,7 @@ kind.
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \keepexcntlocal \excnt=9
@@ -248,11 +255,11 @@ existential and generic interpretations of complement subjects:
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \keepexcntlocal \excnt=9
-\pex[sampleexno=(\anextx)]
+\pex[sampleexno=(10)]
 \a I consider firemen available. (generic only)
 \a I consider firemen intelligent. (generic only)
 \xe
@@ -265,7 +272,7 @@ existential and generic interpretations of complement subjects:
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \leftline{\vbox{%
@@ -278,21 +285,21 @@ wenn er einen ganz langen Satz binnen kriegt.
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \ex *Jack and Jill wented up the hill.\xe
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \ex \judge* Jack and Jill wented up the hill.\xe
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \pex
@@ -303,7 +310,7 @@ wenn er einen ganz langen Satz binnen kriegt.
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \pex
@@ -314,7 +321,7 @@ wenn er einen ganz langen Satz binnen kriegt.
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \pex[*=?*]
@@ -325,7 +332,7 @@ wenn er einen ganz langen Satz binnen kriegt.
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \pex[*]
@@ -336,10 +343,10 @@ wenn er einen ganz langen Satz binnen kriegt.
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
-\pex[textoffset=!.7em]
+\pex[*=?*,textoffset=!-.3em]
 \a There is a pair of pants on the floor.
 \a \ljudge{?*} There are a pair of pants on the floor.
 \a \ljudge* There is the pair of pants on the floor.
@@ -347,29 +354,29 @@ wenn er einen ganz langen Satz binnen kriegt.
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \ex<wapm>
 \begingl
 \gla k- wapm -a -s'i -m -wapunin -uk //
-\glb Cl V Agr Neg Agr Tns Agr //
-\glb 2 see 3\SC{acc} {} 2\SC{pl} preterit 3\SC{pl} //
+\glb CL V AGR NEG AGR TNS AGR //
+\glb 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
 \glft `you (pl) didn't see them'//
 \endgl
 \xe
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \ex<sicher>
 \begingl
 \gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
 seiner Freundin ihr$_i$ Herz auszusch\"utten.//
-\glb Mary is sure that it the-\SC{acc} Hans not annoy would
-his-\SC{dat} girlfriend-\SC{dat} her-\SC{acc} heart-\SC{acc} {out to
+\glb Mary is sure that it the-{\sc acc} Hans not annoy would
+his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
 throw}//
 \glft  `Mary is sure that it would not annoy John to reveal her
 heart to his girlfriend.'//
@@ -378,7 +385,7 @@ heart to his girlfriend.'//
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \ex<um>
@@ -398,44 +405,44 @@ meet.''//
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \ex
 \begingl[glspace=2em]
 \gla[everygla=] k- wapm -a -s'i -m -wapunin -uk //
-\glb[everyglb=\footnotesize,aboveglbskip=-.4ex]
-   Cl V Agr Neg Agr Tns Agr //
-\glb 2 see 3\SC{acc} {} 2\SC{pl} preterit 3\SC{pl} //
+\glb[everyglb=\sc,aboveglbskip=-.4ex]
+   cl v agr neg agr tns agr //
+\glb 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
 \glft[everyglft=\it,aboveglftskip=0pt] `you (pl) didn't see them'//
 \endgl
 \xe
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \ex[exno={(6), p. 14},exnoformat={[X]}]
 \begingl
 \gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
 seiner Freundin ihr$_i$ Herz auszusch\"utten.//
-\glb Mary is sure that it the-\SC{acc} Hans not annoy would
-his-\SC{dat} girfriend-\SC{dat} her-\SC{acc} heart-\SC{acc} {out to
+\glb Mary is sure that it the-{\sc acc} Hans not annoy would
+his-{\sc dat} girfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
 throw}//
 \endgl
 \xe
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \ex
 \begingl
 \gla \rightcomment{[Potawatami]}k- wapm -a -s'i -m -wapunin -uk //
 \glb \rightcomment{category}Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
-\glb 2 see 3\SC{acc} {} 2\SC{pl} preterit 3\SC{pl} //
+\glb 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
 \glft `you (pl) didn't see them'\trailingcitation{(Hockett 1948,
    p. 143)}//
 \endgl
@@ -443,7 +450,7 @@ throw}//
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \hsize=3.5in
@@ -452,7 +459,7 @@ throw}//
 \begingl
 \gla k- wapm -a -s'i -m -wapunin -uk //
 \glb \rightcomment{category}Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
-\glb 2 see 3\SC{acc} {} 2\SC{pl} preterit 3\SC{pl} //
+\glb 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
 \glft `you (pl) didn't see them'\trailingcitation{(Hockett 1948,
    p. 143)}//
 \endgl
@@ -460,15 +467,15 @@ throw}//
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \ex
 \begingl
 \gla Mary$_i$ ist sicher, + dass es den Hans nicht st\"oren w\"urde
 + seiner Freundin ihr$_i$ Herz auszusch\"utten.//
-\glb Mary is sure that it the-\SC{acc} Hans not annoy would
-his-\SC{dat} girlfriend-\SC{dat} her-\SC{acc} heart-\SC{acc} {out to
+\glb Mary is sure that it the-{\sc acc} Hans not annoy would
+his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
 throw}//
 \glft  `Mary is sure that it would not annoy John to reveal her
 heart to his girlfriend.'//
@@ -477,19 +484,19 @@ heart to his girlfriend.'//
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \ex<wiye>
 \begingl
 \gla wiye kepi e- @ ca//
-\glb two whitemen 1\SC{p}:3\SC{d}- found//
+\glb two whitemen {\sc 1p:3d}- found//
 \endgl
 \xe
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \pex[everygla=,glhangstyle=normal]<@period>
@@ -512,7 +519,7 @@ agr.want he {\it WH\/}[obl].meet-agr//
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \defineglwlevels{cat,gloss}
@@ -522,18 +529,18 @@ agr.want he {\it WH\/}[obl].meet-agr//
 \begingl
 \gla k- wapm -a -s'i -m -wapunin -uk //
 \glcat Cl V Agr Neg Agr Tns Agr //
-\glgloss 2 see 3\SC{acc} {} 2\SC{pl} preterit 3\SC{pl} //
+\glgloss 2 see {3\sc acc} {} {2\sc pl} preterit {3\sc pl} //
 \glft `you (pl) didn't see them'//
 \endgl
 \xe
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \ex[glftpos=right,glhangstyle=none]
-\let\\=\SC
+\let\\=\textsc
 \begingl
 \gla
 Hom\^{a}o sa \v{c}\^{o} p\^{o} tha  \~{n}u nao ng\u{a} hmua. \~{N}u
@@ -555,16 +562,16 @@ peacock beside its nest.'//
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
-\ex<panelex>
-\def\\#1{{\footnotesize\uppercase{#1}}}%
+\ex[everypanel=\footnotesize]<panelex>
+\let\\=\textsc
 \beginglpanel[ssratio=.5,glhangstyle=none]
 \gla Hom\^{a}o$^1$ sa \v{c}\^{o} p\^{o} tha  \~{n}u nao ng\u{a}
 hmua. \~{N}u dj\u{a} g\u{a}, \~{n}u dj\u{a} \v{c}\u{o}ng \~{n}u,
 laih gui r\^{e}o \~{n}u. Todang bboi r\^{o}k jolan \~{n}u nao
-hma, \~{n}u bb\^{o}h sa droi mr\u{a} d\u{o}$^4$ bboi gah, a, hruh
+hma, \~{n}u bb\^{o}h sa droi mr\u{a} d\u{o}$\,^4$ bboi gah, a, hruh
 \~{n}u.//
 \glb \\{exist} one \\{clf} person old \\{3s} go$^2$ do field
 \\{3s} hold machete \\{3s} hold hoe \\{3s} and$^3$ carry.on.back
@@ -602,11 +609,11 @@ peacock beside its nest.'
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \ex[glhangstyle=cascade]
-\let\\=\SC
+\let\\=\textsc
 \begingl
 \gla
 Hom\^{a}o sa \v{c}\^{o} p\^{o} tha  \~{n}u nao ng\u{a} hmua. \~{N}u
@@ -628,7 +635,7 @@ peacock beside its nest.'//
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \ex[glhangstyle=normal,glufcloseup=.4ex,everygluf=\footnotesize]
@@ -645,7 +652,7 @@ would not damage John.'//
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \pex[interpartskip=0pt]
@@ -656,7 +663,7 @@ would not damage John.'//
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \pex[everylabel=\it]
@@ -667,14 +674,14 @@ would not damage John.'//
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \ex[exno=\getref{snoopy}] Second example.\xe
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \ex[exno={\getref{snoopy}, repeated},exnoformat={[X]}]
@@ -682,7 +689,7 @@ Second example.\xe
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \pex[labeltype=numeric]<dog>
@@ -693,14 +700,14 @@ Second example.\xe
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \ex[exno={\getfullref{dog.G}}] Second example\xe
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \ex
@@ -715,7 +722,7 @@ auc& u-auc& please\cr
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \ex  The perfect stems of some roots with a
@@ -734,7 +741,7 @@ auc& u-auc& `please'\cr
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \ex  The perfect stems of some roots with a
@@ -753,7 +760,7 @@ e.& auc& u-auc& `please'\cr
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \ex<Washo>
@@ -771,7 +778,7 @@ the most complex, and therefore the most revealing.
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \hsize=4.3in
@@ -799,7 +806,7 @@ the most complex, and therefore the most revealing.
 \endgroup
 \bigskip
 
-\hrule\medskip
+\filbreak\hrule\medskip
 
 \begingroup
 \pex[exbreakpenalty=-10,interpartskip=.25ex]

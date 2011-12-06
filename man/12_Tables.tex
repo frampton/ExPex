@@ -77,8 +77,8 @@ suap& su-suap& `sleep'\cr
 miaks& mi-miaks& `glitter'\cr
 auc& u-auc& `please'\cr
 }}\xe |endcodedisplay
-
-\noindent \idx{|\hwit|} (hidewidth italics) inserts the italicized
+%
+|\hwit| (hidewidth italics) inserts the italicized
 label into the alignment in such a way that it is centered over
 the nonwhite portion of the column it heads.  It hangs over
 equally on both sides if necessary. Hiding the width of column
@@ -134,10 +134,10 @@ required.
 
 \ExPex\  provides some macros which simplify this code and make
 it easier to manipulate.  They are used in the alternate code for
-(\lastx) below and described below. \idx{|\labels|} initializes
+(\lastx) below and described below. |\labels| initializes
 the counter |\pexcnt|, which is then used to generate the labels.
-It also activates the macros \idx{|\tl|} (table label) and
-\idx{|\nl|} (no label). |\tl| inserts the appropriate label, with
+It also activates the macros |\tl| (table label) and
+|\nl| (no label). |\tl| inserts the appropriate label, with
 following period, and increments the counter. |\nl| abbreviates
 |\omit\hfil|, so that it can be used to prevent the appearance of
 a label in a cell. |\labels| takes parameters, so you can say
@@ -171,7 +171,7 @@ made by name, using implicit line numbering.
 
 \subsection Tagging implicit labels in tables
 
-\sidx{|\deftaglabel| inside tables}
+\sidx{|\deftaglabel|, in tables}
 |\deftaglabel| can be used to associate a tag with a label that is
 introduced into a table by |\tl|~(``table label'').  |\tl| can
 also read an optional tag using the |<|\dots|>| mechanism.
@@ -213,7 +213,7 @@ the most complex, and therefore the most revealing.
 
 \begininventory
 \macros* % \idx{|\lingdima|}, \idx{|\lingdimb|}, \idx{|\lingdimc|},
-   \idx{|\tspace|}|[]|\endmc
+   \idx{|\tspace|}|[]|, \idx{|\crs|}\endmc
 \parameters
 \idx{|dima|\user}& dimension& |2.4em|\cr
 \idx{|dimb|\user}& dimension& (not set)\cr
@@ -252,7 +252,7 @@ adjustment process.
 If no optional argument is supplied to |\tspace|, it expands to
 |\hskip\lingdima|.
 
-The macro \idx{|\crs|} and command key \idx{|crskip|} are
+The macro |\crs| and command key |crskip| are
 provided to assist in fine tuning the vertical spacing inside an
 alignment. |\ling@crskip| expands to the setting of |crskip|, and
 
@@ -262,7 +262,7 @@ alignment. |\ling@crskip| expands to the setting of |crskip|, and
 \subsection Tables that can break between pages
 
 \begininventory
-\macros \idx{|\exdisplay|}, \idx{|\noexno|}, \idx{|\exnoprint|},
+\macros \idx{|\exdisplay[]|}, \idx{|\noexno|}, \idx{|\exnoprint|},
    \idx{|\crnb|}\endmc
 \endinventory
 Up to this point, only tables that are typeset in a vbox have
@@ -326,10 +326,10 @@ that it can be split by a page break.
 }\xe
 
 The example number in the code below is inserted by
-\idx{|\exnoprint|}, which is how |\ex| inserts example numbers.
+|\exnoprint|, which is how |\ex| inserts example numbers.
 If, by the way, you don't like the way example numbers are
 inserted (surrounded by parentheses), you can redefine
-|\exnoprint|. The code uses \idx{|\crnb|}, which expands to
+|\exnoprint|. The code uses |\crnb|, which expands to
 |\cr\noalign{\par\nobreak}|, to prevent a page
 break between a heading and the remainder of the table which
 follows. Page breaks are encouraged by |\exbreak| at a few points

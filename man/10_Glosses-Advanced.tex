@@ -1,8 +1,7 @@
 
-\ifnum\secno<1 \secno=7\fi
-
 \section More on Glosses
 
+\vskip-2ex
 \subsection User defined levels
 
 \begininventory
@@ -47,7 +46,7 @@ produces
 \xe
 \endframedisplay
 
-Another case in which the user might want to define a new gloss level
+Another instance in which the user might want to define a new gloss level
 or levels is if more than 3 lines of interlinear gloss are needed and
 the desired flexibility cannot be obtained by repeated use of |\glb|
 or |\glc|.
@@ -59,7 +58,7 @@ interlinear gloss
 
 \begininventory
 \parameters
-\idx{|ftpos|}& choice (|below| or |right|)& |below|\cr
+\idx{|glftpos|}& choice (|below| or |right|)& |below|\cr
 \idx{|sssep|}& dimension& |3em|\cr
 \idx{|ssratio|}& decimal& |.6 |\cr
 \idx{|ssrightskip|}& skip& |0pt plus 2em|\cr
@@ -124,12 +123,11 @@ examples in this documentation elementary.)
 
 |ss| stands for ``side-by-side''. |sssep| gives the separation of the
 gloss and the free translation. |ssratio| gives the proportion of the
-available space (which is the leftskip minus the value of |sssep|)
-which the gloss occupies. The point of hanging indentation is to
-visually separate the free translation and the gloss, so
-|glhangstyle=none| is completely satisfactory if the tree translation
-is on the right. But \ExPex\ will happily use hanging (either
-cascading or not) indentation with the free translation on the right.
+available width that the gloss occupies. The point of hanging
+indentation is to visually separate the free translation and the
+gloss, so |glhangstyle=none| is completely satisfactory if the
+tree translation is on the right. But \ExPex\ will happily use
+hanging indentation with the free translation on the right.
 
 Line breaking in the free translation is delicate because it will
 generally set in a narrow column. The default setting of |ssrightskip|
@@ -143,7 +141,7 @@ globally, or simply in troublesome examples.
 
 \begininventory
 \macros
-\idx{|\beginglpanel|}, \idx{|\endpanel|}\endmc
+\idx{|\beginglpanel[]|}, \idx{|\endpanel|}\endmc
 \parameters*
 \idx{|everypanel|\user}& token list& |{}|\cr
 \endinventory

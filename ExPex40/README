@@ -1,0 +1,44 @@
+
+ExPex is designed to satisfy many of the typesetting needs of
+linguists; most prominently examples, simple and multipart,
+glosses, and reference to examples.  The glossing facilities in
+this version of ExPex allow automatic wrapping with an arbitrary
+number of lines in the interlinear gloss.
+
+There are six files and this README file.
+
+expex.tex is the main file.  Tex users say \input expex and Latex
+users access it via expex.sty, by \usepackage{expex}.
+
+eptexfn.tex furnishes a footnote macro for Tex users, accessed by
+\input eptexfn.  epltxfn.sty does the same for LaTex users, accessed by
+by \usepackage{epltxfn}.
+
+expex-doc.doc is the main documentation, with many examples.
+
+expex-demo.tex contains the code for almost all the examples in
+the documentation.  It can be run simply by either Tex or LaTex
+users with minimal installation requirements.  No packages are
+required.  Simply say
+
+   tex expex-demo
+
+or
+
+   latex expex-demo
+
+and it should work.  Experimenting with modifying the code and
+seeing the effect on the output is a good way to find out how
+ExPex works.
+
+It is possible to experiment by putting all the ExPex files in a
+directory and working on a file in that directory.  For
+installation, the following directory structure is appropriate.
+
+texmf-local    tex   generic  expex          expex.tex
+               tex   generic  expex          eptexfn.tex
+               tex   latex    expex          expex.sty
+               tex   latex    expex          epltxfn.sty
+               doc   expex    expex-doc.pdf
+               doc   expex    expex-demo.tex
+

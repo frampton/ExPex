@@ -5,7 +5,7 @@
 \begininventory
 \macros \idx{|\judge|}, \idx{|\ljudge|}\endmc
 \parametersdef*
-\hfil \idx{|*|}& sample judgment string& \hfil |*|& \hfil |*|\cr
+\hfil |*|\sidx{|*|, parameter}& sample judgment string& \hfil |*|& \hfil |*|\cr
 \endinventory
 
 \noindent
@@ -20,7 +20,7 @@ In examples without parts, not much needs to be said.
 
 In my view (\nextx), with a little whitespace inserted between
 the asterisk and the example sentence, looks somewhat better than
-(\lastx).
+(\lastx), but the difference is slight.
 
 \codedisplay
 \ex \judge* Jack and Jill is going up the hill.\xe|endcodedisplay
@@ -29,7 +29,7 @@ the asterisk and the example sentence, looks somewhat better than
 \ex \judge* Jack and Jill wented up the hill.\xe
 \endframedisplay
 
-\noindent \ExPex\ provides the macro \idx{|\judge|} to
+\noindent \ExPex\ provides the macro |\judge| to
 accomplish this. |\judge| takes one argument.  A multi-character
 judgment diacritic therefore needs to be surrounded in braces.
 |\judge| also ignores following spaces.  So
@@ -49,7 +49,7 @@ including the judgment marks) to be aligned, read on.
 \xe
 \endframedisplay
 
-\ExPex\ provides the macro \idx{|\ljudge|} which pushes the judgment
+\ExPex\ provides the macro |\ljudge| which pushes the judgment
 diacritics into the gap between the labels and the examples,
 instead of pushing the examples to the right to make room for the
 judgment diacritics.  So
@@ -76,7 +76,7 @@ judgment diacritics.  So
 judgment diacritics in between the labels and the examples.
 |textoffset| needs to be increased to make room.
 
-\ExPex\ provides the pseudo parameter |*|\sidx{|*| key}\ to
+\ExPex\ provides the pseudo parameter to
 facilitate adjusting the text offset.
 
 \codedisplay
@@ -117,17 +117,17 @@ is equivalent to |\lingset{*=*}|.  So, for example:
 \endframedisplay
 
 If you think that the text offset in (\blastx) is too large,
-|textoffset| can be adjusted directly, so you could write
+|textoffset| can be futher adjusted directly, so you could write
 
 \codedisplay
-\pex[textoffset=!.7em]
+\pex[*=?*,textoffset=!-.3em]
 \a There is a pair of pants on the floor.
 \a \ljudge{?*} There are a pair of pants on the floor.
 \a \ljudge* There is the pair of pants on the floor.
 \xe |endcodedisplay
 
 \framedisplay~
-\pex[textoffset=!.7em]
+\pex[*=?*,textoffset=!-.3em]
 \a There is a pair of pants on the floor.
 \a \ljudge{?*} There are a pair of pants on the floor.
 \a \ljudge* There is the pair of pants on the floor.

@@ -1,7 +1,7 @@
 \everymath={}
 
 \section
-Basic Glosses
+Basic glosses
 
 \begininventory
 \macros
@@ -171,10 +171,10 @@ the higher line (recursively).
 & \idx{|everyglc|}& token list& |{}|\cr
 & \idx{|everyglft|}& token list& |{}|\cr
 \\{Vertical spacing\hidewidth}
-& \idx{|belowpreambleskip|\user}& dimension& \textdim{1 ex}\cr
-& \idx{|aboveglbskip|\user}& dimension& \textdim{0 pt}\cr
-& \idx{|aboveglcskip|\user}& dimension& \textdim{0 pt}\cr
-& \idx{|aboveglftskip|\user}& dimension& \textdim{0 pt}\cr
+& \idx{|belowglpreambleskip|\user}& (!)dimension& |1ex|\cr
+& \idx{|aboveglbskip|\user}& (!)dimension& |0pt|\cr
+& \idx{|aboveglcskip|\user}& (!)dimension& |0pt|\cr
+& \idx{|aboveglftskip|\user}& (!)dimension& |1ex|\cr
 \endparinventory
 \vskip-1ex
 \hrule
@@ -194,18 +194,6 @@ following style is desired.
 \endgl
 \xe
 \endframedisplay
-\codedisplay~
-\ex
-\begingl[glspace=2em]
-\gla[everygla=] k- wapm -a -s'i -m -wapunin -uk //
-\glb[everyglb=\sc,aboveglbskip=-.4ex]
-   cl v agr neg agr tns agr //
-\glb 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
-\glft[everyglft=\it,aboveglftskip=0pt] `you (pl) didn't see them'//
-\endgl
-\xe
-|endcodedisplay
-
 There are several differences with (\getref{wapm}).  The words are
 more widely separated; the font in the |\gla| line is not italic;  the
 font in the free translation is italic; the first |\glb| line is set
@@ -236,7 +224,7 @@ place, making it easier to modify.
 \begingl[glspace=2em,everygla=,everyglb=\sc,
    aboveglbskip=-.4ex,everyglft=\it,aboveglftskip=0pt]
 \gla k- wapm -a -s'i -m -wapunin -uk //
-\glb Ccl V Agr Neg Agr Tns Agr //
+\glb cl v agr neg agr tns agr //
 \glc 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
 \glft `you (pl) didn't see them'//
 \endgl
@@ -244,15 +232,14 @@ place, making it easier to modify.
 |endcodedisplay
 
 If you use multiple instances of the same gloss format, a style should
-probably be defined
+be defined
 
 \codedisplay
 \definelingstyle{Potawatami}{glspace=2em,everygla=,everyglb=\sc,
    aboveglbskip=-.4ex,everyglft=\it,aboveglftskip=0pt}
 |endcodedisplay
 
-Then, typesetting a gloss in the format is done simply by using that
-style, as follows:
+Then, typesetting a gloss in that style is done simply.
 
 \codedisplay
 \ex
@@ -305,8 +292,7 @@ You must say:
 \ex[exno=A,exnoformat={[X]}] \begingl |temp \endgl
 |endcodedisplay
 The braces around |[A]| are needed to so that the optional argument
-is correctly delineated.  The mechanism looks for the first right
-brace {\it at the top level}.  For example:
+is correctly delineated.  For example:
 
 \framedisplay
 \ex[exno={(6), p. 14},exnoformat={[X]}]
@@ -337,9 +323,9 @@ the vbox that the gloss is constructed in is the specified dimension.
 The following example illustrates the usefulness of the explicit
 width option.
 
-\ex<sicher2>
+\ex[glwidth=2.6in]<sicher2>
 a.\quad
-\begingl[glwidth=2.6in]
+\begingl
 \gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
 seiner Freundin ihr$_i$ Herz auszusch\"utten.//
 \glb Mary is sure that it the-{\sc acc} Hans not annoy would
@@ -350,7 +336,7 @@ heart to his girlfriend.'//
 \endgl
 \hfil
 b.\quad
-\begingl[glwidth=2.6in]
+\begingl
 \gla Mary$_i$ ist sicher, dass seiner Freunden ihr$_i$ Herz
 auszuch\"utten dem Hans nicht schaden w\"urde.//
 \glb Mary is sure that his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc}
@@ -360,9 +346,9 @@ would not damage John.'//
 \endgl
 \xe
 \codedisplay~
-\ex
+\ex[glwidth=2.6in]
 a.\quad
-\begingl[glwidth=2.6in]
+\begingl
 \gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
 seiner Freundin ihr$_i$ Herz auszusch\"utten.//
 \glb Mary is sure that it the-{\sc acc} Hans not annoy would
@@ -373,7 +359,7 @@ heart to his girlfriend.'//
 \endgl
 \hfil
 b.\quad
-\begingl[glwidth=2.6in]
+\begingl
 \gla Mary$_i$ ist sicher, dass seiner Freunden ihr$_i$ Herz
 auszuch\"utten dem Hans nicht schaden w\"urde.//
 \glb Mary is sure that his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc}
@@ -394,7 +380,7 @@ would not damage John.'//
 |mincitesep|& dimension& \hfil |1.5em|\cr
 \endinventory
 
-The following illustrates different ways to append a comment or
+The following illustrates two different ways to append a comment or
 citation to a gloss.
 
 \framedisplay
@@ -425,11 +411,13 @@ end of the  following line.  The parameter |mincitesep| determines the
 minimum whitespace between the end of the free translation and the
 citation that is tolerated; the default is \textdim{1.5 em}.
 
-The macro |\rightcomment| is very primitive.  It does not consider the
-width of the citation or the amount of whitespace at the right of the
-gloss.  The citation will overlap the gloss if there is not room for
-it at the right.  For example, if the gloss (\lastx) is attempted with
-an hsize of \textdim{3.5 in} and |glspace=.5em|, the result is (\nextx).
+|\rightcomment{|\dots|}| must come first in the first item on the
+line.  The macro is very primitive.  It does not
+consider the width of the citation or the amount of whitespace at
+the right of the gloss.  The citation will overlap the gloss if
+there is not room for it at the right.  For example, if the gloss
+(\lastx) is attempted with an hsize of \textdim{3.5 in} and
+|glspace=.5em|, the result is (\nextx).
 
 \framedisplay
 \hsize=3.5in
@@ -445,16 +433,17 @@ an hsize of \textdim{3.5 in} and |glspace=.5em|, the result is (\nextx).
 \xe
 \endframedisplay
 
-Nevertheless, |\rightcomment| is occasionally
-useful.
+In spite of its limitations, |\rightcomment| is occasionally
+quite useful.
 
 \subsection  Exceptional {\tt \char"5C gla} items
 
-Items on the |\gla| line are generally associated with items on the
-other lines of the interlinear gloss.  There are however a few items,
-called here {\it exceptional items}, which are interpreted in another
-fashion. There are four exceptional items, all consisting of a single character;
-|+|, |@|, |[|, or |]|.
+Items on the |\gla| line are generally associated with items on
+the other lines of the interlinear gloss.  There are however a
+few items, called here {\it exceptional items}, which are
+interpreted in an exceptional fashion. There are four exceptional
+items, all consisting of a single character; |+|, |@|, |[|, or
+|]|.
 
 \subsubsection {\tt +}
 
@@ -532,6 +521,7 @@ so that it is not interpreted as a directive to omit a space.
 \sidx{|[|, exceptional gloss item}%
 \sidx{|]|, exceptional gloss item}%
 \begininventory
+\macros \idx{|\printlbrack|}, \idx{|\printrbrack|}\endmc
 \parameters
 \idx{|glbrackbracksep|\user}& dimension& \hfil |.05em|\cr
 \idx{|glbrackwordsep|\user}& dimension& \hfil |.1em|\cr
@@ -583,11 +573,11 @@ agr.want he {\it WH\/}[obl].meet-agr//
 \xe
 |endcodedisplay
 
-\noindent Note that |@| is used to eliminate an unwanted space before
-the period on the gla-line.
+\noindent |@| is used in the gla-line to eliminate an unwanted
+space before the period.
 
-\ExPex\ uses the macros \idx{|\printrbrack|} and
-\idx{|\printlbrack|} to typeset the brackets.  The definitions of
+\ExPex\ uses the macros |\printrbrack| and
+|\printlbrack| to typeset the brackets.  The definitions of
 these macros could be changed to cause [ and ] in glosses to
 insert something other than simple brackets.
 

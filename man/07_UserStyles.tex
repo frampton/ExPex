@@ -5,7 +5,7 @@
 \macros* \idx{|\definelingstyle|}\endmc
 \parameters
 \idx{|everyex|\user}& token list& |{}|\cr
-\idx{|Everyex|}& token list& |{}|\cr
+\idx{|Everyex|\user}& token list& |{}|\cr
 \endinventory
 %
 Aside from all the \ExPex\ parameters introduced to this point,
@@ -31,7 +31,7 @@ wenn er einen ganz langen Satz binnen kriegt.
 }\hfil}
 \endframedisplay
 
-One straightforward way to do this is:
+One way to do this is:
 
 \codedisplay~
 \ex[textoffset=3em]
@@ -70,7 +70,7 @@ Thereafter, setting the parameter |lingstyle| to |narrow italic|
 has the effect of setting all the parameters as specified in the
 style definition (the two parameters |textoffset| and |everyex|
 in this example). The parameter |everyex| works in the following
-way.  If |expex| is set to {\sl value\/}, a macro |\lingeveryex|
+way.  If |everyex| is set to {\sl value\/}, a macro |\lingeveryex|
 is defined whose expansion is {\sl value}.  When
 an |\ex| or |\pex| construction is initiated, {\it after\/} any
 parameter settings take effect, |\lingeveryex| is executed.

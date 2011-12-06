@@ -1,10 +1,8 @@
-%\def\epdir{c:/ling/tex/expex/}
 \input eplain
 \input @mybasics.tex
 \input pstricks
 \input pst-node \catcode`\@=12
 \input ../core/expex-src
-%\input @texlatex
 \input @lingdoc
 \input @code-beta
 \input @timesfonts
@@ -20,9 +18,10 @@
 %\refproofing
 %\indexproofingtrue
 
+
 \pageno=-1
-%\get 000doc-cover
-%\get @contents
+\get 000doc-cover
+\get @contents
 \get 01_intro
 \get 02_Examples
 \get 03_XKV
@@ -37,9 +36,7 @@
 \get 12_Tables
 \get 13_PSTricks
 \get 14_PageBreaks
-
-%\input mkindex
-
+\input mkindex \bye
 
 \bye
 \get 08_Glosses-Intro
