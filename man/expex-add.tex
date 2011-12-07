@@ -1,0 +1,10 @@
+
+\makeatletter
+\define@ling@cmdkeys{everytrailingcitation}
+\def\trailingcitation#1{%
+   \hskip\ling@mincitesep plus 1fill
+   \penalty100\null\nobreak \hskip 0pt plus 1fill
+   \hbox{\ling@everytrailingcitation #1}%
+}
+\lingset{everytrailingcitation=}
+\resetatcatcode
