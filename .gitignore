@@ -10,6 +10,7 @@
 *.bak
 *.ini
 *.idx
+*.zip
 man-old/
 .*/JUNK/
 JUNK/

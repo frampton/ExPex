@@ -1,10 +1,93 @@
 
 \makeatletter
-\define@ling@cmdkeys{everytrailingcitation}
-\def\trailingcitation#1{%
-   \hskip\ling@mincitesep plus 1fill
-   \penalty100\null\nobreak \hskip 0pt plus 1fill
-   \hbox{\ling@everytrailingcitation #1}%
+%\define@ling@cmdkeys{everytrailingcitation}
+%\def\trailingcitation#1{%
+%   \hskip\ling@mincitesep plus 1fill
+%   \penalty100\null\nobreak \hskip 0pt plus 1fill
+%   \hbox{\ling@everytrailingcitation #1}%
+%}
+%\lingset{everytrailingcitation=}
+\define@boolkey{ling}[ling@]{allowwidegl}[true]{}
+\define@lingincdimenkeys{extraglwidth}
+\lingset{allowwidegl=false,extraglwidth=.5in}
+\def\glw@begingl@a{%
+   \ifling@allowwidegl
+         \hbox\bgroup\vtop\bgroup \advance\hsize by \lingextraglwidth
+      \else
+         \vtop\bgroup
+      \fi
+      \ling@usearg
+      \@glpreamblefalse
+      \ifdim\ling@glwidth=0pt
+            \advance\hsize by -\leftskip
+            \advance\hsize by -\rightskip
+         \else
+            \hsize=\ling@glwidth
+         \fi
+      \ling@everygl
+      \leftskip=0pt
+      \rightskip=\ling@glrightskip
+      \ifcase\ep@glhangstyle
+         \or
+            \hangindent=\ling@glhangindent
+            \hangafter=1
+         \or
+            \glwcascade@makeshape
+            \parshape 9
+            \glwcascade@parshapetarget
+         \fi
+      \let\mainlist=\empty
+      \let\aboveskiplist=\empty
+      \let\strutlist=\empty
+      \let\everylist=\empty
 }
-\lingset{everytrailingcitation=}
+\def\glw@endglB{%
+   \ifling@allowwidegl \egroup\hskip-\lingextraglwidth \fi
+    \egroup\egroup}
+%\long\def\glw@glft@a#1//{%
+%   \lineskip=\lingabovemoreglskip
+%   \glw@print \par\prevdepth=\gl@maxdplast
+%   \ling@usearg
+%   \vskip\lingaboveglftskip
+%   \ling@everyglft
+%   \hangindent=0pt
+%   \let\endgl=\glw@endglB
+%   #1\par
+%}
+%\define@ling@cmdkeys{everybrack}
+%\lingset{everybrack=}
+%\def\printlbrack{{\ling@everybrack [}}
+%\def\printrbrack{{\ling@everybrack ]}}
+%\lingset{everybrack=\rm}
+%%
+%\def\glw@gla@d #1 {%
+%   \glw@gla@e #1\@nil
+%   \ifglw@word
+%      \gltoks@a={#1}%
+%      \gltoks@b=\expandafter{\ling@everygla}%
+%      \glw@append \\{#1}\to\mainlist
+%      \setbox0=\hbox{\ling@everygla #1}%
+%      \ifdim\glw@maxht<\ht0 \glw@maxht=\ht0 \fi
+%      \ifdim\glw@maxdp<\dp0 \glw@maxdp=\dp0 \fi
+%      \fi
+%   \glw@gla@b
+%}
+%\def\glw@gla@e #1#2\@nil{%
+%   \glw@wordtrue
+%   \def\tempa{#1}%
+%   \def\temp{#2}%
+%   \ifx\temp\empty
+%      \glw@wordfalse
+%      \@onelevel@sanitize\tempa
+%      \ifx\tempa\ep@Linebreak
+%            \expandafter\glw@append\ep@Linebreak\to\mainlist
+%         \else\ifx\tempa\ep@Closeup
+%            \expandafter\glw@append\ep@Closeup\to\mainlist
+%         \else\ifx\tempa\ep@Lbrack
+%            \expandafter\glw@append\ep@Lbrack\to\mainlist
+%         \else\ifx\tempa\ep@Rbrack
+%            \expandafter\glw@append\ep@Rbrack\to\mainlist
+%         \else \glw@wordtrue
+%         \fi\fi\fi\fi\fi
+%}
 \resetatcatcode

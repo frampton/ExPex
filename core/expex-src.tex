@@ -1,38 +1,43 @@
+\def\ExPexMessage{2011/12/09 v4.0b ExPex linguistics example formatter (JF)}
+% -------------------------------------------------------
+% jf 2011/12/09  (v4.0 -> v4.0a)
+%  1) fixed bug in how exceptional gla items are detected
+%  2) added everytrailingcitation parameter
+%  3) made \glft a long definition to allow \par
+%  4) fixed bug in \printrbrack and \printlbrack, now not math mode
+% jf 2011/12/09  (v4.0a -> v4.0b)
+%  1) allow {} gla item
+% --------------------------------------------------------
 \edef\resetatcatcode{\catcode`\noexpand\@\the\catcode`\@\relax}
 \catcode`\@=11\relax
 \ifx\XKeyValLoaded\endinput \else
    \input xkeyval \fi
 \ifx\ProvidesFile\@undefined
-   \message{2011/12/05 v4.0 ExPex linguistics
-      example formatter (JF)}
-\else
-   \ProvidesFile{expex.tex}[2011/12/05 v4.0
-      ExPex linguistics example formatter (JF)]
-   \@addtofilelist{expex.tex}
-\fi
-\ifx\ProvidesFile\@undefined
-\else
-   \let\it=\itshape
-\fi
-% define eplain primitives, if necessary
-\ifx\eplain\@undefined  % eplain stuff
-\def\@futurenonspacelet#1{\def\@cs{#1}%
-   \afterassignment\@stepone\let\@nexttoken= }%
-\def\@stepone{\expandafter\futurelet\@cs\@steptwo}%
-\def\@steptwo{\expandafter\ifx\@cs\@sptoken\let\@@next=\@stepthree
-   \else\let\@@next=\@nexttoken\fi \@@next}%
-\def\@stepthree{\afterassignment\@stepone\let\@@next= }%
-\def\@getoptionalarg#1{%
-   \let\@optionaltemp = #1%
-   \let\@optionalnext = \relax
-   \@futurenonspacelet\@optionalnext\@bracketcheck
-}
-\def\@bracketcheck{%
-   \ifx [\@optionalnext
-      \expandafter\@@getoptionalarg
+      \message{\ExPexMessage}
    \else
-      \let\@optionalarg = \empty
-      \expandafter\@optionaltemp
+      \ProvidesFile{expex.tex}[\ExPexMessage]
+      \@addtofilelist{expex.tex}
+      \let\it=\itshape
+   \fi
+%! define eplain primitives, if necessary
+\ifx\eplain\@undefined  % eplain stuff
+   \def\@futurenonspacelet#1{\def\@cs{#1}%
+      \afterassignment\@stepone\let\@nexttoken= }%
+   \def\@stepone{\expandafter\futurelet\@cs\@steptwo}%
+   \def\@steptwo{\expandafter\ifx\@cs\@sptoken\let\@@next=\@stepthree
+      \else\let\@@next=\@nexttoken\fi \@@next}%
+   \def\@stepthree{\afterassignment\@stepone\let\@@next= }%
+   \def\@getoptionalarg#1{%
+      \let\@optionaltemp = #1%
+      \let\@optionalnext = \relax
+      \@futurenonspacelet\@optionalnext\@bracketcheck
+   }
+   \def\@bracketcheck{%
+      \ifx [\@optionalnext
+         \expandafter\@@getoptionalarg
+      \else
+         \let\@optionalarg = \empty
+         \expandafter\@optionaltemp
    \fi
 }
 \def\@@getoptionalarg[#1]{%
@@ -63,14 +68,7 @@
 \def\define@lingkey{\define@key{ling}}
 \def\define@ling@cmdkeys{\define@cmdkeys{ling}[ling@]}
 \def\define@lingcmdkeys{\define@cmdkeys{ling}[ling]}
-%/!
-%-----------------------------------------
-% inc keys
-%   #1 \dimen or \skip
-%   #2 bracketed default, or empty
-%   #3 @ for \ling@key or empty for \lingkey
-%   #4 key
-%!/
+%
 \def\define@linginckey#1#2{%
    \define@key{ling}{#2}{%
       \ep@expandafterafter\@setinckey
@@ -84,7 +82,7 @@
    \ifx#3!%
          #1 0=#2
          \advance#1 0 by #4
-         \edef#2{\the#1 0}%
+         \edef#2{\the #10}%
       \else
          \def#2{#3#4}%
       \fi
@@ -92,7 +90,7 @@
 %
 \def\lingset#1{\setkeys{ling}{#1}\ignorespaces}
 % \Lingset first sets ling keys, if there are non-ling keys
-% remaining, these are then passed to \psset
+%   remaining, these are then passed to \psset
 \def\Lingset#1{\setkeys*{ling}{#1}%
    \ifx\XKV@rm\@empty \else
       \ep@expandafterafter\psset{\XKV@rm}\fi
@@ -622,24 +620,23 @@
       {\catcode`@=11 \input \jobname\@tagfilesuffix\relax}%
    \fi
 }
-%/!
-%------ tagging sections, adapt to your needs -----
-% If \tagsec is used with section macros that do not define
-% counters \secno,\subsecno,\subsubsecno, and \subsubsubsecno,
-% then \currsec must be redefined to whatever is appropriate.
-%\def\chapscurrsec{\ifnum\chapno>0 \the\chapno
-%   \ifnum\secno>0 .\the\secno
-%   \ifnum\subsecno>0 .\the\subsecno
-%   \ifnum\subsubsecno>0 .\the\subsubsecno \fi\fi\fi\fi}
-%\def\nochapscurrsec{\ifnum\secno>0 .\the\secno
-%   \ifnum\subsecno>0 .\the\subsecno
-%   \ifnum\subsubsecno>0 .\the\subsubsecno \fi\fi\fi}
-% choose one of the following twos
-%\let\currsec\nochapscurrsec
-%\let\currsec\chapscurrsec
-%\def\deftagsec#1{\deftag\currsec{#1}}
+%!
+%!------ tagging sections, adapt to your needs -----
+%! If \tagsec is used with section macros that do not define
+%! counters \secno,\subsecno,\subsubsecno, and \subsubsubsecno,
+%! then \currsec must be redefined to whatever is appropriate.
+%!\def\chapscurrsec{\ifnum\chapno>0 \the\chapno
+%!   \ifnum\secno>0 .\the\secno
+%!   \ifnum\subsecno>0 .\the\subsecno
+%!   \ifnum\subsubsecno>0 .\the\subsubsecno \fi\fi\fi\fi}
+%!\def\nochapscurrsec{\ifnum\secno>0 .\the\secno
+%!   \ifnum\subsecno>0 .\the\subsecno
+%!   \ifnum\subsubsecno>0 .\the\subsubsecno \fi\fi\fi}
+%! choose one of the following twos
+%!\let\currsec\nochapscurrsec
+%!\let\currsec\chapscurrsec
+%!\def\deftagsec#1{\deftag\currsec{#1}}
 %!/
-%
 %\def\deftaglabel#1{%
 %   \expandafter\xdef\csname lingtag@\@localextag.#1\endcsname
 %      {%
@@ -826,33 +823,66 @@
 \def\glw@gla@b{\@ifnextchar\@nil\glw@gla@c\glw@gla@d}
 \def\glw@gla@c#1{\glw@updatelists \egroup \ignorespaces}
 \newif\ifglw@word
-\def\glw@gla@d #1#2 {%
+% 2011-12-09 fixed bug in the way that exceptional gla items were detected
+% 2011-12-09 (later) fixed bug when #1 is empty (i.e gla item is {})
+\def\glw@gla@d #1 {%
    \glw@wordtrue
-   \def\temp{#2}%
-   \ifx\temp\empty
-      \glw@wordfalse
-      \def\tempa{#1}%
-      \@onelevel@sanitize\tempa
-      \ifx\tempa\ep@Linebreak
-            \expandafter\glw@append\ep@Linebreak\to\mainlist
-         \else\ifx\tempa\ep@Closeup
-            \expandafter\glw@append\ep@Closeup\to\mainlist
-         \else\ifx\tempa\ep@Lbrack
-            \expandafter\glw@append\ep@Lbrack\to\mainlist
-         \else\ifx\tempa\ep@Rbrack
-            \expandafter\glw@append\ep@Rbrack\to\mainlist
-         \else \glw@wordtrue
-         \fi\fi\fi\fi\fi
+   \def\temp{#1}%
+   \ifx\temp\empty \else \glw@gla@e #1\@nil \fi
    \ifglw@word
-      \gltoks@a={#1#2}%
+      \gltoks@a={#1}%
       \gltoks@b=\expandafter{\ling@everygla}%
-      \glw@append \\{#1#2}\to\mainlist
-      \setbox0=\hbox{\ling@everygla #1#2}%
+      \glw@append \\{#1}\to\mainlist
+      \setbox0=\hbox{\ling@everygla #1}%
       \ifdim\glw@maxht<\ht0 \glw@maxht=\ht0 \fi
       \ifdim\glw@maxdp<\dp0 \glw@maxdp=\dp0 \fi
       \fi
    \glw@gla@b
 }
+\def\glw@gla@e #1#2\@nil{%
+   \def\temp{#1}%
+   \def\tempa{#2}%
+   \ifx\tempa\empty
+      \glw@wordfalse
+      \@onelevel@sanitize\temp
+      \ifx\temp\ep@Linebreak
+            \expandafter\glw@append\ep@Linebreak\to\mainlist
+         \else\ifx\temp\ep@Closeup
+            \expandafter\glw@append\ep@Closeup\to\mainlist
+         \else\ifx\temp\ep@Lbrack
+            \expandafter\glw@append\ep@Lbrack\to\mainlist
+         \else\ifx\temp\ep@Rbrack
+            \expandafter\glw@append\ep@Rbrack\to\mainlist
+         \else \glw@wordtrue
+         \fi\fi\fi\fi\fi
+}
+%\def\glw@gla@d #1#2 {%
+%   \glw@wordtrue
+%   \def\temp{#2}%
+%   \ifx\temp\empty
+%      \glw@wordfalse
+%      \def\tempa{#1}%
+%      \@onelevel@sanitize\tempa
+%      \ifx\tempa\ep@Linebreak
+%            \expandafter\glw@append\ep@Linebreak\to\mainlist
+%         \else\ifx\tempa\ep@Closeup
+%            \expandafter\glw@append\ep@Closeup\to\mainlist
+%         \else\ifx\tempa\ep@Lbrack
+%            \expandafter\glw@append\ep@Lbrack\to\mainlist
+%         \else\ifx\tempa\ep@Rbrack
+%            \expandafter\glw@append\ep@Rbrack\to\mainlist
+%         \else \glw@wordtrue
+%         \fi\fi\fi\fi\fi
+%   \ifglw@word
+%      \gltoks@a={#1#2}%
+%      \gltoks@b=\expandafter{\ling@everygla}%
+%      \glw@append \\{#1#2}\to\mainlist
+%      \setbox0=\hbox{\ling@everygla #1#2}%
+%      \ifdim\glw@maxht<\ht0 \glw@maxht=\ht0 \fi
+%      \ifdim\glw@maxdp<\dp0 \glw@maxdp=\dp0 \fi
+%      \fi
+%   \glw@gla@b
+%}
 \newdimen\gl@maxdplast
 \def\glw@updatelists{%
    \edef\temp{\csname lingabovegl\gl@linelabel skip\endcsname}%
@@ -957,7 +987,8 @@
    {\hangindent=0pt \ling@everyglpreamble #1\par}%
 }
 \def\glw@glft{\@getoptionalarg\glw@glft@a}
-\def\glw@glft@a#1//{%
+% 2011-12-09 make \glw@glft@a a long definition to allow \par's
+\long\def\glw@glft@a#1//{%
    \lineskip=\lingabovemoreglskip
    \glw@print \par\prevdepth=\gl@maxdplast
    \ling@usearg
@@ -970,7 +1001,6 @@
 \def\glw@endgl{\glw@endglA \glw@endglB}
 \def\glw@endglA{\lineskip=\lingabovemoreglskip
    \ifx\mainlist\empty \else \glw@print \par \fi }
-%\par}
 \def\glw@endglB{\egroup\egroup}
 \def\glw@print{%
    \glw@spacebeforefalse
@@ -1032,9 +1062,14 @@
 \newif\if@glpostbrack
 \newcount\@glaparsestate          % 0 normal, 1 post @, 2 post [, 3 post ]
 \define@lingincdimenkeys{glbrackbracksep,glbrackwordsep}
-\def\printrbrack{$]$}
-\def\printlbrack{$[$}
 \lingset{glbrackbracksep=.05em,glbrackwordsep=.1em}
+% 2011-12-09 introduce hook into \printlback and \printrbrack to allow font selection
+\define@ling@cmdkeys{everybrack}
+\def\printlbrack{{\ling@everybrack [}}
+\def\printrbrack{{\ling@everybrack ]}}
+\lingset{everybrack=\rm}
+%\def\printrbrack{$]$}
+%\def\printlbrack{$[$}
 % ----- cascading hanging indentation -----
 \newdimen\glwcascade@pshapeindent
 \newdimen\glwcascade@pshapelinewd
@@ -1142,13 +1177,16 @@
 \let\rightcite=\rightcomment % for backwards compatability
 \define@ling@cmdkeys{mincitesep}
 \lingset{mincitesep=1.5em}
+% jf 2011-12-09 introduce everytrailingcitation hook
+\define@ling@cmdkeys{everytrailingcitation}
 \def\trailingcitation#1{%
    \hskip\ling@mincitesep plus 1fill
    \penalty100\null\nobreak \hskip 0pt plus 1fill
-   \hbox{#1}%
+   \hbox{\ling@everytrailingcitation #1}%
 }
+\lingset{everytrailingcitation=}
 \resetatcatcode
-% ----- initial settings -----
+%! ----- initial settings -----
 \definelingstyle{factorysettings}{%
    aboveexskip=2.7ex plus .8ex minus .8ex,
    belowexskip=2.7ex plus .8ex minus .8ex,
@@ -1200,16 +1238,16 @@
    crskip=.6em
 }
 \lingset{lingstyle=factorysettings}
-%/!
-% addons can be put in expex-add.tex
-% can be used to override factory settings and make
-%   definitions and redefinitions that the user wants to alway be available
-% expex-add.tex can be put in the main Tex tree, or in the local
-% directory, depending on where the user wants it to have force
+%!
+%! addons can be put in expex-add.tex
+%! can be used to override factory settings and make
+%!   definitions and redefinitions that the user wants to alway be available
+%! expex-add.tex can be put in the main Tex tree, or in the local
+%! directory, depending on where the user wants it to have force
 %!/
 \newread\expexsupp
 \openin\expexsupp = expex-add.tex
 \ifeof\expexsupp \else
    \closein\expexsupp
    \input expex-add
-   \fi
+  \fi
