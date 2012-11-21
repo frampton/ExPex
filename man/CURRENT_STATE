@@ -17,3 +17,10 @@ following \gla will have to change.  Is there any real need for a
 prefixed \begingl?  Why not \ex[exno={[A]}] instead of
 \begingl [A]\gla?
 
+19 Nov 2012
+working on
+   1. line spacing in wrapped glosses
+   2. line breaking in glosses
+
+
+

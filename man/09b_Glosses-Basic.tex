@@ -1,0 +1,317 @@
+
+\psset{framesep=1ex}
+\def\minigloss#1#2{\outlinebox{%
+   \vtop{\halign{##\hfil\cr #1\cr #2\cr}}}\hskip1pt}%
+\def\miniglossbare#1#2{\vtop{\halign{##\hfil\cr
+   #1\cr #2\cr}}}
+\psset{linewidth=.4pt}
+\lingset{glwidth=2.4in}
+\def\outlinebox{\psframebox[framesep=0,boxsep=false,linewidth=.4pt]}
+
+
+\subsection  Line spacing in wrapped glosses
+
+\begininventory
+\macros*
+\idx{|\normalglwrapskips|}\endmc
+\parameters
+\idx{|glwrapskip|}& skip& \hfil $-$& (depends on the baselineskip)\cr
+\idx{|abovemoreglskip|}& skip& \hfil |1ex|& (obsolete)\cr
+\idx{|glstruts|}& boolean& \hfil |true|\cr
+\endinventory
+%
+Wrapping is achieved by constructing the gloss as a sequence of
+boxes and letting the Tex line building apparatus typeset that
+sequence of boxes exactly as it typesets a sequence of words. The
+gloss display (\nextx a), for example, is assembled by first
+generating the sequence of boxes (called here glwords) in
+(\nextx b).  |glwidth| is set to \textdim{2.4 in} in all of the
+examples in this section in the interests of ``economy of space''.
+
+\pex[interpartskip=2ex]
+\a
+\begingl
+\gla Ti ma'a'\~nao hao kumuentusi ni h\'ayiyi ha'.//
+\glb not agr.afraid you Infin.speak.to not anyone Emp//
+\endgl
+%
+\a\let\\=\minigloss
+\spaceskip=\lingglspace
+\\{Ti}{not}, \\{ma'a'\~nao}{agr.afraid}, \\{hao}{you},
+\\{kumuentusi}{Infin.speak.to}, \\{ni}{not}, \\{h\'ayiyi}{anyone},
+\\{ha'}{Emp}
+\xe
+The baseline of a glword is the baseline of its top word. The
+vertical spacing in each glword is determined as in page
+building; the vertical spacing is determined by the baselineskip,
+provided that there are no overly tall or overly deep characters
+in the words.
+
+Tex's line building apparatus then assembles the two boxes below.
+
+\pex[interpartskip=2ex]<hboxes>
+%
+\a \outlinebox{\hbox{\let\\=\miniglossbare  \spaceskip=.6em
+\\{Ti}{not} \\{ma'a'\~nao}{agr.afraid} \\{hao}{you}
+\\{kumuentusi}{Infin.speak.to}}}
+
+\a \outlinebox{\hbox{\let\\=\miniglossbare  \spaceskip=.6em
+\\{ni}{not} \\{h\'ayiyi}{anyone} \\{ha'}{Emp}}}
+\xe
+The baselines of these boxes is the baseline of the top line.
+
+The boxes (\lastx) must then be stacked by Tex's page building
+algorithm. Since the depth of the top box plus the height of the
+first box is larger than the baselineskip, no interline glue is
+inserted by the algorithm. Remember that the depth and height of
+these boxes is determined by baseline of the top line in the
+glwords;\footnote{I am not the first to wish Tex boxes had the
+provision for two baselines} the baseline of the bottom words is
+irrelevant. Without glue between the boxes, (\nextx) would
+result.
+
+\ex
+\vtop{\hbox{\outlinebox{\hbox{\let\\=\miniglossbare  \spaceskip=.6em
+\\{Ti}{not} \\{ma'a'\~nao}{agr.afraid} \\{hao}{you}
+\\{kumuentusi}{Infin.speak.to}}}}
+%
+\hbox{\outlinebox{\hbox{\let\\=\miniglossbare  \spaceskip=.6em
+\\{ni}{not} \\{h\'ayiyi}{anyone} \\{ha'}{Emp}\pnode{B}}}}}
+\xe
+
+Since the page building algorithm does not insert vertical glue
+between the boxes, ExPex must do it.  The amount is determined by
+the parameter |glwrapskip|.\footnote{This parameter was called
+{\tt abovemoreglskip} in version 2.7 .  For compatability, the
+old name will still work as before, but should be considered
+obsolete.} One common way to design glosses is to make the
+distance between the baseline of the bottom line in the top box
+in (\lastx) and the baseline of the bottom box the same as the
+baselineskip. ExPex provides the macro |\normalglwrapskips| to
+accomplish this. It does two things.  First, it turns on
+automatic strut insertion so that struts are inserted before
+every word in every glword. Second, the glwrapskip is adjusted
+appropriately.  The boolean parameter |glstruts| can be used to
+control automatic strut insertion independently of
+|normalglwrapskips|.
+
+Here are some examples.
+
+\setss .55 .45
+\beginss
+\ex
+\baselineskip=20pt
+\normalglwrapskips
+\begingl
+\gla Ti ma'a'\~nao hao kumuentusi
+   ni h\'ayiyi ha'.//
+\glb not agr.afraid you
+   Infin.speak.to not anyone Emp//
+\endgl
+\xe|midss
+\ex
+\baselineskip=20pt
+\normalglwrapskips
+\begingl
+\gla Ti ma'a'\~nao hao kumuentusi
+   ni h\'ayiyi ha'.//
+\glb not agr.afraid you
+   Infin.speak.to not anyone Emp//
+\endgl
+\xe
+\endss
+
+\beginss
+\ex
+\baselineskip=20pt
+\normalglwrapskips
+\begingl[glwrapskip=!1ex]
+\gla Ti ma'a'\~nao hao kumuentusi
+   ni h\'ayiyi ha'.//
+\glb not agr.afraid you
+   Infin.speak.to not anyone Emp//
+\endgl
+\xe|midss
+\ex
+\baselineskip=20pt
+\normalglwrapskips
+\begingl[glwrapskip=!1ex]
+%\begingl[glwrapskip=!1ex]
+\gla Ti ma'a'\~nao hao kumuentusi
+   ni h\'ayiyi ha'.//
+\glb not agr.afraid you
+   Infin.speak.to not anyone Emp//
+\endgl
+\xe
+\endss
+Above, |glwrapskip| is an incremental parameter, so |glwrapskip=!1ex|
+increases the glwrapskip by \textdim{1 ex}.
+
+\beginss
+\ex
+\baselineskip=14pt
+\normalglwrapskips
+\begingl
+\gla Ti ma'a'\~nao hao kumuentusi
+   ni h\'ayiyi ha'.//
+\glb not agr.afraid you
+   Infin.speak.to not anyone Emp//
+\endgl
+\xe|midss
+\ex
+\baselineskip=14pt
+\normalglwrapskips
+\begingl
+%\begingl[normalglwrapskips]
+\gla Ti ma'a'\~nao hao kumuentusi
+   ni h\'ayiyi ha'.//
+\glb not agr.afraid you
+   Infin.speak.to not anyone Emp//
+\endgl
+\xe
+\endss
+Struts in this series of examples have height \textdim{10 pt} and
+depth \textdim{4 pt}.
+
+\beginss
+\baselineskip=18pt
+\begingl[glstruts=true,
+   glwrapskip=4pt]
+\gla Ti ma'a'\~nao hao kumuentusi
+   ni h\'ayiyi ha'.//
+\glb not agr.afraid you
+   Infin.speak.to not anyone Emp//
+\endgl
+\xe|midss
+\ex
+\baselineskip=18pt
+\begingl[glstruts=true,
+   glwrapskip=4pt]
+\gla Ti ma'a'\~nao hao kumuentusi
+   ni h\'ayiyi ha'.//
+\glb not agr.afraid you
+   Infin.speak.to not anyone Emp//
+\endgl
+\xe
+\endss
+
+\beginss
+\ex
+\baselineskip=14pt
+\begingl[glstruts=false,
+   glwrapskip=1ex]
+\gla Ti ma'a'\~nao hao kumuentusi
+   ni h\'ayiyi ha'.//
+\glb not agr.afraid you
+   Infin.speak.to not anyone Emp//
+\endgl
+\xe
+|midss
+\ex
+\baselineskip=14pt
+\begingl[glstruts=false,
+   glwrapskip=1ex]
+\gla Ti ma'a'\~nao hao kumuentusi
+   ni h\'ayiyi ha'.//
+\glb not agr.afraid you
+   Infin.speak.to not anyone Emp//
+\endgl
+\xe
+\endss
+This gloss style was the ExPex default in version 2.7.
+
+
+When ExPex is loaded, it executes |\normalglwrapskips|, which
+sets |glstruts| to true and adjusts the glwrapskip appropriately.
+{\it This is a change from version 2.7}.  The macro
+\hbox{|\normalglwrapskips|} and the parameter |glstruts| are new.
+If required for compatibility, version 2.7 initial behaviour can
+be achieved by |\lingset{glstruts=false,glwrapskip=1ex}|.  Note
+carefully that |\normalglwrapskips| uses the value of the
+baselineskip in whatever environment it is executed in.  If the
+baselineskip is changed by the user or by files that are loaded
+after ExPex, it will be necessary to renormalize the glwrapskip by
+executing |\normalglwrapskips| again after the baselineskip has
+been changed.
+
+\subsection Line breaking in glosses:
+How to avoid the dreaded ``overfull box''
+
+\begininventory
+\parameters
+\idx{|glspace|}& skip& |.5em plus .25em minus .16667 em|\hfil\cr
+\idx{|glrightskip|}& skip& |0pt plus .1\hsize|\hfil \cr
+\endinventory
+%
+Hopefully, you will never encounter the problem which the
+parameterization in this section is designed to solve, the
+``overfull line'' error message.  The default setting puts
+\textdim{.5 em} of glue between the glwords a line, plus
+\textdim{.25 em} of stretchability and \textdim{.16667 em} of
+shrinkage.  The interglword spacing on a line can therefore vary
+from \textdim{.33333 em} to \textdim{.75 em} to accomodate the
+needs of the Tex linebreaking algorithm.  Further, the default settings
+allow up to 10\% of the hsize of whitespace to appear at the end
+of the line of glwords.  The possible extra space at the right
+edge and stretchability/shrinkability of the space between
+glwords means that line breaking in glosses will rarely encounter
+problems with overfull lines.
+
+In unusual cases, there may be a problem.  Your publisher (or
+you) may be particularly fussy and demand a particular spacing
+and/or better right alignment in glosses.  Or you might want to make a
+particularly narrow gloss, which increases the chances that there
+might not be enough flexability in the spacing.
+
+If you do run into the problem of overfull lines in a gloss, two
+parameters allow for a great deal of flexibility; |glspace| and
+|glrightskip|.  If you must have right alignment, |glrightskip|
+should be set to \textdim{0 pt}.  Or you might want to increase
+the glrightskip to ease the burden of line breaking in the gloss.
+|glspace| is an "inc parameter", so you could say, for example,
+|glspace=!0pt plus .2em| (increasing the stretchability of the
+interglword space by \textdim{2 em}) to increase the
+stretchability of the interglword gl space. Solving this type of
+problem will generally require some experimentation.  An
+acceptable solution will depend on your particular typesetting
+aesthetics.
+
+
+
+\endinput
+
+
+
+
+
+
+In order to do this, it
+
+
+Here are the various dimensions in (\lastx) which are relevant to
+line spacing in the gloss.
+\lingset{framesep=0,boxsep=false}
+
+\exdisplay \let\\=\miniglossbare
+\hskip1.3in
+\psscalebox{2.5}{\vtop{\hbox{\psframebox{\rnode[br]{B1b}{\hbox{\let\\=\miniglossbare  \spaceskip=.6em
+\\{\pnode{A1}\rnode[t]{R33}{Ti}}{{\pnode{A2}not}} \\{ma'a'\~nao}{agr.afraid} \\{\dots}{\dots}
+}}}\kern-60pt}
+\vskip1ex
+\hbox{\psframebox{\rnode[tr]{B2t}{\hbox{\let\\=\miniglossbare  \spaceskip=.6em
+\\{\pnode{A3}ni}{\pnode{A4}not} \\{h\'ayiyi}{anyone} \\{ha'}{Emp}}}}}}}
+\rput(B1b){\rput(0,14pt){\pnode{R1}}}
+\psline[linewidth=4pt,linecolor=white](B1b)(B1b|R33)
+\rput(A1|B1b){\pnode(-1em,0){Q1}}
+\psset{linewidth=1pt,labelsep=.5em}
+\pcline{|<->|}(Q1)(Q1|B2t)
+\nbput[ref=r]{glwrapskip}
+\pcline{|<->|}(Q1|A1)(Q1|A2)
+\nbput[ref=r]{baselineskip}
+\pcline{|<->|}(Q1|A3)(Q1|A4)
+\nbput[ref=r]{baselineskip}
+\rput(B1b|A2){\pnode(1em,0){Q2}}
+\pcline{|<->|}(Q2)(Q2|A3)
+\naput[ref=l]{glwrapbaselineskip}
+\xe
+

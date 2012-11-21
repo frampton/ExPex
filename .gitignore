@@ -19,3 +19,4 @@ TG/
 .*/temp.tex
 man/latex/
 man/tests/
+ExPex[0-9][0-9]*/

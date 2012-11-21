@@ -116,6 +116,9 @@
    \else
       \let\Lingset=\lingset
    \fi
+%------ scratch dimensions -----
+\newdimen\epd@a
+% \newdimen\epd@b not yet needed
 %------ \ex -----
 \newcount\excnt
 \excnt=1
@@ -738,16 +741,27 @@
 }
 %
 \def\begingl{\bgroup\@getoptionalarg\gl@begingl}
-\def\gl@begingl{\ling@usearg\gl@beginglstyle}
+\def\gl@begingl{\ling@usearg \gl@beginglstyle}
 \define@ling@cmdkeys{everygl,everyglpreamble,everygla,everyglb,
    everyglc,everygl,everyglft,everyglword,glrightskip}
 \define@ling@cmdkeys{glhangindent}
 \define@ling@cmdkeys{glwidth}
-\define@lingincdimenkeys{glspace}
-\define@lingincskipkeys{aboveglftskip,abovemoreglskip,belowglpreambleskip}
+\define@lingincskipkeys{glspace}
+\define@lingincskipkeys{aboveglftskip,belowglpreambleskip,glwrapskip}
+\define@lingkey{abovemoreglskip}{\lingset{glwrapskip=#1}} % obsolete
+\define@boolkey{ling}[ling@]{glstruts}{%
+   \ifling@glstruts \let\glstrut=\strut
+   \else \let\glstrut=\relax \fi}
+\def\normalglwrapskips{%
+   \epd@a=\baselineskip
+   \advance\epd@a by -\dp\strutbox
+   \advance\epd@a by -\ht\strutbox
+   \lingset{glstruts=true,glwrapskip=\epd@a}%
+   \ignorespaces
+}
 \define@choicekey{ling}{glhangstyle}[\temp\ep@glhangstyle]%
    {none,normal,cascade}{}
-\lingset{glhangstyle=normal,glrightskip=0pt plus .25\hsize}
+\lingset{glhangstyle=normal,glrightskip=0pt plus .1\hsize}
 %----- wrap style (the only style for the present) -----
 % The input (something like the following)
 % \gla x1 x2 x3 //
@@ -832,7 +846,8 @@
    \ifglw@word
       \gltoks@a={#1}%
       \gltoks@b=\expandafter{\ling@everygla}%
-      \glw@append \\{#1}\to\mainlist
+      \glw@append \\{\glstrut #1}\to\mainlist
+%      \glw@append \\{#1}\to\mainlist
       \setbox0=\hbox{\ling@everygla #1}%
       \ifdim\glw@maxht<\ht0 \glw@maxht=\ht0 \fi
       \ifdim\glw@maxdp<\dp0 \glw@maxdp=\dp0 \fi
@@ -945,7 +960,8 @@
    \setbox0=\hbox{\@every #1}%
    \ifdim\glw@maxht<\ht0 \glw@maxht=\ht0 \fi
    \ifdim\glw@maxdp<\dp0 \glw@maxdp=\dp0 \fi
-   \glw@append #1\to\worklist
+   \glw@append {\glstrut #1}\to\worklist
+%   \glw@append #1\to\worklist
    \glw@glx@b
 }
 \defineglwlevels{b,c}
@@ -989,7 +1005,7 @@
 \def\glw@glft{\@getoptionalarg\glw@glft@a}
 % 2011-12-09 make \glw@glft@a a long definition to allow \par's
 \long\def\glw@glft@a#1//{%
-   \lineskip=\lingabovemoreglskip
+   \lineskip=\lingglwrapskip
    \glw@print \par\prevdepth=\gl@maxdplast
    \ling@usearg
    \vskip\lingaboveglftskip
@@ -999,7 +1015,7 @@
    #1\par
 }
 \def\glw@endgl{\glw@endglA \glw@endglB}
-\def\glw@endglA{\lineskip=\lingabovemoreglskip
+\def\glw@endglA{\lineskip=\lingglwrapskip
    \ifx\mainlist\empty \else \glw@print \par \fi }
 \def\glw@endglB{\egroup\egroup}
 \def\glw@print{%
@@ -1011,7 +1027,7 @@
    \loop\ifgl@loopmore
       \glw@lop\mainlist\to\tempa\relax       % \tempa is one column
       \ifx\tempa\ep@Linebreak
-            \vskip\lingabovemoreglskip
+            \vskip\lingglwrapskip
             \@glaparsestate=1
             \leavevmode
          \else\ifx\tempa\ep@Closeup
@@ -1212,7 +1228,8 @@
    exbreakpenalty=-50,
    splitpartspenalty=200,
 % parameters used in glosses
-   glspace=.6em,
+   glspace=.5em plus.25em minus.16667em,
+   glrightskip=0pt plus .1\hsize,
    aboveglcskip=0pt,
    aboveglftskip=1ex,
    belowglpreambleskip=1ex,
@@ -1224,6 +1241,7 @@
    everyglft=,
    everygl=,
    everyglword=,
+   glstruts=false,
    glwidth=0pt,
    glufcloseup=.4ex,
    everygluf=,
@@ -1231,7 +1249,7 @@
 %   glbracketsep=.15em,
    glstyle=wrap,
 %   moregloffset=0pt,
-   abovemoreglskip=1ex,
+   glwrapskip=1ex,
    mincitesep=1.5em,
 % auxiliary parameters used for building tables
    dima=2.4em,
