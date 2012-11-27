@@ -98,16 +98,9 @@ use (\getref{Ti}) as an illustration.
 \\{ha'}{Emp}
 \xe
 
-The outcome (\nextx) will depend on many Tex parameters; in
-particular, the baselineskip and lineskip settings in the exterior
-environment.  By exterior environment I mean the environment in
-which the paragraph of glwords (boxes) is typeset.  Inside the
-glwords, the interior environment, there may be different settings
-for the baselineskip and lineskip used to position the words in
-glwords.  The most common desideratum is for $y$ to be the same
-as the interior baselineskip, or for $y$ to be equal to the interior
-baselineskip plus a specified increment.  I prefer to make $y$
-equal to the interior baseline skip plus \textdim{1 ex}.
+The outcome will depend on many Tex parameters.  ExPex
+manipulates the Tex dimension |\lineskip| to produce (\nextx).
+The Tex dimension |\baselineskip| is left unchanged.
 
 \ex[textoffset=1.2in]
 \def\outlinebox{\psframebox[framesep=0,boxsep=false,linewidth=.15pt]}
@@ -124,20 +117,26 @@ equal to the interior baseline skip plus \textdim{1 ex}.
 \\{ha'}{Emp}%
 }}
 \pcline[linewidth=1pt]{<->}(B1)(B1|T1)
-\naput[ref=l]{$x$}
+\naput[ref=l]{interline skip}
+\pcline[linewidth=1pt]{<->}(Y2|Y1)(Y2|Y3)
+\pcline[linewidth=1pt]{|*-|*}(Y2|Y1)(Y2|Y3)
+\nbput[ref=r]{baselineskip}
 \pcline[linewidth=1pt]{<->}(Y2|Y3)(Y2|Y2)
-\pcline[linewidth=1pt]{|*-|*}(Y2|Y3)(Y2|Y2)
-\nbput[ref=r]{$y$\ }
+\pcline[linewidth=1pt]{<->|*}(Y2|Y3)(Y2|Y2)
+\nbput[ref=r]{$\mit x$\ }
+%\pcline[linewidth=1pt]{<->}(B1)(B1|T1)
+%\naput[ref=l]{interline skip}
+%\pcline[linewidth=1pt]{|<->|}(Y2|Y1)(Y2|Y3)
+%\nbput[ref=r]{baselineskip}
+%\pcline[linewidth=1pt]{<->|}(Y2|Y3)(Y2|Y2)
+%\nbput[ref=r]{$\mit x$\ }
 \xe
-There are two different modes for specifying the spacing.
-If |autoglwrapskip| is set to true, the default setting,
-then struts are inserted before every word in every glword and
-the Tex dimension $x$ is made equal to the baselineskip minus the
-strut depth minus strut height plus the value of |extraglwrapskip|.
-This has the effect of making $y$ equal to the baselineskip plus
-the value of |extraglwrapskip|.
 
-If the value
+There are two different modes for determining the interline
+skip.  If |autoglwrapskip| is set to true, the default setting,
+then struts are inserted before every word in every glword and
+the Tex dimension |\lineskip| is set so that $x$ is equal to the
+baselineskip plus the value of |extraglwrapskip|.  If the value
 of |extraglwrapskip| is \textdim{0 pt}, then $x$ will be equal to
 the baselineskip. Note that strut insertion means that in the
 auto wrapskip mode it is not the sequence (\getref{seq}) which

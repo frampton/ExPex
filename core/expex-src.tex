@@ -1,4 +1,4 @@
-\def\ExPexMessage{2011/12/09 v4.0b ExPex linguistics example formatter (JF)}
+\def\ExPexMessage{2012/11/30 v5.0 ExPex linguistics example formatter (JF)}
 % -------------------------------------------------------
 % jf 2011/12/09  (v4.0 -> v4.0a)
 %  1) fixed bug in how exceptional gla items are detected
@@ -7,6 +7,11 @@
 %  4) fixed bug in \printrbrack and \printlbrack, now not math mode
 % jf 2011/12/09  (v4.0a -> v4.0b)
 %  1) allow {} gla item
+% jf 2012/03/10  (v4.0b -> v4.0c)
+%  1) fixed problem with IJAL \deftaglabel caused by nonexpansion of \@actualexno
+% jf 2012/12/01 v.4.1
+%  1) added auto wrapskip mode to glosses
+%     /abovemoreglskip/ now obsolete
 % --------------------------------------------------------
 \edef\resetatcatcode{\catcode`\noexpand\@\the\catcode`\@\relax}
 \catcode`\@=11\relax
@@ -741,24 +746,22 @@
 }
 %
 \def\begingl{\bgroup\@getoptionalarg\gl@begingl}
-\def\gl@begingl{\ling@usearg \gl@beginglstyle}
+\def\gl@begingl{%
+   \ling@everygl
+   \ling@usearg
+   \gl@beginglstyle
+}
 \define@ling@cmdkeys{everygl,everyglpreamble,everygla,everyglb,
    everyglc,everygl,everyglft,everyglword,glrightskip}
 \define@ling@cmdkeys{glhangindent}
 \define@ling@cmdkeys{glwidth}
-\define@lingincskipkeys{glspace}
+\define@lingincskipkeys{glspace,extraglwrapskip}
 \define@lingincskipkeys{aboveglftskip,belowglpreambleskip,glwrapskip}
 \define@lingkey{abovemoreglskip}{\lingset{glwrapskip=#1}} % obsolete
+\define@boolkey{ling}[ling@]{autoglwrapskip}{}
 \define@boolkey{ling}[ling@]{glstruts}{%
    \ifling@glstruts \let\glstrut=\strut
    \else \let\glstrut=\relax \fi}
-\def\normalglwrapskips{%
-   \epd@a=\baselineskip
-   \advance\epd@a by -\dp\strutbox
-   \advance\epd@a by -\ht\strutbox
-   \lingset{glstruts=true,glwrapskip=\epd@a}%
-   \ignorespaces
-}
 \define@choicekey{ling}{glhangstyle}[\temp\ep@glhangstyle]%
    {none,normal,cascade}{}
 \lingset{glhangstyle=normal,glrightskip=0pt plus .1\hsize}
@@ -970,9 +973,10 @@
    \parindent=0pt
    \glw@begingl@a
 }
+\newdimen\epd@glwrapskip
+
 \def\glw@begingl@a{%
    \vtop\bgroup
-      \ling@usearg
       \@glpreamblefalse
       \ifdim\ling@glwidth=0pt
             \advance\hsize by -\leftskip
@@ -980,9 +984,18 @@
          \else
             \hsize=\ling@glwidth
          \fi
-      \ling@everygl
       \leftskip=0pt
       \rightskip=\ling@glrightskip
+      \ifling@autoglwrapskip
+         \let\glstrut=\strut
+         \epd@glwrapskip=\baselineskip
+         \advance\epd@glwrapskip by -\dp\strutbox
+         \advance\epd@glwrapskip by -\ht\strutbox
+         \advance\epd@glwrapskip by \lingextraglwrapskip
+      \else
+         \epd@glwrapskip=\lingglwrapskip
+      \fi
+      \edef\gl@lineskipsave{\noexpand\lineskip=\the\lineskip}%
       \ifcase\ep@glhangstyle
          \or
             \hangindent=\ling@glhangindent
@@ -1005,7 +1018,7 @@
 \def\glw@glft{\@getoptionalarg\glw@glft@a}
 % 2011-12-09 make \glw@glft@a a long definition to allow \par's
 \long\def\glw@glft@a#1//{%
-   \lineskip=\lingglwrapskip
+   \lineskip=\epd@glwrapskip
    \glw@print \par\prevdepth=\gl@maxdplast
    \ling@usearg
    \vskip\lingaboveglftskip
@@ -1015,7 +1028,7 @@
    #1\par
 }
 \def\glw@endgl{\glw@endglA \glw@endglB}
-\def\glw@endglA{\lineskip=\lingglwrapskip
+\def\glw@endglA{\lineskip=\epd@glwrapskip
    \ifx\mainlist\empty \else \glw@print \par \fi }
 \def\glw@endglB{\egroup\egroup}
 \def\glw@print{%
@@ -1027,7 +1040,7 @@
    \loop\ifgl@loopmore
       \glw@lop\mainlist\to\tempa\relax       % \tempa is one column
       \ifx\tempa\ep@Linebreak
-            \vskip\lingglwrapskip
+            \vskip\epd@glwrapskip
             \@glaparsestate=1
             \leavevmode
          \else\ifx\tempa\ep@Closeup
@@ -1060,6 +1073,7 @@
 }
 \def\glw@printcol{%
    \vtop{%
+      \gl@lineskipsave
       \ling@everyglword
       \gl@loopmoretrue
       \loop\ifgl@loopmore
@@ -1201,6 +1215,7 @@
    \hbox{\ling@everytrailingcitation #1}%
 }
 \lingset{everytrailingcitation=}
+%\def\showskips{\writeln{+++++ wrapskip: \lingglwrapskip, extra: \lingextraglwrapskip, dim: \the\epd@glwrapskip\space +++++}}
 \resetatcatcode
 %! ----- initial settings -----
 \definelingstyle{factorysettings}{%
@@ -1239,9 +1254,9 @@
    everyglb=,
    everyglc=,
    everyglft=,
-   everygl=,
+   everygl=\normalglwrapskips,
    everyglword=,
-   glstruts=false,
+   autoglwrapskip=true,
    glwidth=0pt,
    glufcloseup=.4ex,
    everygluf=,
@@ -1250,22 +1265,27 @@
    glstyle=wrap,
 %   moregloffset=0pt,
    glwrapskip=1ex,
+   extraglwrapskip=0pt,
    mincitesep=1.5em,
 % auxiliary parameters used for building tables
    dima=2.4em,
    crskip=.6em
 }
 \lingset{lingstyle=factorysettings}
+%  restores version 4.0 behaviour
+\def\gloldstyle{%
+   \lingset{abovemoreglskip=1ex,autoglwrapskip=false,
+      glstruts=false, glspace=.6em}}
+%
 %!
 %! addons can be put in expex-add.tex
 %! can be used to override factory settings and make
 %!   definitions and redefinitions that the user wants to alway be available
 %! expex-add.tex can be put in the main Tex tree, or in the local
 %! directory, depending on where the user wants it to have force
-%!/
-\newread\expexsupp
-\openin\expexsupp = expex-add.tex
-\ifeof\expexsupp \else
-   \closein\expexsupp
-   \input expex-add
-  \fi
+%!
+%\newread\expexsupp
+%\openin\expexsupp = expex-add.tex
+%\ifeof\expexsupp \else
+%   \closein\expexsupp \input expex-add \fi
+
