@@ -7,12 +7,12 @@
 \macros \idx{|\ex|}|~[]|, \idx{|\xe|}\endmc
 \counter \idx{|\excnt|}\endmc
 \parameters
-\idx{|numoffset|\user} & \inc dimension& |0pt|\cr
-\idx{|textoffset|\user}& \inc dimension& |1em|\cr
+\idx{|numoffset|\user} & \inc dimension& \textdim{0 pt}\cr
+\idx{|textoffset|\user}& \inc dimension& \textdim{1 em}\cr
 \idx{|aboveexskip|\user}& \inc skip&
-   |2.7ex plus .4ex minus .4ex|\cr
+   2.7\dimskip ex plus .4\dimskip ex minus .4\dimskip ex\cr
 \idx{|belowexskip|\user}& \inc skip&
-   |2.7ex plus .4ex minus .4ex|\cr
+   2.7\dimskip ex plus .4\dimskip ex minus .4\dimskip ex\cr
 \idx{|exskip|}& skip& (pseudo-parameter)\cr
 \endinventory
 %
@@ -137,9 +137,9 @@ measured from the left margin.
 |\excnt|.  It is incremented when |\ex| is expanded, before the
 number is typeset.  Outside examples, |\excnt| gives the count
 of the next example.   Inside examples, it also gives the count of the
-next example, not the current one.  previous example.  Vertical skip is
-inserted before and after examples, of amounts determined by the
-values of |aboveexskip| and |belowexskip|.
+next example, not the current one.  Vertical skip is inserted
+before and after examples, of amounts determined by the values of
+|aboveexskip| and |belowexskip|.
 
 Inside |\ex| constructions, the example text is wrapped as
 ordinary text, with |\leftskip| set by |\ex|.  Since |\ex|
@@ -171,7 +171,7 @@ two useful features which are worth highlighting.
 Und hier k\"onnen wir sehen was f\"ur Unfug wird gemacht
 wenn er einen ganz langen Satz binnen kriegt.\par\nobreak
 \xe
-
+|exbreak
 \ex[aboveexskip=0pt]
 $\alpha$ {\it governs\/} $\beta$ if $\alpha=X^0$ (in the
 sense of X-bar theory), $\alpha$ c-commands $\beta$, and $\beta$

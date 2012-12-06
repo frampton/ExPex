@@ -277,8 +277,9 @@
 
 \lingset{exbreakfil=8ex}
 \raggedbottom
+\def\dimskip{\hskip.12em}
 \def\textdim#1{\textdimA#1 }
-\def\textdimA#1 #2 {\hbox{#1\hskip.12em #2}}
+\def\textdimA#1 #2 {\hbox{#1\dimskip #2}}
 \def\user{\raise.2ex\hbox{$\dag $}}
 \def\inc{(!)\kern.7pt}
 % ---- small caps
@@ -286,4 +287,5 @@
 %\font\twelvesc=cmcsc10 scaled\magstep1
 \let\sc=\twelvesc
 \def\textsc#1{{\sc #1}}
+%
 

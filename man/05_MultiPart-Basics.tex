@@ -6,13 +6,13 @@
 \macros \idx{|\pex~[]|}, \idx{|\a[]|}\endmc
 \parameters
 \idx{|labeltype|}& name of a key-value list& |alpha|\cr
-\idx{|labeloffset|\user} & \inc dimension& |1em|\cr
-\idx{|labelwidth|\user} & \inc dimension& |.72em|\cr
-\idx{|preambleoffset|\user} & \inc dimension& |1em|\cr
+\idx{|labeloffset|\user} & \inc dimension& \textdim{1 em}\cr
+\idx{|labelwidth|\user} & \inc dimension& \textdim{.72 em}\cr
+\idx{|preambleoffset|\user} & \inc dimension& \textdim{1 em}\cr
 \idx{|interpartskip|\user} & \inc skip&
-   |1ex plus .2ex minus .2ex|\cr
+   1\dimskip ex plus .2\dimskip ex minus .2\dimskip ex\cr
 \idx{|belowgpreambleskip|\user} & \inc skip&
-   |1ex plus .2ex minus .2ex|\cr
+   1\dimskip ex plus .2\dimskip ex minus .2\dimskip ex\cr
 \idx{|samplelabel|}& token list& (pseudo-parameter)\cr
 \endinventory
 %
@@ -186,7 +186,7 @@ primitive.  The following, for example, will confuse |\pex|.
 \a second
 \xe
 \endss
-The |\it| command is interpreted as a preamb
+The |\it| command is interpreted as a preamble.
 
 |\pex| needs some guidance in this case.  It is provided by the
 parameter |nopreamble|.

@@ -55,67 +55,47 @@ you need it.
 
 \subsection  Changes
 
-There are a number of changes from earlier versions of
-\ExPex\relax. This version does not maintain backward
-compatibility with earlier versions, particularly with respect to
-the glossing macros.  The older versions will still be available
-on my website. {\sl expex2008.zip\/} contains
-{\sl expex.tex}, {\sl expex.sty}, and
-{\sl expex-doc.pdf}, Version 1.0 (beta).
-{\sl expex2011.zip} contains {\sl expex.tex},
-{\sl expex.sty}, and {\sl expex-doc.pdf}, Version 3.3.
-My intention is that the current version will be stable for a
-long time, except for bug fixes and extensions, so that backwards
-compatibility will be maintained.
+The most recent previous version of \ExPex\ is version 4.0c. That
+version  will still be available on my website, zipped as {\it
+expex40c.zip}. Aside from bug fixes, the changes in this version
+are to the control of line spacing in wrapped glosses.  Several
+new parameters have been introduced and some initial settings of
+parameters controlling glosses have been changed. Executing the
+macro |\gloldstyle| will return \ExPex\ to a state in which
+glosses written using version 4.0 should display as they did
+using version 4.0.  The parameter |abovemoreglskip| which was
+used to control wrap spacing in glosses is still recognized, but
+it should now be considered obsolete and should be avoided in
+future work.  It will be eliminated at some point in the future.
 
-\medskip
-\noindent 1.  The macros for creating glosses have been
-substantially revised.  \ExPex\
-currently supports only one gloss style, which is an extension of
-the ``wrap style'' in earlier versions.\footnote{%
-\ExPex\ supported several different gloss styles, selected by
-the parameter |glstyle|. The parameter has been maintained, but
-can only be set to |wrap|.  The parameter was retained in spite of the fact
-that it currently has no use because my
-intention is that other gloss styles will be added in the
-future.}
-
-\medskip
-\noindent 2. It is now possible to specify the labels in
-multipart examples by giving an explicit sequence of labels. This
-allows labels to be drawn from a font set in which sequential
-alphabetical order does not correspond to sequential character
-code order in the font set.
-
-\medskip
-\noindent 3. The macros to control page breaking inside examples
-have been revised and the macro |\goodpar| has been renamed
-|\exbreak| to be consistent with \Tex's naming habits.
-
-\medskip
-\noindent 4. Several initial settings of the parameters have been
-changed.
+There was an undocumented feature of v4.0 that was used by some
+people, but has now been eliminated.  \ExPex\ no longer looks for
+a file {\it expex-add.tex\/} and loads it automatically if it is
+found.  This led to some very mysterious behavior when the user
+forgot about the presence of this file.  Such a file should be
+loaded explicitly.
 
 \subsection LaTex/Tex cooperation
 
-\ExPex\ is designed to be equally usable by \Tex\ and \LaTex\
-users.  \LaTex\ users say |\usepackage{expex}| and \Tex\ users
-say |\input expex|.  All of the code for the examples in this
+\ExPex\ is designed to be used by either {\sl Plain Tex\/} or \LaTex\
+users.  \LaTex\ users need to say |\usepackage{expex}| and \Tex\ users
+|\input expex|.  All of the code for the examples in this
 documentation should run equally well in either system, subject
 to the notes below.
 
 \subsubsection Note to \LaTex\ users
 
 |\it| (now a deprecated \LaTex\ command) is used in a few places.
-Because its use is so limited, no problems should arise.
+In case \ExPex\ detects that \LaTex\ is being used, it executes
+|\let\it=\itshape|.
 
 \subsubsection Note to \Tex\ users
 
 Three macros are used in the examples in this documentation which
 are defined in \LaTex\ but not in {\it Plain Tex}: |\footnotesize|,
 |\sc|, and |\textsc|.  Assuming, for example, that text is set in
-10pt type, the following suffices for all the examples in this
-documentation.
+10pt computer modern, the following would suffice for all the
+examples in this documentation.
 
 \codedisplay
 \font\eightrm=cmr8
@@ -126,40 +106,21 @@ documentation.
 \def\textsc#1{{\sc #1}}
 |endcodedisplay
 
-Most \Tex\ users will have much more general size changing macros
-at their disposal.  The code is barely sufficient to handle this
+Most {\sl Plain Tex\/} users will have other fonts and much more
+general size changing macros at their disposal.  The code above
+is barely sufficient to handle the examples in this is
 documentation, but it will do the job. For what it is worth, this
-documentation was typeset using \Tex. |\twelvepoint| and
+documentation was typeset using {\it Plain Tex}. |\twelvepoint| and
 |\tenpoint| were defined modeled on pages 414--415 in the {\sl
-TeXbook\/} and |\let\footnotesize=\tenpoint| was executed to define
-|\footnotesize|.  The running text is \textdim{12 pt}. |\sc| was
-defined by |\font\twelvesc=cmcsc10
-scaled\magstep1|%
+TeXbook\/} and |\let\footnotesize=\tenpoint| was executed to
+define |\footnotesize|.  The running text is \textdim{12 pt}.
+|\sc| was defined by |\font\twelvesc=cmcsc10 scaled\magstep1|%
 \footnote{cmcsc10 scaled was used rather than
 cmcsc12 because Postscript fonts for cmcsc10 are more readily
 available than those for cmcsc12.}
-and
-|\let\sc=\twelvesc|%
+and |\let\sc=\twelvesc|%
 \footnote{Small caps are used only in text size}%
 .
-
-\subsection The file expex-demo.tex
-
-This file contains the code for all of the examples in this
-documentation.  It is constructed so that one can say either
-\exfrag
-|tex expex-demo|
-\xe
-or
-\exfrag
-|latex expex-demo|
-\xe
-to typeset the examples.
-
-The examples were extracted to give users a broad sample of
-easily accessible working code which can serve as starting points
-for experimenting with \ExPex, or as useful models.
-
 
 \subsection Acknowledgements
 
@@ -167,9 +128,9 @@ Many participants in the {\sl Ling-Tex\/} discussion group have
 contributed to the development of \ExPex\relax, either by posing
 good questions, solving problems, or providing informed
 discussion of desirable features.  In particular, I thank Alexis
-Dimitriadis, Claude Dionne, Kevin Donnely, Antonio Fortin, Daniel
-Harbor, Joshua Jensen, Joost Kremers, John Lyon, Alan Munn,
-Christos Vlachos, and Natalie Weber.
+Dimitriadis, Claude Dionne, Kevin Donnely, Antonio Fortin, Jeremy
+Hammond, Daniel Harbor, Joshua Jensen, Joost Kremers, John Lyon,
+Alan Munn, Christos Vlachos, and Natalie Weber.
 
 
 
