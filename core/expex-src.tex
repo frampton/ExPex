@@ -747,11 +747,7 @@
 }
 %
 \def\begingl{\bgroup\@getoptionalarg\gl@begingl}
-\def\gl@begingl{%
-   \ling@everygl
-   \ling@usearg
-   \gl@beginglstyle
-}
+\def\gl@begingl{\ling@everygl\ling@usearg\gl@beginglstyle}
 \define@ling@cmdkeys{everygl,everyglpreamble,everygla,everyglb,
    everyglc,everygl,everyglft,everyglword,glrightskip}
 \define@ling@cmdkeys{glhangindent,glwidth}
@@ -1014,7 +1010,9 @@
 \newif\if@glpreamble
 \def\glpreamble #1// {%
    \@glpreambletrue
-   {\hangindent=0pt \ling@everyglpreamble #1\par}%
+% 2012/12/07 change (missing belowpreambleskip)
+%   {\hangindent=0pt \ling@everyglpreamble #1\par}%
+   {\hangindent=0pt \ling@everyglpreamble #1\vskip\lingbelowpreambleskip}%
 }
 \def\glw@glft{\@getoptionalarg\glw@glft@a}
 % 2011-12-09 make \glw@glft@a a long definition to allow \par's
@@ -1040,6 +1038,7 @@
    \@glaparsestate=1
    \loop\ifgl@loopmore
       \glw@lop\mainlist\to\tempa\relax       % \tempa is one column
+%\def\\{??}\writeln{\tempa}
       \ifx\tempa\ep@Linebreak
             \vskip\epd@gllineskip
             \@glaparsestate=1
