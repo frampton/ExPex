@@ -1,0 +1,24 @@
+\input epbookendnotes
+\donotestrue
+\let\footnotesize=\relax
+\newcount\chapno
+\chapno=1
+
+\def\chapter{%
+   \immediate\write\notesout{\noindent\enchaphead{\the\chapno}}%
+   \ifnum\chapno > 1 \bigskip \fi
+   \noindent {\bf Chapter \the\chapno}
+   \bigskip
+   \advance\chapno by 1
+}
+\def\enchaphead#1{\medskip\noindent{\bf Chapter #1}\medskip}
+
+\ininotes
+\chapter
+This.\footnote{One.} That.\footnote{Two.}
+\chapter
+This.\footnote{A-One.} That.\footnote{A-Two.}
+\dumpnotes
+
+
+

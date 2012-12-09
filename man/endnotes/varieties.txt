@@ -1,0 +1,18 @@
+
+1. Paper.  All notes at the end.
+2. Book or dissertation.  Notes at the end of each chapter.
+   a) notes initialization at the beginning of each chapter
+   b) \dumpnotes at the end of each chapter
+3. Book or dissertation.  All notes at the end.
+   a) notes initialization at the beginning
+   b) at the beginning of each chapter, a mark should be put in
+   the notes file with the chapter number so that dividers can be
+   put in the printed notes with chapter headings
+   c) \dumpnotes at the end
+
+
+Choice of ignoring the notes, except for printing the numbers in
+the text.
+
+Choice of formatting of the notes themselves.
+

@@ -1,0 +1,58 @@
+\message{2011/12/05 v1.0 Tex endnote macro for ExPex (JF)}
+% This package is suitable for putting endnotes at the end of
+% each chapter of a document/dissertation or at the end of an
+% article.
+\edef\resetatcatcode{\catcode`@=\the\catcode`@}
+\catcode`\@=11
+
+\newwrite\notesout
+\newread\notesin
+\newif\ifdonotes
+\newcount\fnno \fnno=0
+%----------------------------
+\def\write@tonotes{\immediate\write\notesout}
+\def\ininotes{%
+   \ifdonotes \immediate\openout\notesout=notes.aux \fi
+   \fnno=0
+}
+\def\footnote{\let\@sf\empty
+   \ifhmode\edef\@sf{\spacefactor\the\spacefactor}\/\fi
+   \putfnno\@sf
+   \footnotebody}
+\def\putfnno{\global\advance\fnno by 1 $^{\the\fnno}$}
+\def\footnotebody{%
+   \ifdonotes
+      \let\next\footnotebody@a
+   \else
+      \let\next\ep@gobble
+   \fi
+   \next
+}
+\def\footnotebody@a{\expandafter\vfootnote\expandafter{\the\fnno}}
+\long\def\vfootnote#1#2{%
+   \write@tonotes{\noexpand\mkendnote #1 }%
+   \write@tonotes{\unexpanded{{\everyfootnote #2\par}}}%
+}
+\def\mkendnote #1 {\par \noindent #1.\quad}
+\def\everyfootnote{%
+   \keepexcntlocal
+   \excnt=1
+   \lingset{numoffset=0pt,exskip=1ex,exnotype=roman,sampleexno=,
+      labeltype=alpha,labelanchor=numright,labeloffset=.6em,
+      textoffset=.6em}
+}
+\def\dumpnotes{%
+   \ifdonotes
+      \ifnum\fnno > 0
+         \immediate\closeout\notesout
+         \begingroup
+         \bigskip
+         \noindent {\bf Notes}
+         \medskip
+            \footnotesize
+         \input notes.aux
+         \endgroup
+      \fi
+   \fi
+}
+\resetatcatcode

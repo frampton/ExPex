@@ -971,17 +971,49 @@
 }
 \newdimen\epd@gllineskip
 
+%\def\glw@begingl@a{%
+%   \vtop\bgroup
+%      \@glpreamblefalse
+%      \ifdim\ling@glwidth=0pt
+%            \advance\hsize by -\leftskip
+%            \advance\hsize by -\rightskip
+%         \else
+%            \hsize=\ling@glwidth
+%         \fi
+%      \leftskip=0pt
+%      \rightskip=\ling@glrightskip
+%      \lineskiplimit=0pt
+%      \ifling@autoglskip
+%         \let\glstrut=\strut
+%         \epd@gllineskip=\baselineskip
+%         \advance\epd@gllineskip by -\dp\strutbox
+%         \advance\epd@gllineskip by -\ht\strutbox
+%         \advance\epd@gllineskip by \lingextraglskip
+%      \else
+%         \epd@gllineskip=\linggllineskip
+%      \fi
+%      \edef\gl@lineskipsave{\noexpand\lineskip=\the\lineskip}%
+%      \ifcase\ep@glhangstyle
+%         \or
+%            \hangindent=\ling@glhangindent
+%            \hangafter=1
+%         \or
+%            \glwcascade@makeshape
+%            \parshape 9
+%            \glwcascade@parshapetarget
+%         \fi
+%      \let\mainlist=\empty
+%      \let\aboveskiplist=\empty
+%      \let\strutlist=\empty
+%      \let\everylist=\empty
+%}
+%
+%2012/12/09 \glw@begingl@b introduced into \glw@begingl@a and a
+%switch introduced to switch the meaning of \glw@begingl@b.  The
+%gloss can be built in a vbox or not.
+
 \def\glw@begingl@a{%
-   \vtop\bgroup
-      \@glpreamblefalse
-      \ifdim\ling@glwidth=0pt
-            \advance\hsize by -\leftskip
-            \advance\hsize by -\rightskip
-         \else
-            \hsize=\ling@glwidth
-         \fi
-      \leftskip=0pt
-      \rightskip=\ling@glrightskip
+   \glw@begingl@b%
       \lineskiplimit=0pt
       \ifling@autoglskip
          \let\glstrut=\strut
@@ -1006,7 +1038,39 @@
       \let\aboveskiplist=\empty
       \let\strutlist=\empty
       \let\everylist=\empty
+      \ignorespaces
 }
+\def\glw@begingl@b@vtop{%
+   \vtop\bgroup
+      \@glpreamblefalse
+      \ifdim\ling@glwidth=0pt
+            \advance\hsize by -\leftskip
+            \advance\hsize by -\rightskip
+         \else
+            \hsize=\ling@glwidth
+         \fi
+      \leftskip=0pt
+      \rightskip=\ling@glrightskip
+ }
+\def\glw@begingl@b@breaking{%
+   \bgroup
+   \@glpreamblefalse
+   \ifdim\ling@glwidth=0pt
+   \else
+      \rightskip=\ling@glrightskip
+      \advance\rightskip by \hsize
+      \advance\rightskip by -\leftskip
+      \advance\rightskip by -\ling@glwidth
+   \fi
+}
+\define@boolkey{ling}[ling@]{glbreaking}{%
+   \ifling@glbreaking
+      \let\glw@begingl@b=\glw@begingl@b@breaking
+   \else
+      \let\glw@begingl@b=\glw@begingl@b@vtop
+   \fi}
+\lingset{glbreaking=false}
+%%%%%%%%%%%%%%%%%%%  end glbreak changes
 \newif\if@glpreamble
 \def\glpreamble #1// {%
    \@glpreambletrue
