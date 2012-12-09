@@ -13,18 +13,20 @@ by the command |\defineglwlevels{b,c}|.  The command also creates the
 parameters |everyglb|, |everyglc|, |aboveglbskip|, and |aboveglcskip|.
 |everyglb| and |everyglc| are initialized to empty token lists and
 |aboveglbskip| and |aboveglcskip| to \textdim{0 pt}. The user may want
-to use |\defineglwlevels| to create and name new gloss levels.
+to use |\defineglwlevels| to create and name new gloss
+levels.
 
-For example, suppose more suggestive level names are desired.
+For example, suppose more suggestive level names are
+desired.
 
 \codedisplay
 \defineglwlevels{cat,gloss}
-\lingset{everyglcat=\footnotesize,aboveglcatskip=-.5ex}
+\lingset{everyglcat=\footnotesize,aboveglcatskip=-.5ex}|exbreak
 
 \ex
 \begingl
 \gla k- wapm -a -s'i -m -wapunin -uk //
-\glcat Cl V Agr Neg Agr Tns Agr //
+\glcat Cl V Agr Neg Agr Tns Agr //|par|allowbreak
 \glgloss 2 see 3{\sc acc} {} {2\sc pl} preterit {3\sc pl} //
 \glft `you (pl) didn't see them'//
 \endgl
@@ -59,9 +61,9 @@ interlinear gloss
 \begininventory
 \parameters
 \idx{|glftpos|}& choice (|below| or |right|)& |below|\cr
-\idx{|sssep|}& dimension& |3em|\cr
+\idx{|sssep|}& dimension& 3\dimskip em\cr
 \idx{|ssratio|}& decimal& |.6 |\cr
-\idx{|ssrightskip|}& skip& |0pt plus 2em|\cr
+\idx{|ssrightskip|}& skip& 0\dimskip pt plus 2\dimskip em\cr
 \idx{|glhangstyle|}& |normal|, |none|, or |cascade|& |normal|\cr
 \endinventory
 
@@ -324,7 +326,7 @@ peacock beside its nest.'//
 \begininventory
 \macros* \idx{|\gluf|}\endmc
 \parameters
-\idx{|glufcloseup|}& dimension& |.4ex|\cr
+\idx{|glufcloseup|}& dimension& \textdim{.4 ex}\cr
 \idx{|everygluf|}& token list& |{}|\cr
 \endinventory
 

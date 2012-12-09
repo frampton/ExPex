@@ -10,8 +10,9 @@
 % jf 2012/03/10  (v4.0b -> v4.0c)
 %  1) fixed problem with IJAL \deftaglabel caused by nonexpansion of \@actualexno
 % jf 2012/12/01 v.4.1
-%  1) added auto wrapskip mode to glosses
+%  1) added auto glskip mode to glosses
 %     /abovemoreglskip/ now obsolete
+%  2) fixed bug in \@setinckey so that value is expanded when set
 % --------------------------------------------------------
 \edef\resetatcatcode{\catcode`\noexpand\@\the\catcode`\@\relax}
 \catcode`\@=11\relax
@@ -85,12 +86,12 @@
    \expandafter\define@linginckey\expandafter\skip\expandafter{\@key}}}
 \def\@setinckey#1#2#3#4\@nil{%
    \ifx#3!%
-         #1 0=#2
-         \advance#1 0 by #4
-         \edef#2{\the #10}%
+         #1 0=#2%
+         \advance#1 0 by #4%
       \else
-         \def#2{#3#4}%
+         #1 0=#3#4%
       \fi
+      \edef#2{\the #10}%
 }
 %
 \def\lingset#1{\setkeys{ling}{#1}\ignorespaces}
@@ -753,12 +754,11 @@
 }
 \define@ling@cmdkeys{everygl,everyglpreamble,everygla,everyglb,
    everyglc,everygl,everyglft,everyglword,glrightskip}
-\define@ling@cmdkeys{glhangindent}
-\define@ling@cmdkeys{glwidth}
-\define@lingincskipkeys{glspace,extraglwrapskip}
-\define@lingincskipkeys{aboveglftskip,belowglpreambleskip,glwrapskip}
-\define@lingkey{abovemoreglskip}{\lingset{glwrapskip=#1}} % obsolete
-\define@boolkey{ling}[ling@]{autoglwrapskip}{}
+\define@ling@cmdkeys{glhangindent,glwidth}
+\define@lingincskipkeys{glspace,aboveglftskip,belowglpreambleskip}
+\define@lingincdimenkeys{extraglskip,gllineskip}
+\define@lingkey{abovemoreglskip}{\lingset{gllineskip=#1}} % obsolete
+\define@boolkey{ling}[ling@]{autoglskip}{}
 \define@boolkey{ling}[ling@]{glstruts}{%
    \ifling@glstruts \let\glstrut=\strut
    \else \let\glstrut=\relax \fi}
@@ -973,7 +973,7 @@
    \parindent=0pt
    \glw@begingl@a
 }
-\newdimen\epd@glwrapskip
+\newdimen\epd@gllineskip
 
 \def\glw@begingl@a{%
    \vtop\bgroup
@@ -986,14 +986,15 @@
          \fi
       \leftskip=0pt
       \rightskip=\ling@glrightskip
-      \ifling@autoglwrapskip
+      \lineskiplimit=0pt
+      \ifling@autoglskip
          \let\glstrut=\strut
-         \epd@glwrapskip=\baselineskip
-         \advance\epd@glwrapskip by -\dp\strutbox
-         \advance\epd@glwrapskip by -\ht\strutbox
-         \advance\epd@glwrapskip by \lingextraglwrapskip
+         \epd@gllineskip=\baselineskip
+         \advance\epd@gllineskip by -\dp\strutbox
+         \advance\epd@gllineskip by -\ht\strutbox
+         \advance\epd@gllineskip by \lingextraglskip
       \else
-         \epd@glwrapskip=\lingglwrapskip
+         \epd@gllineskip=\linggllineskip
       \fi
       \edef\gl@lineskipsave{\noexpand\lineskip=\the\lineskip}%
       \ifcase\ep@glhangstyle
@@ -1018,7 +1019,7 @@
 \def\glw@glft{\@getoptionalarg\glw@glft@a}
 % 2011-12-09 make \glw@glft@a a long definition to allow \par's
 \long\def\glw@glft@a#1//{%
-   \lineskip=\epd@glwrapskip
+   \lineskip=\epd@gllineskip
    \glw@print \par\prevdepth=\gl@maxdplast
    \ling@usearg
    \vskip\lingaboveglftskip
@@ -1028,7 +1029,7 @@
    #1\par
 }
 \def\glw@endgl{\glw@endglA \glw@endglB}
-\def\glw@endglA{\lineskip=\epd@glwrapskip
+\def\glw@endglA{\lineskip=\epd@gllineskip
    \ifx\mainlist\empty \else \glw@print \par \fi }
 \def\glw@endglB{\egroup\egroup}
 \def\glw@print{%
@@ -1040,7 +1041,7 @@
    \loop\ifgl@loopmore
       \glw@lop\mainlist\to\tempa\relax       % \tempa is one column
       \ifx\tempa\ep@Linebreak
-            \vskip\epd@glwrapskip
+            \vskip\epd@gllineskip
             \@glaparsestate=1
             \leavevmode
          \else\ifx\tempa\ep@Closeup
@@ -1215,7 +1216,7 @@
    \hbox{\ling@everytrailingcitation #1}%
 }
 \lingset{everytrailingcitation=}
-%\def\showskips{\writeln{+++++ wrapskip: \lingglwrapskip, extra: \lingextraglwrapskip, dim: \the\epd@glwrapskip\space +++++}}
+%\def\showskips{\writeln{+++++ wrapskip: \linggllineskip, extra: \lingextraglskip, dim: \the\epd@gllineskip\space +++++}}
 \resetatcatcode
 %! ----- initial settings -----
 \definelingstyle{factorysettings}{%
@@ -1243,7 +1244,7 @@
    exbreakpenalty=-50,
    splitpartspenalty=200,
 % parameters used in glosses
-   glspace=.5em plus.25em minus.16667em,
+   glspace=.5em plus.4em minus.15em,
    glrightskip=0pt plus .1\hsize,
    aboveglcskip=0pt,
    aboveglftskip=1ex,
@@ -1254,9 +1255,9 @@
    everyglb=,
    everyglc=,
    everyglft=,
-   everygl=\normalglwrapskips,
+   everygl=,
    everyglword=,
-   autoglwrapskip=true,
+   autoglskip=true,
    glwidth=0pt,
    glufcloseup=.4ex,
    everygluf=,
@@ -1264,8 +1265,8 @@
 %   glbracketsep=.15em,
    glstyle=wrap,
 %   moregloffset=0pt,
-   glwrapskip=1ex,
-   extraglwrapskip=0pt,
+   gllineskip=1ex,
+   extraglskip=0pt,
    mincitesep=1.5em,
 % auxiliary parameters used for building tables
    dima=2.4em,
@@ -1274,7 +1275,7 @@
 \lingset{lingstyle=factorysettings}
 %  restores version 4.0 behaviour
 \def\gloldstyle{%
-   \lingset{abovemoreglskip=1ex,autoglwrapskip=false,
+   \lingset{abovemoreglskip=1ex,autoglskip=false,
       glstruts=false, glspace=.6em}}
 %
 %!
@@ -1284,8 +1285,8 @@
 %! expex-add.tex can be put in the main Tex tree, or in the local
 %! directory, depending on where the user wants it to have force
 %!
-%\newread\expexsupp
-%\openin\expexsupp = expex-add.tex
-%\ifeof\expexsupp \else
-%   \closein\expexsupp \input expex-add \fi
+\newread\expexadd
+\openin\expexadd = expex-add.tex
+\ifeof\expexadd \else
+   \closein\expexadd \input expex-add \fi
 

@@ -1,25 +1,35 @@
-\def\acc/{{\sc acc}}
 
-\begingl
-	\gla	 aaa bb-\acc/ cc d e//
-	\glb	 A B C D //
-\endgl
 
+\font\eightrm=cmr8
+\font\eightit=cmti8
+\def\footnotesize{\eightrm \let\it=\eightit \baselineskip=9pt}
+\font\tensc=cmcsc10
+\let\sc=\tensc
+\def\textsc#1{{\sc #1}}
+
+This is the way \textsc{hg}.
+
+\footnotesize
+This is the way \textsc{hg}.
 \endinput
 
-\def\theme{\advance\leftskip by 4em \leavevmode\llap{Theme: }}
+\makeatletter
 
-\hsize=4in
-\ex \openup.5ex
-\begingl[aboveglftskip=0pt,abovemoreglskip=.5ex]
-\gla ch'a.aan ?u.aa [ shiyadih‚ini aa  a  tox' y‚i=dagat‚e  y 
-   Lingit  ?usteey//
-\glb  anyway   but   3.were.many  one it in.it thus=each.is this
-   Tlingit culture//
-\glft `however there are quite a few that live in the old way'\par
-   \theme O-sha-CL[+D,í]-ha (na; -n Stv)\par
-   `O be many'\trailingcitation{(Story \& Naish 1972: 37)}//
-\endgl
-\xe
+\def\goop{\pst@ifstar\goopA}
+\def\goopA #1 \par{\writeln{->#1<-}}
 
 
+\goop this
+
+\goop* this
+
+\goop*this
+
+
+
+
+
+
+
+
+\resetatcatcode

@@ -30,7 +30,7 @@ still working on a draft.  \ExPex\ therefore provides a number of
 parameters which can be adjusted to control various aspects of
 page breaking.
 
-In spite of efforts to guide \TEX\ in making good decisions about
+In spite of efforts to guide \Tex\ in making good decisions about
 page breaking, the results are not always satisfactory.
 \medskip
 \begingroup \leftskip=3em \rightskip=3em
@@ -56,8 +56,8 @@ appropriate place.  The drawback to an explicit order is that it
 remains in force after revisions are made to the document.  If it
 causes page breaking that is obviously bad, the problem will
 usually be seen when editing.  The biggest danger is that
-the output is not terrible, but it is less than ideal and can be
-missed in less than meticulous copy editing.
+the output is not terrible, but it is less than ideal and the
+discrepancy is missed in less than meticulous copy editing.
 
 \subsection Discouraging page breaks in examples
 
@@ -65,7 +65,7 @@ missed in less than meticulous copy editing.
 \begininventory
 \macros* \idx{|\exbreak|}\endmc
 \parameters
-\idx{|exbreakfil|}& skip& |0pt plus 4ex|\cr
+\idx{|exbreakfil|}& skip& 0\dimskip pt plus 4\dimskip ex\cr
 \idx{|exbreakpenalty|}& integer& |-500|\cr
 \idx{|splitpartspenalty|}& integer& |200|\cr
 \endinventory

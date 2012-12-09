@@ -8,9 +8,13 @@
    \vskip0pt plus-.4\vsize\bigskip\vskip\parskip
    {\noindent \titlefont{sec}
        \the\secno.\enskip #1\par}\nobreak
-   \ifgathercontents \edef\temp{{\the\secno}}%
-      \expandafter\writecontents\temp{#1}\sec\fi \nobreak
-   \medskip\nobreak\noindent
+   \tocentry{\the\secno}\sec
+%   \ifgathercontents \edef\temp{{\the\secno}}%
+%      \expandafter\writecontents\temp{#1}\sec\fi
+   \nobreak
+   \medskip
+   \nobreak
+   \noindent
 }
 % The starred version does not introduce a breakpoint, so that an
 % immediately preceeding section heading is not orphaned.
@@ -18,16 +22,29 @@
 \def\sub@section #1\par{%
    \global\advance \subsecno by 1
    \global\subsubsecno=0
-   \if@star \else
+   \if@star
+   \else
       \vskip0pt plus.1\vsize\penalty-100
       \vskip0pt plus-.1\vsize
-      \fi
+   \fi
    \bigskip\vskip\parskip
    {\noindent \titlefont{sub}%
       \the\secno .\the\subsecno.\enskip \ignorespaces #1}\par\nobreak
-   \ifgathercontents \edef\temp{{\the\secno.\the\subsecno}}%
-      \expandafter\writecontents\temp{#1}\subsec\fi
+   \tocentry{\the\secno.\the\subsecno}\subsec{#1}
    \par\nobreak\medskip\nobreak\noindent
+}
+\outer\def\subsubsection #1 \par{%
+   \global\advance \subsubsecno by 1 \global\subsubsubsecno=0
+   \vskip0pt plus.1\vsize\penalty0
+   \vskip0pt plus-.1\vsize\bigskip\vskip\parskip
+   {\noindent \titlefont{subsub}
+      \the\secno .\the\subsecno.\the\subsubsecno \enskip #1}\par\nobreak
+%   \tocentry{\the\secno.\the\subsecno.\the\subsubsecno}\subsubsec{#1}
+   \medskip\nobreak\noindent
+}
+\def\tocentry#1#2#3{%
+   \ifgathercontents \edef\temp{{#1}}%
+      \expandafter\writecontents\temp{#3}#2\fi
 }
 \def\writecontents#1#2#3{%
    \write@contents{\noexpand#3{#1} {#2}
