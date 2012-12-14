@@ -561,9 +561,9 @@
    \ignorespaces
 }
 \def\deftagex#1{\edef\@localextag{#1}%
-   \expandafter\xdef\csname lingtag@#1\endcsname{{\the\excnt}}%
+   \expandafter\xdef\csname lingtag@#1\endcsname{{\ep@rawexnoprint}}%
    \if@g@thertags
-      \immediate\write@tags{\noexpand\@fd@f {#1} {{\the\excnt}}}%
+      \immediate\write@tags{\noexpand\@fd@f {#1} {{\ep@rawexnoprint}}}%
       \fi
    \ignorespaces
 }
@@ -737,12 +737,16 @@
 % other glstyles.  It must set \gl@beginstyle, which is inserted
 % immediately after \begingl is called, the various level macros
 % (\gla,\glb,\glft,etc.) and \endgl.
-\define@choicekey{ling}{glstyle}[\ling@glstyle\gl@stylenum]{wrap}{%
+\define@choicekey{ling}{glstyle}[\ling@glstyle\gl@stylenum]{wrap,nlevel}{%
    \ifcase\gl@stylenum
       \let\gl@beginglstyle\glw@begingl
       \let\endgl\glw@endgl
       \glw@assignlevels
       \let\glft=\glw@glft
+   \else
+      \let\gl@beginglstyle\gln@begingl
+      \let\endgl\gln@endgl
+      \let\glft=\gln@ft
       \fi
 }
 %
@@ -775,14 +779,14 @@
 % building machinary.
 \newtoks\gltoks@a
 \newtoks\gltoks@b
-\def\glw@append #1\to #2{%
+\def\gl@append #1\to #2{%
    \gltoks@a={\\{#1}}%
    \gltoks@b=\expandafter{#2}%
    \xdef#2{\the\gltoks@b\the\gltoks@a}%
 }
-\def\glw@lop#1\to#2{\ifx#1\empty
-   \let#2\empty \else\expandafter\glw@lopoff#1\glw@lopoff#1#2\fi}
-\long\def\glw@lopoff\\#1#2\glw@lopoff#3#4{\def#4{#1}\def#3{#2}}
+\def\gl@lop#1\to#2{\ifx#1\empty
+   \let#2\empty \else\expandafter\gl@lopoff#1\gl@lopoff#1#2\fi}
+\long\def\gl@lopoff\\#1#2\gl@lopoff#3#4{\def#4{#1}\def#3{#2}}
 \newif\ifgl@loopmore
 \def\glw@mergerow#1\to #2{%
    \let\alist=#1%
@@ -793,19 +797,19 @@
    \global\let#2=\clist
 }
 \def\glw@mergerow@a{%
-   \glw@lop\blist\to\tempb
+   \gl@lop\blist\to\tempb
    \ifx\tempb\ep@Linebreak
-         \expandafter\glw@append\ep@Linebreak\to\clist
+         \expandafter\gl@append\ep@Linebreak\to\clist
       \else\ifx\tempb\ep@Closeup
-         \expandafter\glw@append\ep@Closeup\to\clist
+         \expandafter\gl@append\ep@Closeup\to\clist
       \else\ifx\tempb\ep@Lbrack
-         \expandafter\glw@append\ep@Lbrack\to\clist
+         \expandafter\gl@append\ep@Lbrack\to\clist
       \else\ifx\tempb\ep@Rbrack
-         \expandafter\glw@append\ep@Rbrack\to\clist
+         \expandafter\gl@append\ep@Rbrack\to\clist
       \else
-         \glw@lop\alist\to\tempa
-         \expandafter\glw@append \tempa \to \tempb
-         \expandafter\glw@append \tempb \to \clist
+         \gl@lop\alist\to\tempa
+         \expandafter\gl@append \tempa \to \tempb
+         \expandafter\gl@append \tempb \to \clist
       \fi\fi\fi\fi
    \ifx\alist\empty \ifx\blist\empty \gl@loopmorefalse \fi\fi
 }
@@ -845,8 +849,8 @@
    \ifglw@word
       \gltoks@a={#1}%
       \gltoks@b=\expandafter{\ling@everygla}%
-      \glw@append \\{\glstrut #1}\to\mainlist
-%      \glw@append \\{#1}\to\mainlist
+      \gl@append \\{\glstrut #1}\to\mainlist
+%      \gl@append \\{#1}\to\mainlist
       \setbox0=\hbox{\ling@everygla #1}%
       \ifdim\glw@maxht<\ht0 \glw@maxht=\ht0 \fi
       \ifdim\glw@maxdp<\dp0 \glw@maxdp=\dp0 \fi
@@ -860,13 +864,13 @@
       \glw@wordfalse
       \@onelevel@sanitize\temp
       \ifx\temp\ep@Linebreak
-            \expandafter\glw@append\ep@Linebreak\to\mainlist
+            \expandafter\gl@append\ep@Linebreak\to\mainlist
          \else\ifx\temp\ep@Closeup
-            \expandafter\glw@append\ep@Closeup\to\mainlist
+            \expandafter\gl@append\ep@Closeup\to\mainlist
          \else\ifx\temp\ep@Lbrack
-            \expandafter\glw@append\ep@Lbrack\to\mainlist
+            \expandafter\gl@append\ep@Lbrack\to\mainlist
          \else\ifx\temp\ep@Rbrack
-            \expandafter\glw@append\ep@Rbrack\to\mainlist
+            \expandafter\gl@append\ep@Rbrack\to\mainlist
          \else \glw@wordtrue
          \fi\fi\fi\fi\fi
 }
@@ -878,19 +882,19 @@
 %      \def\tempa{#1}%
 %      \@onelevel@sanitize\tempa
 %      \ifx\tempa\ep@Linebreak
-%            \expandafter\glw@append\ep@Linebreak\to\mainlist
+%            \expandafter\gl@append\ep@Linebreak\to\mainlist
 %         \else\ifx\tempa\ep@Closeup
-%            \expandafter\glw@append\ep@Closeup\to\mainlist
+%            \expandafter\gl@append\ep@Closeup\to\mainlist
 %         \else\ifx\tempa\ep@Lbrack
-%            \expandafter\glw@append\ep@Lbrack\to\mainlist
+%            \expandafter\gl@append\ep@Lbrack\to\mainlist
 %         \else\ifx\tempa\ep@Rbrack
-%            \expandafter\glw@append\ep@Rbrack\to\mainlist
+%            \expandafter\gl@append\ep@Rbrack\to\mainlist
 %         \else \glw@wordtrue
 %         \fi\fi\fi\fi\fi
 %   \ifglw@word
 %      \gltoks@a={#1#2}%
 %      \gltoks@b=\expandafter{\ling@everygla}%
-%      \glw@append \\{#1#2}\to\mainlist
+%      \gl@append \\{#1#2}\to\mainlist
 %      \setbox0=\hbox{\ling@everygla #1#2}%
 %      \ifdim\glw@maxht<\ht0 \glw@maxht=\ht0 \fi
 %      \ifdim\glw@maxdp<\dp0 \glw@maxdp=\dp0 \fi
@@ -900,12 +904,12 @@
 \newdimen\gl@maxdplast
 \def\glw@updatelists{%
    \edef\temp{\csname lingabovegl\gl@linelabel skip\endcsname}%
-   \expandafter\glw@append\temp \to\aboveskiplist
+   \expandafter\gl@append\temp \to\aboveskiplist
    \edef\temp{\vrule width0pt height\the\glw@maxht\space depth\the\glw@maxdp\space }%
    \global\gl@maxdplast=\glw@maxdp
-   \expandafter\glw@append\temp\to\strutlist
+   \expandafter\gl@append\temp\to\strutlist
    \expandafter\expandafter\expandafter
-      \glw@append\csname ling@everygl\gl@linelabel\endcsname
+      \gl@append\csname ling@everygl\gl@linelabel\endcsname
       \to\everylist
    \gltoks@a=\expandafter{\everylist}%
 }
@@ -959,8 +963,8 @@
    \setbox0=\hbox{\@every #1}%
    \ifdim\glw@maxht<\ht0 \glw@maxht=\ht0 \fi
    \ifdim\glw@maxdp<\dp0 \glw@maxdp=\dp0 \fi
-   \glw@append {\glstrut #1}\to\worklist
-%   \glw@append #1\to\worklist
+   \gl@append {\glstrut #1}\to\worklist
+%   \gl@append #1\to\worklist
    \glw@glx@b
 }
 \defineglwlevels{b,c}
@@ -1101,8 +1105,7 @@
    \gl@loopmoretrue
    \@glaparsestate=1
    \loop\ifgl@loopmore
-      \glw@lop\mainlist\to\tempa\relax       % \tempa is one column
-%\def\\{??}\writeln{\tempa}
+      \gl@lop\mainlist\to\tempa\relax       % \tempa is one column
       \ifx\tempa\ep@Linebreak
             \vskip\epd@gllineskip
             \@glaparsestate=1
@@ -1141,10 +1144,10 @@
       \ling@everyglword
       \gl@loopmoretrue
       \loop\ifgl@loopmore
-         \glw@lop\tempa\to\@tempa
-         \glw@lop\aboveskiplist\to\@aboveskip
-         \glw@lop\strutlist\to\@strut
-         \glw@lop\everylist\to\@every
+         \gl@lop\tempa\to\@tempa
+         \gl@lop\aboveskiplist\to\@aboveskip
+         \gl@lop\strutlist\to\@strut
+         \gl@lop\everylist\to\@every
          \expandafter\ifdim\@aboveskip=0pt \else
             \vskip\@aboveskip \fi
             \hbox{\@strut\@every\@tempa}%

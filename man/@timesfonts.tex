@@ -114,7 +114,9 @@
 \font\sevenipbs=xipabs10 at 7pt
 \font\sixipbs=xipabs10 at 6pt
 \font\fiveipbs=xipabs10 at 5pt
-
+% small caps
+\font\twelvesc=t1xsc at 12pt
+\font\tensc=t1xsc at 10pt
 \makeatletter
 \define@ling@cmdkeys{titles}
 %%%% title fonts
@@ -270,7 +272,7 @@
       \lineskiplimit=\normallineskiplimit}%
    \bigskipamount=12pt plus4pt  minus4pt
    \setbox\strutbox=\hbox{\vrule height10pt depth4pt width0pt}%
-   \def\sc{\tenrm \fam\smallrmfam}%
+   \let\sc=\twelvesc
    \let\big=\twelvebig
    \normalbaselines
    \rm
@@ -348,7 +350,7 @@
       \lineskiplimit=1.5pt \lineskip=1.5pt plus 1pt}%
    \bigskipamount=10pt plus3pt minus3pt
    \setbox\strutbox=\hbox{\vrule height8.5pt depth3.7pt width0pt}%
-   \let\sc=\eightrm
+   \let\sc=\tensc
    \let\big=\tenbig
    \normalbaselines
    \rm
