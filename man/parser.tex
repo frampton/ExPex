@@ -1,0 +1,44 @@
+
+%\input ../core/experimental/glbreak
+
+\begingl
+\gla a aa //
+\glb AAA BBBB//
+\endgl
+
+\endinput
+
+
+
+
+\makeatletter
+\def\doubleslash{//}
+\def\gln@A{\gln@a}
+\def\gln@a #1 {\def\try{#1}%
+   \ifx\try\doubleslash \let\next\relax \else
+      \gln@b{#1}\writeln{-->\tempB}\let\next\gln@a \fi \next}
+\def\gln@append #1\to #2{%
+   \gltoks@a={#1}%
+   \gltoks@b=\expandafter{#2}%
+   \xdef#2{\the\gltoks@b\the\gltoks@a}%
+}
+\def\gln@b#1{\gln@c#1\@nil}
+\def\gln@c #1[#2]\@nil{
+   \def\tempB{{#1}}%
+   \gln@d #2/\@nil
+}
+\def\gln@d #1/{\gln@append ,{#1}\to\tempB \gln@e}
+\def\gln@e{\@ifnextchar\@nil\gobble\gln@d}
+
+\tracingmacros=1
+\gln@A U1[aa/aa2/aa3] U2[cc/cc2/cc3/cc4] U3[qq/qq1/qq2] //
+\tracingmacros=0
+
+%\writeln{\tempB}
+
+
+\resetatcatcode
+
+
+
+
