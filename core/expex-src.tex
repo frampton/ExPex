@@ -1,4 +1,4 @@
-\def\ExPexMessage{2013/01/13 v4.1a ExPex linguistics example formatter (JF)}
+\def\ExPexMessage{2013/06/27 v4.1b ExPex linguistics example formatter (JF)}
 % -------------------------------------------------------
 % jf 2011/12/09  (v4.0a)
 %  1) fixed bug in how exceptional gla items are detected
@@ -8,14 +8,15 @@
 % jf 2011/12/09  (v4.0b)
 %  1) allow {} gla item
 % jf 2012/03/10  (v4.0c)
-%  1) fixed problem with IJAL \deftaglabel caused by nonexpansion
-%     of \@actualexno
+%  1) fixed problem with IJAL \deftaglabel caused by nonexpansion of \@actualexno
 % jf 2012/12/01  (v4.1)
 %  1) added auto glskip mode to glosses
 %     /abovemoreglskip/ now obsolete
 %  2) fixed bug in \@setinckey so that value is expanded when set
 % jf 2013/01/13  (v4.1a)
 %  1) added \let\pageno=\c@page to LaTex specializations
+% jf 2013/06/27  (v4.1b)
+%  1) fixed bug in skip over \glft entries
 % --------------------------------------------------------
 \edef\resetatcatcode{\catcode`\noexpand\@\the\catcode`\@\relax}
 \catcode`\@=11\relax
@@ -194,11 +195,7 @@
 \def\ep@localstepexcnt{\advance\excnt by 1 }
 \let\stepexcnt=\ep@globalstepexcnt
 \def\keepexcntlocal{\let\stepexcnt=\ep@localstepexcnt}
-% 2/10/2013 control over whether there is a break before \ex
-\define@boolkey{ling}[ling@]{nobreakaboveex}[true]{}
-\lingset{nobreakaboveex=false}
 \def\ex@setup{%             also used by \pex
-   \extraaboveexskip=\baselineskip
    \global\@specialexnofalse
    \latex@tagex
    \lingEveryex
@@ -217,16 +214,10 @@
          \edef\@localextag{\@optionaltag}%
          \deftag{\@actualexno}{\@optionaltag}
       \fi
-% 2/10/2013 added nobreak option (see above parameter)
-   \ifling@nobreakaboveex \par\nobreak \else \exbreak \fi
+   \exbreak
    \if@tilde \else \vskip\lingaboveexskip\fi
-% 3/13/2013 added next two lines to keep spacing with double spacing etc.
-   \advance\extraaboveexskip by -\baselineskip
-   \vskip\extraaboveexskip
    \parindent=0pt
 }
-% 3/13/2013 next line
-\newdimen\extraaboveexskip
 \def\noexno{\global\advance\excnt by -1}
 \def\exbreak{\endgraf\bgroup\@getoptionalarg\exbreak@a}
 \def\exbreak@a{%
@@ -1024,7 +1015,12 @@
 % 2011-12-09 make \glw@glft@a a long definition to allow \par's
 \long\def\glw@glft@a#1//{%
    \lineskip=\epd@gllineskip
-   \glw@print \par\prevdepth=\gl@maxdplast
+   \glw@print \par
+% 2013-06-27  bug fix
+%   \prevdepth=\gl@maxdplast
+\ifx\glstrut\strut
+      \ifdim\gl@maxdplast>\dp\strutbox \prevdepth=\gl@maxdplast \fi
+      \fi
    \ling@usearg
    \vskip\lingaboveglftskip
    \ling@everyglft
