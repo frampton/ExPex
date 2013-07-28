@@ -1,0 +1,137 @@
+
+\section Judgment marks
+
+\deftagsec{starsec}
+\begininventory
+\macros \idx{|\judge|}, \idx{|\ljudge|}\endmc
+\parametersdef*
+\hfil |*|\sidx{|*|, parameter}& sample judgment string& \hfil |*|& \hfil |*|\cr
+\endinventory
+
+\noindent
+In examples without parts, not much needs to be said.
+
+\codedisplay
+\ex *Jack and Jill wented up the hill.\xe|endcodedisplay
+
+\framedisplay~
+\ex *Jack and Jill wented up the hill.\xe
+\endframedisplay
+
+In my view (\nextx), with a little whitespace inserted between
+the asterisk and the example sentence, looks somewhat better than
+(\lastx), but the difference is slight.
+
+\codedisplay
+\ex \judge* Jack and Jill is going up the hill.\xe|endcodedisplay
+
+\framedisplay~
+\ex \judge* Jack and Jill wented up the hill.\xe
+\endframedisplay
+
+\noindent \ExPex\ provides the macro |\judge| to
+accomplish this. |\judge| takes one argument.  A multi-character
+judgment diacritic therefore needs to be surrounded in braces.
+|\judge| also ignores following spaces.  So
+|\judge{??}Mary|\dots\ and \hbox{|\judge{??} Mary|\dots} produce
+the same thing, as do |\judge*Mary|\dots\ and |\judge* Mary|\dots
+
+Multipart examples are more complex, if alignment is to be
+maintained. If you find (\nextx) satisfactory, what follows will
+not be of much interest.  But it you would like the text (not
+including the judgment marks) to be aligned, read on.
+
+\framedisplay
+\pex
+\a There is a pair of pants on the floor.
+\a \judge{?*}There are a pair of pants on the floor.
+\a \judge*There is the pair of pants on the floor.
+\xe
+\endframedisplay
+
+\ExPex\ provides the macro |\ljudge| which pushes the judgment
+diacritics into the gap between the labels and the examples,
+instead of pushing the examples to the right to make room for the
+judgment diacritics.  So
+
+\codedisplay
+\pex
+\a There is a pair of pants on the floor.
+\a \ljudge{?*}There are a pair of pants on the floor.
+\a \ljudge*There is the pair of pants on the floor.
+\xe |endcodedisplay
+
+\noindent produces
+
+\framedisplay
+\pex
+\a There is a pair of pants on the floor.
+\a \ljudge{?*}There are a pair of pants on the floor.
+\a \ljudge*There is the pair of pants on the floor.
+\xe
+\endframedisplay
+
+\noindent Unfortunately, depending on the setting of
+|textoffset|, there is unlikely to be sufficient room for
+judgment diacritics in between the labels and the examples.
+|textoffset| needs to be increased to make room.
+
+\ExPex\ provides the pseudo parameter to
+facilitate adjusting the text offset.
+
+\codedisplay
+\pex[*=?*]
+\a There is a pair of pants on the floor.
+\a \ljudge{?*}There are a pair of pants on the floor.
+\a \ljudge*There is the pair of pants on the floor.
+\xe |endcodedisplay
+
+\framedisplay
+\pex[*=?*]
+\a There is a pair of pants on the floor.
+\a \ljudge{?*}There are a pair of pants on the floor.
+\a \ljudge*There is the pair of pants on the floor.
+\xe
+\endframedisplay
+
+\noindent |textoffset| is increased by the width of the judgment
+diacritic which is furnished as the value of the parameter |*|.
+
+If you say |\lingset{*}|, with no value assigned to |*|, it is
+given a default value, which happens to be |*|.  So |\lingset{*}|
+is equivalent to |\lingset{*=*}|.  So, for example:
+
+\codedisplay
+\pex[*]
+\a There is a pair of pants on the floor.
+\a \ljudge* There are a pair of pants on the floor.
+\a \ljudge* There is the pair of pants on the floor.
+\xe |endcodedisplay
+
+\framedisplay~
+\pex[*]
+\a There is a pair of pants on the floor.
+\a \ljudge* There are a pair of pants on the floor.
+\a \ljudge* There is the pair of pants on the floor.
+\xe
+\endframedisplay
+
+If you think that the text offset in (\blastx) is too large,
+|textoffset| can be further adjusted directly, so you could write
+
+\codedisplay
+\pex[*=?*,textoffset=!-.3em]
+\a There is a pair of pants on the floor.
+\a \ljudge{?*} There are a pair of pants on the floor.
+\a \ljudge* There is the pair of pants on the floor.
+\xe |endcodedisplay
+
+\framedisplay~
+\pex[*=?*,textoffset=!-.3em]
+\a There is a pair of pants on the floor.
+\a \ljudge{?*} There are a pair of pants on the floor.
+\a \ljudge* There is the pair of pants on the floor.
+\xe
+\endframedisplay
+
+

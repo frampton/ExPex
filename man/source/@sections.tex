@@ -1,0 +1,84 @@
+% sections
+\makeatletter
+
+\outer\def\section #1\par{%
+   \global\advance\secno by 1  \global\subsecno=0
+      \global\subsubsecno=0
+   \vskip0pt plus.4\vsize\penalty-120
+   \vskip0pt plus-.4\vsize\bigskip\vskip\parskip
+   {\noindent \titlefont{sec}
+       \the\secno.\enskip #1\par}\nobreak
+   \tocentry{\the\secno}\sec
+%   \ifgathercontents \edef\temp{{\the\secno}}%
+%      \expandafter\writecontents\temp{#1}\sec\fi
+   \nobreak
+   \medskip
+   \nobreak
+   \noindent
+}
+% The starred version does not introduce a breakpoint, so that an
+% immediately preceeding section heading is not orphaned.
+\def\subsection{\pst@ifstar\sub@section}
+\def\sub@section #1\par{%
+   \global\advance \subsecno by 1
+   \global\subsubsecno=0
+   \if@star
+   \else
+      \vskip0pt plus.1\vsize\penalty-100
+      \vskip0pt plus-.1\vsize
+   \fi
+   \bigskip\vskip\parskip
+   {\noindent \titlefont{sub}%
+      \the\secno .\the\subsecno.\enskip \ignorespaces #1}\par\nobreak
+   \tocentry{\the\secno.\the\subsecno}\subsec{#1}
+   \par\nobreak\medskip\nobreak\noindent
+}
+\outer\def\subsubsection #1 \par{%
+   \global\advance \subsubsecno by 1 \global\subsubsubsecno=0
+   \vskip0pt plus.1\vsize\penalty0
+   \vskip0pt plus-.1\vsize\bigskip\vskip\parskip
+   {\noindent \titlefont{subsub}
+      \the\secno .\the\subsecno.\the\subsubsecno \enskip #1}\par\nobreak
+%   \tocentry{\the\secno.\the\subsecno.\the\subsubsecno}\subsubsec{#1}
+   \medskip\nobreak\noindent
+}
+\def\tocentry#1#2#3{%
+   \ifgathercontents \edef\temp{{#1}}%
+      \expandafter\writecontents\temp{#3}#2\fi
+}
+\def\writecontents#1#2#3{%
+   \write@contents{\noexpand#3{#1} {#2}
+         \noexpand\writefill \the\pageno \noexpand\par}%
+}
+\def\writefill{%
+   \leaders\hbox to 2ex{\hfil.\hfil}\hfill\enspace
+}
+\outer\def\appendix#1#2\par{%
+   \vskip0pt plus.4\vsize\penalty-20
+   \vskip0pt plus-.4\vsize\bigskip\vskip\parskip
+   \def\app@name{#1}\subsecno=0%
+   {\noindent \titlefont{sec}
+      Appendix #1.\enspace
+         \ignorespaces#2\par}\nobreak
+   \ifgathercontents \edef\temp{{#1}}%
+      \expandafter\writecontents\temp{#2}\sec\fi
+   \medskip\nobreak\noindent
+}
+\def\subappendix#1\par{%
+   \medskip
+   \noindent
+   \advance\subsecno by 1
+   {\titlefont{sub}\app@name.\the\subsecno.\enspace
+      \ignorespaces#1\medskip\noindent}%
+   \ifgathercontents \edef\temp{{\app@name.\the\subsecno}}%
+      \expandafter\writecontents\temp{#1}\subsec\fi \nobreak
+}
+\def\currsec{\ifnum\secno>0 \the\secno
+   \ifnum\subsecno>0 .\the\subsecno
+   \ifnum\subsubsecno>0 .\the\subsubsecno \fi\fi\fi}
+\def\deftagsec#1{\deftag\currsec{#1}}
+
+%\newif\iftracingtagrefs
+
+
+\resetatcatcode

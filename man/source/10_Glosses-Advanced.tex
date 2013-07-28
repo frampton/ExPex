@@ -1,0 +1,378 @@
+
+\section More on Glosses
+
+\vskip-2ex
+\subsection User defined levels
+
+\begininventory
+\macros* \idx{|\defineglwlevels|}\endmc
+\endinventory
+%
+|\glb| and |\glc| are given definitions in {\it expex.tex\/}
+by the command |\defineglwlevels{b,c}|.  The command also creates the
+parameters |everyglb|, |everyglc|, |aboveglbskip|, and |aboveglcskip|.
+|everyglb| and |everyglc| are initialized to empty token lists and
+|aboveglbskip| and |aboveglcskip| to \textdim{0 pt}. The user may want
+to use |\defineglwlevels| to create and name new gloss
+levels.
+
+For example, suppose more suggestive level names are
+desired.
+
+\codedisplay
+\defineglwlevels{cat,gloss}
+\lingset{everyglcat=\footnotesize,aboveglcatskip=-.5ex}|exbreak
+
+\ex
+\begingl
+\gla k- wapm -a -s'i -m -wapunin -uk //
+\glcat Cl V Agr Neg Agr Tns Agr //|par|allowbreak
+\glgloss 2 see 3{\sc acc} {} {2\sc pl} preterit {3\sc pl} //
+\glft `you (pl) didn't see them'//
+\endgl
+\xe
+|endcodedisplay
+produces
+
+\framedisplay
+\defineglwlevels{cat,gloss}
+\lingset{everyglcat=\footnotesize,aboveglcatskip=-.5ex}
+
+\ex
+\begingl
+\gla k- wapm -a -s'i -m -wapunin -uk //
+\glcat Cl V Agr Neg Agr Tns Agr //
+\glgloss 2 see {3\sc acc} {} {2\sc pl} preterit {3\sc pl} //
+\glft `you (pl) didn't see them'//
+\endgl
+\xe
+\endframedisplay
+
+Another instance in which the user might want to define a new gloss level
+or levels is if more than 3 lines of interlinear gloss are needed and
+the desired flexibility cannot be obtained by repeated use of |\glb|
+or |\glc|.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection Positioning the free translation to the right of the
+interlinear gloss
+
+\begininventory
+\parameters
+\idx{|glftpos|}& choice (|below| or |right|)& |below|\cr
+\idx{|sssep|}& dimension& 3\dimskip em\cr
+\idx{|ssratio|}& decimal& |.6 |\cr
+\idx{|ssrightskip|}& skip& 0\dimskip pt plus 2\dimskip em\cr
+\idx{|glhangstyle|}& |normal|, |none|, or |cascade|& |normal|\cr
+\endinventory
+
+\lingset{everygl=\openup.5ex,
+   everyglword=\normalbaselines,everyglft=\normalbaselines,
+   glhangindent=2em}
+
+\framedisplay
+\ex[glftpos=right,glhangstyle=none]
+\let\\=\textsc
+\begingl
+\gla
+Hom\^{a}o sa \v{c}\^{o} p\^{o} tha  \~{n}u nao ng\u{a} hmua. \~{N}u
+dj\u{a} g\u{a}, \~{n}u dj\u{a} \v{c}\u{o}ng \~{n}u, laih gui r\^{e}o
+\~{n}u. Todang bboi r\^{o}k jolan \~{n}u nao hma, \~{n}u bb\^{o}h sa
+droi mr\u{a} d\u{o} bboi gah, a, hruh \~{n}u.//
+\glb
+\\{exist} one \\{clf} person old \\{3s} go do field \\{3s} hold
+machete \\{3s} hold hoe \\{3s} and carry.on.back back.basket \\{3s}
+while at along trail \\{3s} go field \\{3s} see one \\{clf} peacock
+stay at \\{drct} -- nest \\{3s}//
+\glft
+`There was an old person who went to work in the field. He took
+along his machete, he took along his hoe, and he carried his
+basket on his back. While he was on his way to the farm, he saw a
+peacock beside its nest.'//
+\endgl
+\xe
+\endframedisplay
+
+\noindent is achieved by
+\codedisplay~
+\ex[glftpos=right,glhangstyle=none]
+\let\\=\textsc
+\begingl
+\gla
+Hom\^{a}o sa \v{c}\^{o} p\^{o} tha  \~{n}u nao ng\u{a} hmua. \~{N}u
+dj\u{a} g\u{a}, \~{n}u dj\u{a} \v{c}\u{o}ng \~{n}u, laih gui r\^{e}o
+\~{n}u. Todang bboi r\^{o}k jolan \~{n}u nao hma, \~{n}u bb\^{o}h sa
+droi mr\u{a} d\u{o} bboi gah, a, hruh \~{n}u.//
+\glb
+\\{exist} one \\{clf} person old \\{3s} go do field \\{3s} hold
+machete \\{3s} hold hoe \\{3s} and carry.on.back back.basket \\{3s}
+while at along trail \\{3s} go field \\{3s} see one \\{clf} peacock
+stay at \\{drct} -- nest \\{3s}//
+\glft
+`There was an old person who went to work in the field. He took
+along his machete, he took along his hoe, and he carried his
+basket on his back. While he was on his way to the farm, he saw a
+peacock beside its nest.'//
+\endgl
+\xe
+|endcodedisplay
+(This example, as well as (\getref{panelex}), was contributed by
+Joshua Jensen.  It is from Jarai, an Austronesian language.  The
+story teller was Hyech Ksor.  The orthography here is somewhat
+simplified in order to keep the font requirements for the
+examples in this documentation elementary.)
+
+|ss| stands for ``side-by-side''. |sssep| gives the separation of the
+gloss and the free translation. |ssratio| gives the proportion of the
+available width that the gloss occupies. The point of hanging
+indentation is to visually separate the free translation and the
+gloss, so |glhangstyle=none| is completely satisfactory if the
+tree translation is on the right. But \ExPex\ will happily use
+hanging indentation with the free translation on the right.
+
+Line breaking in the free translation is delicate because it will
+generally set in a narrow column. The default setting of |ssrightskip|
+allows up to \textdim{2 em} departure from right alignment. This usually avoids
+overfull lines and awkward hyphenation.  |ssrightskip| can be
+increased (all the way to \textdim{0 pt} plus \textdim{1 fil}) if there is a
+problem, at the cost of a more ragged appearance.  This can be done
+globally, or simply in troublesome examples.
+
+\subsection Glosses with a side panel
+
+\begininventory
+\macros
+\idx{|\beginglpanel[]|}, \idx{|\endpanel|}\endmc
+\parameters*
+\idx{|everypanel|\user}& token list& |{}|\cr
+\endinventory
+The mechanism for positioning the free translation to the right of the
+interlinear gloss can be adapted to create a side panel for
+glosses which can be used for other purposes, as illustrated
+below.
+
+\framedisplay
+\ex[everypanel=\footnotesize]<panelex>
+\let\\=\textsc
+\beginglpanel[ssratio=.5,glhangstyle=none]
+\gla Hom\^{a}o$^1$ sa \v{c}\^{o} p\^{o} tha  \~{n}u nao ng\u{a}
+hmua. \~{N}u dj\u{a} g\u{a}, \~{n}u dj\u{a} \v{c}\u{o}ng \~{n}u,
+laih gui r\^{e}o \~{n}u. Todang bboi r\^{o}k jolan \~{n}u nao
+hma, \~{n}u bb\^{o}h sa droi mr\u{a} d\u{o}$\,^4$ bboi gah, a, hruh
+\~{n}u.//
+\glb \\{exist} one \\{clf} person old \\{3s} go$^2$ do field
+\\{3s} hold machete \\{3s} hold hoe \\{3s} and$^3$ carry.on.back
+back.basket \\{3s} while at along trail \\{3s} go field \\{3s}
+see one \\{clf} peacock stay at \\{drct} -- nest \\{3s}
+//
+\endgl
+1.\enspace {\it hom\^{a}o} also means `have', reflecting the
+strong tendency across languages to use the same word for
+possession and the existential. {\it hom\^{a}o} is clause-initial
+in existential clauses, but it comes after the subject in
+possession clauses.
+
+2.\enspace All verbs are glossed with a bare form, as Jarai has
+no inflectional morphology. Although Jarai has lexical items that
+encode tense, they are relatively infrequent in text.
+
+3.\enspace The word {\it laih} is literally `after; finish', but
+that is clearly not the meaning here. Probably {\it laih} here is
+an abbreviation for {\it laih an\u{u}n}, `after that; and', hence
+the gloss `and'.
+
+4.\enspace {\it d\u{o}} `sit, stay' is used like a copula in
+locative clauses, which is what I assume here (`a~peacock
+[which was] beside its nest'); however, this could just as well
+mean `a peacock sitting beside its nest', retaining the posture
+semantics.
+\endpanel
+\bigskip
+`There was an old person who went to work in the field. He took
+along his machete, he took along his hoe, and he carried his
+basket on his back. While he was on his way to the farm, he saw a
+peacock beside its nest.'
+\xe
+\endframedisplay
+
+The syntax is:
+\codedisplay
+\beginglpanel |dots \endgl |dots \endpanel
+|endcodedisplay
+The first part is the gloss, with the usual syntax.  The second
+part is put in a vbox and set alongside the gloss. The tokens
+|lingeverypanel| are inserted when the vbox begins. All of the
+parameters which are special to positioning the free translation
+to the right of the gloss apply here as well, with the obvious
+meanings.
+
+The complete code for the example above is:
+
+\codedisplay
+\ex[everypanel=\footnotesize]<panelex>
+\def\\#1{{\footnotesize\uppercase{#1}}}%
+\let\\=\textsc
+\beginglpanel[ssratio=.5,glhangstyle=none]
+\gla Hom\^{a}o$^1$ sa \v{c}\^{o} p\^{o} tha  \~{n}u nao ng\u{a}
+hmua. \~{N}u dj\u{a} g\u{a}, \~{n}u dj\u{a} \v{c}\u{o}ng \~{n}u,
+laih gui r\^{e}o \~{n}u. Todang bboi r\^{o}k jolan \~{n}u nao
+hma, \~{n}u bb\^{o}h sa droi mr\u{a} d\u{o}$\,^4$ bboi gah, a, hruh
+\~{n}u.//
+\glb \\{exist} one \\{clf} person old \\{3s} go$^2$ do field
+\\{3s} hold machete \\{3s} hold hoe \\{3s} and$^3$ carry.on.back
+back.basket \\{3s} while at along trail \\{3s} go field \\{3s}
+see one \\{clf} peacock stay at \\{drct} -- nest \\{3s}//
+\endgl
+1.\enspace {\it hom\^{a}o} also means `have', reflecting the
+strong tendency across languages to use the same word for
+possession and the existential. {\it hom\^{a}o} is clause-initial
+in existential clauses, but it comes after the subject in
+possession clauses.
+
+2.\enspace All verbs are glossed with a bare form, as Jarai has
+no inflectional morphology. Although Jarai has lexical items that
+encode tense, they are relatively infrequent in text.
+
+3.\enspace The word {\it laih} is literally `after; finish', but
+that is clearly not the meaning here. Probably {\it laih} here is
+an abbreviation for {\it laih an\u{u}n}, `after that; and', hence
+the gloss `and'.
+
+4.\enspace {\it d\u{o}} `sit, stay' is used like a copula in
+locative clauses, which is what I assume here (`a~peacock [which
+was] beside its nest'); however, this could just as well mean `a
+peacock sitting beside its nest', retaining the posture
+semantics.
+\endpanel
+\bigskip
+`There was an old person who went to work in the field. He took
+along his machete, he took along his hoe, and he carried his
+basket on his back. While he was on his way to the farm, he saw a
+peacock beside its nest.'
+\xe
+|endcodedisplay
+Note that the free translation here comes after |\endpanel| and is
+typeset the way any material inside an |\ex| construction is
+typeset.  This allows it to have full width, spanning both the
+gloss and notes.  It could have been part of the gloss, with a
+different result.
+
+No support is given to side note numbering.  It must be done ``by
+hand''.  If the construction turns out to be sufficiently useful
+and hand numbering is sufficiently tedious, a more automatic
+scheme might be possible.  It would not be trivial, because the
+order in which the notes appear inside the gloss before it is
+typeset is not necessarily the same as the order in which they
+appear after it is typeset.
+
+\subsection Cascading hanging indentation in glosses
+
+\raggedbottom
+\lingset{glhangindent=.25in,everygl=\openup.5ex,
+   everyglword=\normalbaselines,everyglft=\normalbaselines,
+   abovemoreglskip=1ex}
+
+\lingset{glhangstyle=none}
+\framedisplay
+\ex[glhangstyle=cascade]
+\let\\=\textsc
+\begingl
+\gla
+Hom\^{a}o sa \v{c}\^{o} p\^{o} tha  \~{n}u nao ng\u{a} hmua. \~{N}u
+dj\u{a} g\u{a}, \~{n}u dj\u{a} \v{c}\u{o}ng \~{n}u, laih gui r\^{e}o
+\~{n}u. Todang bboi r\^{o}k jolan \~{n}u nao hma, \~{n}u bb\^{o}h sa
+droi mr\u{a} d\u{o} bboi gah, a, hruh \~{n}u.//
+\glb
+\\{exist} one \\{clf} person old \\{3s} go do field \\{3s} hold
+machete \\{3s} hold hoe \\{3s} and carry.on.back back.basket \\{3s}
+while at along trail \\{3s} go field \\{3s} see one \\{clf} peacock
+stay at \\{drct} -- nest \\{3s}//
+\glft
+`There was an old person who went to work in the field. He took
+along his machete, he took along his hoe, and he carried his
+basket on his back. While he was on his way to the farm, he saw a
+peacock beside its nest.'//
+\endgl
+\xe
+\endframedisplay
+
+is achieved by
+\codedisplay~
+\ex[glhangstyle=cascade]
+\let\\=\textsc
+\begingl
+\gla
+Hom\^{a}o sa \v{c}\^{o} p\^{o} tha  \~{n}u nao ng\u{a} hmua. \~{N}u
+dj\u{a} g\u{a}, \~{n}u dj\u{a} \v{c}\u{o}ng \~{n}u, laih gui r\^{e}o
+\~{n}u. Todang bboi r\^{o}k jolan \~{n}u nao hma, \~{n}u bb\^{o}h sa
+droi mr\u{a} d\u{o} bboi gah, a, hruh \~{n}u.//
+\glb
+\\{exist} one \\{clf} person old \\{3s} go do field \\{3s} hold
+machete \\{3s} hold hoe \\{3s} and carry.on.back back.basket \\{3s}
+while at along trail \\{3s} go field \\{3s} see one \\{clf} peacock
+stay at \\{drct} -- nest \\{3s}//
+\glft
+`There was an old person who went to work in the field. He took
+along his machete, he took along his hoe, and he carried his
+basket on his back. While he was on his way to the farm, he saw a
+peacock beside its nest.'//
+\endgl
+\xe
+|endcodedisplay
+
+\subsection  Gloss underfixes
+
+\begininventory
+\macros* \idx{|\gluf|}\endmc
+\parameters
+\idx{|glufcloseup|}& dimension& \textdim{.4 ex}\cr
+\idx{|everygluf|}& token list& |{}|\cr
+\endinventory
+
+\noindent Sometimes, gloss displays like the following are
+desired, with grammatical markings written below the gloss.
+
+\framedisplay
+\ex[glhangstyle=normal,glufcloseup=.4ex,everygluf=\footnotesize]
+\begingl
+\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren
+   w\"urde seiner Freundin ihr$_i$ Herz auszusch\"utten.//
+\glb Mary is sure that it \gluf/the/ACC/ Hans not annoy would
+   \gluf/his/DAT/ \gluf/girlfriend/DAT/ \gluf/her/ACC/
+   \gluf/heart/ACC/ {out to throw}//
+\glft `Mary is sure that to reveal her heart to his girlfriend
+would not damage John.'//
+\endgl
+\xe
+\endframedisplay
+
+\ExPex\ provides the macro |\gluf| which can be used to
+construct such a display.
+
+\codedisplay
+\ex[glhangstyle=normal,glufcloseup=.4ex,everygluf=\footnotesize]
+\begingl
+\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren
+   w\"urde seiner Freundin ihr$_i$ Herz auszusch\"utten.//
+\glb Mary is sure that it \gluf/the/ACC/ Hans not annoy would
+   \gluf/his/DAT/ \gluf/girlfriend/DAT/ \gluf/her/ACC/
+   \gluf/heart/ACC/ {out to throw}//
+\glft `Mary is sure that to reveal her heart to his girlfriend
+would not damage John.'//
+\endgl
+\xe
+|endcodedisplay
+
+The grammatical markings are essentially ``underfixes'' (rather than
+prefixes or suffixes), hence the name ``gluf'' (gl underfix). When the
+underfix is typeset, the value of |everygluf| is first inserted.  It
+is provided so that the user has control of the font used to typeset
+the underfixes. The value of |glufcloseup| determines how much the
+baselineskip between the underfix and the underfixed word is closed
+up.  Without some closeup, the underfixes are not positioned close
+enough to the glosses they modify (in my opinion). The macro |\gluf|
+centers the underfix below the word it annotates.  Its syntax should
+be clear from the example above.
+
+

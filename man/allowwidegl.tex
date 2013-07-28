@@ -1,0 +1,16 @@
+
+\makeatletter
+\define@boolkey{ling}[ling@]{allowwidegl}[true]{}
+\define@lingincdimenkeys{extraglwidth}
+\lingset{allowwidegl=false,extraglwidth=.5in}
+\def\glw@begingl@a{%
+   \ifling@allowwidegl
+         \hbox\bgroup\vtop\bgroup \advance\hsize by \lingextraglwidth
+      \else
+         \vtop\bgroup
+    etc.
+}
+\def\glw@endglB{%
+   \ifling@allowwidegl \egroup\hskip-\lingextraglwidth \fi
+    \egroup\egroup}
+\resetatcatcode

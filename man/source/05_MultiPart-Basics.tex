@@ -1,0 +1,269 @@
+
+\section Examples with labeled parts: Basics
+
+\begininventory
+\counter \idx{|\pexcnt|}\endmc
+\macros \idx{|\pex~[]|}, \idx{|\a[]|}\endmc
+\parameters
+\idx{|labeltype|}& name of a key-value list& |alpha|\cr
+\idx{|labeloffset|\user} & \inc dimension& \textdim{1 em}\cr
+\idx{|labelwidth|\user} & \inc dimension& \textdim{.72 em}\cr
+\idx{|preambleoffset|\user} & \inc dimension& \textdim{1 em}\cr
+\idx{|interpartskip|\user} & \inc skip&
+   1\dimskip ex plus .2\dimskip ex minus .2\dimskip ex\cr
+\idx{|belowgpreambleskip|\user} & \inc skip&
+   1\dimskip ex plus .2\dimskip ex minus .2\dimskip ex\cr
+\idx{|samplelabel|}& token list& (pseudo-parameter)\cr
+\endinventory
+%
+Typical examples are given below, with the initial parameter
+settings.\medskip
+
+\framedisplay
+\pex
+\a This is the first example.
+\a This is the second example.
+\xe
+
+\pex~<Pre> Multipart examples often have a title or preamble of some
+kind.
+\a This is the first example.
+\a This is the second example.
+\xe
+\endframedisplay
+
+\codedisplay~
+\pex
+\a This is the first example.
+\a This is the second example.
+\xe
+
+\pex~ Multipart examples often have a title or preamble of some kind.
+\a This is the first example.
+\a This is the second example.
+\xe |endcodedisplay
+
+\noindent
+Just like |\ex|, |\pex| must be closed by |\xe|, can be
+modified by a tilde diacritic to suppress adding vertical space
+above the example, and accepts parameters. The macro \idx{|\a|},
+which introduces each labeled part, is defined only
+within \hbox{|\pex| \dots|\xe|}.  It accepts certain parameters.
+Extra vertical skip (set by |interpartskip|) is inserted
+between the parts; and extra vertical skip (determined by
+|belowpreambleskip|) is inserted between
+the {\it preamble\/} and the first part.  The preamble is the
+visible material, if any, that appears after the example number
+and before the first part.
+
+The horizontal dimensions are parameterized as pictured below,
+provided that the anchoring parameters have their initial values.
+The parameters |numoffset| and |textoffset| are used in both
+|\ex| and |\pex| constructions.
+The effects of changing the settings of the
+anchoring parameters (|labelanchor| and |textanchor|) will be
+considered in Section \getref{anchors}.
+
+\exdisplay
+\makeatletter
+\vrule height1.6em depth3.5em width0pt
+\psscalebox{1.5}{%
+\parindent=0pt
+\leavevmode
+\lingset{numoffset=4.5em,preambleoffset=4em,labeloffset=3em,
+   textoffset=4em,labelwidth=.8em}
+\pnode(0,0){A}
+\lower5ex\vbox{\hsize=3.8in
+\psset{arrows=<->}
+\pex[exno=24]
+\a \pnode{E6}%
+This is an example.%
+\SpecialCoor
+\rput(A|E6){\pnode{E1}}
+\rput(E1){\pnode(\lingnumoffset,0){E2}}
+\rput(E6){\pnode(-\lingtextoffset,0){E5}}
+\rput(E5){\pnode(-\linglabelwidth,0){E4}}
+\rput(E4){\pnode(-\linglabeloffset,0){E3}}
+\psset{nodesep=0,labelsep=0}
+\pcline[offset=2.5ex](E1)(E2)
+\Aput{\strut\eighttt numoffset}
+\pcline[offset=2.5ex](E3)(E4)
+\Aput{\strut\eighttt labeloffset}
+\pcline[offset=2.5ex](E5)(E6)
+\Aput{\strut\eighttt textoffset}
+%\pcline[offset=-1.5ex,arrows=>-<,nodesep=-.65ex](E4)(E5)
+\pcline[offset=-1.5ex](E4)(E5)
+\Bput{\strut\eighttt labelwidth}
+\psset{offset=0,angle=90,linestyle=dotted,arrows=-}
+\XKV@for@n{1,2,3,4,5,6}\which{%
+   \pcline(E\which)([nodesep=3ex]E\which)}
+\pcline([nodesep=1.5ex]E4)([nodesep=-2ex]E4)
+\pcline([nodesep=1.5ex]E5)([nodesep=-2ex]E5)
+\xe}}%
+\xe
+Adjustment for the width of the example number is automatic, but
+the width of the label slot is a parameter setting, not adjusted
+to the width of the particular label which appears in the label
+slot.  The initial setting of |labelwidth| is the width of ``a.''
+at the point that the default setting is established.  This does
+not automatically change if the font is changed, in a footnote
+for example.  It can be set by the user explicitly by setting
+|labelwidth| to the desired dimension, or as an incremental
+change to its previous value (|labelwidth=!3pt|, for example,
+increases the width of the label slot by 3pt).  It can also be
+set indirectly by giving a sample label.  |labelwidth| is then
+set to the current width of that sample.  \ExPex\ sets the
+default label width by |samplelabel=a.|.
+
+\ExPex\ comes with three label types predefined: |alpha|,
+|caps|, and |numeric|.
+
+\beginss
+\pex[labeltype=alpha]
+\a First part.
+\a Second part.
+\xe |midss
+\pex[labeltype=alpha]
+\a First part.
+\a Second part.
+\xe
+\endss
+
+\beginss
+\pex[labeltype=caps]
+\a First part.
+\a Second part.
+\xe |midss
+\pex[labeltype=caps]
+\a First part.
+\a Second part.
+\xe
+\endss
+
+\beginss
+\pex[labeltype=numeric]
+\a First part.
+\a Second part.
+\xe |midss
+\pex[labeltype=numeric]
+\a First part.
+\a Second part.
+\xe
+\endss
+
+Section \getref{advanced} will detail all the parameters relevant
+to the label types and how additional label types can be defined
+by the user.
+
+%--------------------------------------
+\subsection {\tt nopreamble}
+
+\begininventory
+\parametersdef*
+\idx{|nopreamble|}& boolean& (not relevant)& \hfil true\cr
+\endinventory
+%
+In order to properly format examples with parts, there are
+various reasons that |\pex| must be able to figure out whether
+or not there is a preamble.  One reason is fairly obvious.  If
+there is a preamble, every part introduced by |\a| must start on
+a new line, otherwise only parts after the first part start a new
+line.  |\pex| tries to figure it out without help.  If |\a|
+directly follows |\pex|(|~|)(|[|\dots|]|) and perhaps a following
+space, |\pex| knows there is no preamble and acts accordingly.
+There are a few other following tokens, considered later in this
+manual, that |\pex| also knows are not signals that there is a
+preamble.  But |\pex|'s preamble detection abilities are
+primitive.  The following, for example, will confuse |\pex|.
+
+\beginss
+\pex \it
+\a first
+\a second
+\xe|midss
+\pex \it
+\a first
+\a second
+\xe
+\endss
+The |\it| command is interpreted as a preamble.
+
+|\pex| needs some guidance in this case.  It is provided by the
+parameter |nopreamble|.
+
+\beginss
+\pex[nopreamble=true] \it
+\a first
+\a second
+\xe|midss
+\pex[nopreamble=true] \it
+\a first
+\a second
+\xe
+\endss
+
+In fact, it is a little simpler than this.  XKV parametrization
+allows one to stipulate a default value for each key that is
+defined.  If the key is given to the parameter setting machinery
+with no value, then the key is set to the default value.
+|nopreamble| has the default value |true|.  So the following is
+sufficient.
+
+\beginss
+\pex[nopreamble] \it
+\a first
+\a second
+\xe|midss
+\pex[nopreamble] \it
+\a first
+\a second
+\xe
+\endss
+
+The global setting of |nopreamble| is irrelevant to |\pex|, which
+always assumes there is a preamble unless it sees an immediately
+following |\a| or |\pex| or is told directly that there is no
+preamble. In the following, for example, the setting of
+|nopreamble| outside |\pex| has no effect.
+
+\beginss
+\lingset{nopreamble=true}
+\pex \it
+\a first
+\a second
+\xe|midss
+\lingset{nopreamble=true}
+\pex \it
+\a first
+\a second
+\xe
+\endss
+
+%\font\titlett=txtt at 13.3pt
+
+\subsection Stipulated labels
+
+\begininventory
+\parameters*
+|label|& token list& |{}|\cr
+\endinventory
+%
+|label| is recognized as a key only by the |\a| macro.    % =«value»
+If |label=«value»| is passed to |\a|,  that value is inserted as the
+label, ignoring automatic label generation.
+
+\beginss
+\pex[exno=47]
+\a[label=b]
+\a[label=d]
+\a[label=g]
+\xe|midss
+\pex[exno=47]
+\a[label=b]
+\a[label=d]
+\a[label=g]
+\xe
+\endss
+
+\noindent Besides |label|, the only other key that |\a|
+recognizes is |tag|.  See Section \getref{named-reference}.

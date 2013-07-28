@@ -1,0 +1,27 @@
+\documentclass[12pt]{book}
+\usepackage{polyglossia}
+\defaultfontfeatures{Mapping=tex-text}
+\setmainfont{Times New Roman}
+
+\usepackage{expex}
+
+\begin{document}
+
+\immediate\write16{======>\the\catcode`/}
+
+\lingset{glstyle=wrap}
+\ex
+\begingl
+\gla {munts-ungi} {y} {ay\r{i}}  //
+\glb A B C //
+\endgl
+\xe
+
+\let\it=\itshape
+\newtoks\everygoop
+\everygoop={\it}
+\halign{#\cr
+\the\everygoop munts—ungi y ay\r{i}\cr
+munts—ungi y ay\r{i}\cr
+}
+\end{document}
