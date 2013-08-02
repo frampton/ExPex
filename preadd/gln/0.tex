@@ -1,22 +1,75 @@
-
-\input test  \bye
-
 \input eplain
-\input ../../man/@mybasics.tex
+\input @mybasics.tex
 \input pstricks
 \input pst-node \catcode`\@=12
-\input ../../core/expex-src
-\input ../../man/@lingdoc
-\input ../../man/@code-beta
-\input ../../man/@timesfonts
-\input ../../man/@sections
-\input ../../man/@local-doc
-\input ../../core/eptexfn
+\input expex
+\input c:/users/john/ling/tex/expex/preadd/gln/expex-gln/expex-gln
+%\input expex-gln
+\input @lingdoc
+\input @code-beta
+\input @timesfonts
+\input @sections
+\input @local-doc
+\input eptexfn
+%\input @emwidth
 
-%\input glngloss
+%\gathertags
+%\gathercontents
+%\gathernotes
 
-%\let\begingl=\gln@begingl
-%\let\endgl=\gln@endgl
-\input erromangan  \bye
+%\refproofing
+%\indexproofingtrue
 
+%\pageno=-1
+%\get 000doc-cover
+%\get @contents
+
+\lingset{everygl=\openup.5ex,
+   everyglword=\normalbaselines,everyglft=\normalbaselines,
+   glhangindent=2em}
+
+\framedisplay
+\ex[glhangstyle=none]
+%\ex[glftpos=right,glhangstyle=none]
+\let\\=\textsc
+\begingl
+\gla
+Hom\^{a}o sa \v{c}\^{o} p\^{o} tha  \~{n}u nao ng\u{a} hmua. \~{N}u
+dj\u{a} g\u{a}, \~{n}u dj\u{a} \v{c}\u{o}ng \~{n}u, laih gui r\^{e}o
+\~{n}u. Todang bboi r\^{o}k jolan \~{n}u nao hma, \~{n}u bb\^{o}h sa
+droi mr\u{a} d\u{o} bboi gah, a, hruh \~{n}u.//
+\glb
+\\{exist} one \\{clf} person old \\{3s} go do field \\{3s} hold
+machete \\{3s} hold hoe \\{3s} and carry.on.back back.basket \\{3s}
+while at along trail \\{3s} go field \\{3s} see one \\{clf} peacock
+stay at \\{drct} -- nest \\{3s}//
+\glft
+`There was an old person who went to work in the field. He took
+along his machete, he took along his hoe, and he carried his
+basket on his back. While he was on his way to the farm, he saw a
+peacock beside its nest.'//
+\endgl
+\xe
+\endframedisplay
+
+\input oldman
+
+
+\get 01_intro
+%\get 02_Examples
+%\get 03_XKV
+\get 04_Ex
+%\get 05_MultiPart-Basics
+%\get 06_MoreExamples
+%\get 07_UserStyles
+%\get 08_Judgments
+%\get 09_Glosses-Basic
+%\get 10_Glosses-Advanced
+%\get 11_Refs
+%\get 12_Tables
+%\get 13_PSTricks
+%\get 14_PageBreaks
+%\input @mkindex \bye
+%
 \bye
+

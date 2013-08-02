@@ -1,4 +1,5 @@
-\def\ExPexMessage{2013/06/27 v4.1b ExPex linguistics example formatter (JF)}
+\def\ExPexMessage
+   {2013/07/27 v4.1c ExPex linguistics example formatter (JF)}
 % -------------------------------------------------------
 % jf 2011/12/09  (v4.0a)
 %  1) fixed bug in how exceptional gla items are detected
@@ -8,7 +9,8 @@
 % jf 2011/12/09  (v4.0b)
 %  1) allow {} gla item
 % jf 2012/03/10  (v4.0c)
-%  1) fixed problem with IJAL \deftaglabel caused by nonexpansion of \@actualexno
+%  1) fixed problem with IJAL \deftaglabel caused by nonexpansion
+%     of \@actualexno
 % jf 2012/12/01  (v4.1)
 %  1) added auto glskip mode to glosses
 %     /abovemoreglskip/ now obsolete
@@ -17,6 +19,8 @@
 %  1) added \let\pageno=\c@page to LaTex specializations
 % jf 2013/06/27  (v4.1b)
 %  1) fixed bug in skip over \glft entries
+% jf 2013/07/27
+%  1) LaTex \include/\includeonly mechanism now works for \excnt
 % --------------------------------------------------------
 \edef\resetatcatcode{\catcode`\noexpand\@\the\catcode`\@\relax}
 \catcode`\@=11\relax
@@ -29,6 +33,10 @@
       \@addtofilelist{expex.tex}
       \let\it=\itshape
       \let\pageno=\c@page
+% 2013/07/27
+      \g@addto@macro\cl@@ckpt
+         {\immediate\write\@partaux{\string\excnt=\the\excnt}}
+%
    \fi
 %! define eplain primitives, if necessary
 \ifx\eplain\@undefined  % eplain stuff
