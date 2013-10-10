@@ -1,0 +1,30 @@
+\edef\resetatcatcode{\catcode`\noexpand\@\the\catcode`\@\relax}
+\def\glw@lopTL#1\to#2{\ifx#1\empty
+   \let#2\empty \else\expandafter\glw@lopoffTL#1\glw@lopoffTL#1#2\fi}
+\long\def\glw@lopoffTL\\#1#2\glw@lopoffTL#3#4{#4={#1}\def#3{#2}}
+\newtoks\gltoks@sofar
+\newtoks\gltoks@every
+\newtoks\gltoks@next
+\def\glw@printcol{%
+   \begingroup
+   \gltoks@sofar={}%
+   \gl@loopmoretrue
+   \loop\ifgl@loopmore
+      \glw@lop\aboveskiplist\to\@aboveskip
+      \expandafter\ifdim\@aboveskip=0pt \def\@above{}\else
+         \edef\@above{\noalign{\vskip\@aboveskip}}\fi
+      \glw@lop\strutlist\to\@strut
+      \glw@lopTL\everylist\to\gltoks@every
+      \glw@lopTL\tempa\to\gltoks@next
+      \edef\temp{\the\gltoks@sofar \@above \@strut \the\gltoks@every \the\gltoks@next \cr}%
+      \gltoks@sofar=\expandafter{\temp}%
+      \ifx\tempa\empty \gl@loopmorefalse \fi
+      \repeat
+   \vtop{%
+      \gl@lineskipsave
+      \ling@everyglword
+      \halign{##\hfil\cr \the\gltoks@sofar}}%
+   \endgroup
+}
+\resetatcatcode
+

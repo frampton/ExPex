@@ -1,20 +1,72 @@
 
+\input ../add/nlevel/expex-gln
 %\lingset{glbreaking=true}
 
-\section Glosses
-\deftag{\the\secno}{basicglosssec}
+\section Glosses in the nlevel style
 
 \begininventory
-\macros
-\idx{|\begingl[]|},
-\idx{|\glpreamble[]|},
-\idx{|\gla[]|},
-\idx{|\glb[]|},
-\idx{|\glc[]|},
-\idx{|\glft[]|},
-\idx{|\endgl|}
-\endmc
+\macros*
+\idx{|\endilg|}\endmc
+\parameters
+|glneveryline|& list& |{}|\cr
 \endinventory
+
+\framedisplay
+\ex[glstyle=nlevel]
+\begingl
+k-[CL/2]
+wapm[V/see]
+-a[AGR/\sc 3acc]
+-s'i[NEG]
+-m[AGR/\sc 2pl]
+-wapunin[TNS/preterit]
+-uk[AGR/\sc 3pl]
+\endilg
+\endgl
+\xe
+\endframedisplay
+\codedisplay
+\ex[glstyle=nlevel]
+\begingl
+k-[CL/2]
+wapm[V/see]
+-a[AGR/\sc 3acc]
+-s'i[NEG]
+-m[AGR/\sc 2pl]
+-wapunin[TNS/preterit]
+-uk[AGR/\sc 3pl]
+\endilg
+\endgl
+\xe
+|smallskip
+\ex[glstyle=nlevel]
+\begingl
+k-[CL/2] wapm[V/see] -a[AGR/\sc 3acc] -s'i[NEG]
+-m[AGR/\sc 2pl] -wapunin[TNS/preterit] -uk[AGR/\sc 3pl]
+\endilg
+\endgl
+\xe
+|endcodedisplay
+
+\framedisplay
+\ex[glstyle=nlevel,glneveryline={\it,\sc,\sc},glnaboveskiplist={,-2pt}]
+\begingl
+k-[cl/2]
+wapm[v/\rm see]
+-a[agr/3acc]
+-s'i[neg]
+-m[agr/\sc 2pl]
+-wapunin[tns/preterit]
+-uk[agr/3pl]
+\endilg
+\endgl
+\xe
+\endframedisplay
+\codedisplay~
+|endcodedisplay
+
+
+
 %
 Before I introduce the parameters that control the
 characteristics of gloss displays, here are a few examples done

@@ -1,0 +1,41 @@
+
+\section Boxed glosses
+
+Sometimes it is desirable to build a gloss with an hsize smaller than
+the current hsize.
+
+\lingset{glbreaking=true}
+
+\ex
+\baselineskip=18pt
+\begingl[autoglskip=true,extraglskip=4pt]
+\gla Ti ma'a'\~nao hao kumuentusi ni h\'ayiyi ha'.//
+\glb not agr.afraid you Infin.speak.to not anyone Emp//
+\endgl
+\xe
+
+\ex
+\vtop{\hsize=2.5in \parindent=0pt \leftskip=0pt
+\baselineskip=18pt
+\begingl[autoglskip=true,extraglskip=4pt]
+\gla Ti ma'a'\~nao hao kumuentusi ni h\'ayiyi ha'.//
+\glb not agr.afraid you Infin.speak.to not anyone Emp//
+\endgl
+}\xe
+
+\ex[glbreaking=false]
+\baselineskip=18pt
+a.\quad
+\begingl[autoglskip=true,extraglskip=4pt,glwidth=2.5in]
+\gla Ti ma'a'\~nao hao kumuentusi ni h\'ayiyi ha'.//
+\glb not agr.afraid you Infin.speak.to not anyone Emp//
+\endgl
+\hfil
+b.\quad
+\begingl[autoglskip=true,extraglskip=4pt,glwidth=2.5in]
+\gla Ti ma'a'\~nao hao kumuentusi ni h\'ayiyi ha'.//
+\glb not agr.afraid you Infin.speak.to not anyone Emp//
+\endgl
+\xe
+
+

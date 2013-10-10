@@ -1,0 +1,32 @@
+
+\gobble{
+Issues that need to be addressed in nlevel style
+DONE   1) diacritics @,+ or some equivalent
+   2) the relation of line spacing inside the miniglosses to the line
+   spacing in the environment
+DONE   3) there should be an escape so that one can write something like
+      ... \escape{\quad} ... and have \quad inserted in the sequence
+      of miniglosses
+}
+
+
+\begingl[glstyle=nlevel,glspace=2em,everygl=\advance\baselineskip by
+5pt]
+a[a e/c d e]
+b[b g]{{}}
+c[c ffff]
+b[b]
+\endilg
+\endgl
+
+\ex
+\advance\baselineskip by 5pt
+\begingl[glstyle=nlevel,glspace=2em]
+a[a e/c d e]
+b[b g]
+c[c ffff]
+b[b]
+\endilg
+\endgl
+\xe
+

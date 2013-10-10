@@ -1,20 +1,296 @@
 
+\input ../add/nlevel/expex-nlevel
 %\lingset{glbreaking=true}
 
-\section Glosses
-\deftag{\the\secno}{basicglosssec}
+\section Additonal options for glosses
+
+\subsection Glosses which span page breaks
 
 \begininventory
-\macros
-\idx{|\begingl[]|},
-\idx{|\glpreamble[]|},
-\idx{|\gla[]|},
-\idx{|\glb[]|},
-\idx{|\glc[]|},
-\idx{|\glft[]|},
-\idx{|\endgl|}
-\endmc
+\parameters*
+\idx{|glbreaking|}& |true| or |false|& |false|\rlap{\quad (with default
+value |true|)}\cr
 \endinventory
+In the wrap style (|glstyle=wrap|), there is now the option of
+building glosses in a vbox or not.  Building a gloss in a vbox has the
+advantage that its width can be more easily controlled, if this is
+desired, and of preventing the gloss from being split between two
+pages, if this is desired.  Sometimes, however, particularly with the
+long glosses that result from glossing a narrative, it is desirable
+for a glosses to continue over a page break.  The parameter
+|glbreaking| controls whether or not the gloss is built in a vbox.  If
+not (i.e. |glbreaking| is set to |true|), the gloss is generated as a
+sequence of word glosses, which are fed into Tex's usual page building
+machinery.
+
+This is illustrated below.  The page is temporarily narrowed
+(|\hsize=2.5in|) for illustrative purposes.  The coding is given
+first.
+
+
+\codedisplay
+\ex
+\hsize=2.5in
+\let\\=\textsc
+\begingl[glhangindent=0pt,glbreaking=true]
+\gla Hom\^{a}o sa \v{c}\^{o} p\^{o} tha  \~{n}u nao ng\u{a}
+hmua. \~{N}u dj\u{a} g\u{a}, \~{n}u dj\u{a} \v{c}\u{o}ng \~{n}u,
+laih gui r\^{e}o \~{n}u. Todang bboi r\^{o}k jolan \~{n}u nao
+hma, \~{n}u bb\^{o}h sa droi mr\u{a} d\u{o} bboi gah, a, hruh
+\~{n}u.//
+\glb \\{exist} one \\{clf} person old \\{3s} go do field
+\\{3s} hold machete \\{3s} hold hoe \\{3s} and carry.on.back
+back.basket \\{3s} while at along trail \\{3s} go field \\{3s}
+see one \\{clf} peacock stay at \\{drct} -- nest \\{3s}
+//
+\endgl
+\xe
+|endcodedisplay
+
+\ex
+\hsize=2.5in
+\let\\=\textsc
+\begingl[glhangindent=0pt,glbreaking=true]
+\gla Hom\^{a}o sa \v{c}\^{o} p\^{o} tha  \~{n}u nao ng\u{a}
+hmua. \~{N}u dj\u{a} g\u{a}, \~{n}u dj\u{a} \v{c}\u{o}ng \~{n}u,
+laih gui r\^{e}o \~{n}u. Todang bboi r\^{o}k jolan \~{n}u nao
+hma, \~{n}u bb\^{o}h sa droi mr\u{a} d\u{o} bboi gah, a, hruh
+\~{n}u.//
+\glb \\{exist} one \\{clf} person old \\{3s} go do field
+\\{3s} hold machete \\{3s} hold hoe \\{3s} and carry.on.back
+back.basket \\{3s} while at along trail \\{3s} go field \\{3s}
+see one \\{clf} peacock stay at \\{drct} -- nest \\{3s}
+//
+\endgl
+\xe
+
+
+If gloss breaking is in effect, the setting of |glwidth| has no
+effect.
+
+
+
+\subsection glstyle = nlevel
+
+\begininventory
+\macros*
+\idx{|\endilg|}\endmc
+\parameters
+|glneveryline|& list of token lists& |{}|\cr
+|glnabovelineextraskip|& list of dimensions& |{}|\cr
+\endinventory
+
+We begin by recoding (\getref{wapm}) from Section
+\getref{basicglosssec}.
+
+\framedisplay
+\ex[glstyle=nlevel]
+\begingl
+k-[CL/2] wapm[V/see] -a[AGR/\sc 3acc] -s'i[NEG]
+-m[AGR/\sc 2pl] -wapunin[TNS/preterit] -uk[AGR/\sc 3pl]
+\endilg
+\glft `you (pl) didn't see them'//
+\endgl
+\xe
+\endframedisplay
+\codedisplay
+\ex[glstyle=nlevel]
+\begingl
+k-[CL/2] wapm[V/see] -a[AGR/\sc 3acc] -s'i[NEG]
+-m[AGR/\sc 2pl] -wapunin[TNS/preterit] -uk[AGR/\sc 3pl]
+\endilg
+\glft `you (pl) didn't see them'//
+\endgl
+\xe
+|endcodedisplay
+The big advantage to this style of coding complex glosses is that the
+gloss of a word and the word are adjacent in the code. This makes the
+code much more readable.  In effect, an aspect of WYSIWG is built into
+the coding.
+
+The list between |\begingl| and |\endilg| (end interlinear gloss) is processed as a space
+separated list.  Spaces inside |[|\dots|]| are effectively hidden from
+this parsing.  So, for example, the space in |-a[AGR/\sc 3acc]| does
+not mislead the parser.  The material inside |[|\dots|]| is processed
+as a |/| separated list.
+
+The parameter |glneveryline| is illustrated below.
+
+\framedisplay
+\ex[glstyle=nlevel,glneveryline={\it,\sc,\sc}]
+\begingl
+k-[cl/2]
+wapm[v/\rm see]
+-a[agr/3acc]
+-s'i[neg]
+-m[agr/\sc 2pl]
+-wapunin[tns/preterit]
+-uk[agr/3pl]
+\endilg
+\endgl
+\xe
+\endframedisplay
+\codedisplay
+\ex[glstyle=nlevel,glneveryline={\it,\sc,\sc}]
+\begingl
+k-[cl/2]
+wapm[v/\rm see]
+-a[agr/3acc]
+-s'i[neg]
+-m[agr/\sc 2pl]
+-wapunin[tns/preterit]
+-uk[agr/3pl]
+\endilg
+\endgl
+\xe
+|endcodedisplay
+
+The use of |glnabovelineskip| is illustrated below.
+
+\framedisplay
+\ex[glstyle=nlevel,glneveryline={\it,\sc,\sc},
+   glnabovelineextraskip={,-2pt}]
+\begingl
+k-[cl/2]
+wapm[v/\rm see]
+-a[agr/3acc]
+-s'i[neg]
+-m[agr/\sc 2pl]
+-wapunin[tns/preterit]
+-uk[agr/3pl]
+\endilg
+\endgl
+\xe
+\endframedisplay
+
+Note that a list of dimensions |{,-2pt}| is acceptable; the missing
+dimensions are assumed to be |0pt|.  Missing entries in the value of
+|glneveryline|, either because the list is shorter than the number of
+lines in the interlinear gloss or because of null entries on the list,
+are similarly assumed to be null and cause no problem.  The material
+inside the brackets, or material delimited by |/| can be missing as
+well, but the brackets are mandatory.
+
+One spacing problem that is handled automatically in the wrap style
+must be handled by the user in the nlevel style.  It is not common,
+but is worth mentioning because it might cause a perplexing problem if
+it does arise.  Characters on lower levels which are extra tall can
+cause misalignment of the baselines.  Suppose, for example, that you
+want to use a gloss to give some information about the
+morphophonological derivation of a surface form, as in (\nextx).
+
+\def\AccentedBarredW{$\acute{\hbox{$\overline w$}}$}
+
+\framedisplay
+\ex[glstyle=nlevel,glneveryline={\it}]
+\begingl m-[(mo-)] wope[(a\AccentedBarredW ope)] \endilg \endgl \xe
+\endframedisplay
+\codedisplay
+\ex[glstyle=nlevel,glneveryline={\it}]
+\begingl m-[(mo-)] wope[(a\AccentedBarredW ope)] \endilg \endgl \xe
+|endcodedisplay
+Not only is more space between the lines needed, but there is
+misalignment of the baselines on the second level.
+
+|glneveryline={,5pt}| will give more space over the second level but
+it will still have the misaligned baselines.  The trick is to insert a
+sufficiently tall strut before each entry on the second level.
+
+\framedisplay
+\ex[glstyle=nlevel,glneveryline={\it,\vrule height15pt width0pt}]
+\begingl m-[(mo-)] wope[(a\AccentedBarredW ope)] \endilg \endgl \xe
+\endframedisplay
+\codedisplay
+\ex[glstyle=nlevel,glneveryline={\it,\vrule height15pt width0pt}]
+\begingl m-[(mo-)] wope[(a\AccentedBarredW ope)] \endilg \endgl \xe
+|endcodedisplay
+
+\framedisplay
+\ex[glstyle=nlevel,glneveryline={\it}]
+\advance\baselineskip by 4pt
+\begingl m-[(mo-)] wope[(a\AccentedBarredW ope)] \endilg \endgl \xe
+\endframedisplay
+\codedisplay
+\ex[glstyle=nlevel,glneveryline={\it,\vrule height15pt width0pt}]
+\begingl m-[(mo-)] wope[(a\AccentedBarredW ope)] \endilg \endgl \xe
+|endcodedisplay
+
+\ex
+\hsize=2.5in
+\let\\=\textsc
+\lineskip=1ex
+\begingl[glstyle=nlevel,glneveryline={\it}]
+Hom\^{a}o[\\{exist}]
+sa[one]
+\v{c}\^{o}[\\{clf}]
+p\^{o}[person]
+tha[old]
+\~{n}u[\\{3s}]
+nao[go]
+ng\u{a}[do]
+hmua.[field]
+\~{N}u[\\{3s}]
+dj\u{a}[hold]
+g\u{a},[machete]
+\~{n}u[\\{3s}]
+dj\u{a}[hold]
+\v{c}\u{o}ng[hoe]
+\~{n}u,[\\{3s}]
+laih[and]
+gui[carry.on.back]
+r\^{e}o[back.basket]
+\~{n}u.[\\{3s}]
+Todang[while]
+bboi[at]
+r\^{o}k[along]
+jolan[trail]
+\~{n}u[\\{3s}]
+nao[go]
+hma,[field]
+\~{n}u[\\{3s}]
+bb\^{o}h[see]
+sa[one]
+droi[\\{clf}]
+mr\u{a}[peacock]
+d\u{o}[stay]
+bboi[at]
+gah,[\\{drct}]
+a,[--]
+hruh[nest]
+\~{n}u.[\\{3s}]
+\endilg
+\endgl
+\xe
+
+\endinput
+
+The general form
+
+\begingroup
+\parindent=0pt
+$word_1[gloss_{11}/gloss_{12}/\cdots]$\enspace
+$word_2[gloss_{21}/gloss_{22}/\cdots]$\enspace
+\endgroup
+
+\framedisplay
+\ex[glstyle=nlevel,glneveryline={\it,\sc,\sc},glnaboveskiplist={,-2pt}]
+\begingl
+k-[cl/2]
+wapm[v/\rm see]
+-a[agr/3acc]
+-s'i[neg]
+-m[agr/\sc 2pl]
+-wapunin[tns/preterit]
+-uk[agr/3pl]
+\endilg
+\endgl
+\xe
+\endframedisplay
+\codedisplay~
+|endcodedisplay
+
+
+
 %
 Before I introduce the parameters that control the
 characteristics of gloss displays, here are a few examples done
