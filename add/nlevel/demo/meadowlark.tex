@@ -1,0 +1,87 @@
+
+\font\ips=xipasl10 at 12pt
+\font\ipss=xipasl10 at 7pt
+\def\mroot{$\surd$}
+\def\L{\char'354}
+\def\v#1{{\accent"07 #1}}
+\def\C{{\accent"07 c}}
+\def\W{$^{\hbox{\ipss w}}\mskip-2mu$}
+
+\ex[glstyle=nlevel,glneveryline={\ips,\ips},glnabovelineextraskip={,,.5ex},
+   abovemoreglskip=1ex,glspace=2em]
+\lineskip=2ex
+\rightskip=0pt plus 1fil
+\begingl
+hoi[hoi/then/then]
+Ekn[{\mroot}PEkn/{\mroot}say/{she said}]
+{\L}E[{\L}E/det/det]
+{x\W}ElEP[{x\W}ElEP/Meadowlark/Meadowlark]
+t{g\W}El'[t{g\W}El'/why/why]
+st{\'\i}m[{s + \mroot t\'\i m}/{nomlz + \mroot what}/{what is it}]
+{hE\L}[{hE\L}/conn/conn]
+{kuPEcx\W ist}[ku-PEc-\mroot{x\W}ist/2nom-cust-{\mroot}one.travels/{you travel about}]
+{\L a}[{\L}a/det/det]
+Pa{\v c}sEtqEt[Pa{\v c}sEtqEt/{day time}/{day time}]
+\endilg
+\glft Then Meadowlark said, ``Why do you travel about in the day
+   time?''//
+\endgl
+\xe
+
+\framedisplay
+\ex[glstyle=nlevel,glneveryline={\ips,\ips},glnabovelineextraskip={,,.5ex},
+   abovemoreglskip=1ex,glspace=2em]
+\lineskip=2ex
+\rightskip=0pt plus 1fil
+\hangindent=1em
+\begingl
+hoi[/then/then]
+Ekn[{\mroot}PEkn/{\mroot}say/{she said}]
+{\L}E[/\sc det/\sc det]
+{x\W}ElEP[/Meadowlark/Meadowlark]
+t{g\W}El'[/why/why]
+st{\'\i}m[{s {\rm +} \mroot t\'\i m}/{{\sc nomlz} + \mroot what}/{what is it}]
+{hE\L}[/\sc conn/\sc conn]
+{kuPEcx\W ist}[{ku {\rm +} PEc {\rm +} \mroot{x\W}ist}/%
+   {{\sc 2nom} + {\sc cust} + {\mroot}one.travels}/{you travel about}]
+{\L a}[/\sc det/\sc det]
+Pa{\v c}sEtqEt[/{day time}/{day time}]
+\endilg
+\glft Then Meadowlark said, ``Why do you travel about in the day
+   time?''//
+\endgl
+\xe
+\endframedisplay
+\def\goop{\thinspace\putfnno}%
+\codedisplay~
+\ex[glstyle=nlevel, glneveryline={\ips,\ips},
+   glnabovelineextraskip={,,.5ex}, abovemoreglskip=1ex, glspace=2em]
+\lineskip=2ex
+\rightskip=0pt plus 1fil
+\hangindent=1em
+\begingl
+hoi[/then/then]
+Ekn[{\mroot}PEkn/{\mroot}say/{she said}]|goop
+{\L}E[/\sc det/\sc det]
+{x\W}ElEP[/Meadowlark/Meadowlark]
+t{g\W}El'[/why/why]
+st{\'\i}m[{s {\rm +} \mroot t\'\i m}/{{\sc nomlz} + \mroot what}/{what is it}]
+{hE\L}[/\sc conn/\sc conn]
+{kuPEcx\W ist}[{ku {\rm +} PEc {\rm +} \mroot{x\W}ist}/%
+   {{\sc 2nom} + {\sc cust} + {\mroot}one.travels}/{you travel about}]
+{\L a}[/\sc det/\sc det]
+Pa{\v c}sEtqEt[/{day time}/{day time}]
+\endilg
+\glft Then Meadowlark said, ``Why do you travel about in the day
+   time?''//
+\endgl
+\xe
+|endcodedisplay
+\vfootnote{\the\fnno}{In my Tex setup, |\ips| invokes one of the slant tipa IPA fonts, |\L|
+produces {\ips \L}, |\W| produces {\ips \W}, and |\mroot|
+(morphological root) produces {\mroot}.}
+
+
+\endinput
+
+

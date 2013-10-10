@@ -21,6 +21,14 @@
 %  1) fixed bug in skip over \glft entries
 % jf 2013/07/27
 %  1) LaTex \include/\includeonly mechanism now works for \excnt
+% jf 2013/10/08
+%  1) revise the definition of \glw@printcol to use token lists rather
+%  than edefs, and to build miniglosses as \vtop{\halign{#\hfil\cr...}
+%  structures rather than stacked hboxes. This allows items like
+%  {\hfil word}, which results in center alignment.
+%  2) removed w from the prefix in \glw@append, \glw@lop, and
+%  \glw@lopff since these will be used in other gloss styles
+% jf 2013/10/10 fixed belowpreambleskip bug
 % --------------------------------------------------------
 \edef\resetatcatcode{\catcode`\noexpand\@\the\catcode`\@\relax}
 \catcode`\@=11\relax
@@ -57,12 +65,10 @@
       \else
          \let\@optionalarg = \empty
          \expandafter\@optionaltemp
-   \fi
-}
-\def\@@getoptionalarg[#1]{%
-   \def\@optionalarg{#1}%
-   \@optionaltemp
-}
+      \fi }
+   \def\@@getoptionalarg[#1]{%
+      \def\@optionalarg{#1}%
+      \@optionaltemp}
 \fi
 %----- end of eplain inclusions
 \def\ep@identity#1{#1}
@@ -782,14 +788,14 @@
 % building machinary.
 \newtoks\gltoks@a
 \newtoks\gltoks@b
-\def\glw@append #1\to #2{%
+\def\gl@append #1\to #2{%
    \gltoks@a={\\{#1}}%
    \gltoks@b=\expandafter{#2}%
    \xdef#2{\the\gltoks@b\the\gltoks@a}%
 }
-\def\glw@lop#1\to#2{\ifx#1\empty
-   \let#2\empty \else\expandafter\glw@lopoff#1\glw@lopoff#1#2\fi}
-\long\def\glw@lopoff\\#1#2\glw@lopoff#3#4{\def#4{#1}\def#3{#2}}
+\def\gl@lop#1\to#2{\ifx#1\empty
+   \let#2\empty \else\expandafter\gl@lopoff#1\gl@lopoff#1#2\fi}
+\long\def\gl@lopoff\\#1#2\gl@lopoff#3#4{\def#4{#1}\def#3{#2}}
 \newif\ifgl@loopmore
 \def\glw@mergerow#1\to #2{%
    \let\alist=#1%
@@ -800,19 +806,19 @@
    \global\let#2=\clist
 }
 \def\glw@mergerow@a{%
-   \glw@lop\blist\to\tempb
+   \gl@lop\blist\to\tempb
    \ifx\tempb\ep@Linebreak
-         \expandafter\glw@append\ep@Linebreak\to\clist
+         \expandafter\gl@append\ep@Linebreak\to\clist
       \else\ifx\tempb\ep@Closeup
-         \expandafter\glw@append\ep@Closeup\to\clist
+         \expandafter\gl@append\ep@Closeup\to\clist
       \else\ifx\tempb\ep@Lbrack
-         \expandafter\glw@append\ep@Lbrack\to\clist
+         \expandafter\gl@append\ep@Lbrack\to\clist
       \else\ifx\tempb\ep@Rbrack
-         \expandafter\glw@append\ep@Rbrack\to\clist
+         \expandafter\gl@append\ep@Rbrack\to\clist
       \else
-         \glw@lop\alist\to\tempa
-         \expandafter\glw@append \tempa \to \tempb
-         \expandafter\glw@append \tempb \to \clist
+         \gl@lop\alist\to\tempa
+         \expandafter\gl@append \tempa \to \tempb
+         \expandafter\gl@append \tempb \to \clist
       \fi\fi\fi\fi
    \ifx\alist\empty \ifx\blist\empty \gl@loopmorefalse \fi\fi
 }
@@ -852,8 +858,8 @@
    \ifglw@word
       \gltoks@a={#1}%
       \gltoks@b=\expandafter{\ling@everygla}%
-      \glw@append \\{\glstrut #1}\to\mainlist
-%      \glw@append \\{#1}\to\mainlist
+      \gl@append \\{\glstrut #1}\to\mainlist
+%      \gl@append \\{#1}\to\mainlist
       \setbox0=\hbox{\ling@everygla #1}%
       \ifdim\glw@maxht<\ht0 \glw@maxht=\ht0 \fi
       \ifdim\glw@maxdp<\dp0 \glw@maxdp=\dp0 \fi
@@ -867,13 +873,13 @@
       \glw@wordfalse
       \@onelevel@sanitize\temp
       \ifx\temp\ep@Linebreak
-            \expandafter\glw@append\ep@Linebreak\to\mainlist
+            \expandafter\gl@append\ep@Linebreak\to\mainlist
          \else\ifx\temp\ep@Closeup
-            \expandafter\glw@append\ep@Closeup\to\mainlist
+            \expandafter\gl@append\ep@Closeup\to\mainlist
          \else\ifx\temp\ep@Lbrack
-            \expandafter\glw@append\ep@Lbrack\to\mainlist
+            \expandafter\gl@append\ep@Lbrack\to\mainlist
          \else\ifx\temp\ep@Rbrack
-            \expandafter\glw@append\ep@Rbrack\to\mainlist
+            \expandafter\gl@append\ep@Rbrack\to\mainlist
          \else \glw@wordtrue
          \fi\fi\fi\fi\fi
 }
@@ -885,19 +891,19 @@
 %      \def\tempa{#1}%
 %      \@onelevel@sanitize\tempa
 %      \ifx\tempa\ep@Linebreak
-%            \expandafter\glw@append\ep@Linebreak\to\mainlist
+%            \expandafter\gl@append\ep@Linebreak\to\mainlist
 %         \else\ifx\tempa\ep@Closeup
-%            \expandafter\glw@append\ep@Closeup\to\mainlist
+%            \expandafter\gl@append\ep@Closeup\to\mainlist
 %         \else\ifx\tempa\ep@Lbrack
-%            \expandafter\glw@append\ep@Lbrack\to\mainlist
+%            \expandafter\gl@append\ep@Lbrack\to\mainlist
 %         \else\ifx\tempa\ep@Rbrack
-%            \expandafter\glw@append\ep@Rbrack\to\mainlist
+%            \expandafter\gl@append\ep@Rbrack\to\mainlist
 %         \else \glw@wordtrue
 %         \fi\fi\fi\fi\fi
 %   \ifglw@word
 %      \gltoks@a={#1#2}%
 %      \gltoks@b=\expandafter{\ling@everygla}%
-%      \glw@append \\{#1#2}\to\mainlist
+%      \gl@append \\{#1#2}\to\mainlist
 %      \setbox0=\hbox{\ling@everygla #1#2}%
 %      \ifdim\glw@maxht<\ht0 \glw@maxht=\ht0 \fi
 %      \ifdim\glw@maxdp<\dp0 \glw@maxdp=\dp0 \fi
@@ -907,12 +913,12 @@
 \newdimen\gl@maxdplast
 \def\glw@updatelists{%
    \edef\temp{\csname lingabovegl\gl@linelabel skip\endcsname}%
-   \expandafter\glw@append\temp \to\aboveskiplist
+   \expandafter\gl@append\temp \to\aboveskiplist
    \edef\temp{\vrule width0pt height\the\glw@maxht\space depth\the\glw@maxdp\space }%
    \global\gl@maxdplast=\glw@maxdp
-   \expandafter\glw@append\temp\to\strutlist
+   \expandafter\gl@append\temp\to\strutlist
    \expandafter\expandafter\expandafter
-      \glw@append\csname ling@everygl\gl@linelabel\endcsname
+      \gl@append\csname ling@everygl\gl@linelabel\endcsname
       \to\everylist
    \gltoks@a=\expandafter{\everylist}%
 }
@@ -966,8 +972,8 @@
    \setbox0=\hbox{\@every #1}%
    \ifdim\glw@maxht<\ht0 \glw@maxht=\ht0 \fi
    \ifdim\glw@maxdp<\dp0 \glw@maxdp=\dp0 \fi
-   \glw@append {\glstrut #1}\to\worklist
-%   \glw@append #1\to\worklist
+   \gl@append {\glstrut #1}\to\worklist
+%   \gl@append #1\to\worklist
    \glw@glx@b
 }
 \defineglwlevels{b,c}
@@ -1017,7 +1023,9 @@
 \newif\if@glpreamble
 \def\glpreamble #1// {%
    \@glpreambletrue
-   {\hangindent=0pt \ling@everyglpreamble #1\par}%
+% 2013/10/10 bug fix
+%   {\hangindent=0pt \ling@everyglpreamble #1\par}%
+   {\hangindent=0pt \ling@everyglpreamble #1\vskip\lingbelowpreambleskip}%
 }
 \def\glw@glft{\@getoptionalarg\glw@glft@a}
 % 2011-12-09 make \glw@glft@a a long definition to allow \par's
@@ -1047,7 +1055,7 @@
    \gl@loopmoretrue
    \@glaparsestate=1
    \loop\ifgl@loopmore
-      \glw@lop\mainlist\to\tempa\relax       % \tempa is one column
+      \gl@lop\mainlist\to\tempa\relax       % \tempa is one column
       \ifx\tempa\ep@Linebreak
             \vskip\epd@gllineskip
             \@glaparsestate=1
@@ -1080,23 +1088,52 @@
       \ifx\mainlist\empty \gl@loopmorefalse \fi
       \repeat
 }
+% 10/8/13 revise the definition of \glw@printcol to allow items to be
+% center aligned in gloss words
+\def\gl@lopTL#1\to#2{\ifx#1\empty
+   \let#2\empty \else\expandafter\gl@lopoffTL#1\gl@lopoffTL#1#2\fi}
+\long\def\gl@lopoffTL\\#1#2\gl@lopoffTL#3#4{#4={#1}\def#3{#2}}
+\newtoks\gltoks@sofar
+\newtoks\gltoks@every
+\newtoks\gltoks@next
 \def\glw@printcol{%
+   \begingroup
+   \gltoks@sofar={}%
+   \gl@loopmoretrue
+   \loop\ifgl@loopmore
+      \gl@lop\aboveskiplist\to\@aboveskip
+      \expandafter\ifdim\@aboveskip=0pt \def\@above{}\else
+         \edef\@above{\noalign{\vskip\@aboveskip}}\fi
+      \gl@lop\strutlist\to\@strut
+      \gl@lopTL\everylist\to\gltoks@every
+      \gl@lopTL\tempa\to\gltoks@next
+      \edef\temp{\the\gltoks@sofar \@above \@strut \the\gltoks@every \the\gltoks@next \cr}%
+      \gltoks@sofar=\expandafter{\temp}%
+      \ifx\tempa\empty \gl@loopmorefalse \fi
+      \repeat
    \vtop{%
       \gl@lineskipsave
       \ling@everyglword
-      \gl@loopmoretrue
-      \loop\ifgl@loopmore
-         \glw@lop\tempa\to\@tempa
-         \glw@lop\aboveskiplist\to\@aboveskip
-         \glw@lop\strutlist\to\@strut
-         \glw@lop\everylist\to\@every
-         \expandafter\ifdim\@aboveskip=0pt \else
-            \vskip\@aboveskip \fi
-            \hbox{\@strut\@every\@tempa}%
-         \ifx\tempa\empty \gl@loopmorefalse \fi
-      \repeat
-      }%
+      \halign{##\hfil\cr \the\gltoks@sofar}}%
+   \endgroup
 }
+%\def\glw@printcol{%
+%   \vtop{%
+%      \gl@lineskipsave
+%      \ling@everyglword
+%      \gl@loopmoretrue
+%      \loop\ifgl@loopmore
+%         \gl@lop\tempa\to\@tempa
+%         \gl@lop\aboveskiplist\to\@aboveskip
+%         \gl@lop\strutlist\to\@strut
+%         \gl@lop\everylist\to\@every
+%         \expandafter\ifdim\@aboveskip=0pt \else
+%            \vskip\@aboveskip \fi
+%            \hbox{\@strut\@every\@tempa}%
+%         \ifx\tempa\empty \gl@loopmorefalse \fi
+%      \repeat
+%      }%
+%}
 % ----- brackets -----
 \newif\if@glpostbrack
 \newcount\@glaparsestate          % 0 normal, 1 post @, 2 post [, 3 post ]

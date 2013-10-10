@@ -2,17 +2,21 @@
 \documentclass[12pt]{article}
 \usepackage{expex}
 \usepackage{expex-gln}
-%\input expex
 \def\writeln#1{\immediate\write16{#1}}
 
 
 \begin{document}
+
+\null
+\vskip6in
+
 \lingset{aboveexskip=0pt,glspace=1em plus .5em minus.2em,
    glrightskip=0pt plus 4em,aboveglftskip=0pt,glneveryline={\it},
-   glstyle=nlevel,everygl={\hangindent=1.2em \hangafter=1}}
-
-Hom\^{a}o[\\{exist}]
-sa[one]
+   glstyle=nlevel,everygl={\hangindent=1.2em \hangafter=1},
+   glneveryline={\it,\sl,\bf,\it},glnaboveskiplist={,,5pt}}
+\noindent
+\begingl
+Hom\^{a}o[\\{exist}] sa[one/two/three]
 \v{c}\^{o}[\\{clf}]
 p\^{o}[person]
 tha[old]
@@ -48,8 +52,10 @@ bboi[at]
 gah,[\\{drct}]
 a,[--]
 hruh[nest]
-\~{n}u.//[\\{3s}]
-
+\~{n}u.[\\{3s}]
+\endilg
+this is the way
+\endgl
 
 \noindent {\large Illustrative running glossed text}
 
