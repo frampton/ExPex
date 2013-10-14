@@ -9,23 +9,46 @@ DONE   3) there should be an escape so that one can write something like
       of miniglosses
 }
 
-
-\begingl[glstyle=nlevel,glspace=2em,everygl=\advance\baselineskip by
-5pt]
-a[a e/c d e]
-b[b g]{{}}
-c[c ffff]
-b[b]
-\endilg
-\endgl
+\hsize=3in
 
 \ex
-\advance\baselineskip by 5pt
-\begingl[glstyle=nlevel,glspace=2em]
-a[a e/c d e]
-b[b g]
-c[c ffff]
-b[b]
+%\begingl[glstyle=wrap,autoglskip=true,extraglskip=2ex,glhangindent=0pt]
+\begingl[glstyle=wrap,glhangindent=0pt,glneveryline=\strut]
+\gla aaaaaa bbbbbb cccccc aaaaaa bbbbbb cccccc aaaaaa bbbbbb cccccc
+   aaaaaa bbbbbb cccccc aaaaaa //
+\glb dddddd eeeeee ffffff dddddd eeeeee ffffff dddddd eeeeee ffffff
+dddddd eeeeee ffffff dddddd //
+\endgl
+\xe
+
+\ex
+\begingl[glstyle=nlevel]
+aaaaaa[dddddd] bbbbbb[eeeeee] cccccc[ffffff]
+aaaaaa[dddddd] bbbbbb[eeeeee] cccccc[ffffff]
+aaaaaa[dddddd] bbbbbb[eeeeee] cccccc[ffffff]
+aaaaaa[dddddd] bbbbbb[eeeeee] cccccc[ffffff]
+aaaaaa[dddddd]
+\endilg
+\endgl
+\xe
+
+
+\ex
+\lineskip=3ex
+\begingl[glstyle=nlevel,glspace=2em,
+   everygl=\advance\baselineskip by 2ex]
+abcdefg[B/C]
+uiopqwd[E/F]
+abcdefg[B/C]
+uiopqwd[E/F]
+abcdefg[B/C]
+uiopqwd[E/F]
+abcdefg[B/C]
+uiopqwd[E/F]
+abcdefg[B/C]
+uiopqwd[E/F]
+abcdefg[B/C]
+uiopqwd[E/F]
 \endilg
 \endgl
 \xe

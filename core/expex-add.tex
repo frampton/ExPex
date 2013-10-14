@@ -77,7 +77,7 @@
    {\hangindent=0pt \ling@everyglpreamble #1\vskip\lingbelowpreambleskip}%
 }
 
-%%%%%%%%%%%%%%%%%%%% glbreak %%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%% nlevel %%%%%%%%%%%%%%%%%%%%
 
 \define@choicekey{ling}{glstyle}[\ling@glstyle\gl@stylenum]{wrap,nlevel}{%
    \ifcase\gl@stylenum
@@ -112,7 +112,10 @@
    \gln@d #2/\@nil
    \gln@a
 }
-\def\gln@d #1/{\gl@append #1\to\tempa \gln@e}
+\def\gln@d{\@ifnextchar\@space\gln@da\gln@db}
+\def\gln@da#1#2/{\gl@append #2\to\tempa \gln@e}
+\def\gln@db#1/{\gl@append #1\to\tempa \gln@e}
+%\def\gln@d #1/{\gl@append #1\to\tempa \gln@e}
 \def\gln@e{\@ifnextchar\@nil{\gln@printcol\gln@aftercolbox\ep@gobble}\gln@d}
 \def\gln@e{\@ifnextchar\@nil\gln@f\gln@d}
 \def\gln@f#1{\gln@printcol\gln@aftercolbox}
