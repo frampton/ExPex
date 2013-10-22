@@ -10,7 +10,12 @@
 \let\ep@normalat=\temp
 \let\ep@normalplus=+
 
+\define@key{ling}{glbaselineskip}[\the\baselineskip]%
+   {\@setinckey\skip\lingglbaselineskip#1\@nil}%
+\lingset{glbaselineskip}
+
 %%%%%%%%%%%%%%%%%%%% glbreak %%%%%%%%%%%%%%%%%%%%
+
 \def\glw@begingl@a{%
    \ifdim\ling@glwidth=0pt
       \bgroup
@@ -88,23 +93,26 @@
    \else
       \let\gl@beginglstyle\gln@begingl
       \let\endgl\gln@endgl
-      \let\glft=\gln@ft
       \fi
 }
-\def\gln@begingl{\leavevmode \hangafter=1 \hangindent=1.5em
+\def\gln@begingl{\bgroup
    \@glspacefalse \@getoptionalarg\gln@A}
 \def\gln@A{\@ifnextchar\@cs\gln@B\gln@C}
 \def\gln@B#1{\gln@C}
 \def\gln@C{%
    \ling@usearg
+   \baselineskip=\lingglbaselineskip
    \lineskip=\lingextraglskip
    \rightskip=\ling@glrightskip
+   \ifdim\ling@glhangindent>0pt \hangindent=\ling@glhangindent
+      \hangafter=1 \fi
+   \leavevmode
    \gln@a
 }
-\def\endilg{}
+\long\def\endilg{\par\egroup}
 \newif\if@glspace
 \def\gln@a{\futurelet\temp\gln@b}
-\def\gln@b{\ifx\temp\endilg \let\next=\relax
+\def\gln@b{\ifx\temp\endgl \let\next=\relax
    \else \let\next=\gln@c \fi \next }
 \def\gln@c #1[#2]#3 {%
    \def\tempa{\\{#1}}%
@@ -120,25 +128,39 @@
 \def\gln@e{\@ifnextchar\@nil\gln@f\gln@d}
 \def\gln@f#1{\gln@printcol\gln@aftercolbox}
 \def\gln@aftercolbox{%
-   \if@glspace \hskip\lingglspace \fi
+   \if@glspace \hskip\lingglspace \else \@glspacetrue \fi
    \box\gln@col
-   \@glspacetrue
    \expandafter\futurelet\expandafter\temp\expandafter\gln@after@a\afterword\@nil
+%   \@glspacetrue
 }
-\def\gln@after@a{\@glspacetrue
-   \ifx\temp\@nil \let\next\gobble
-   \else \ifx\temp\ep@normalat \let\next\gln@after@b
+\def\gln@after@a{%
+   \ifx\temp\ep@normalat \let\next\gln@after@b
    \else \ifx\temp\ep@normalplus \let\next\gln@after@c
-   \else \let\next\gln@after@d
-   \fi\fi\fi \next}
-\def\gln@after@b#1\@nil{\@glspacefalse}
-\def\gln@after@c#1\@nil{\endgraf \leavevmode\@glspacefalse}
-\def\gln@after@d#1\@nil{#1\@glspacefalse}
+   \else \ifx\temp\@space \let\next\gln@after@d
+   \else \let\next\gln@after@e
+   \fi\fi\fi
+   \next
+}
+\def\ep@diacriticerror#1{%
+   \@expexerror{bad gloss diacritic: #1 (only @ and + permitted)}\end}
+\def\@checkdiacritic#1#2#3{\def\temp{#2}\ifx\temp\empty #3\else
+   \ep@diacriticerror{#1#2}\fi}
+%   \@expexerror{bad diacritic #1#2 (only @ and + permitted)}\end \fi}
+\def\gln@after@b#1#2\@nil{\@checkdiacritic{#1}{#2}\@glspacefalse}
+\def\gln@after@c#1#2\@nil{\@checkdiacritic{#1}{#2}{%
+   \endgraf
+   \ifdim\ling@glhangindent>0pt
+      \hangindent=\ling@glhangindent \hangafter=0 \fi
+   \leavevmode
+   \@glspacefalse}}
+\def\gln@after@d#1\@nil{\@glspacetrue}
+\def\gln@after@e#1\@nil{\ep@diacriticerror{#1}}
 
-\def\gln@endgl{\egroup}
+\def\gln@endgl{\par\egroup\egroup}
 \newbox\gln@col
 \def\gln@printcol{%
    \setbox\gln@col=\vtop{%
+      \lineskip=0pt
       \ling@everyglword
       \gl@loopmoretrue
       \loop\ifgl@loopmore
@@ -153,7 +175,7 @@
       \repeat
       }%
 }
-\def\gln@ft #1//{\par\nobreak\vskip\lingaboveglftskip\strut `#1'}
+\def\glnft{\vskip\lingaboveglftskip\strut}
 \define@lingkey{glneveryline}{%
    \setlist\gln@everyline{#1}}
 \define@lingkey{glnabovelineextraskip}{%

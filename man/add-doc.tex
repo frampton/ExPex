@@ -1,10 +1,79 @@
 
-\input ../add/nlevel/expex-nlevel
-%\lingset{glbreaking=true}
+\ex[glstyle=nlevel,glhangindent=0pt,extraglskip=1ex]
+\begingl
+Mary$_i$[Mary] ist[is] sicher,[sure]
+dass[that] es[it] den[the-\sc acc] Hans[Hans] nicht[not]
+   st\"oren[annoy] w\"urde[would]
+seiner[his-\sc dat] Freundin[girlfriend-\sc dat] ihr$_i$[her-\sc acc]
+   Herz[heart-\sc acc] auszusch\"utten.[out to throw]
+\endgl
+\xe
+
+
+%
+%
+%\ex[glstyle=wrap]
+%\begingl
+%\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
+%seiner Freundin ihr$_i$ Herz auszusch\"utten.//
+%\glb Mary is sure that it the-{\sc acc} Hans not annoy would
+%his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
+%throw}//
+%\glft  `Mary is sure that it would not annoy John to reveal her
+%heart to his girlfriend.'//
+%\endgl
+%\xe
+
+\endinput
+
+
+
+
+%
+%
+%\ex[everygla=,glhangstyle=normal]<@period>
+%\begingl
+%\gla Fa'nu'i yu' ni [ [ {\it O} t{\it in\/}aitai-mu {\it t\/} ] na
+%lepblu ] @ .//
+%\glb show me Obl Op {\it WH\/}[obj].read-agr {} L book//
+%\glft ``Show me the book that you read.''//
+%\endgl
+%\xe
+%
+%\ex \begingl[glstyle=nlevel]
+%Fa'nu'i[show]
+%yu'[me]
+%ni[Obl]
+%{[[\thinspace}[]@a
+%{\it O\/}[Op]
+%t{\it in\/}aitai-mu[{\it WH\/}{[obj]}.read-agr]
+%{\it t\thinspace}[]@
+%{]}[]
+%na[L]
+%lepblu{]}.[book]
+%\endilg
+%\glft ``Show me the book that you read.''//
+%\endgl
+%\xe
+%
+%
+%
+%
+%
+%
+%
+
+%\glft ``Show me the book that you read.''//
+%\endgl
+%
+%
+%\endinput
 
 \section Additonal options for glosses
 
 \subsection Glosses which span page breaks
+
+\lingset{glbreaking=true}
 
 \begininventory
 \parameters*
@@ -74,7 +143,7 @@ effect.
 
 \begininventory
 \macros*
-\idx{|\endilg|}\endmc
+\idx{|\glnft|}\endmc
 \parameters
 |glneveryline|& list of token lists& |{}|\cr
 |glnabovelineextraskip|& list of dimensions& |{}|\cr
@@ -88,31 +157,90 @@ We begin by recoding (\getref{wapm}) from Section
 \begingl
 k-[CL/2] wapm[V/see] -a[AGR/\sc 3acc] -s'i[NEG]
 -m[AGR/\sc 2pl] -wapunin[TNS/preterit] -uk[AGR/\sc 3pl]
-\endilg
-\glft `you (pl) didn't see them'//
 \endgl
+\glnft
+`you (pl) didn't see them'
 \xe
 \endframedisplay
-\codedisplay
+\codedisplay~
 \ex[glstyle=nlevel]
 \begingl
 k-[CL/2] wapm[V/see] -a[AGR/\sc 3acc] -s'i[NEG]
 -m[AGR/\sc 2pl] -wapunin[TNS/preterit] -uk[AGR/\sc 3pl]
-\endilg
-\glft `you (pl) didn't see them'//
 \endgl
+\glnft `you (pl) didn't see them'
 \xe
 |endcodedisplay
+%\endinput
+%
+%
+%\framedisplay
+%\ex[glstyle=nlevel]
+%\begingl
+%k-[CL/2] wapm[V/see] -a[AGR/\sc 3acc] -s'i[NEG]
+%-m[AGR/\sc 2pl] -wapunin[TNS/preterit] -uk[AGR/\sc 3pl]
+%\endilg
+%\glft `you (pl) didn't see them'//
+%\endgl
+%\xe
+%\endframedisplay
+%\codedisplay
+%\ex[glstyle=nlevel]
+%\begingl
+%k-[CL/2] wapm[V/see] -a[AGR/\sc 3acc] -s'i[NEG]
+%-m[AGR/\sc 2pl] -wapunin[TNS/preterit] -uk[AGR/\sc 3pl]
+%\endilg
+%\glft `you (pl) didn't see them'//
+%\endgl
+%\xe
+%|endcodedisplay
 The big advantage to this style of coding complex glosses is that the
 gloss of a word and the word are adjacent in the code. This makes the
 code much more readable.  In effect, an aspect of WYSIWG is built into
 the coding.
 
-The list between |\begingl| and |\endilg| (end interlinear gloss) is processed as a space
+The list between |\begingl| and |\endgl| is processed as a space
 separated list.  Spaces inside |[|\dots|]| are effectively hidden from
 this parsing.  So, for example, the space in |-a[AGR/\sc 3acc]| does
 not mislead the parser.  The material inside |[|\dots|]| is processed
-as a |/| separated list.
+as a |/| separated list.  Of course, |/| in this material must be
+hidden from the parser so |/| cannot appear at the top level.  The
+same is true of |]|, for obvious reasons.
+
+\def\<#1>{$\langle$#1$\rangle$}
+
+Formally, the syntax of nlevel glosses can be given as a system of
+rewriting rules.  Quantities in angle brackets are either specified in
+other rewriting rules or explained in words. \<spaces> consists of one
+or more spaces.  $\vert$ is logical or.
+
+\bigskip
+\begingroup
+\leftskip=\parindent
+\parindent=0pt
+\<gloss display> $\to$ |\begingl| \<interlinear gloss> \<spaces> |\endgl|
+
+\<interlinear gloss> $\to$ \<word gloss> $\vert$
+   \<word gloss> \<spaces> \<interlinear gloss>
+
+\<word gloss> $\to$
+   \<word> |[| \<gloss> |]| $\vert$
+   \<word> |[| \<gloss> |]| \<diacritic>
+
+\<gloss> $\to$ \<gloss item> $\vert$ \<gloss item> |/| \<gloss>
+
+\<diacritic> $\to$ |@| $\vert$ |+|
+\bigskip
+\endgroup
+\noindent
+\<word>, and \<gloss item> must be material
+which can appear in the context |\hbox{|\dots|}|. \<word> cannot
+contain top-level spaces. \<gloss item> cannot contain either
+top-level |/| or top-level |]| (but can contain top-level spaces).
+
+
+
+
 
 The parameter |glneveryline| is illustrated below.
 
@@ -126,7 +254,6 @@ wapm[v/\rm see]
 -m[agr/\sc 2pl]
 -wapunin[tns/preterit]
 -uk[agr/3pl]
-\endilg
 \endgl
 \xe
 \endframedisplay
@@ -140,12 +267,13 @@ wapm[v/\rm see]
 -m[agr/\sc 2pl]
 -wapunin[tns/preterit]
 -uk[agr/3pl]
-\endilg
 \endgl
 \xe
 |endcodedisplay
 
-The use of |glnabovelineskip| is illustrated below.
+The use of |glnabovelineskip| is illustrated below.  The vertical
+space underneath the words is closed up by putting a vertical skip of
+-2pt over the second line of the gloss.
 
 \framedisplay
 \ex[glstyle=nlevel,glneveryline={\it,\sc,\sc},
@@ -158,18 +286,32 @@ wapm[v/\rm see]
 -m[agr/\sc 2pl]
 -wapunin[tns/preterit]
 -uk[agr/3pl]
-\endilg
 \endgl
 \xe
 \endframedisplay
-
-Note that a list of dimensions |{,-2pt}| is acceptable; the missing
-dimensions are assumed to be |0pt|.  Missing entries in the value of
-|glneveryline|, either because the list is shorter than the number of
-lines in the interlinear gloss or because of null entries on the list,
-are similarly assumed to be null and cause no problem.  The material
-inside the brackets, or material delimited by |/| can be missing as
-well, but the brackets are mandatory.
+\codedisplay~
+\ex[glstyle=nlevel,glneveryline={\it,\sc,\sc},
+   glnabovelineextraskip={,-2pt}]
+\begingl
+k-[cl/2]
+wapm[v/\rm see]
+-a[agr/3acc]
+-s'i[neg]
+-m[agr/\sc 2pl]
+-wapunin[tns/preterit]
+-uk[agr/3pl]
+\endgl
+\xe
+|endcodedisplay
+Note that a list of dimensions |{,-2pt}| with dimensions missing is
+acceptable; the missing dimensions are assumed to be |0pt|.  Missing
+entries in the value of |glneveryline|, either because the list is
+shorter than the number of lines in the interlinear gloss or because
+of null entries on the list, are similarly assumed to be null and
+cause no problem.  The material inside the brackets, or material
+delimited by |/| can be missing as well, but the brackets are
+mandatory.  Spaces after |[| or |/| are ignored, so for example,
+|wapm[v/\rm see]| and |wapm[ v/ \rm see]| produce the same output.
 
 One spacing problem that is handled automatically in the wrap style
 must be handled by the user in the nlevel style.  It is not common,
@@ -183,1151 +325,115 @@ morphophonological derivation of a surface form, as in (\nextx).
 
 \framedisplay
 \ex[glstyle=nlevel,glneveryline={\it}]
-\begingl m-[(mo-)] wope[(a\AccentedBarredW ope)] \endilg \endgl \xe
+\begingl m-[(mo-)] wope[(a\AccentedBarredW ope)] \endgl \xe
 \endframedisplay
 \codedisplay
 \ex[glstyle=nlevel,glneveryline={\it}]
-\begingl m-[(mo-)] wope[(a\AccentedBarredW ope)] \endilg \endgl \xe
+\begingl m-[(mo-)] wope[(a\AccentedBarredW ope)] \endgl \xe
 |endcodedisplay
 Not only is more space between the lines needed, but there is
 misalignment of the baselines on the second level.
 
-|glneveryline={,5pt}| will give more space over the second level but
-it will still have the misaligned baselines.  The trick is to insert a
-sufficiently tall strut before each entry on the second level.
+|glneveryline={,5pt}| would give more space over the second level but
+it will not fix the misaligned baselines. But |glbaselineskip| can be
+easily adjusted to give vertical room for the second line.
 
 \framedisplay
-\ex[glstyle=nlevel,glneveryline={\it,\vrule height15pt width0pt}]
-\begingl m-[(mo-)] wope[(a\AccentedBarredW ope)] \endilg \endgl \xe
+\ex[glstyle=nlevel,glbaselineskip=!6pt]
+\begingl m-[(mo-)] wope[(a\AccentedBarredW ope)] \endgl \xe
 \endframedisplay
 \codedisplay
-\ex[glstyle=nlevel,glneveryline={\it,\vrule height15pt width0pt}]
-\begingl m-[(mo-)] wope[(a\AccentedBarredW ope)] \endilg \endgl \xe
+\ex[glstyle=nlevel,glbaselineskip=!6pt]
+\begingl m-[(mo-)] wope[(a\AccentedBarredW ope)] \endgl
+\xe
 |endcodedisplay
+Note that the baselineskip within the word glosses in a particular
+example can be set using the |!|dimension syntax as an offset from the
+setting of |glbaselineskip| in the environment in which the example
+occurs.
 
-Another approach to fixing the spacing problem in (\blastx) is to
-increase the baseline skip.
+The nlevel style handles line breaking and hanging indentation as
+expected.
 
 \framedisplay
-\ex[glstyle=nlevel,glneveryline={\it}]
-\advance\baselineskip by 4pt
-\begingl m-[(mo-)] wope[(a\AccentedBarredW ope)] \endilg \endgl \xe
-\endframedisplay
-\codedisplay
-\ex[glstyle=nlevel,glneveryline={\it}]
-\advance\baselineskip by 4pt
-\begingl m-[(mo-)] wope[(a\AccentedBarredW ope)] \endilg \endgl \xe
-|endcodedisplay
-
 \ex
 \let\\=\textsc
 \lineskip=1ex
-\begingl[glstyle=nlevel,glneveryline={\it}]
-%
+\begingl[glstyle=nlevel,glneveryline={\it},glhangindent=1em]
 Hom\^{a}o[\\{exist}]  sa[one]  \v{c}\^{o}[\\{clf}]  p\^{o}[person]
 tha[old]  \~{n}u[\\{3s}]  nao[go]  ng\u{a}[do]  hmua.[field]
-%
 \~{N}u[\\{3s}]  dj\u{a}[hold]  g\u{a},[machete]  \~{n}u[\\{3s}]
 dj\u{a}[hold]  \v{c}\u{o}ng[hoe]  \~{n}u,[\\{3s}]  laih[and]
 gui[carry.on.back]  r\^{e}o[back.basket]  {\~{n}u. }[\\{3s}]
-%
 Todang[while] bboi[at]  r\^{o}k[along]  jolan[trail]  \~{n}u[\\{3s}]
 nao[go] hma,[field]  \~{n}u[\\{3s}]  bb\^{o}h[see]  sa[one]
 droi[\\{clf}] mr\u{a}[peacock]  d\u{o}[stay]  bboi[at]  gah,[\\{drct}]
 a,[] hruh[nest]  \~{n}u.[\\{3s}]
-%
-\endilg \endgl \xe
+\endgl \xe
+\endframedisplay
+\codedisplay~
+\ex
+\let\\=\textsc
+\lineskip=1ex
+\begingl[glstyle=nlevel,glneveryline={\it},glhangindent=1em]
+Hom\^{a}o[\\{exist}]  sa[one]  \v{c}\^{o}[\\{clf}]  p\^{o}[person]
+tha[old]  \~{n}u[\\{3s}]  nao[go]  ng\u{a}[do]  hmua.[field]
+\~{N}u[\\{3s}]  dj\u{a}[hold]  g\u{a},[machete]  \~{n}u[\\{3s}]
+dj\u{a}[hold]  \v{c}\u{o}ng[hoe]  \~{n}u,[\\{3s}]  laih[and]
+gui[carry.on.back]  r\^{e}o[back.basket]  {\~{n}u. }[\\{3s}]
+Todang[while] bboi[at]  r\^{o}k[along]  jolan[trail]  \~{n}u[\\{3s}]
+nao[go] hma,[field]  \~{n}u[\\{3s}]  bb\^{o}h[see]  sa[one]
+droi[\\{clf}] mr\u{a}[peacock]  d\u{o}[stay]  bboi[at]  gah,[\\{drct}]
+a,[] hruh[nest]  \~{n}u.[\\{3s}]
+\endgl \xe
+|endcodedisplay
+
+\subsection The diacritics |@| and |+|
+
+
+\def\ge#1{\langle\hbox{\sl #1}\,\rangle}
+
+\noindent A word gloss $\ge{word}|[|\ge{gloss$_1$}|/|\ldots|]|$ can
+optionally be immediately followed by one of |@| and |+|.  A |@|
+cancels the usual space between the typeset word glosses.  A |+|
+introduces a line break.  This should be compared with the slightly
+different syntax of these diacritics in the wrap style; see sections ?
+and ?.  The folowing code produces the same output as the code which
+is given for (\getref{wiye}).
+
+\codedisplay
+\ex[glstyle=nlevel]
+\begingl wiye[two] kepi[whitemen] e-[\sc 1p:3d-]@ ca[found] \endgl
+\xe
+|endcodedisplay
+\vfil \break
+
+\ex[glstyle=wrap]
+\begingl
+\gla Mary$_i$ ist sicher, + dass es den Hans nicht st\"oren w\"urde
++ seiner Freundin ihr$_i$ Herz auszusch\"utten.//
+\glb Mary is sure that it the-{\sc acc} Hans not annoy would
+his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
+throw}//
+\glft  `Mary is sure that it would not annoy John to reveal her
+heart to his girlfriend.'//
+\endgl
+\xe
+
+\ex[glstyle=nlevel,glhangindent=0pt]
+\begingl
+Mary$_i$[Mary] ist[is] sicher,[sure]+
+dass[that] es[it] den[the-\sc acc] Hans[Hans] nicht[not]
+   st\"oren[annoy] w\"urde[would]+
+seiner[his-\sc dat] Freundin[girlfriend-\sc dat] ihr$_i$[her-\sc acc]
+   Herz[heart-\sc acc] auszusch\"utten.[out to throw]
+\endgl
+\glnft  `Mary is sure that it would not annoy John to reveal her
+%\glft  `Mary is sure that it would not annoy John to reveal her
+heart to his girlfriend.'
+%\endgl
+\xe
+
 
 \endinput
-
-The general form
-
-\begingroup
-\parindent=0pt
-$word_1[gloss_{11}/gloss_{12}/\cdots]$\enspace
-$word_2[gloss_{21}/gloss_{22}/\cdots]$\enspace
-\endgroup
-
-\framedisplay
-\ex[glstyle=nlevel,glneveryline={\it,\sc,\sc},glnaboveskiplist={,-2pt}]
-\begingl
-k-[cl/2]
-wapm[v/\rm see]
--a[agr/3acc]
--s'i[neg]
--m[agr/\sc 2pl]
--wapunin[tns/preterit]
--uk[agr/3pl]
-\endilg
-\endgl
-\xe
-\endframedisplay
-\codedisplay~
-|endcodedisplay
-
-
-
-%
-Before I introduce the parameters that control the
-characteristics of gloss displays, here are a few examples done
-with the initial settings of the parameters.
-
-\medskip
-\framedisplay
-\ex<wapm>
-\begingl
-\gla k- wapm -a -s'i -m -wapunin -uk //
-\glb CL V AGR NEG AGR TNS AGR //
-\glb 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
-\glft `you (pl) didn't see them'//
-\endgl
-\xe
-\endframedisplay
-\codedisplay~
-\ex
-\begingl
-\gla k- wapm -a -s'i -m -wapunin -uk //
-\glb CL V AGR NEG AGR TNS AGR //
-\glb 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
-\glft `you (pl) didn't see them'//
-\endgl
-\xe
-|endcodedisplay
-
-\framedisplay
-\ex<sicher>
-\begingl
-\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
-seiner Freundin ihr$_i$ Herz auszusch\"utten.//
-\glb Mary is sure that it the-{\sc acc} Hans not annoy would
-his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
-throw}//
-\glft  `Mary is sure that it would not annoy John to reveal her
-heart to his girlfriend.'//
-\endgl
-\xe
-\endframedisplay
-\codedisplay~
-\ex
-\begingl
-\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
-seiner Freundin ihr$_i$ Herz auszusch\"utten.//
-\glb Mary is sure that it the-{\sc acc} Hans not annoy would
-his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc}
-heart-{\sc acc} {out to throw}//
-\glft  `Mary is sure that it would not annoy John to reveal her
-heart to his girlfriend.'//
-\endgl
-\xe
-|endcodedisplay
-
-
-\framedisplay
-\ex<um>
-\begingl
-\glpreamble Um-\"asudda' h\"am yan i taotao ni si Juan
-ilek-\~na nu guahu mal\"agu' gui
-asudd\"a'-\~na.//
-\gla Um-\"asudda' h\"am yan [ i taotao [ {\it O\/} ni si Juan
-ilek-\~na nu guahu [ mal\"agu' gui [ asudd\"a'-\~na {\it
-t\/} ] ] ] ] @ .//
-\glb agr-meet we with the person Op Comp the Juan say-agr Obl me
-agr.want he {\it WH\/}[obl].meet-agr//
-\glft ``I met the person who Juan told me he wanted to
-meet.''//
-\endgl
-\xe
-\endframedisplay
-\codedisplay~
-\ex
-\begingl
-\glpreamble Um-\"asudda' h\"am yan i taotao ni si Juan
-   ilek-\~na nu guahu mal\"agu' gui asudd\"a'-\~na.//
-\gla Um-\"asudda' h\"am yan [ i taotao [ {\it O\/} ni si Juan
-   ilek-\~na nu guahu [ mal\"agu' gui [ asudd\"a'-\~na {\it
-   t\/} ] ] ] ] @ .//
-\glb agr-meet we with the person Op Comp the Juan say-agr Obl me
-   agr.want he {\it WH\/}[obl].meet-agr//
-\glft ``I met the person who Juan told me he wanted to
-   meet.''//
-\endgl
-\xe
-|endcodedisplay
-
-Glosses (|\begingl| \dots\ |\endgl|) have up to three
-parts.  First, an optional preamble (|\glpreamble| \dots\ |//|).
-Second, an interlinear gloss, which is also optional provided there is
-a preamble.\footnote{%
-Contrary to first impressions, there are good reasons to allow the
-interlinear gloss to be omitted in certain situations.}  Third, a free
-translation (|\glft| \dots\ |//|), which can be omitted if there is an
-interlinear gloss. They are illustrated below, which repeats (\lastx)
-with a narrower hsize.
-
-\begingroup
-\input pstricks-add
-\ex%[glbreaking=false]
-\def\TOP{\pnode(3.4in,1.5ex)}%
-\def\BOT{\pnode(0,-.5ex)}%
-\begingl[glwidth=3.2in]
-\glpreamble \TOP{A1}Um-\"asudda' h\"am yan i taotao ni si Juan
-ilek-\~na nu guahu mal\"agu' gui
-asudd\"a'-\~na.\BOT{B1}//
-\gla \TOP{A2}Um-\"asudda' h\"am yan [ i taotao [ {\it O\/} ni si Juan
-ilek-\~na nu guahu [ mal\"agu' gui [ asudd\"a'-\~na {\it
-t\/} ] ] ] ] @ .//
-\glb agr-meet we with the person Op Comp the Juan say-agr Obl me
-agr.want he {\it WH\/}[obl].meet-agr\BOT{B2}//
-\glft \TOP{A3}``I met the person who Juan told me he wanted to
-meet.''\BOT{B3}//
-\endgl
-\SpecialCoor
-\psbrace[ref=lC](A1|B1)(A1){ preamble}
-\psbrace[ref=lC](A1|B2)(A2){ interlinear gloss}
-\psbrace[ref=lC](A1|B3)(A3){ free translation}
-\xe
-\endgroup
-
-The interlinear gloss consists of a sequence of lines of the form
-$$\hbox{|\gl|{\it levelname\/} \dots\ |//|}$$
-where {\it levelname\/} is |a|, |b|, or |c|.\footnote{%
-This will be extended later to allow the user to define new level
-names.}  There must be one and only one |\gla| line, which must come
-first in the interlinear gloss. |\glb| and |\glc| lines can come in
-any order and can be repeated arbitrarily.
-
-The material delineated by |\gl|{\it levelname\/} and |//| is parsed
-as a sequence of space separated items.  The parser only looks for
-spaces at the top-level.  Consequently, in (\blastx), for example, it
-is not sensitive to the space in items like |the-{\sc acc}| since the
-space is inside a group, therefore not at the top level.  Spaces that
-directly precede terminating |//| are disregarded.  A line in the
-interlinear gloss can have fewer items on it than the line above it. It
-acts as if it ended with empty |{}| items.  But {\it no line in the
-interlinear gloss can have more items than the line above it}.  If
-there are ``excess'' items on a line, they will act as if they are on
-the higher line (recursively).
-
-\subsection Parameters
-
-\def\\#1{\noalign{\smallskip}\quad #1\cr}%
-\hrule
-\medskip
-\parinventory
-\\{Horizontal spacing\hidewidth}
-\quad & \idx{|glspace|\user}& \inc dimension& \textdim{1 em}\cr
-\\{Font changes, struts, etc.\hidewidth}
-& \idx{|everygl|}& token list& |{}|\cr
-& \idx{|everyglpreamble|}& token list& |{}|\cr
-& \idx{|everygla|}& token list& |\it|\cr
-& \idx{|everyglb|}& token list& |{}|\cr
-& \idx{|everyglc|}& token list& |{}|\cr
-& \idx{|everyglft|}& token list& |{}|\cr
-\\{Vertical spacing\hidewidth}
-& \idx{|belowglpreambleskip|\user}& (!)dimension& \textdim{1 ex}\cr
-& \idx{|aboveglbskip|\user}& (!)dimension& \textdim{0 pt}\cr
-& \idx{|aboveglcskip|\user}& (!)dimension& \textdim{0 pt}\cr
-& \idx{|aboveglftskip|\user}& (!)dimension& \textdim{1 ex}\cr
-\endparinventory
-\vskip-1ex
-\hrule
-\medskip
-
-Suppose for example that rather than the gloss in (\getref{wapm}) the
-following style is desired.
-
-\framedisplay
-\ex
-\begingl[glspace=2em]
-\gla[everygla=] k- wapm -a -s'i -m -wapunin -uk //
-\glb[everyglb=\sc,aboveglbskip=-.4ex]
-   cl v agr neg agr tns agr //
-\glb 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
-\glft[everyglft=\it,aboveglftskip=0pt] `you (pl) didn't see them'//
-\endgl
-\xe
-\endframedisplay
-There are several differences with (\getref{wapm}).  The words are
-more widely separated; the font in the |\gla| line is not italic;  the
-font in the free translation is italic; the first |\glb| line is set
-in a smaller font and is moved up closer to the |\gla| line; and there
-is no extra vertical skip between the free translation and the last
-line of the interlinear gloss, as there is in (\getref{wapm}).
-
-Here is one way to write the code:
-
-\codedisplay
-\ex
-\begingl[glspace=2em]
-\gla[everygla=] k- wapm -a -s'i -m -wapunin -uk //
-\glb[everyglb=\sc,aboveglbskip=-.4ex]
-   cl v agr neg agr tns agr //
-\glb 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
-\glft[everyglft=\it,aboveglftskip=0pt] `you (pl) didn't see them'//
-\endgl
-\xe
-|endcodedisplay
-
-Here is an alternative which produces the same output.  It has the
-advantage that all of the parameter settings are gathered in one
-place, making it easier to modify.
-
-\codedisplay
-\ex
-\begingl[glspace=2em,everygla=,everyglb=\sc,
-   aboveglbskip=-.4ex,everyglft=\it,aboveglftskip=0pt]
-\gla k- wapm -a -s'i -m -wapunin -uk //
-\glb cl v agr neg agr tns agr //
-\glc 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
-\glft `you (pl) didn't see them'//
-\endgl
-\xe
-|endcodedisplay
-
-If you use multiple instances of the same gloss format, a style should
-be defined
-
-\codedisplay
-\definelingstyle{Potawatami}{glspace=2em,everygla=,everyglb=\sc,
-   aboveglbskip=-.4ex,everyglft=\it,aboveglftskip=0pt}
-|endcodedisplay
-
-Then, typesetting a gloss in that style is done simply.
-
-\codedisplay
-\ex
-\begingl[lingstyle=Potawatami]
-\gla k- wapm -a -s'i -m -wapunin -uk //
-\glb Ccl V Agr Neg Agr Tns Agr //
-\glc 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
-\glft `you (pl) didn't see them'//
-\endgl
-\xe
-|endcodedisplay
-
-If you want a sequence of glosses to all be done in this style, you can say:
-
-\def\goop{\quad $\vdots$}
-\codedisplay
-\begingroup
-\lingset{lingstyle=Potawatami}
-|goop
-\endgroup
-|endcodedisplay
-
-\subsection The parameter {\tt glwidth}
-
-If the parameter |glwidth| is set to a nonzero value, the gloss is
-built in a vbox whose width is the setting of |glwidth|. The following
-example illustrates the usefulness of the explicit width option.
-
-\ex[glwidth=2.6in]<sicher2>
-a.\quad
-\begingl
-\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
-seiner Freundin ihr$_i$ Herz auszusch\"utten.//
-\glb Mary is sure that it the-{\sc acc} Hans not annoy would
-his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
-throw}//
-\glft  `Mary is sure that it would not annoy John to reveal her
-heart to his girlfriend.'//
-\endgl
-\hfil
-b.\quad
-\begingl
-\gla Mary$_i$ ist sicher, dass seiner Freunden ihr$_i$ Herz
-auszuch\"utten dem Hans nicht schaden w\"urde.//
-\glb Mary is sure that his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc}
-heart-{\sc acc} {out to throw} the-{\sc dat} Hans not damage would//
-\glft `Mary is sure that to reveal her heart to his girlfriend
-would not damage John.'//
-\endgl
-\xe
-
-\codedisplay~
-\ex[glwidth=2.6in]
-a.\quad
-\begingl
-\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
-seiner Freundin ihr$_i$ Herz auszusch\"utten.//
-\glb Mary is sure that it the-{\sc acc} Hans not annoy would
-his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
-throw}//
-\glft  `Mary is sure that it would not annoy John to reveal her
-heart to his girlfriend.'//
-\endgl
-\hfil
-b.\quad
-\begingl
-\gla Mary$_i$ ist sicher, dass seiner Freunden ihr$_i$ Herz
-auszuch\"utten dem Hans nicht schaden w\"urde.//
-\glb Mary is sure that his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc}
-heart-{\sc acc} {out to throw} the-{\sc dat} Hans not damage would//
-\glft `Mary is sure that to reveal her heart to his girlfriend
-would not damage John.'//
-\endgl
-\xe
-|endcodedisplay
-
-
-
-%
-%
-%
-%\subsection The width of the gloss
-%
-%In the wrap style (the only gloss style currently implemented),
-%the gloss is built in a vbox whose width is determined implicitly
-%if the parameter |glwidth| is set to \textdim{0 pt}. The width is
-%$h-l-r$, where $h$, $l$, and $r$, are the current values of
-%|\hsize|, |\leftskip|, and |\rightskip|, respectively.  This
-%implicit determination of the width of the gloss is appropriate
-%for use with the \ExPex\ macros which typeset examples because
-%they adjust the leftskip appropriately inside examples.
-%
-%If you want to supply an example number or explicit label, it will not
-%work to say something like the following if |glwidth| is set to
-%\textdim{0 pt}.
-%
-%\def\goop{\dots\ }
-%\codedisplay
-%[A]\quad \begingl |goop \endgl
-%|endcodedisplay
-
-%The vbox built by the gloss macro will not fit on the same line with
-%the [A].
-%
-%You must say:
-%
-%\def\temp{\dots }
-%\codedisplay
-%\ex[exno=A,exnoformat={[X]}] \begingl |temp \endgl
-%|endcodedisplay
-%The braces around |[A]| are needed to so that the optional argument
-%is correctly delineated.  For example:
-%
-%\framedisplay
-%\ex[exno={(6), p. 14},exnoformat={[X]}]
-%\begingl
-%\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
-%seiner Freundin ihr$_i$ Herz auszusch\"utten.//
-%\glb Mary is sure that it the-{\sc acc} Hans not annoy would
-%his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
-%throw}//
-%\endgl
-%\xe
-%\endframedisplay
-%\codedisplay~
-%\ex[exno={(6), p. 14},exnoformat={[X]}]
-%\begingl
-%\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
-%seiner Freundin ihr$_i$ Herz auszusch\"utten.//
-%\glb Mary is sure that it the-{\sc acc} Hans not annoy would
-%his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
-%throw}//
-%\endgl
-%\xe
-%|endcodedisplay
-%
-%If the parameter |glwidth| is set to a nonzero dimension, the width of
-%the vbox that the gloss is constructed in is the specified dimension.
-%
-%The following example illustrates the usefulness of the explicit
-%width option.
-%
-%\ex[glwidth=2.6in]<sicher2>
-%a.\quad
-%\begingl
-%\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
-%seiner Freundin ihr$_i$ Herz auszusch\"utten.//
-%\glb Mary is sure that it the-{\sc acc} Hans not annoy would
-%his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
-%throw}//
-%\glft  `Mary is sure that it would not annoy John to reveal her
-%heart to his girlfriend.'//
-%\endgl
-%\hfil
-%b.\quad
-%\begingl
-%\gla Mary$_i$ ist sicher, dass seiner Freunden ihr$_i$ Herz
-%auszuch\"utten dem Hans nicht schaden w\"urde.//
-%\glb Mary is sure that his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc}
-%heart-{\sc acc} {out to throw} the-{\sc dat} Hans not damage would//
-%\glft `Mary is sure that to reveal her heart to his girlfriend
-%would not damage John.'//
-%\endgl
-%\xe
-%
-%\codedisplay~
-%\ex[glwidth=2.6in]
-%a.\quad
-%\begingl
-%\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
-%seiner Freundin ihr$_i$ Herz auszusch\"utten.//
-%\glb Mary is sure that it the-{\sc acc} Hans not annoy would
-%his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
-%throw}//
-%|exbreak\glft  `Mary is sure that it would not annoy John to reveal her
-%heart to his girlfriend.'//
-%\endgl
-%\hfil
-%b.\quad
-%\begingl
-%\gla Mary$_i$ ist sicher, dass seiner Freunden ihr$_i$ Herz
-%auszuch\"utten dem Hans nicht schaden w\"urde.//
-%\glb Mary is sure that his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc}
-%heart-{\sc acc} {out to throw} the-{\sc dat} Hans not damage would//
-%\glft `Mary is sure that to reveal her heart to his girlfriend
-%would not damage John.'//
-%\endgl
-%\xe
-%|endcodedisplay
-
-
-\subsection Comments and citations
-
-\begininventory
-\macros
-\idx{|\trailingcitation|}, \idx{|\rightcomment|}\endmc
-\parameters*
-|mincitesep|& dimension& \hfil \textdim{1.5 em}\cr
-\endinventory
-
-The following illustrates two different ways to append a comment or
-citation to a gloss.
-
-\framedisplay
-\ex
-\begingl
-\gla \rightcomment{[Potawatami]}k- wapm -a -s'i -m -wapunin -uk //
-\glb \rightcomment{category}Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
-\glb 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
-\glft `you (pl) didn't see them'\trailingcitation{(Hockett 1948,
-   p. 143)}//
-\endgl
-\xe
-\endframedisplay
-\codedisplay~
-\ex
-\begingl
-\gla \rightcomment{[Potawatami]}k- wapm -a -s'i -m -wapunin -uk //
-\glb \rightcomment{category}Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
-\glb 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
-\glft `you (pl) didn't see them'\trailingcitation{(Hockett 1948,
-   p. 143)}//
-\endgl
-\xe
-|endcodedisplay
-|\trailingcitation| will put the citation on the same line as the last
-line of the free translation if there is enough room for it, otherwise at the
-end of the  following line.  The parameter |mincitesep| determines the
-minimum whitespace between the end of the free translation and the
-citation that is tolerated; the default is \textdim{1.5 em}.
-
-|\rightcomment{|\dots|}| must come first in the first item on the
-line.  The macro is very primitive.  It does not
-consider the width of the citation or the amount of whitespace at
-the right of the gloss.  The citation will overlap the gloss if
-there is not room for it at the right.  For example, if the gloss
-(\lastx) is attempted with an hsize of \textdim{3.5 in} and
-|glspace=.5em|, the result is (\nextx).
-
-\framedisplay
-\hsize=3.5in
-\ex
-\rightcomment{[Potawatami]}
-\begingl
-\gla k- wapm -a -s'i -m -wapunin -uk //
-\glb \rightcomment{category}Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
-\glb 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
-\glft `you (pl) didn't see them'\trailingcitation{(Hockett 1948,
-   p. 143)}//
-\endgl
-\xe
-\endframedisplay
-
-In spite of its limitations, |\rightcomment| is occasionally
-quite useful.
-
-\subsection  Exceptional {\tt \char"5C gla} items
-
-Items on the |\gla| line are generally associated with items on
-the other lines of the interlinear gloss.  There are however a
-few items, called here {\it exceptional items}, which are
-interpreted in an exceptional fashion. There are four exceptional
-items, all consisting of a single character: |+|, |@|, |[|, and
-|]|.
-
-\subsubsection {\tt +}
-
-\sidx{|+|, exceptional gloss item}%
-Sometimes it is desirable to override natural wrapping and
-break up the gloss so that the syntax is emphasized, as in the
-following.
-
-\framedisplay
-\ex
-\begingl
-\gla Mary$_i$ ist sicher, + dass es den Hans nicht st\"oren w\"urde
-+ seiner Freundin ihr$_i$ Herz auszusch\"utten.//
-\glb Mary is sure that it the-{\sc acc} Hans not annoy would
-his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
-throw}//
-\glft  `Mary is sure that it would not annoy John to reveal her
-heart to his girlfriend.'//
-\endgl
-\xe
-\endframedisplay
-
-\bigskip
-This is accomplished by inserting `|+|' appropriately, as shown in the
-code below.  When |+| is encountered, the line is broken and a new
-line started, ignoring any hanging indentation.
-
-\codedisplay
-\ex\begingl
-\gla Mary$_i$ ist sicher, + dass es den Hans nicht st\"oren w\"urde
-+ seiner Freundin ihr$_i$ Herz auszusch\"utten.//
-\glb Mary is sure that it the-{\sc acc} Hans not annoy would
-his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
-throw}//
-|exbreak
-\glft  `Mary is sure that it would not annoy John to reveal her
-heart to his girlfriend.'//
-\endgl
-\xe
-|endcodedisplay
-
-\subsubsection {\tt @}
-
-\sidx{|@|, exceptional gloss item}%
-Sometimes it is desirable to omit the space between two entries.
-
-\framedisplay
-\ex<wiye>
-\begingl
-\gla wiye kepi e- @ ca//
-\glb two whitemen {\sc 1p:3d}- found//
-\endgl
-\xe
-\endframedisplay
-
-This is accomplished by inserting `|@|' appropriately, as shown
-in the code below.
-
-\codedisplay
-\ex
-\begingl
-\gla wiye kepi e- @ ca//
-\glb two whitemen {\sc 1p:3d}- found//
-\endgl
-\xe
-|endcodedisplay
-In the unlikely event that you need an entry which
-would normally be entered as |@|, enter it as |{{@}}|
-so that it is not interpreted as a directive to omit a space.
-(\getref{@period}) below shows another use for the |@| diacritic.
-
-\exbreak
-\subsubsection {\tt [} and {\tt ]}: Bracketing in glosses
-
-\sidx{|[|, exceptional gloss item}%
-\sidx{|]|, exceptional gloss item}%
-\begininventory
-\macros \idx{|\printlbrack|}, \idx{|\printrbrack|}\endmc
-\parameters
-\idx{|glbrackbracksep|\user}& dimension& \hfil \textdim{.05 em}\cr
-\idx{|glbrackwordsep|\user}& dimension& \hfil \textdim{.1 em}\cr
-\endinventory
-%
-Suppose you want to produce a gloss display like the one below.
-
-\framedisplay
-\pex[everygla=,glhangstyle=normal]<@period>
-\a
-\begingl
-\gla Fa'nu'i yu' ni [ [ {\it O} t{\it in\/}aitai-mu {\it t\/} ] na
-lepblu ] @ .//
-\glb show me Obl Op {\it WH\/}[obj].read-agr {} L book//
-\glft ``Show me the book that you read.''//
-\endgl
-\a \begingl
-\gla Um-\"asudda' h\"am yan [ i taotao [ {\it O\/} ni si Juan
-ilek-\~na nu guahu [ mal\"agu' gui [ asudd\"a'-\~na {\it
-t\/} ] ] ] ] @ .//
-\glb agr-meet we with the person Op Comp the Juan say-agr Obl me
-agr.want he {\it WH\/}[obl].meet-agr//
-\glft ``I met the person who Juan told me he wanted to meet.''//
-\endgl
-\xe
-\endframedisplay
-\noindent The brackets are not glossed; there is a little extra space
-between brackets; and there is a little extra space between words and
-brackets.
-
-(\lastx) is produced by:
-
-\codedisplay
-\pex[everygla=]
-\a \begingl
-\gla Fa'nu'i yu' ni [ [ {\it O} t{\it in\/}aitai-mu {\it t\/} ] na
-lepblu ] @ .//
-\glb show me Obl Op {\it WH\/}[obj].read-agr {} L book//
-\glft ``Show me the book that you read.''//
-\endgl
-\a \begingl
-\gla Um-\"asudda' h\"am yan [ i taotao [ {\it O\/} ni si Juan
-ilek-\~na nu guahu [ mal\"agu' gui [ asudd\"a'-\~na {\it
-t\/} ] ] ] ] @ .//
-\glb agr-meet we with the person Op Comp the Juan say-agr Obl me
-agr.want he {\it WH\/}[obl].meet-agr//
-\glft ``I met the person who Juan told me he wanted to meet.''//
-\endgl
-\xe
-|endcodedisplay
-
-\noindent |@| is used in the gla-line to eliminate an unwanted
-space before the period.
-
-\ExPex\ uses the macros |\printrbrack| and
-|\printlbrack| to typeset the brackets.  The definitions of
-these macros could be changed to cause [ and ] in glosses to
-insert something other than simple brackets.
-
-\everymath={}
-\lingset{glwidth=2.4in,everygl=,glhangstyle=none}
-\psset{framesep=1ex}
-
-%\ex[textoffset=1in,dima=.5em]<Chung1>
-%\begingl[extraglskip=1.2ex]
-%\gla Ti ma'a'\~nao hao kumuentusi\pnode(\lingdima,0){B2} \pnode(-\lingdima,0){A1}ni h\'ayiyi ha'.//
-%\glb \pnode(-.5em,0){A2}not agr.afraid you
-%Infin.speak.to\pnode(\lingdima,0){B1} not anyone Emp//
-%\glft ``You're not afraid to talk to anyone.''//
-%\endgl
-%\pcline{|*-|*}(A2)(A1)
-%\pcline{<->}(A2)(A1)
-%\nbput[ref=r]{glskip\ }
-%\pcline{|*-|*}(B1|B2)(B1)
-%\pcline{<->}(B1|B2)(B1)
-%\naput[ref=l]{\ baselineskip}
-%\xe
-
-
-\def\minigloss#1#2{\outlinebox{%
-   \vtop{\halign{\ministrut ##\hfil\cr #1\cr #2\cr}}}\hskip1pt}%
-\let\ministrut=\relax
-\def\miniglossbare#1#2{\vtop{\halign{##\hfil\cr
-   #1\cr #2\cr}}}
-\psset{linewidth=.4pt}
-\def\outlinebox{\psframebox[framesep=0,boxsep=false,linewidth=.4pt]}
-
-\subsection  Line spacing in wrapped glosses
-
-\subsubsection Changes from version 4.0
-
-\begininventory
-\parameters*
-\idx{|abovemoreglskip|}\user& (!)skip& \hfil \textdim{1 ex}& now obsolete\cr
-\endinventory
-
-\noindent
-Executing the macro |\gloldstyle| will return \ExPex\ to a state in
-which glosses written using version 4.0 should display as they
-did using version 4.0.  The parameter |abovemoreglskip| which
-was used to control wrap spacing in glosses is still recognized,
-but it is now considered obsolete and should be avoided in future
-work.
-
-\subsubsection Simple control
-
-\begininventory
-\parameters*
-\idx{|autoglskip|}& boolean& \hfil true\cr
-\idx{|extraglskip|}\user& \inc skip& \hfil \textdim{0 pt}\cr
-\endinventory
-
-\noindent In deciding on a gloss format, the main decision is
-the value of what I call the {\it glskip}, as illustrated
-below.
-
-%\ex[textoffset=1in,dima=.5em,glbreaking=false]<Chung1>
-\ex[textoffset=1in,dima=.5em]<Chung1>
-\begingl[extraglskip=1.2ex]
-\gla Ti ma'a'\~nao hao kumuentusi\pnode(\lingdima,0){B2} \pnode(-\lingdima,0){A1}ni h\'ayiyi ha'.//
-\glb \pnode(-.5em,0){A2}not agr.afraid you
-Infin.speak.to\pnode(\lingdima,0){B1} not anyone Emp//
-\glft ``You're not afraid to talk to anyone.''//
-\endgl
-\pcline{|*-|*}(A2)(A1)
-\pcline{<->}(A2)(A1)
-\nbput[ref=r]{glskip\ }
-\pcline{|*-|*}(B1|B2)(B1)
-\pcline{<->}(B1|B2)(B1)
-\naput[ref=l]{\ baselineskip}
-\xe
-Generally, the desired glskip is equal to the baselineskip or
-equal to the baselineskip plus some specified increment.  When I
-have occasion to typeset glosses, I generally make the glskip
-equal to the baselineskip plus \textdim{.6 ex}.  The extra space,
-although small, makes it much easier to parse the gloss visually.
-The extra glskip in (\lastx) is \textdim{1.2 ex}.
-
-ExPex initializes the glossing algorithm so that it produces
-glosses like~(\nextx). The glskip is equal to the baselineskip.
-This is done in {\it expex.tex\/} by setting |autoglskip| to true
-and |extraglskip| to \textdim{0 pt}. In adjusting the glskip,
-struts are used.  It is assumed that the strut height plus the
-strut depth is equal to the baselineskip. Most users will never
-reset |autoglskip|.  The next section discusses vertical spacing
-when |autoglskip| is set to false. (|glwidth| is set to
-\textdim{2.4 in} in all of the examples in this section in the
-interests of ``economy of space''.)
-
-\setss .52 .48
-
-\beginss
-\ex
-\begingl
-\gla Ti ma'a'\~nao hao kumuentusi
-   ni h\'ayiyi ha'.//
-\glb not agr.afraid you
-   Infin.speak.to not anyone Emp//
-\endgl
-\xe|midss
-\ex<Ti>
-\begingl
-\gla Ti ma'a'\~nao hao kumuentusi ni h\'ayiyi ha'.//
-\glb not agr.afraid you Infin.speak.to not anyone Emp//
-\endgl
-\xe
-\endss
-
-It is easy to produce glosses like (\nextx) by adjusting the
-parameter |extraglskip|.  In (\nextx), the glskip is \textdim{1.2
-ex} larger than the baselineskip.
-
-\beginss
-\ex
-\begingl[extraglskip=1.2ex]
-\gla Ti ma'a'\~nao hao kumuentusi
-   ni h\'ayiyi ha'.//
-\glb not agr.afraid you
-   Infin.speak.to not anyone Emp//
-\endgl
-\xe|midss
-\ex
-\begingl[extraglskip=1.2ex]
-\gla Ti ma'a'\~nao hao kumuentusi ni h\'ayiyi ha'.//
-\glb not agr.afraid you Infin.speak.to not anyone Emp//
-\endgl
-\xe
-\endss
-
-If |extraglskip| is expressed in font dependent units, the format
-for glosses will not need adjustment for glosses in footnotes
-which are set in smaller type with tighter baselines. This
-assumes that the footnote environment adjusts the strut size
-appropriately, as it should, with the height plus depth of struts
-made equal to the baselineskip. The text in (\nextx) is set in a
-\textdim{12 pt} font with \textdim{14 pt} baselines.  Struts are
-\textdim{10 pt} high and 4pt deep. |\fnenvironment| switches to a
-\textdim{10 pt} font with \textdim{12 pt} baselines, with struts
-that are 8.5pt high and 3.5pt deep.
-
-\lingset{autoglskip=true}
-
-\beginss
-\ex
-\begingl[extraglskip=1ex]
-\gla Ti ma'a'\~nao hao kumuentusi
-   ni h\'ayiyi ha'.//
-\glb not agr.afraid you
-   Infin.speak.to not anyone Emp//
-\endgl
-\xe|midss
-\ex
-\begingl[extraglskip=1ex]
-\gla Ti ma'a'\~nao hao kumuentusi ni h\'ayiyi ha'.//
-\glb not agr.afraid you Infin.speak.to not anyone Emp//
-\endgl
-\xe
-\endss
-\vskip-2ex
-
-\beginss
-\fnenvironment
-\ex
-\begingl[extraglskip=1ex]
-\gla Ti ma'a'\~nao hao kumuentusi
-   ni h\'ayiyi ha'.//
-\glb not agr.afraid you
-   Infin.speak.to not anyone Emp//
-\endgl
-\xe|midss
-\lingset{autoglskip=true,extraglskip=1ex}
-\baselineskip=12pt
-\setbox\strutbox=\hbox{\vrule height 8.5pt depth 3.5pt width 0pt}
-\footnotesize
-\ex
-\begingl[extraglskip=1ex]
-\gla Ti ma'a'\~nao hao kumuentusi ni h\'ayiyi ha'.//
-\glb not agr.afraid you Infin.speak.to not anyone Emp//
-\endgl
-\xe
-\endss
-
-Most users will never need to know more about glossing than that
-provided in this section. But some, at some point, might face
-some unusual situation requiring more control over the line
-spacing than the control which |extraglskip| allows.  The
-next section is for such users only.
-
-\subsubsection The techonology behind vertical spacing in glosses
-
-\begininventory
-\parameters
-\idx{|gllineskip|}\user & \inc skip& \hfil\textdim{1 ex}\cr
-\idx{|glstruts|}& boolean& \hfil true\cr
-\endinventory
-
-
-
-\noindent  Wrapping is carried out by first forming a sequence of
-boxes, as in (\nextx) and then feeding this sequence to Tex's
-apparatus for breaking paragraphs into lines and stacking
-sequences of lines into pages.  The baseline of these boxes is
-the baseline of the top line.  As far as Tex is concerned, the
-sequence of boxes is a sequence of words; a paragraph.  We use
-(\getref{Ti}) as an illustration.  If struts are inserted before
-every word of every box, we get (\nextx b), otherwise (\nextx a).
-Generally, struts are inserted because this gives much better
-control of the line spacing.
-
-\pex[nopreamble,interpartskip=3ex]<seq>
-\let\\=\minigloss
-\spaceskip=\lingglspace
-\a \\{Ti}{not}, \\{ma'a'\~nao}{agr.afraid}, \\{hao}{you},
-\\{kumuentusi}{Infin.speak.to}, \\{ni}{not}, \\{h\'ayiyi}{anyone},
-\\{ha'}{Emp}
-\let\ministrut=\strut
-\a \\{Ti}{not}, \\{ma'a'\~nao}{agr.afraid}, \\{hao}{you},
-\\{kumuentusi}{Infin.speak.to}, \\{ni}{not}, \\{h\'ayiyi}{anyone},
-\\{ha'}{Emp}
-\xe
-The boxes will be called {\it glwords}.
-
-Suppose we feed (\lastx b), for example, to Tex's page formation
-machinery.  The outcome, will depend on many Tex parameters.  Of
-particular interest for the line spacing are |\baselineskip| and
-|\lineskip|.  |\lineskiplimit| is set to \textdim{0 pt} in
-glosses. There are nested environments; one governing stacking
-words into glwords, the other governing stacking lines of
-glwords. Call these the interior and exterior environments.  If
-we consider (\nextx), for example, note that the dimension of
-most interest, the vertical spacing between the {\it b\/} and
-{\it c\/} lines is not a distance between baselines in either the
-interior or exterior environments.  When glwords are built, the
-baseline spacing is between the {\it a\/} and {\it b\/} lines
-(the {c-d\/} spacing is the same).  When the glwords are formed
-into a paragraph, the baseline spacing is between the {\it a\/}
-and {\it c\/} lines. Line {\it a\/} is the baseline of the top
-row of glwords and line {\it c\/} is the baseline of bottom row.
-
-\ex[linestyle=dotted,linewidth=1pt]
-\begingl[extraglskip=1ex]
-\gla \pnode{A1}Ti ma'a'\~nao hao kumuentusi\pnode{B1} ni h\'ayiyi
-ha'.\pnode{B3}//
-\glb not agr.afraid you Infin.speak.to\pnode(1em,0){B2} not anyone
-Emp\pnode{B4}//
-\endgl
-\pcline(A1|B1)(B2|B1)
-\pcline(A1|B2)(B2|B2)
-\pcline(A1|B3)(B2|B3)
-\pcline(A1|B4)(B2|B4)
-\rput(B2|B1){\pnode(1em,0){C1}}
-\rput(C1){\tenit a}
-\rput(C1|B2){\tenit b}
-\rput(C1|B3){\tenit c}
-\rput(C1|B4){\tenit d}
-\xe
-A desired value for the {\it b-c\/} line spacing must be achieved
-indirectly.
-
-ExPex leaves both the baselineskip in the exterior environment
-the same as it is inside the glwords. This means that the
-baselineskip will have no effect when the paragraph (\lastx a) or
-(\lastx b) is typeset because the glwords are deeper than the
-baselineskip.  \ExPex\ adjusts the |\lineskip| in the exterior
-environment to achieve the desired {\it b-c\/} line spacing; that
-is, to achieve the desired glskip.
-
-(\nextx) illustrates the relation between |\lineskip| and the
-glskip, assuming that strut insertion has taken place.
-
-\ex[textoffset=.8in,aboveexskip=!1ex]
-\def\outlinebox{\psframebox[framesep=0,boxsep=false,linewidth=.15pt]}
-\let\\=\minigloss
-\let\ministrut=\strut
-\psscalebox{2}{\vtop{\leftskip=0pt \raggedright \hsize=2.4in
-\lineskip=2ex
-\leavevmode
-\\{\pnode{Y1}Ti}{\pnode{Y3}not}\
-\\{ma'a'\~nao}{agr.\pnode(0,-\dp\strutbox){A1}afraid}\
-\\{hao}{you}\
-\\{kumuentusi}{Infin.speak.to}\
-\\{\pnode(-.2em,0){Y2}ni}{not}\
-\\{h\'ayiyi\pnode(0,\ht\strutbox){A2}}{anyone}\
-\\{ha'}{Emp}%
-}}
-\pcline[linewidth=1pt]{<->}(A1)(A1|A2)
-\naput[ref=l]{lineskip}
-\pcline[linewidth=1pt]{<->}(Y2|Y3)(Y2|Y2)
-\pcline[linewidth=1pt]{|*-|*}(Y2|Y3)(Y2|Y2)
-\nbput[ref=r]{glskip}
-\xe
-
-If autoglskip is turned on, |\lineskip| is adjusted so that the
-glskip is equal to the baselineskip plus the value of
-|extraglskip|.  If $|\baselineskip|=b$, $|\dp\strutbox|=d$,
-$|\ht\strutbox|=h$, and $|extraglskip|=e$, then |\lineskip|
-is set to $b+e-d-h$.
-
-If |autoglskip| is turned off, struts are inserted only if
-|glstruts| is turned on; |\lineskip| is made equal to
-|gllineskip|.  With |glstruts| turned off, the glskip will depend
-on |gllineskip|, the depth of the deepest character on the bottom
-row of the top line of glwords, and the height of the tallest
-character on the top row of the bottom line of glwords.
-
-%\def\showchar#1{\setbox0=\hbox{#1}\writeln{#1: \the\ht0, \the\dp0}}
-%\showchar{g}
-%\showchar{p}
-%\showchar{y}
-%\showchar{\it h}
-%\showchar{\it \'a}
-%\showchar{\it '}
-%\showchar{\it i}
-
-The above will be clearer if you do the following exercise:
-Calculate the glskip in the 3~examples below. The font is
-\textdim{12 pt} with struts that are \textdim{10 pt} high and
-\textdim{4 pt} deep.  The baselineskip is \textdim{18 pt}.  Roman
-g, y, and p are all \textdim{2.60 pt} deep; italic h, italic ',
-and italic i are all \textdim{7.96 pt} tall; and italic \'a is
-\textdim{7.93 pt} tall.
-
-\beginss
-\ex
-\begingl[autoglskip=true,
-   extraglskip=4pt]
-\gla Ti ma'a'\~nao hao kumuentusi
-   ni h\'ayiyi ha'.//
-\glb not agr.afraid you
-   Infin.speak.to not anyone Emp//
-\endgl
-\xe|midss
-\ex
-\baselineskip=18pt
-\begingl[autoglskip=true,extraglskip=4pt]
-\gla Ti ma'a'\~nao hao kumuentusi ni h\'ayiyi ha'.//
-\glb not agr.afraid you Infin.speak.to not anyone Emp//
-\endgl
-\xe
-\endss
-
-\beginss
-\ex
-\begingl[autoglskip=false,
-   glstruts=true,gllineskip=8pt]
-\gla Ti ma'a'\~nao hao kumuentusi
-   ni h\'ayiyi ha'.//
-\glb not agr.afraid you
-   Infin.speak.to not anyone Emp//
-\endgl
-\xe|midss
-\ex
-\baselineskip=18pt
-\begingl[autoglskip=false,glstruts=true,gllineskip=8pt]
-\gla Ti ma'a'\~nao hao kumuentusi ni h\'ayiyi ha'.//
-\glb not agr.afraid you Infin.speak.to not anyone Emp//
-\endgl
-\xe
-\endss
-
-\def\goop{$\,^{\the\fnno}$}
-\beginss
-\ex
-\begingl[autoglskip=false,
-   glstruts=false,gllineskip=8pt]
-\gla Ti ma'a'\~nao hao kumuentusi
-   ni h\'ayiyi ha'.//
-\glb not agr.afraid you
-   Infin.speak.to not anyone Emp//
-\endgl
-\xe|putfnno|midss
-\ex
-\baselineskip=18pt
-\begingl[autoglskip=false,glstruts=false,gllineskip=8pt]
-\gla Ti ma'a'\~nao hao kumuentusi ni h\'ayiyi ha'.//
-\glb not agr.afraid you Infin.speak.to not anyone Emp//
-\endgl
-\xe
-\endss
-\footnotebody{\hbox{\rput[tr]{180}{Answers: \textdim{22 pt}, \textdim{22 pt},
-and \textdim{18.56 pt}}}
-}
-
-\subsubsection How to avoid overfull boxes in glosses
-
-\begininventory
-\parameters
-\idx{|glspace|}& skip& \textdim{.5 em} plus \textdim{.4 em} minus
-   \textdim{.15 em}\hfil\cr
-\idx{|glrightskip|}& skip& 0\dimskip pt plus .1|\hsize|\hfil \cr
-\endinventory
-%
-Hopefully, you will never encounter the problem which the
-parameterization in this section is designed to solve, the
-``overfull line'' error message.  The default setting puts
-\textdim{.5 em} of glue between the glwords on a line, plus
-\textdim{.4 em} of stretchability and \textdim{.15 em} of
-shrinkage.  The interglword spacing on a line can therefore vary
-from \textdim{.35 em} up to \textdim{.9 em} to accommodate the
-needs of the Tex linebreaking algorithm.\footnote{%
-This is a much larger range than is typical in running text, but
-it is appropriate in glosses, which typically have many large
-whitespace gaps on one line or the other.}
-Further, the default settings allow up to 10\% of the hsize of
-whitespace to appear at the end of the line of glwords.  The
-possible extra space at the right edge and
-stretchability/shrinkability of the space between glwords means
-that line breaking in glosses will rarely encounter problems with
-overfull lines.
-
-In unusual cases, there may be a problem.  Your publisher (or
-you) may be particularly fussy and demand a particular spacing
-and/or better right alignment in glosses.  Or you might want to make a
-unusually narrow gloss, which increases the chances that there
-might not be enough flexibility in the spacing.
-
-If you do run into the problem of overfull lines in a gloss, two
-parameters allow for a great deal of flexibility; |glspace| and
-|glrightskip|. |glspace| is an incremental parameter, so you could say,
-for example, |\lingset{glspace=!0pt plus .2em}|, increasing the
-stretchability of the interglword space by \textdim{.2 em}. Or,
-you might want to increase the stretchability of the rightskip
-in a particular troublesome gloss to allow more whitespace at the
-right edge.  An acceptable solution will depend on your
-particular typesetting aesthetics. Solving line breaking problems
-is often troublesome and requires experimentation.
-
-\medskip
-The Chamorro examples in (\getref{@period}) and (\getref{Chung1})
-are adapted from Sandy Chung's {\it The Design of Agreement}. See
-(59a) on page 237, (82a) on page 247, and (59b) on page 97.  The
-Potawatami example (\getref{wapm}) is from Halle and Marantz's
-``Distributed Morphology'' article. The German examples in
-(\getref{sicher2}) are from an article by Idan Landau. The Kiowa
-example (\getref{wiye}) was contributed by Daniel Harbour.
 

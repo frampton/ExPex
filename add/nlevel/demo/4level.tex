@@ -7,9 +7,11 @@
 \def\C{{\accent"07 c}}
 \def\W{$^{\hbox{\ipss w}}\mskip-2mu$}
 
-\ex[glstyle=nlevel,glneveryline={\ips,\ips},glnabovelineextraskip={,,.5ex},
-   abovemoreglskip=1ex,glspace=2em,gllineskip=2ex,extraglskip=3ex]
-\rightskip=0pt plus 1fil
+\codedisplay
+\lingset{glstyle=nlevel,glspace=1.4em plus.4em minus.2em,
+   glneveryline={\ips,\ips}}
+
+\ex
 \begingl
 hoi[hoi/then/then]
 Ekn[{\mroot}PEkn/{\mroot}say/{she said}]
@@ -26,6 +28,75 @@ Pa{\v c}sEtqEt[ Pa{\v c}sEtqEt/ day time/ day time]
    time?''//
 \endgl
 \xe
+|endcodedisplay
+
+\lingset{glstyle=nlevel,glspace=1.4em plus.4em minus.2em,
+   glneveryline={\ips,\ips}}
+
+\ex
+\begingl
+hoi[hoi/then/then]
+Ekn[{\mroot}PEkn/{\mroot}say/{she said}]
+{\L}E[ {\L}E/ det/ det]
+{x\W}ElEP[ {x\W}ElEP/ Meadowlark/ Meadowlark]
+t{g\W}El'[ t{g\W}El'/ why/ why]
+st{\'\i}m[ {s + \mroot t\'\i m}/ {nomlz + \mroot what}/ {what is it}]
+{hE\L}[{hE\L}/conn/conn]
+{kuPEcx\W ist}[ ku-PEc-\mroot{x\W}ist/ 2nom-cust-{\mroot}one.travels/ {you travel about}]
+{\L a}[ {\L}a/ det/ det]
+Pa{\v c}sEtqEt[ Pa{\v c}sEtqEt/ day time/ day time]
+\endilg
+\glft Then Meadowlark said, ``Why do you travel about in the day
+   time?''//
+\endgl
+\xe
+
+The vertical spacing can be adjusted in various ways.  Extra skip can
+be put between the lines of miniglosses by setting |extraglskip| and
+the skip between the free translation and the interlinear
+gloss can be changed by setting |aboveglftskip|, which has the default
+setting |1ex|.  For example:
+\medskip
+\noindent |\ex[extraglskip=2ex,aboveglftskip=2ex]| will produce:
+\medskip
+Will produce
+
+\ex[extraglskip=2ex,aboveglftskip=2ex]
+\begingl
+hoi[hoi/then/then]
+Ekn[{\mroot}PEkn/{\mroot}say/{she said}]
+{\L}E[ {\L}E/ det/ det]
+{x\W}ElEP[ {x\W}ElEP/ Meadowlark/ Meadowlark]
+t{g\W}El'[ t{g\W}El'/ why/ why]
+st{\'\i}m[ {s + \mroot t\'\i m}/ {nomlz + \mroot what}/ {what is it}]
+{hE\L}[{hE\L}/conn/conn]
+{kuPEcx\W ist}[ ku-PEc-\mroot{x\W}ist/ 2nom-cust-{\mroot}one.travels/ {you travel about}]
+{\L a}[ {\L}a/ det/ det]
+Pa{\v c}sEtqEt[ Pa{\v c}sEtqEt/ day time/ day time]
+\endilg
+\glft Then Meadowlark said, ``Why do you travel about in the day
+   time?''//
+\endgl
+\xe
+
+\ex[extraglskip=2ex,aboveglftskip=2ex]
+\begingl
+hoi[hoi/then/then]
+Ekn[{\mroot}PEkn/{\mroot}say/{she said}]
+{\L}E[ {\L}E/ det/ det]
+{x\W}ElEP[ {x\W}ElEP/ Meadowlark/ Meadowlark]
+t{g\W}El'[ t{g\W}El'/ why/ why]+
+st{\'\i}m[ {s + \mroot t\'\i m}/ {nomlz + \mroot what}/ {what is it}]
+{hE\L}[{hE\L}/conn/conn]
+{kuPEcx\W ist}[ ku-PEc-\mroot{x\W}ist/ 2nom-cust-{\mroot}one.travels/ {you travel about}]
+{\L a}[ {\L}a/ det/ det]
+Pa{\v c}sEtqEt[ Pa{\v c}sEtqEt/ day time/ day time]
+\endilg
+\glft Then Meadowlark said, ``Why do you travel about in the day
+   time?''//
+\endgl
+\xe
+
 
 \framedisplay
 \ex[glstyle=nlevel,glneveryline={\ips,\ips},glnabovelineextraskip={,,.5ex},

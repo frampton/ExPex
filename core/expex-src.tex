@@ -143,7 +143,8 @@
    \fi
 %------ scratch dimensions -----
 \newdimen\epd@a
-% \newdimen\epd@b not yet needed
+%\newdimen\epd@b not yet needed
+%\newdimen\epd@c not yet needed
 %------ \ex -----
 \newcount\excnt
 \excnt=1
@@ -989,7 +990,7 @@
       \@glpreamblefalse
       \ifdim\ling@glwidth=0pt
             \advance\hsize by -\leftskip
-            \advance\hsize by -\rightskip
+ -           \advance\hsize by -\rightskip
          \else
             \hsize=\ling@glwidth
          \fi
