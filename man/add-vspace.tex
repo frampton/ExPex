@@ -1,0 +1,54 @@
+
+\begingroup
+
+\makeatletter
+\def\gln@aftercolbox{%
+   \if@glspace \hskip\lingglspace \else \@glspacetrue \fi
+   \psframebox{\box\gln@col}%
+   \expandafter\futurelet\expandafter\temp\expandafter\gln@after@a\afterword\@nil
+%   \@glspacetrue
+}
+\resetatcatcode
+
+\hsize=4in
+
+\psset{linewidth=.5pt,framesep=-.25pt,boxsep=false}
+
+\def\boxit#1#2{%\setbox0=\hbox{#1}\dimen0=\wd0
+%   \lingset{glstyle=nlevel}
+%   \setbox0=\hbox{#2}%
+%   \ifdim\wd0>\dimen0 \dimen0=\wd0 \fi
+%   \writeln{\the\dimen0}}
+   \vtop{\hsize=60pt \advance\hsize by 2pt \leftskip=0pt \parindent=0pt
+      \leavevmode\begingl #1[#2] \endgl}}%
+
+\lingset{glstyle=nlevel}
+
+\def\boxit#1#2{{%
+   \setbox0=\hbox{#1}\dimen0=\wd0
+   \setbox0=\hbox{#2}\dimen1=\wd0
+   \ifdim \dimen1 > \dimen0 \dimen0=\dimen1 \fi
+   \vtop{\hsize=\dimen0 \writeln{\the\dimen0}\leftskip=0pt \parindent=0pt
+      \begingl #1[#2] \endgl}}}
+
+\boxit{Mary}{mary}
+
+Glosses are constructed as a sequence of boxes, which are fed to Tex's
+page building machinery.
+
+\ex[glstyle=nlevel]
+\leavevmode
+\boxit{Mary$_i$}{Mary}%, \boxit{ist}{is} \boxit{sicher}{sure} \dots
+\xe
+
+\ex[glstyle=nlevel,glhangindent=0pt]
+\begingl
+Mary$_i$[Mary] ist[is] sicher,[sure]
+dass[that] es[it] den[the-\sc acc] Hans[Hans] nicht[not]
+   st\"oren[annoy] w\"urde[would]
+seiner[his-\sc dat] Freundin[girlfriend-\sc dat] ihr$_i$[her-\sc acc]
+   Herz[heart-\sc acc] auszusch\"utten.[out to throw]
+\endgl
+\xe
+
+\endgroup

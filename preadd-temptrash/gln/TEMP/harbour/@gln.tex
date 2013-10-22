@@ -1,0 +1,94 @@
+
+\edef\resetatcatcode{\catcode`\noexpand\@\the\catcode`\@\relax}
+\makeatletter
+
+%% 2012/12/22  new gloss style /nlevel/
+
+\define@choicekey{ling}{glstyle}[\ling@glstyle\gl@stylenum]{wrap,nlevel}{%
+   \ifcase\gl@stylenum
+      \let\gl@beginglstyle\glw@begingl
+      \let\endgl\glw@endgl
+      \glw@assignlevels
+      \let\glft=\glw@glft
+   \else
+      \let\gl@beginglstyle\gln@begingl
+      \let\endgl\gln@endgl
+      \let\glft=\gln@ft
+      \fi
+}
+
+\def\doubleslash{//}
+\def\gln@begingl{\leavevmode \hangafter=1 \hangindent=1.5em \@getoptionalarg\gln@A}
+\def\gln@A{\@ifnextchar\@cs\gln@B\gln@C}
+\def\gln@B#1{\gln@C}
+\def\gln@C{%
+   \ling@usearg
+   \lineskip=\lingextraglskip
+   \rightskip=\ling@glrightskip
+   \gln@i
+}
+\def\endilg{}
+\newif\if@glspace
+\def\gln@i{\@glspacetrue\futurelet\temp\gln@i@a}
+\def\gln@i@a{\ifx\temp\endilg \let\next=\relax
+   \else \ifx\temp\par \let\next=\gln@i@b
+   \else \let\next=\gln@ii
+   \fi\fi \next }
+\long\def\gln@i@b#1{\gln@i}
+\def\gln@ii #1 {\gln@iii{#1}\gln@i}
+\def\gln@iii #1{\gln@iv#1\@nil}
+\def\gln@iv #1[#2]#3\@nil{%
+   \def\tempa{\\{#1}}%
+   \def\afterword{#3}%
+   \ifx\afterword\empty \else \gln@after #3\@nil \fi
+   \gln@v #2/\@nil
+}
+\def\gln@v #1/{\gl@append #1\to\tempa \gln@vi}
+\def\gln@vi{\@ifnextchar\@nil{\gln@printcol\ep@gobble}\gln@v}
+
+\def\gln@after{\futurelet\temp\gln@after@i}
+\def\gln@after@i{\ifx\temp\@nil \let\next\relax
+   \else \ifx\temp\bgroup \let\next\gln@after@ii
+   \else \let\afterword\empty \let\next\gln@after@iii \fi\fi \next}
+\def\gln@after@ii#1{\def\afterword{#1}\gln@after@iii}
+\def\gln@after@iii{\futurelet\tempr\gln@after@iv}
+\def\gln@after@iv{\ifx\tempr+\@glspacefalse\fi \gobblenil}
+\def\gobblenil#1\@nil{}
+
+
+
+\def\gln@endgl{\egroup}
+\def\gln@printcol{%
+   \vtop{%
+      \ling@everyglword
+      \gl@loopmoretrue
+      \loop\ifgl@loopmore
+         \gl@lop\tempa\to\@tempa
+         \gl@lop\gln@aboveskiplist\to\@aboveskip
+         \gl@lop\gln@everyline\to\@every
+         \ifx\@aboveskip\empty \else
+            \expandafter\ifdim\@aboveskip=0pt \else
+               \vskip\@aboveskip \fi\fi
+         \hbox{\@every\strut\@tempa}%
+         \ifx\tempa\empty \gl@loopmorefalse \fi
+      \repeat
+      }%
+   \afterword
+   \if@glspace \hskip\lingglspace \fi}
+\def\gln@ft #1//{\par\nobreak\vskip\lingaboveglftskip\strut `#1'}
+\define@lingkey{glneveryline}{%
+   \setlist\gln@everyline{#1}}
+\define@lingkey{glnaboveskiplist}{%
+   \setlist\gln@aboveskiplist{#1}}
+
+
+\def\setlist#1#2{\def#1{}\XKV@for@n{#2}\@this{%
+   \expandafter\gl@append\@this\to#1}}
+\lingset{glneveryline={},glnaboveskiplist={}}
+
+\def\glossline{\@getoptionalarg\glossline@i}
+\def\glossline@i{\bgroup\ling@usearg\exdisplay\begingl}
+\def\endglossline{\endgl\xe\egroup}
+%%% end nlevel glossing
+
+\resetatcatcode

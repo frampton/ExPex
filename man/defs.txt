@@ -1,0 +1,48 @@
+   653: %\def\chapscurrsec{\ifnum\chapno>0 \the\chapno
+   657: %\def\nochapscurrsec{\ifnum\secno>0 .\the\secno
+   663: %\def\deftagsec#1{\deftag\currsec{#1}}
+   666: %\def\deftaglabel#1{%
+   840:    \def\lingaboveglaskip{0pt}%
+all below are indexed
+    93: \def\lingset#1{\setkeys{ling}{#1}\ignorespaces}
+   112: \def\definelingstyle#1#2{%
+   137: \def\ex{\bgroup \@tildecheck\ex@a}
+   184: \def\keepexcntlocal{\let\stepexcnt=\ep@localstepexcnt}
+   208: \def\noexno{\global\advance\excnt by -1}
+   221: \def\xe{%
+   230: \def\exdisplay{\bgroup\@tildecheck\exdisplay@a}
+   270: \def\pex{\bgroup\@tildecheck\pex@a}
+   396: \def\judge#1{\rm #1\kern .1em \ignorespaces}
+   397: \def\ljudge#1{\llap{\judge{#1}}\ignorespaces}
+   405: \def\tspace{\@getoptionalarg\epx@tabelspace}
+   413: \def\labels{\@getoptionalarg\epx@labels}
+   442: \def\hwit#1{\hidewidth \it #1\hidewidth}
+   445: \def\crs{\cr\noalign{\vskip\ling@crskip}}
+   446: \def\crnb{\cr\noalign{\par\nobreak}}
+   478: \def\definelabeltype#1#2{%
+   522: \def\nextx{{\@printref{\number\excnt}}}
+   523: \def\anextx{{\@printref{\advance\excnt by 1 \number\excnt}}}
+   524: \def\lastx{{\@printref{\advance\excnt by -1 \number\excnt}}}
+   526: \def\blastx{{\@printref{\advance\excnt by -2 \number\excnt}}}
+   527: \def\bblastx{{\@printref{\advance\excnt by -3 \number\excnt}}}
+   529: \def\deftag#1#2{%
+   537: \def\deftaglabel#1{%
+   552: \def\deftagex#1{\edef\@localextag{#1}%
+   559: \def\deftagpage#1{%
+   565: \def\lastlabel{{\epx@label}}
+   570: \def\refproofing{\ep@highlightreftrue}
+   621: \def\tagfilesuffix#1{\edef\@tagfilesuffix{#1}}
+   623: \def\gathertags{%
+   679: \def\getref#1{\getref@a{#1}\getref@aa}
+   680: \def\getfullref#1{\getref@a{#1}\getref@ab}
+   701: \def\getref{\fullreffalse \getref@a}
+   702: \def\getfullref{\fullreftrue \getref@a}
+   766: \def\begingl{\bgroup\@getoptionalarg\gl@begingl}
+   978: \def\glpreamble #1// {%
+  1058: \def\printrbrack{$]$}
+  1059: \def\printlbrack{$[$}
+  1133: \def\beginglpanel{\@getoptionalarg\beginglpanel@a}
+  1152: \def\endpanel{\egroup\egroup\par}
+  1163: \def\rightcomment#1{\leavevmode\rlap{%
+  1169: \def\trailingcitation#1{%
+

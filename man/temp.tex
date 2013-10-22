@@ -1,35 +1,29 @@
 
+\def\bare#1{#1}
+\let\temp=\bare
 
-\font\eightrm=cmr8
-\font\eightit=cmti8
-\def\footnotesize{\eightrm \let\it=\eightit \baselineskip=9pt}
-\font\tensc=cmcsc10
-\let\sc=\tensc
-\def\textsc#1{{\sc #1}}
+\ifcat\noexpand\temp\noexpand\medskip
+   \writeln{++++++++++++}\fi
 
-This is the way \textsc{hg}.
-
-\footnotesize
-This is the way \textsc{hg}.
 \endinput
 
-\makeatletter
-
-\def\goop{\pst@ifstar\goopA}
-\def\goopA #1 \par{\writeln{->#1<-}}
 
 
-\goop this
+\hsize=1.5in
 
-\goop* this
+\hrule
 
-\goop*this
-
-
-
-
-
+\begingl[glrightskip=0pt plus 1fil]
+\gla now is the time for all good men//
+\glb now is the time forxxxx all good men//
+\endgl
 
 
+\endinput
 
-\resetatcatcode
+\psscalebox{3}{\ips e@e}
+
+\bigskip
+
+\psscalebox{3}{{\it e}{\ips @}{\it e}}
+

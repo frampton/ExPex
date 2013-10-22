@@ -11,6 +11,8 @@
 *.ini
 *.idx
 *.zip
+distributions/
+web/
 man-old/
 .*/JUNK/
 JUNK/

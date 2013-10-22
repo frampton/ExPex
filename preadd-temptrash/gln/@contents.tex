@@ -1,0 +1,19 @@
+%\global\pageno=1
+\setbox0=\hbox{14}
+\edef\sec#1{\par\noexpand\leavevmode
+   \noexpand\hbox to\the\wd0{\hfil#1}\quad \ignorespaces}
+\edef\app#1{\par\noexpand\leavevmode
+   \noexpand\hbox to\the\wd0{\hfil#1}\quad \ignorespaces}
+\setbox0=\hbox{14.1}
+\edef\subsec#1{\hskip3em\noexpand\leavevmode
+   \noexpand\hbox to\the\wd0{\hfil#1}\quad \ignorespaces}
+\def\tocidx#1{#1\ignorespaces}
+\let\TT=\tt
+
+\openup.6ex
+
+\centerline{\titlefont{sec} Contents}\bigskip
+
+\input 0.toc
+
+\vfil\break

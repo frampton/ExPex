@@ -1,0 +1,145 @@
+
+\makeatletter
+
+\def\killspaceafter#1{\def\kstemp{#1}\futurelet\kstemp\ks@a}
+\def\ks@a{\ifx\kstemp\@sptoken \let\next\ks@b
+   \else \let\next\kstemp \fi \next}
+\begingroup
+\def\:{\ks@b} \expandafter\gdef\: {\futurelet\kstemp\ks@a}
+\endgroup
+
+\def\@getoptionalarg#1{\let\@optionaltemp=#1%
+   \killspaceafter\@goa@a }
+\def\@goa@a{\futurelet\@@temp\@goa@d}
+\def\@goa@d{\ifx\@@\temp[\let\next=\@goa@b
+   \else\let\next=\@goa@c \fi next}
+\def\@goa@b[#1]{\def\@optionalarg{#1}\@goa@c}
+\def\@goa@c{\expandafter\killspaceafter\@optionaltemp}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   \def\@bracketcheck{%
+%      \ifx [\@optionalnext
+%         \expandafter\@@getoptionalarg
+%      \else
+%         \let\@optionalarg = \empty
+%         \expandafter\@optionaltemp
+%      \fi }
+%
+%\def\@@getoptionalarg[#1]{%
+%   \def\@optionalarg{#1}%
+%   \expandafter\killspaceafter\@optionaltemp}
+
+\tracingmacros=1
+X\@getoptionalarg\relax[] Y
+
+\resetatcatcode
+
+\endinput
+
+
+
+
+
+%\def\ts{\leavevmode\hbox to 0pt{\hss\vrule height2ex width.2pt \hss}}%
+
+
+
+
+\makeatletter
+
+% redefine eplain command
+\def\@@getoptionalarg[#1]{%
+   \def\@optionalarg{#1}%
+   \futurelet\temp\@GOA}
+\def\@GOA{%
+   \ifx\temp\@sptoken \let\next\@@GOA
+      \else \let\next\@optionaltemp \fi
+   \next}
+\begingroup
+\def\:{\@@GOA} \expandafter\gdef\: {\futurelet\temp\@GOA}
+\endgroup
+
+
+%X\@getoptionalarg\relax[] Y
+\resetatcatcode
+
+%\ex[glbreaking=true]
+%\begingl[extraglskip=1.2ex]
+%\gla Ti ma'a'\~nao hao kumuentusi +
+%   \pnode{A1}ni h\'ayiyi ha'.//
+%\glb \pcline(0,-7ex)(0,5ex)not agr.afraid you
+%Infin.speak.to
+%not anyone Emp//
+%\glft ``You're not afraid to talk to anyone.''//
+%\endgl
+%\xe
+%
+%\ex[glbreaking=false]
+%\begingl[extraglskip=1.2ex]
+%\gla Ti ma'a'\~nao hao kumuentusi +
+%   \pnode{A1}ni h\'ayiyi ha'.//
+%\glb \pcline(0,-7ex)(0,5ex)not agr.afraid you
+%Infin.speak.to
+%not anyone Emp//
+%\glft ``You're not afraid to talk to anyone.''//
+%\endgl
+%\xe
+%
+%\endinput
+%
+%
+%\ex[textoffset=1in,dima=.5em,glbreaking=false]
+%\begingl[extraglskip=1.2ex]
+%\gla Ti ma'a'\~nao hao kumuentusi\pnode(\lingdima,0){B2} + \pnode(-\lingdima,0){A1}ni h\'ayiyi ha'.//
+%\glb \pnode(-.5em,0){A2}not agr.afraid you
+%Infin.speak.to\pnode(\lingdima,0){B1} not anyone Emp//
+%\glft ``You're not afraid to talk to anyone.''//
+%\endgl
+%\pcline{|*-|*}(A2)(A1)
+%\pcline{<->}(A2)(A1)
+%\nbput[ref=r]{glskip\ }
+%\pcline{|*-|*}(B1|B2)(B1)
+%\pcline{<->}(B1|B2)(B1)
+%\naput[ref=l]{\ baselineskip}
+%\xe
+%
+%\ex[glbreaking=true]%
+%\begingl[extraglskip=1.2ex]
+%\gla Ti ma'a'\~nao hao kumuentusi +
+%   \pnode{A1}ni h\'ayiyi ha'.//
+%\glb \pcline(0,-7ex)(0,5ex)not agr.afraid you
+%Infin.speak.to
+%not anyone Emp//
+%\glft ``You're not afraid to talk to anyone.''//
+%\endgl
+%\xe
+%
+%\ex[textoffset=1in,dima=.5em,glbreaking=true]
+%\begingl[extraglskip=1.2ex]
+%\gla Ti ma'a'\~nao hao kumuentusi\pnode(\lingdima,0){B2} +
+%   \pnode(-\lingdima,0){A1}ni h\'ayiyi ha'.//
+%\glb \pnode(-.5em,0){A2}not agr.afraid you
+%Infin.speak.to\pnode(\lingdima,0){B1} not anyone Emp//
+%\glft ``You're not afraid to talk to anyone.''//
+%\endgl
+%\pcline{|*-|*}(A2)(A1)
+%\pcline{<->}(A2)(A1)
+%\nbput[ref=r]{glskip\ }
+%\pcline{|*-|*}(B1|B2)(B1)
+%\pcline{<->}(B1|B2)(B1)
+%\naput[ref=l]{\ baselineskip}
+%\xe
+%
+%\ex[textoffset=1in,dima=.5em,glbreaking=true]
+%\begingl[extraglskip=1.2ex]
+%\gla Ti ma'a'\~nao hao kumuentusi//
+%\gla Ti ma'a'\~nao hao kumuentusi + ni h\'ayiyi ha'.//
+%\glb not agr.afraid you
+%Infin.speak.to not anyone Emp//
+%\glft ``You're not afraid to talk to anyone.''//
+%\endgl
+%\xe
+%
+%\endinput
+
+
+

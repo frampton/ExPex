@@ -1,0 +1,69 @@
+\edef\ResetAtCatcodeInGlbreak{\noexpand\catcode`@=\the\catcode`@}
+\catcode`@=11
+\def\glw@begingl@a{%
+   \ifdim\ling@glwidth=0pt
+      \bgroup
+   \else
+      \vtop\bgroup
+         \hsize=\ling@glwidth
+         \leftskip=0pt
+   \fi
+   \glw@begingl@aa
+}
+\def\glw@begingl@aa{%
+%\def\glw@begingl@a{%
+%   \glw@begingl@b
+      \@glpreamblefalse
+      \rightskip=\ling@glrightskip
+      \lineskiplimit=0pt
+      \ifling@autoglskip
+         \let\glstrut=\strut
+         \epd@gllineskip=\baselineskip
+         \advance\epd@gllineskip by -\dp\strutbox
+         \advance\epd@gllineskip by -\ht\strutbox
+         \advance\epd@gllineskip by \lingextraglskip
+      \else
+         \epd@gllineskip=\linggllineskip
+      \fi
+      \edef\gl@lineskipsave{\noexpand\lineskip=\the\lineskip}%
+      \ifcase\ep@glhangstyle
+         \or
+            \hangindent=\ling@glhangindent
+            \hangafter=1
+         \or
+            \glwcascade@makeshape
+            \parshape 9
+            \glwcascade@parshapetarget
+         \fi
+      \let\mainlist=\empty
+      \let\aboveskiplist=\empty
+      \let\strutlist=\empty
+      \let\everylist=\empty
+}
+\def\glw@begingl@b@vtop{%
+   \vtop\bgroup
+      \ifdim\ling@glwidth=0pt
+            \advance\hsize by -\leftskip
+            \advance\hsize by -\rightskip
+         \else
+            \hsize=\ling@glwidth
+         \fi
+      \leftskip=0pt
+ }
+\def\glw@begingl@b@breaking{\bgroup}
+
+\define@boolkey{ling}[ling@]{glbreaking}{%
+   \ifling@glbreaking
+      \let\glw@begingl@b=\glw@begingl@b@breaking
+   \else
+      \let\glw@begingl@b=\glw@begingl@b@vtop
+   \fi}
+\lingset{glbreaking=false}
+
+% while I am at it, fix a bug
+\def\glpreamble #1// {%
+   \@glpreambletrue
+   {\hangindent=0pt \ling@everyglpreamble #1\vskip\lingbelowpreambleskip}%
+}
+\ResetAtCatcodeInGlbreak
+

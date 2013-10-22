@@ -1,0 +1,62 @@
+
+\section n-Level glosses
+
+\def\\#1{{\langle #1\rangle}}
+\nmathchardef\ttlbrace[4,tt,"7B]
+\nmathchardef\ttrbrace[5,tt,"7D]
+\nmathchardef\ttlbrack[4,tt,"5B]
+\nmathchardef\ttrbrack[5,tt,"5D]
+\nmathchardef\ttslash[1,tt,"2F]
+\nmathchardef\ttplus[2,tt,"2B]
+\def\backslash{\char"5C}
+
+%\def\ttslash{{\rlap{\tt\kern.15pt
+%\char"2F}\hbox{\tt\char"2F\kern.15pt}}}
+
+%\parindent=0pt
+$$\eqalign{
+\\{gloss\ construction}\longrightarrow\;&
+   \hbox{\tt\backslash begingl}\\{\it spaces}\\{item\ list}\hbox{\tt\backslash endilg}
+   \\{free\ translation}\hbox{\tt\backslash endgl}\cr
+\\{item\ list}\longrightarrow\;& \\{item}\\{\it spaces} \;\vert\;
+   \\{item}\\{\it spaces}\\{item\ list}\cr
+\\{item} \longrightarrow\;&
+   \\{body}\\{optional\ suffix}\\{optional\ diacritic}\cr
+\\{body} \longrightarrow\; &
+   \\{\it word\ item}\ttlbrack \\{gloss}\ttrbrack\cr
+\\{gloss} \longrightarrow \;&
+   \\{\it gloss\ item}\\{secondary\ gloss}\cr
+\\{secondary\ gloss} \longrightarrow \;&
+   \emptyset
+   \;\vert\; \ttslash \\{\it gloss\ item}\\{secondary gloss}\cr
+\\{optional\ suffix}\longrightarrow\;&
+    \emptyset \;\vert\; \ttlbrace \\{\it suffix\ item} \ttrbrace\cr
+\\{optional\ diacritic}\longrightarrow\;&
+    \emptyset \;\vert\; \ttplus\cr
+\\{free\ translation}\longrightarrow\;&
+   \emptyset\;\vert\;
+   \hbox{\tt \backslash glft}\\{\,\it free\ translation\ stuff}\ttslash\ttslash\cr
+}$$
+The terms above in italics are from the standard Tex syntax, with
+some restrictions.  $\\{\it spaces}$ is any nonempty sequence of
+spaces and |\par| tokens.  {\it word items\/}, {\it gloss
+items\/}, and {\it suffix items} must not contain top-level
+spaces.  Spaces in these items must be hidden inside groups. {\it
+word items\/} and {\it gloss items\/} must be able to go in an
+hbox.  {\it suffix items\/} and the {\it free translations
+stuff\/} must not have explict |\par| tokens, although they can
+contain implicit |\par| tokens, |\endgraf| in particular.
+
+On the printing end, each $\\{body}$ contributes a vbox to the
+line under construction, with the word and gloss items stacked
+one on top of the other.  $\\{\it suffix\ item}$ contributes its
+contents.  $\\{\it optional\ diacritic}$ contributes
+|\hskip\glspace| if it is missing and nothing if it is |+|.
+
+
+
+
+
+
+
+

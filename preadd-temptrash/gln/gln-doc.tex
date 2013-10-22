@@ -1,20 +1,72 @@
 
+\input ../add/nlevel/expex-gln
 %\lingset{glbreaking=true}
 
-\section Glosses
-\deftag{\the\secno}{basicglosssec}
+\section Glosses in the nlevel style
 
 \begininventory
-\macros
-\idx{|\begingl[]|},
-\idx{|\glpreamble[]|},
-\idx{|\gla[]|},
-\idx{|\glb[]|},
-\idx{|\glc[]|},
-\idx{|\glft[]|},
-\idx{|\endgl|}
-\endmc
+\macros*
+\idx{|\endilg|}\endmc
+\parameters
+|glneveryline|& list& |{}|\cr
 \endinventory
+
+\framedisplay
+\ex[glstyle=nlevel]
+\begingl
+k-[CL/2]
+wapm[V/see]
+-a[AGR/\sc 3acc]
+-s'i[NEG]
+-m[AGR/\sc 2pl]
+-wapunin[TNS/preterit]
+-uk[AGR/\sc 3pl]
+\endilg
+\endgl
+\xe
+\endframedisplay
+\codedisplay
+\ex[glstyle=nlevel]
+\begingl
+k-[CL/2]
+wapm[V/see]
+-a[AGR/\sc 3acc]
+-s'i[NEG]
+-m[AGR/\sc 2pl]
+-wapunin[TNS/preterit]
+-uk[AGR/\sc 3pl]
+\endilg
+\endgl
+\xe
+|smallskip
+\ex[glstyle=nlevel]
+\begingl
+k-[CL/2] wapm[V/see] -a[AGR/\sc 3acc] -s'i[NEG]
+-m[AGR/\sc 2pl] -wapunin[TNS/preterit] -uk[AGR/\sc 3pl]
+\endilg
+\endgl
+\xe
+|endcodedisplay
+
+\framedisplay
+\ex[glstyle=nlevel,glneveryline={\it,\sc,\sc},glnaboveskiplist={,-2pt}]
+\begingl
+k-[cl/2]
+wapm[v/\rm see]
+-a[agr/3acc]
+-s'i[neg]
+-m[agr/\sc 2pl]
+-wapunin[tns/preterit]
+-uk[agr/3pl]
+\endilg
+\endgl
+\xe
+\endframedisplay
+\codedisplay~
+|endcodedisplay
+
+
+
 %
 Before I introduce the parameters that control the
 characteristics of gloss displays, here are a few examples done
@@ -498,7 +550,6 @@ In spite of its limitations, |\rightcomment| is occasionally
 quite useful.
 
 \subsection  Exceptional {\tt \char"5C gla} items
-\deftag{\the\secno.\the\subsecno}{atdiacritic}
 
 Items on the |\gla| line are generally associated with items on
 the other lines of the interlinear gloss.  There are however a
@@ -508,7 +559,6 @@ items, all consisting of a single character: |+|, |@|, |[|, and
 |]|.
 
 \subsubsection {\tt +}
-\deftag{\the\secno.\the\subsecno.\the\subsubsecno}{plusdiacritic}
 
 \sidx{|+|, exceptional gloss item}%
 Sometimes it is desirable to override natural wrapping and
@@ -516,7 +566,7 @@ break up the gloss so that the syntax is emphasized, as in the
 following.
 
 \framedisplay
-\ex<Marysicher>
+\ex
 \begingl
 \gla Mary$_i$ ist sicher, + dass es den Hans nicht st\"oren w\"urde
 + seiner Freundin ihr$_i$ Herz auszusch\"utten.//
@@ -549,7 +599,6 @@ heart to his girlfriend.'//
 |endcodedisplay
 
 \subsubsection {\tt @}
-\deftag{\the\secno.\the\subsecno.\the\subsubsecno}{atdiacritic}
 
 \sidx{|@|, exceptional gloss item}%
 Sometimes it is desirable to omit the space between two entries.
