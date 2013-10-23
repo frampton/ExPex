@@ -1040,7 +1040,7 @@
    \@glpreambletrue
 % 2013/10/10 bug fix
 %   {\hangindent=0pt \ling@everyglpreamble #1\par}%
-   {\hangindent=0pt \ling@everyglpreamble #1\vskip\lingbelowpreambleskip}%
+   {\hangafter=0 \ling@everyglpreamble #1\vskip\lingbelowpreambleskip}%
 }
 \def\glw@glft{\@getoptionalarg\glw@glft@a}
 % 2011-12-09 make \glw@glft@a a long definition to allow \par's

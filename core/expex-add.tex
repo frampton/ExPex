@@ -3,16 +3,7 @@
 %\input ../add/glbreak/expex-glbreak
 
 \edef\ResetAtCatcodeInAdd{\noexpand\catcode`@=\the\catcode`@}
-
-\catcode`\@=12
-\let\temp=@
 \catcode`\@=11
-\let\ep@normalat=\temp
-\let\ep@normalplus=+
-
-\define@key{ling}{glbaselineskip}[\the\baselineskip]%
-   {\@setinckey\skip\lingglbaselineskip#1\@nil}%
-\lingset{glbaselineskip}
 
 %%%%%%%%%%%%%%%%%%%% glbreak %%%%%%%%%%%%%%%%%%%%
 
@@ -24,62 +15,39 @@
          \hsize=\ling@glwidth
          \leftskip=0pt
    \fi
-   \glw@begingl@aa
-}
-\def\glw@begingl@aa{%
-%\def\glw@begingl@a{%
-%   \glw@begingl@b
-      \@glpreamblefalse
-      \rightskip=\ling@glrightskip
-      \lineskiplimit=0pt
-      \ifling@autoglskip
-         \let\glstrut=\strut
-         \epd@gllineskip=\baselineskip
-         \advance\epd@gllineskip by -\dp\strutbox
-         \advance\epd@gllineskip by -\ht\strutbox
-         \advance\epd@gllineskip by \lingextraglskip
-      \else
-         \epd@gllineskip=\linggllineskip
-      \fi
-      \edef\gl@lineskipsave{\noexpand\lineskip=\the\lineskip}%
-      \ifcase\ep@glhangstyle
-         \or
-            \hangindent=\ling@glhangindent
-            \hangafter=1
-         \or
-            \glwcascade@makeshape
-            \parshape 9
-            \glwcascade@parshapetarget
-         \fi
-      \let\mainlist=\empty
-      \let\aboveskiplist=\empty
-      \let\strutlist=\empty
-      \let\everylist=\empty
-}
-\def\glw@begingl@b@vtop{%
-   \vtop\bgroup
-      \ifdim\ling@glwidth=0pt
-            \advance\hsize by -\leftskip
-            \advance\hsize by -\rightskip
-         \else
-            \hsize=\ling@glwidth
-         \fi
-      \leftskip=0pt
- }
-\def\glw@begingl@b@breaking{\bgroup}
-
-\define@boolkey{ling}[ling@]{glbreaking}{%
-   \ifling@glbreaking
-      \let\glw@begingl@b=\glw@begingl@b@breaking
+   \parindent=0pt
+   \@glspacefalse
+   \@glpreamblefalse
+   \rightskip=\ling@glrightskip
+   \lineskiplimit=0pt
+   \ifling@autoglskip
+      \let\glstrut=\strut
+      \epd@gllineskip=\baselineskip
+      \advance\epd@gllineskip by -\dp\strutbox
+      \advance\epd@gllineskip by -\ht\strutbox
+      \advance\epd@gllineskip by \lingextraglskip
    \else
-      \let\glw@begingl@b=\glw@begingl@b@vtop
-   \fi}
-\lingset{glbreaking=false}
+      \epd@gllineskip=\linggllineskip
+   \fi
+   \edef\gl@lineskipsave{\noexpand\lineskip=\the\lineskip}%
+   \ifcase\ep@glhangstyle
+      \or
+         \hangindent=\ling@glhangindent
+         \hangafter=1
+      \or
+         \glwcascade@makeshape
+         \parshape 9
+         \glwcascade@parshapetarget
+   \fi
+   \let\mainlist=\empty
+   \let\aboveskiplist=\empty
+   \let\strutlist=\empty
+   \let\everylist=\empty
+}
 
-% while I am at it, fix a bug
 \def\glpreamble #1// {%
    \@glpreambletrue
-   {\hangindent=0pt \ling@everyglpreamble #1\vskip\lingbelowpreambleskip}%
+   {\hangindent=0pt \hangafter=0 \ling@everyglpreamble #1\vskip\lingbelowpreambleskip}%
 }
 
 %%%%%%%%%%%%%%%%%%%% nlevel %%%%%%%%%%%%%%%%%%%%
@@ -110,6 +78,10 @@
    \leavevmode
    \gln@a
 }
+\define@key{ling}{glbaselineskip}[\the\baselineskip]%
+   {\@setinckey\skip\lingglbaselineskip#1\@nil}%
+\lingset{glbaselineskip}
+
 \newif\if@glspace
 \def\gln@a{\futurelet\temp\gln@b}
 \def\gln@b{\ifx\temp\endgl \let\next=\relax
@@ -125,56 +97,14 @@
    \gln@a
 }
 \def\nogloss#1{{#1}[]}%
-%\newif\if@glspace
-%\def\gln@a{\futurelet\temp\gln@b}
-%\def\gln@b{\ifx\temp\endgl \let\next=\relax
-%   \else \let\next=\gln@c \fi \next }
-%\def\gln@c #1[#2]#3 {%
-%   \def\tempa{\\{#1}}%
-%   \def\afterword{#3}%
-%   \gln@d #2/\@nil
-%   \gln@a
-%}
-\def\gln@d{\@ifnextchar\@space\gln@da\gln@db}
-\def\gln@da#1#2/{\gl@append #2\to\tempa \gln@e}
-\def\gln@db#1/{\gl@append #1\to\tempa \gln@e}
-%\def\gln@d #1/{\gl@append #1\to\tempa \gln@e}
-\def\gln@e{\@ifnextchar\@nil{\gln@printcol\gln@aftercolbox\ep@gobble}\gln@d}
+\def\gln@d{\@ifnextchar\@space\gln@di\gln@dii}
+\def\gln@di#1#2/{\gl@append #2\to\tempa \gln@e}
+\def\gln@dii#1/{\gl@append #1\to\tempa \gln@e}
 \def\gln@e{\@ifnextchar\@nil\gln@f\gln@d}
-\def\gln@f#1{\gln@printcol\gln@aftercolbox}
-\def\gln@aftercolbox{%
+\def\gln@f#1{\gln@printglword\gln@diacritic}
+\def\gln@printglword{%
    \if@glspace \hskip\lingglspace \else \@glspacetrue \fi
-   \box\gln@col
-   \expandafter\futurelet\expandafter\temp\expandafter\gln@after@a\afterword\@nil
-%   \@glspacetrue
-}
-\def\gln@after@a{%
-   \ifx\temp\ep@normalat \let\next\gln@after@b
-   \else \ifx\temp\ep@normalplus \let\next\gln@after@c
-   \else \ifx\temp\@space \let\next\gln@after@d
-   \else \let\next\gln@after@e
-   \fi\fi\fi
-   \next
-}
-\def\ep@diacriticerror#1{%
-   \@expexerror{bad gloss diacritic: #1 (only @ and + permitted)}\end}
-\def\@checkdiacritic#1#2#3{\def\temp{#2}\ifx\temp\empty #3\else
-   \ep@diacriticerror{#1#2}\fi}
-%   \@expexerror{bad diacritic #1#2 (only @ and + permitted)}\end \fi}
-\def\gln@after@b#1#2\@nil{\@checkdiacritic{#1}{#2}\@glspacefalse}
-\def\gln@after@c#1#2\@nil{\@checkdiacritic{#1}{#2}{%
-   \endgraf
-   \ifdim\ling@glhangindent>0pt
-      \hangindent=\ling@glhangindent \hangafter=0 \fi
-   \leavevmode
-   \@glspacefalse}}
-\def\gln@after@d#1\@nil{\@glspacetrue}
-\def\gln@after@e#1\@nil{\ep@diacriticerror{#1}}
-
-\def\gln@endgl{\par\egroup\egroup}
-\newbox\gln@col
-\def\gln@printcol{%
-   \setbox\gln@col=\vtop{%
+   \vtop{%
       \lineskip=0pt
       \ling@everyglword
       \gl@loopmoretrue
@@ -190,6 +120,52 @@
       \repeat
       }%
 }
+\def\gln@diacritic{%
+   \ifx\afterword\empty \else
+      \expandafter\futurelet\expandafter\temp\expandafter\gln@after@a\afterword\@nil
+      \fi
+}
+\def\gln@after@a{%
+   \if\expandafter\noexpand\temp\noexpand @\let\next\gln@after@b
+   \else \if\expandafter\noexpand\temp\noexpand +\let\next\gln@after@c
+   \else \ifx\temp\@space \let\next\gln@after@d
+   \else \let\next\gln@after@e
+   \fi\fi\fi
+   \next
+}
+\def\ep@diacriticerror#1{%
+   \@expexerror{bad gloss diacritic: #1 (only @ and + permitted)}\end}
+\def\@checkdiacritic#1#2#3{\def\temp{#2}\ifx\temp\empty #3\else
+   \ep@diacriticerror{#1#2}\fi}
+\def\gln@after@b#1#2\@nil{\@checkdiacritic{#1}{#2}\@glspacefalse}
+\def\gln@after@c#1#2\@nil{\@checkdiacritic{#1}{#2}{%
+   \endgraf
+   \ifdim\ling@glhangindent>0pt
+      \hangindent=\ling@glhangindent \hangafter=0 \fi
+   \leavevmode
+   \@glspacefalse}}
+\def\gln@after@d#1\@nil{\@glspacetrue}
+\def\gln@after@e#1\@nil{\ep@diacriticerror{#1}}
+
+\def\gln@endgl{\par\egroup\egroup}
+\newbox\gln@col
+%\def\gln@printglword{%
+%   \setbox\gln@col=\vtop{%
+%      \lineskip=0pt
+%      \ling@everyglword
+%      \gl@loopmoretrue
+%      \loop\ifgl@loopmore
+%         \gl@lop\tempa\to\@tempa
+%         \gl@lop\gln@aboveskiplist\to\@aboveskip
+%         \gl@lop\gln@everyline\to\@every
+%         \ifx\@aboveskip\empty \else
+%            \expandafter\ifdim\@aboveskip=0pt \else
+%               \vskip\@aboveskip \fi\fi
+%         \hbox{\@every\strut\@tempa}%
+%         \ifx\tempa\empty \gl@loopmorefalse \fi
+%      \repeat
+%      }%
+%}
 \def\gln@ft{\vskip\lingaboveglftskip\strut}
 \define@lingkey{glneveryline}{%
    \setlist\gln@everyline{#1}}

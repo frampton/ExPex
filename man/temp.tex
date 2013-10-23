@@ -1,29 +1,145 @@
 
-\def\bare#1{#1}
-\let\temp=\bare
+%\let\temp=a
+%
+%\catcode`@=13
+%
+%\if\expandafter\noexpand\temp\noexpand @\writeln{****YES}\fi
+%
+%\endinput
 
-\ifcat\noexpand\temp\noexpand\medskip
-   \writeln{++++++++++++}\fi
-
-\endinput
 
 
+\lingset{glhangindent=0pt,glstyle=wrap,glrightskip=0pt plus 1in,
+   extraglskip=1ex,everygla=}
 
-\hsize=1.5in
-
-\hrule
-
-\begingl[glrightskip=0pt plus 1fil]
-\gla now is the time for all good men//
-\glb now is the time forxxxx all good men//
+\ex[glwidth=2.4in]
+a.\quad
+\begingl
+\gla
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc//
+\glb
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc//
 \endgl
+\hfil
+b.\quad
+\begingl
+\gla
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc//
+\glb
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc//
+\endgl
+\xe
 
+\ex[glwidth=2.4in,glhangstyle=normal,glhangindent=1em,extraglskip=0pt]
+%\ex[glwidth=2.4in,glhangstyle=none,glhangindent=1em]
+a.\quad
+\begingl
+\glpreamble this is one way of doing it, although opinions on this
+may differ//
+\gla
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc//
+\glb
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc//
+\glft this is one way of doing it, although opinions on this
+may differ//
+\endgl
+\hfil
+b.\quad
+\begingl
+\gla
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc//
+\glb
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc//
+\endgl
+\xe
+
+\hsize=2in
+\ex[glwidth=0pt,glhangstyle=cascade,glhangindent=1em]
+\begingl
+\gla
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc//
+\glb
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc//
+\endgl
+\xe
 
 \endinput
 
-\psscalebox{3}{\ips e@e}
-
-\bigskip
-
-\psscalebox{3}{{\it e}{\ips @}{\it e}}
-
+\ex
+\begingl[glstyle=wrap,glwidth=0pt,glbreaking=false]
+\gla
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+//
+\glb
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+aaa bbb ccc
+//
+\endgl
+\xe
