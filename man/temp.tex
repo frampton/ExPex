@@ -1,16 +1,53 @@
 
-%\let\temp=a
-%
-%\catcode`@=13
-%
-%\if\expandafter\noexpand\temp\noexpand @\writeln{****YES}\fi
-%
-%\endinput
+
+\makeatletter
+%\def\gl@lop#1\to#2{\ifx#1\empty
+%   \let#2\empty \else\expandafter\gl@lopoff#1\gl@lopoff#1#2\fi}
+
+\def\\{!!}
+
+\def\X{}
+\def\AA{aa}
+\expandafter\gl@append \AA\to\X
+\def\AA{bb}
+\expandafter\gl@append \AA\to\X
+\gl@append @\to\X
+\writeln{>> \meaning\X}
+\def\temp{bb}
+\expandafter\gl@append\temp\to\X
+\writeln{>> \X}
+\gl@lop\X\to\temp
+\writeln{-> \temp}
+\writeln{-> \X}
+\gl@lop\X\to\temp
+\writeln{-> \temp}
+\writeln{-> \X}
+\gl@lop\X\to\temp
+\writeln{-> \temp}
+\writeln{-> \X}
+%\gl@lop\X\to\temp
+%\writeln{=\temp}
+
+\endinput
 
 
 
 \lingset{glhangindent=0pt,glstyle=wrap,glrightskip=0pt plus 1in,
    extraglskip=1ex,everygla=}
+
+\ex\begingl
+\gla a1 @ b1 c1 //
+\glb a2   b2 c2//
+\def\\{!!}%
+%\edef\mm{{\mainlist}}
+%\writeln{>> \mm}
+%\tracingmacros=1
+%\gl@lop\mm\to\temp
+%\tracingmacros=0
+%\writeln{\temp}
+\endgl\xe
+
+\endinput
 
 \ex[glwidth=2.4in]
 a.\quad
@@ -50,7 +87,8 @@ aaa bbb ccc//
 \endgl
 \xe
 
-\ex[glwidth=2.4in,glhangstyle=normal,glhangindent=1em,extraglskip=0pt]
+\ex[glwidth=2.4in,glhangstyle=cascade,glhangindent=1em,extraglskip=0pt]
+%\ex[glwidth=2.4in,glhangstyle=normal,glhangindent=1em,extraglskip=0pt]
 %\ex[glwidth=2.4in,glhangstyle=none,glhangindent=1em]
 a.\quad
 \begingl

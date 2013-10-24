@@ -101,7 +101,11 @@
 \def\gln@di#1#2/{\gl@append #2\to\tempa \gln@e}
 \def\gln@dii#1/{\gl@append #1\to\tempa \gln@e}
 \def\gln@e{\@ifnextchar\@nil\gln@f\gln@d}
-\def\gln@f#1{\gln@printglword\gln@diacritic}
+\def\gln@f#1{%
+   \gln@printglword
+   \ifx\afterword\empty
+      \else \expandafter\gln@diacritic\afterword\@nil \fi
+}
 \def\gln@printglword{%
    \if@glspace \hskip\lingglspace \else \@glspacetrue \fi
    \vtop{%
@@ -120,52 +124,23 @@
       \repeat
       }%
 }
-\def\gln@diacritic{%
-   \ifx\afterword\empty \else
-      \expandafter\futurelet\expandafter\temp\expandafter\gln@after@a\afterword\@nil
-      \fi
-}
-\def\gln@after@a{%
-   \if\expandafter\noexpand\temp\noexpand @\let\next\gln@after@b
-   \else \if\expandafter\noexpand\temp\noexpand +\let\next\gln@after@c
-   \else \ifx\temp\@space \let\next\gln@after@d
-   \else \let\next\gln@after@e
-   \fi\fi\fi
+\def\gln@diacritic#1#2\@nil{%
+   \def\temp{#2}\ifx\temp\empty \else \ep@diacriticerror{#1#2}\fi
+   \if\noexpand #1\noexpand @\let\next\@glspacefalse
+   \else \if\noexpand #1\noexpand +\let\next\gln@after@c
+   \else \ep@diacriticerror{#1}\fi\fi
    \next
 }
-\def\ep@diacriticerror#1{%
-   \@expexerror{bad gloss diacritic: #1 (only @ and + permitted)}\end}
-\def\@checkdiacritic#1#2#3{\def\temp{#2}\ifx\temp\empty #3\else
-   \ep@diacriticerror{#1#2}\fi}
-\def\gln@after@b#1#2\@nil{\@checkdiacritic{#1}{#2}\@glspacefalse}
-\def\gln@after@c#1#2\@nil{\@checkdiacritic{#1}{#2}{%
+\def\gln@after@c{%
    \endgraf
    \ifdim\ling@glhangindent>0pt
       \hangindent=\ling@glhangindent \hangafter=0 \fi
    \leavevmode
-   \@glspacefalse}}
-\def\gln@after@d#1\@nil{\@glspacetrue}
-\def\gln@after@e#1\@nil{\ep@diacriticerror{#1}}
+   \@glspacefalse}
+\def\ep@diacriticerror#1{%
+   \@expexerror{bad gloss diacritic: #1 (only @ and + permitted)}\end}
 
 \def\gln@endgl{\par\egroup\egroup}
-\newbox\gln@col
-%\def\gln@printglword{%
-%   \setbox\gln@col=\vtop{%
-%      \lineskip=0pt
-%      \ling@everyglword
-%      \gl@loopmoretrue
-%      \loop\ifgl@loopmore
-%         \gl@lop\tempa\to\@tempa
-%         \gl@lop\gln@aboveskiplist\to\@aboveskip
-%         \gl@lop\gln@everyline\to\@every
-%         \ifx\@aboveskip\empty \else
-%            \expandafter\ifdim\@aboveskip=0pt \else
-%               \vskip\@aboveskip \fi\fi
-%         \hbox{\@every\strut\@tempa}%
-%         \ifx\tempa\empty \gl@loopmorefalse \fi
-%      \repeat
-%      }%
-%}
 \def\gln@ft{\vskip\lingaboveglftskip\strut}
 \define@lingkey{glneveryline}{%
    \setlist\gln@everyline{#1}}
