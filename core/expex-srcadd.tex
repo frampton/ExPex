@@ -920,8 +920,8 @@
    \def\temp{#1}%
    \ifx\temp\empty \else \glw@dodiacritics #1\@nil \fi
    \ifglw@word
-      \gltoks@a={#1}%
-      \gltoks@b=\expandafter{\ling@everygla}%
+%      \gltoks@a={#1}%
+%      \gltoks@b=\expandafter{\ling@everygla}%
       \gl@append \\{\glstrut #1}\to\mainlist
       \setbox0=\hbox{\ling@everygla #1}%
       \ifdim\glw@maxht<\ht0 \glw@maxht=\ht0 \fi

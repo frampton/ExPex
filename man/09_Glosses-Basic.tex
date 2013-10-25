@@ -574,9 +574,12 @@ in the code below.
 \endgl
 \xe
 |endcodedisplay
-In the unlikely event that you need an entry which
-would normally be entered as |@|, enter it as |{{@}}|
-so that it is not interpreted as a directive to omit a space.
+In the unlikely event that you need a gla entry which
+would normally be entered as |@|, enter it as |{\relax @}|
+so that it is not interpreted as a directive to omit a
+space.\footnote{This is a change.  In version 4, |{{@}}| was
+suggested.  This no longer works, although |{{{{@}}}}| does work.
+But |{\relax @}| is easier to remember.}
 (\getref{@period}) below shows another use for the |@| diacritic.
 
 \exbreak
