@@ -18,5 +18,10 @@
 \newdimen\dimpuba
 \newdimen\dimpubb
 \def\@enamedef#1{\expandafter\edef\csname #1\endcsname}
+\newtoks\mytoks
+\def\@showtoks{\@getoptionalarg\@showtoks@i}
+\def\@showtoks@i #1{\mytoks=\expandafter{#1}\writeln{%
+   \@optionalarg\the\mytoks}}
+\let\showtoks=\@showtoks
 \resetatcatcode
 

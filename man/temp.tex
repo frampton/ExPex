@@ -1,5 +1,28 @@
 
 \makeatletter
+\let\mergerow=\glw@mergerow
+\resetatcatcode
+
+\ex[everygla=]
+\begingl
+\gla a1 {\hfil b1} //
+\glb a2 bbbb2 //
+\showtoks\mainlist
+\endgl\xe
+
+
+
+\endinput
+
+
+
+
+
+\newtoks\mytoks
+\def\@showtoks{\@getoptionalarg\@showtoks@i}
+\def\@showtoks@i #1{\mytoks=\expandafter{#1}\writeln{%
+   \@optionalarg\the\mytoks}}
+\let\showtoks=\@showtoks
 \newcount\@itemtype
 % 1=+, 2=@, 3=[, 4=], 5=\nogloss, 0=other
 \def\@getitemtype #1{\expandafter\@getitemtype@i #1\@nil}
@@ -22,16 +45,14 @@
    \fi
 }
 
-
-
 \lingset{glhangindent=0pt,glstyle=wrap,glrightskip=0pt plus 1in,
    extraglskip=1ex,everygla=}
 
 %\def\nogloss#1{#1}
 
 \ex\begingl
-\gla a1 [ b1 @ c1 d1 //
-\glb a2 b2 c2//
+\gla a1 b1 @ r r//
+\glb a2 b2 e e e//
 \endgl\xe
 
 \endinput

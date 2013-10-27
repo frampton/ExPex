@@ -1,6 +1,4 @@
 
-%\lingset{glbreaking=true}
-
 \section Glosses
 \deftag{\the\secno}{basicglosssec}
 
@@ -503,9 +501,14 @@ quite useful.
 Items on the |\gla| line are generally associated with items on
 the other lines of the interlinear gloss.  There are however a
 few items, called here {\it exceptional items}, which are
-interpreted in an exceptional fashion. There are four exceptional
-items, all consisting of a single character: |+|, |@|, |[|, and
-|]|.
+interpreted in an exceptional fashion. There are three kinds of exceptional
+items: the single character |+| or |@|, and any item which begins with
+the control sequence |\nogloss|.\footnote{Version 4 of {\it Expex} had
+two additional exceptional items, the single characters |[| and |]|.
+In version 5, these characters still operate as in Version 4, but
+their use is discouraged and their use as exceptional |\gla|
+characters will disappear from {\it ExPex} at some point.  |\nogloss|
+is more general, as explained below.}
 
 \subsubsection {\tt +}
 \deftag{\the\secno.\the\subsecno.\the\subsubsecno}{plusdiacritic}
@@ -578,75 +581,58 @@ In the unlikely event that you need a gla entry which
 would normally be entered as |@|, enter it as |{\relax @}|
 so that it is not interpreted as a directive to omit a
 space.\footnote{This is a change.  In version 4, |{{@}}| was
-suggested.  This no longer works, although |{{{{@}}}}| does work.
-But |{\relax @}| is easier to remember.}
+suggested.  This no longer works because various parsing steps strip
+away the grouping.  |{{{{@}}}}| does work, but |{\relax @}| is more straightforward.}
 (\getref{@period}) below shows another use for the |@| diacritic.
 
 \exbreak
-\subsubsection {\tt [} and {\tt ]}: Bracketing in glosses
+\subsubsection {\tt \char"5C nogloss}
 
-\sidx{|[|, exceptional gloss item}%
-\sidx{|]|, exceptional gloss item}%
-\begininventory
-\macros \idx{|\printlbrack|}, \idx{|\printrbrack|}\endmc
-\parameters
-\idx{|glbrackbracksep|\user}& dimension& \hfil \textdim{.05 em}\cr
-\idx{|glbrackwordsep|\user}& dimension& \hfil \textdim{.1 em}\cr
-\endinventory
-%
-Suppose you want to produce a gloss display like the one below.
+Suppose you want to produce gloss displays like the ones below.
 
 \framedisplay
 \pex[everygla=,glhangstyle=normal]<@period>
 \a
 \begingl
-\gla Fa'nu'i yu' ni [ [ {\it O} t{\it in\/}aitai-mu {\it t\/} ] na
-lepblu ] @ .//
-\glb show me Obl Op {\it WH\/}[obj].read-agr {} L book//
+\gla Fa'nu'i yu' ni \nogloss{[[} @ {\it O} t{\it in\/}aitai-mu
+\nogloss{{\it t\/}]} na {lepblu].}//
+\glb show me Obl Op {\it WH\/}[obj].read-agr L book//
 \glft ``Show me the book that you read.''//
 \endgl
 \a \begingl
-\gla Um-\"asudda' h\"am yan [ i taotao [ {\it O\/} ni si Juan
-ilek-\~na nu guahu [ mal\"agu' gui [ asudd\"a'-\~na {\it
-t\/} ] ] ] ] @ .//
+\gla Um-\"asudda' h\"am yan \nogloss{[} @ i taotao \nogloss{[} @ {\it O\/} ni si Juan
+ilek-\~na nu guahu \nogloss{[} @ mal\"agu' gui \nogloss{[} @ asudd\"a'-\~na
+\nogloss{\it t\/} \nogloss{]]]].}//
 \glb agr-meet we with the person Op Comp the Juan say-agr Obl me
 agr.want he {\it WH\/}[obl].meet-agr//
 \glft ``I met the person who Juan told me he wanted to meet.''//
 \endgl
 \xe
 \endframedisplay
-\noindent The brackets are not glossed; there is a little extra space
-between brackets; and there is a little extra space between words and
-brackets.
+\noindent The brackets are not glossed.
 
 (\lastx) is produced by:
 
 \codedisplay
-\pex[everygla=]
-\a \begingl
-\gla Fa'nu'i yu' ni [ [ {\it O} t{\it in\/}aitai-mu {\it t\/} ] na
-lepblu ] @ .//
-\glb show me Obl Op {\it WH\/}[obj].read-agr {} L book//
+\pex[everygla=,glhangstyle=normal]<@period>
+\a
+\begingl
+\gla Fa'nu'i yu' ni \nogloss{[[} @ {\it O} t{\it in\/}aitai-mu
+\nogloss{{\it t\/}]} na {lepblu].}//
+\glb show me Obl Op {\it WH\/}[obj].read-agr L book//
 \glft ``Show me the book that you read.''//
 \endgl
 \a \begingl
-\gla Um-\"asudda' h\"am yan [ i taotao [ {\it O\/} ni si Juan
-ilek-\~na nu guahu [ mal\"agu' gui [ asudd\"a'-\~na {\it
-t\/} ] ] ] ] @ .//
-\glb agr-meet we with the person Op Comp the Juan say-agr Obl me
-agr.want he {\it WH\/}[obl].meet-agr//
+\gla Um-\"asudda' h\"am yan \nogloss{[} @ i taotao \nogloss{[} @ {\it O\/}
+ni si Juan ilek-\~na nu guahu \nogloss{[} @ mal\"agu' gui \nogloss{[} @
+asudd\"a'-\~na \nogloss{\it t\/} \nogloss{]]]].}//
+\glb agr-meet we with the person Op Comp the Juan say-agr Obl me agr.want
+he {\it WH\/}[obl].meet-agr//
 \glft ``I met the person who Juan told me he wanted to meet.''//
 \endgl
 \xe
 |endcodedisplay
 
-\noindent |@| is used in the gla-line to eliminate an unwanted
-space before the period.
-
-\ExPex\ uses the macros |\printrbrack| and
-|\printlbrack| to typeset the brackets.  The definitions of
-these macros could be changed to cause [ and ] in glosses to
-insert something other than simple brackets.
 
 \everymath={}
 \lingset{glwidth=2.4in,everygl=,glhangstyle=none}
@@ -1084,4 +1070,55 @@ Potawatami example (\getref{wapm}) is from Halle and Marantz's
 ``Distributed Morphology'' article. The German examples in
 (\getref{sicher2}) are from an article by Idan Landau. The Kiowa
 example (\getref{wiye}) was contributed by Daniel Harbour.
+
+\endinput
+
+\ex[everygla=,glhangstyle=normal]<@period>
+\begingl
+\gla Fa'nu'i yu' ni [ [ {\it O} t{\it in\/}aitai-mu {\it t\/} ] na
+lepblu ] @ .//
+\glb show me Obl Op {\it WH\/}[obj].read-agr {} L book//
+\glft ``Show me the book that you read.''//
+\endgl
+\xe
+
+\ex[everygla=,glhangstyle=normal]
+\begingl
+\gla Fa'nu'i yu' ni \nogloss{[[} @ {\it O} t{\it in\/}aitai-mu {\it
+t\/} @ \nogloss{]} na lepblu @ \nogloss{].} //
+\glb show me Obl Op {\it WH\/}[obj].read-agr {} L book//
+\glft ``Show me the book that you read.''//
+\endgl
+\xe
+
+\ex[everygla=,glhangstyle=normal]
+\def\brackspace{\hskip.1em}%
+\begingl
+\gla Fa'nu'i yu' ni \nogloss{[[\brackspace} @ {\it O} t{\it in\/}aitai-mu {\it
+t\/} @ \nogloss{\brackspace]} na
+lepblu @ \nogloss{\brackspace]} @ .//
+\glb show me Obl Op {\it WH\/}[obj].read-agr {} L book//
+\glft ``Show me the book that you read.''//
+\endgl
+\xe
+
+\ex[everygla=,glhangstyle=normal,glstyle=nlevel]
+\def\brackspace{\hskip.1em}%
+\begingl
+Fa'nu'i[show] yu'[me] ni[Obl] {[[}[]@ {\it O}[Op]
+t{\it in\/}aitai-mu[{\it WH\/}{[obj]}.read-agr] {\it t\/}[]@ {]}[] na[L]
+lepblu[book]@ {].}[]
+\endgl
+\xe
+
+\ex[everygla=,glhangstyle=normal,glstyle=nlevel]
+\begingl
+Fa'nu'i[show] yu'[me] ni[Obl] \nogloss{[[}@ {\it O}[Op]
+t{\it in\/}aitai-mu[{\it WH\/}{[obj]}.read-agr] \nogloss{{\it t\/}]} na[L]
+{lepblu].}[book]
+\endgl
+\xe
+
+\endinput
+
 
