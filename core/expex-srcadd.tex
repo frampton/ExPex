@@ -902,7 +902,7 @@
 \define@ling@cmdkeys{everygla,everyglb,everyglc}
 \def\@alinelabel{a}
 \def\glw@gla{%
-   \if@glpreamble \vskip\lingbelowglpreambleskip \fi
+%   \if@glpreamble \vskip\lingbelowglpreambleskip \fi
    \def\lingaboveglaskip{0pt}%
    \def\gl@linelabel{a}%
    \glw@maxht=0pt
@@ -1077,7 +1077,7 @@
    \ling@everyglft
    \hangindent=0pt
    \let\endgl=\glw@endgl@ii
-   #1\par
+   \strut #1\par
 }
 \def\glw@endgl{\glw@endgl@i \glw@endgl@ii}
 \def\glw@endgl@i{\lineskip=\epd@gllineskip

@@ -1,0 +1,162 @@
+
+
+Suppose you want to produce a display like the following.
+The problem was posed by James Crippen; the language is Tlingit.
+
+\medskip
+\framedisplay
+\def\\#1{\hbox to 3em{#1}}%
+\pex[glwidth=5in,samplelabel=\\{c.\hfil \#A:},labelformat=A,
+   labelgen=list,
+   labellist={\\{a.\hfil Q:},\\{b.\hfil A:},\\{c.\hfil \#A:}}]
+\a \begingl
+\gla aad\'oo s\'aw\'e kh\'oo {at lat\'eewu?} //
+\glb who Q people.to something=teacher //
+\glft `who is the teacher?' //
+\endgl
+\a \begingl
+\gla J\'aan kh\'oo at~lat\'eewu  \'aw\'a //
+\glb John people.to something=teacher COP //
+\glft `John is the teacher' //
+\endgl
+\a \begingl
+\gla kh\'oo {at lat\'eewu} \'aw\'e J\'aan //
+\glb people.to something=teacher COP John //
+\glft `John is the teacher' //
+\endgl
+\xe
+\endframedisplay
+
+The problem is locating the question/answer indications (Q/A) without
+messing up the alignment.
+
+The simplest solution to the problem is:
+
+\codedisplay
+\pex[glwidth=5in,textoffset=2.5em]
+\a \llap{Q: }\begingl
+\gla aad\'oo s\'aw\'e‚ kh\'oo {at lat\'eewu?} //
+\glb who Q people.to something=teacher //
+\glft `who is the teacher?' //
+\endgl
+\a \llap{A: }\begingl
+\gla J\'aan kh\'oo at~lat\'eewu  \'aw\'a //
+\glb John people.to something=teacher COP //
+\glft `John is the teacher' //
+\endgl
+\a\llap{\#A: }\begingl
+\gla kh\'oo {at lat\'eewu} \'aw\'e J\'aan //
+\glb people.to something=teacher COP John //
+\glft `John is the teacher' //
+\endgl
+\xe
+|endcodedisplay
+The text offset must be adjusted to accomodate the Q/A marks.
+
+The next solution shows that fixed width glosses (i.e. those with
+|glwidth| not set to 0) can be put in tables.
+
+\codedisplay
+\ex[glwidth=5in]
+\vtop{\halign{#\hfil& \enspace \hfil #&
+   \hskip\lingtextoffset #\hfil\cr
+a.& Q:&
+\begingl
+\gla aad\'oo s\'aw\'e kh\'oo {at lat\'eewu?} //
+\glb who Q people.to something=teacher //
+\glft `who is the teacher?' //
+\endgl\cr
+b.& A:&
+\begingl
+\gla J\'aan kh\'oo at~lat\'eewu  \'aw\'a //
+\glb John people.to something=teacher COP //
+\glft `John is the teacher' //
+\endgl\cr
+c.& \#A:&
+\begingl
+\gla kh\'oo {at lat\'eewu} \'aw\'e J\'aan //
+\glb people.to something=teacher COP John //
+\glft `John is the teacher' //
+\endgl\cr
+}}\xe
+|endcodedisplay
+
+The two codings below use explicit labeling, one directly, the other
+via |labellist|.  Here, fixed width glosses are not necessary.
+Both use a scratch macro:
+\medskip
+|\def\\#1{\hbox to 3em{#1}}|
+\medskip
+
+\def\\#1{\hbox to 3em{#1}}%
+
+\codedisplay
+\pex[labelformat=A,samplelabel=\\{c.\enspace \hfil\#A:}]
+\a[label=\\{a.\hfil Q:}] \begingl
+\gla aad\'oo s\'aw\'e kh\'oo {at lat\'eewu?} //
+\glb who Q people.to something=teacher //
+\glft `who is the teacher?' //
+\endgl
+\a[label=\\{b.\hfil A:}] \begingl
+\gla J\'aan kh\'oo at~lat\'eewu  \'aw\'a //
+\glb John people.to something=teacher COP //
+\glft `John is the teacher' //
+\endgl
+\a[label=\\{c\hfil \#A:}] \begingl
+\gla kh\'oo {at lat\'eewu} \'aw\'e J\'aan //
+\glb people.to something=teacher COP John //
+\glft `John is the teacher' //
+\endgl
+\xe
+|endcodedisplay
+
+%\framedisplay
+\codedisplay
+\pex[labelgen=list,
+   labellist={\\{a.\hfil Q:},\\{b.\hfil A:},\\{c.\hfil \#A:}},
+   samplelabel=\\{c.\hfil \#A:},labelformat=A]
+\a \begingl
+\gla aad\'oo s\'aw\'e kh\'oo {at lat\'eewu?} //
+\glb who Q people.to something=teacher //
+\glft `who is the teacher?' //
+\endgl
+\a \begingl
+\gla J\'aan kh\'oo at~lat\'eewu  \'aw\'a //
+\glb John people.to something=teacher COP //
+\glft `John is the teacher' //
+\endgl
+\a \begingl
+\gla kh\'oo {at lat\'eewu} \'aw\'e J\'aan //
+\glb people.to something=teacher COP John //
+\glft `John is the teacher' //
+\endgl
+\xe
+|endcodedisplay
+%\endframedisplay
+
+
+\endinput
+
+\pex[nopreamble]
+\def\\#1{\hbox to 2em{\rm\hfil #1:}}%
+\a
+\begingl
+\gla \\{Q} aad\'oo s\'aw\'e‚ kh\'oo {at lat\'eewu?} //
+\glb {} who Q people.to something=teacher //
+\glc {} \rlap{`who is the teacher?'}//
+\endgl
+\a
+\begingl
+\gla \\{A} J\'aan kh\'oo at~lat\'eewu  \'aw\'a //
+\glb {} John people.to something=teacher COP //
+\glc {} \rlap{`John is the teacher'}//
+\endgl
+\a
+\begingl
+\gla \\{\#A} kh\'oo {at lat\'eewu} \'aw\'e J\'aan //
+\glb {} people.to something=teacher COP John //
+\glc {} \rlap{`John is the teacher'}//
+\endgl
+\xe
+
+

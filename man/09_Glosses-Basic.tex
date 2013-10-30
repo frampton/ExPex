@@ -20,8 +20,13 @@ with the initial settings of the parameters.
 
 \medskip
 \framedisplay
-\ex<wapm>
+\ex[belowpreambleskip=0pt,aboveglftskip=0pt,aboveglbskip=0pt,
+   aboveglcskip=0pt,everygla=,everyglb=,everyglc=,
+   everyglft=]<wapm>
+\writeln{\lingbelowpreambleskip++++}
+\writeln{\lingaboveglftskip++++}
 \begingl
+\glpreamble This is example ?? for Halle and Marantz.//
 \gla k- wapm -a -s'i -m -wapunin -uk //
 \glb CL V AGR NEG AGR TNS AGR //
 \glb 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
