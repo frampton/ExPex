@@ -143,7 +143,7 @@
    \fi
 %------ scratch dimensions -----
 \newdimen\epd@a
-%\newdimen\epd@b not yet needed
+\newdimen\epd@b
 %\newdimen\epd@c not yet needed
 %------ \ex -----
 \newcount\excnt
@@ -756,10 +756,12 @@
       \let\gl@beginglstyle\glw@begingl
       \let\endgl\glw@endgl
       \glw@assignlevels
+      \let\glpreamble=\glw@preamble
       \let\glft=\glw@glft
    \else
       \let\gl@beginglstyle\gln@begingl
       \let\endgl\gln@endgl
+      \let\glpreamble=\gln@preamble
       \let\glft=\gln@ft
       \fi
 }
@@ -1057,7 +1059,7 @@
 }
 \defineglwlevels{b,c}
 \newif\ifglw@spacebefore
-\long\def\glpreamble #1// {%
+\long\def\glw@preamble #1// {%
    \@glpreambletrue
    {\hangindent=0pt \hangafter=0 \ling@everyglpreamble #1\vskip\lingbelowpreambleskip}%
 }
@@ -1135,7 +1137,8 @@
  % 10/8/13 revise the definition of \glw@printcol to allow items to be
 % center aligned in gloss words
 \def\gl@lopTL#1\to#2{\ifx#1\empty
-   \let#2\empty \else\expandafter\gl@lopoffTL#1\gl@lopoffTL#1#2\fi}
+%   \let#2\empty \else\expandafter\gl@lopoffTL#1\gl@lopoffTL#1#2\fi}
+   #2={}\else\expandafter\gl@lopoffTL#1\gl@lopoffTL#1#2\fi}
 \long\def\gl@lopoffTL\\#1#2\gl@lopoffTL#3#4{#4={#1}\def#3{#2}}
 \newtoks\gltoks@sofar
 \newtoks\gltoks@every
@@ -1159,9 +1162,20 @@
    \vtop{%
       \gl@lineskipsave
       \ling@everyglword
-      \halign{##\hfil\cr \the\gltoks@sofar}}%
+      \halign{\glwordalign{##}\cr \the\gltoks@sofar}}%
    \endgroup
 }
+\def\gl@wordalignleft#1{#1\hfil}
+\def\gl@wordaligncenter#1{\hfil#1\hfil}
+\define@choicekey{ling}{glwordalign}[\ling@glwordalign\ep@glwordalign]
+   {left,center}{%
+   \ifcase\ep@glwordalign
+      \let\glwordalign=\gl@wordalignleft
+   \or
+      \let\glwordalign=\gl@wordaligncenter
+   \fi
+}
+\lingset{glwordalign=left}
 % ----- brackets -----
 \newif\if@glpostbrack
 \newcount\@glaparsestate          % 0 normal, 1 post @, 2 post [, 3 post ]
@@ -1290,15 +1304,42 @@
 }
 \lingset{everytrailingcitation=}
 %%%%%%%%%%%%%%%%%%%% nlevel %%%%%%%%%%%%%%%%%%%%
+% prelims
+\def\varstrut#1{\varstrut@i #1 0pt \@nil}
+\def\varstrut@i #1 #2 #3\@nil{%
+   \epd@a=\ht\strutbox \advance\epd@a by #1
+   \epd@b=\dp\strutbox \advance\epd@b by #2
+   \vrule height\epd@a depth\epd@b width0pt
+}
+\newbox\glstrutbox
+\define@lingcmdkeys{extraglstrut}
+\lingset{extraglstrut=}
+\def\ep@setglstrut{%
+   \ifx\lingextraglstrut\empty \setbox\glstrutbox=\copy\strutbox
+   \else \expandafter\ep@setglstrut@i\lingextraglstrut\@nil
+   \fi
+}
+\def\ep@setglstrut@i #1 #2\@nil{%
+   \epd@a=\ht\strutbox \advance\epd@a by #1
+   \epd@b=\dp\strutbox \advance\epd@b by #2
+   \setbox\glstrutbox=\hbox{\vrule height\epd@a depth\epd@b width0pt}%
+}
+\def\glstrut{\unhcopy\glstrutbox}
+% end prelims
 \def\gln@begingl{\bgroup
    \@glspacefalse \@getoptionalarg\gln@A}
 \def\gln@A{\@ifnextchar\@cs\gln@B\gln@C}
 \def\gln@B#1{\gln@C}
 \def\gln@C{%
    \ling@usearg
-   \ifdim\lingglbaselineskip=0pt \else
-      \baselineskip=\lingglbaselineskip \fi
-   \lineskip=\lingextraglskip
+      \bgroup
+   \else
+      \vtop\bgroup
+         \hsize=\ling@glwidth
+         \leftskip=0pt
+   \fi
+   \ep@setglstrut
+   \lineskip=0pt
    \rightskip=\ling@glrightskip
    \ifdim\ling@glhangindent>0pt \hangindent=\ling@glhangindent
       \hangafter=1 \fi
@@ -1312,7 +1353,7 @@
 \def\gln@a{\futurelet\temp\gln@b}
 \def\gln@b{\ifx\temp\endgl \let\next=\relax
    \else \ifx\temp\nogloss \let\next=\gln@bi
-   \else \ifx\temp\glft \let\next=\gln@bii
+   \else \ifx\temp\glft \let\next=\relax
    \else \let\next=\gln@c \fi\fi\fi \next }
 \def\gln@bi{\expandafter\gln@c}
 \def\gln@bii#1{\vskip\lingaboveglftskip\strut}
@@ -1345,7 +1386,7 @@
          \ifx\@aboveskip\empty \else
             \expandafter\ifdim\@aboveskip=0pt \else
                \vskip\@aboveskip \fi\fi
-         \hbox{\@every\strut\@tempa}%
+         \hbox{\@every\glstrut\@tempa}%
          \ifx\tempa\empty \gl@loopmorefalse \fi
       \repeat
       }%
@@ -1365,8 +1406,8 @@
    \@glspacefalse}
 \def\ep@diacriticerror#1{%
    \@expexerror{bad gloss diacritic: #1 (only @ and + permitted)}\end}
-\def\gln@endgl{\par\egroup\egroup}
-\def\gln@ft{\vskip\lingaboveglftskip\strut}
+\def\gln@endgl{\par\egroup\egroup\egroup}
+\def\gln@ft{\vskip\lingaboveglftskip\strut \ling@everyglft}
 \define@lingkey{glneveryline}{\setlist\gln@everyline{#1}}
 \define@lingkey{glnabovelineextraskip}{\setlist\gln@aboveskiplist{#1}}
 \def\setlist#1#2{\def#1{}\XKV@for@n{#2}\@this{\gl@eappend\@this\to#1}}

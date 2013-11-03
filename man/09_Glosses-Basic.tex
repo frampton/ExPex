@@ -1,4 +1,30 @@
 
+%\makeatletter
+%\ex
+%\lingset{glstyle=wrap}
+%\writeln{\ling@glstyle, \noexpand\glw@glft, \meaning\glw@glft}
+%\writeln{\ling@glstyle, \noexpand\glw@glft, \meaning\glpreamble}
+%\begingl
+%\glpreamble This is example ?? for Halle and Marantz.//
+%\gla k- wapm -a -s'i -m -wapunin -uk //
+%\glb CL V AGR NEG AGR TNS AGR //
+%\glb 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
+%\glft `you (pl) didn't see them'//
+%\endgl
+%\xe
+%\endinput
+
+%\ex[everygla=,glhangstyle=normal,glstyle=nlevel]
+%\def\brackspace{\hskip.1em}%
+%\begingl
+%Fa'nu'i[show] yu'[me] ni[Obl] {[[}[]@ {\it O}[Op]
+%t{\it in\/}aitai-mu[{\it WH\/}{[obj]}.read-agr] {\it t\/}[]@ {]}[] na[L]
+%lepblu[book]@ {].}[]
+%\endgl
+%\xe
+%
+%\endinput
+
 \section Glosses
 \deftag{\the\secno}{basicglosssec}
 
@@ -23,8 +49,6 @@ with the initial settings of the parameters.
 \ex[belowpreambleskip=0pt,aboveglftskip=0pt,aboveglbskip=0pt,
    aboveglcskip=0pt,everygla=,everyglb=,everyglc=,
    everyglft=]<wapm>
-\writeln{\lingbelowpreambleskip++++}
-\writeln{\lingaboveglftskip++++}
 \begingl
 \glpreamble This is example ?? for Halle and Marantz.//
 \gla k- wapm -a -s'i -m -wapunin -uk //
@@ -1109,8 +1133,7 @@ lepblu @ \nogloss{\brackspace]} @ .//
 
 \ex[everygla=,glhangstyle=normal,glstyle=nlevel]
 \def\brackspace{\hskip.1em}%
-\begingl
-Fa'nu'i[show] yu'[me] ni[Obl] {[[}[]@ {\it O}[Op]
+\begingl Fa'nu'i[show] yu'[me] ni[Obl] {[[}[]@ {\it O}[Op]
 t{\it in\/}aitai-mu[{\it WH\/}{[obj]}.read-agr] {\it t\/}[]@ {]}[] na[L]
 lepblu[book]@ {].}[]
 \endgl

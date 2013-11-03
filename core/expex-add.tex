@@ -86,7 +86,8 @@
 \def\gln@a{\futurelet\temp\gln@b}
 \def\gln@b{\ifx\temp\endgl \let\next=\relax
    \else \ifx\temp\nogloss \let\next=\gln@bi
-   \else \ifx\temp\glft \let\next=\gln@bii
+   \else \ifx\temp\glft \let\next=\relax
+%   \else \ifx\temp\glft \let\next=\gln@bii
    \else \let\next=\gln@c \fi\fi\fi \next }
 \def\gln@bi{\expandafter\gln@c}
 \def\gln@bii#1{\vskip\lingaboveglftskip\strut}

@@ -296,7 +296,8 @@ but is worth mentioning because it might cause a perplexing problem if
 it does arise.  Characters on lower levels which are extra tall can
 cause misalignment of the baselines.  Suppose, for example, that you
 want to use a gloss to give some information about the
-morphophonological derivation of a surface form, as in (\nextx).
+morphophonological derivation of a surface form, as is attempted
+in (\nextx).
 
 \def\AccentedBarredW{$\acute{\hbox{$\overline w$}}$}
 
@@ -312,21 +313,33 @@ Not only is more space between the lines needed, but there is
 misalignment of the baselines on the second level.
 
 |glneveryline={,5pt}| would give more space over the second level but
-it will not fix the misaligned baselines. But |glbaselineskip| can be
-easily adjusted to give vertical room for the second line.
+it will not fix the misaligned baselines. There are two solutions,
+one is to use |gleveryline| to put struts in the second line of the
+word glosses which are taller than the standard strut.  {\it Expex}
+provides the macro |\varstrut| which helps with this.
+|\varstrut{2pt}|, for example, is a strut which is $2\,\rm pt$ taller
+than |\strut|, and |\varstrut{3pt 2pt}| is a strut which is $3\,\rm
+pt$ taller and $2\,\rm pt$ deeper than |\strut|.
 
 \framedisplay
-\ex[glstyle=nlevel,glbaselineskip=!6pt]
+\ex[glstyle=nlevel,glneveryline={\it,\varstrut{4pt}}]
 \begingl m-[(mo-)] wope[(a\AccentedBarredW ope)] \endgl \xe
 \endframedisplay
 \codedisplay
-\ex[glstyle=nlevel,glbaselineskip=!6pt]
-\begingl m-[(mo-)] wope[(a\AccentedBarredW ope)] \endgl
-\xe
+\ex[glstyle=nlevel,glneveryline={\it,\varstrut{4pt}}]
+\begingl m-[(mo-)] wope[(a\AccentedBarredW ope)] \endgl \xe
 |endcodedisplay
-Note that the baselineskip within the word glosses in a particular
-example can be set using the |!|dimension syntax as an offset from the
-current setting of |glbaselineskip|.
+The second solution is to make the glstruts uniformly (i.e. on all
+lines) bigger.
+
+\framedisplay
+\ex[glstyle=nlevel,extraglstrut=4pt 0pt]
+\begingl m-[(mo-)] wope[(a\AccentedBarredW ope)] \endgl \xe
+\endframedisplay
+\codedisplay
+\ex[glstyle=nlevel,extraglstrut=4pt 0pt]
+\begingl m-[(mo-)] wope[(a\AccentedBarredW ope)] \endgl \xe
+|endcodedisplay
 
 The nlevel style handles line breaking and hanging indentation as
 expected.  The setting of |extraglskip| affects the display just as in
