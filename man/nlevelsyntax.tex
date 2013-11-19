@@ -1,0 +1,77 @@
+
+\def\<#1>{$\langle$#1$\rangle$}
+
+Formally, the syntax of nlevel glosses can be given as a system of
+rewriting rules.  Quantities in angle brackets are either specified in
+other rewriting rules or explained in words. \<spaces> consists of one
+or more spaces and \<empty> is empty.  $\vert$ is logical or.  `ilg'
+abbreviates `interlinear gloss'.
+
+\bigskip
+\begingroup
+\leftskip=\parindent
+\openup2pt
+\parindent=0pt
+\<gloss display> $\to$ |\begingl| \<preamble> \<ilg>
+\<free translation> |\endgl|
+
+\<preamble> $\to$ \<empty> $\vert$ |\glpreamble| \<preamble body>
+|\endpreamble|
+
+\<free translation> $\to$ \<empty> $\vert$ |\glft| \<free translation body>
+
+\<ilg> $\to$ \<ilg item> \<diacritic> \<spaces> $\vert$ \<ilg item>
+\<diacritic> \<spaces> \<ilg>
+
+\<diacritic> $\to$ \<empty> $\vert$ |@| $\vert$ |+|
+
+\<ilg item> $\to$ |\nogloss{| <word> |}| $\vert$
+\<word> |[| \<gloss list> |]|
+
+\<gloss list> $\to$ \<gloss> $\vert$ \<gloss> |/| \<gloss list>
+
+\bigskip
+\endgroup
+\noindent
+\<word> and \<gloss> must be material which can appear in the context
+|\hbox{|\dots|}|. \<word> cannot contain either a top-level space or
+top-level |[|\kern.8pt . \<gloss> cannot contain either top-level~|/|
+or top-level~|]| (but can contain top-level spaces).  <preamble> and
+<free translation> are ordinary running text.  The use of |\nogloss|
+does not increase the expressive power of the syntax; but it can make
+the code more readable.  |\nogloss{[}|, for example, is equivalent to
+|{[}[]|.
+
+\makeatletter
+\def\gln@begingl{\bgroup
+   \@glspacefalse
+   \ep@setglstrut
+   \ifdim\ling@glwidth=0pt
+      \bgroup
+   \else
+      \vtop\bgroup
+         \hsize=\ling@glwidth
+         \leftskip=0pt
+   \fi
+   \edef\gl@restoreouterbaselineskip{\noexpand\baselineskip=\the\baselineskip}%
+   \futurelet\temp\gln@Ca
+   \ifnum\ep@glhangstyle=0
+      \or
+         \hangindent=\ling@glhangindent
+         \hangafter=1
+      \or
+%         \glwcascade@makeshape
+%         \parshape 9
+%         \glwcascade@parshapetarget
+%   \fi
+ }
+\resetatcatcode
+
+
+\ex
+\begingl[glstyle=nlevel,glhangstyle=none]
+%\begingl[glstyle=nlevel,glhangindent=0pt,glhangstyle=none]
+[c] a[d] e[]@ [f]+ [c] a[d] e[]@ [f]
+\endgl
+\xe
+

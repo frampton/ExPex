@@ -1,3 +1,57 @@
+
+\makeatletter
+
+\newdimen\ep@cascadeindent
+\newdimen\ep@hangindentamount
+\newcount\ep@cascadecount
+
+\ep@cascadecount=10
+\ep@cascadeindent=0pt
+\ep@hangindentamount=\ling@glhangindent
+
+\parindent=0pt
+\def\makeshape#1#2{{%
+   \count0=#1
+   \ep@dima=#2
+   \ep@dimb=\hsize
+   \advance\ep@dimb by -\ep@dima
+   \edef\cascadeshape{}
+   \loop\ifnum\count0 >0
+      \edef\cascadeshape{\cascadeshape \the\ep@dima\space\the\ep@dimb\space}%
+      \advance\ep@dima by \ling@glhangindent
+      \advance\ep@dimb by -\ling@glhangindent
+      \advance\count0 by -1
+      \repeat
+   \edef\next{#1\space\cascadeshape}%
+   \xdef\next{\noexpand\expandafter\noexpand\parshape#1\space\cascadeshape}}%
+   \next
+   \ignorespaces
+}
+\def\@glhangcarry{%
+   \par
+   \edef\next{\the\prevgraf}%
+   \advance\ep@cascadecount by -\next
+   \advance\ep@cascadeindent by \next\ep@hangindentamount
+   \makeshape{\ep@cascadecount}{\ep@cascadeindent}
+}
+
+%\begingroup
+%\parindent=0pt
+%\hsize=4in
+%\makeshape{\ep@cascadecount}{\ep@cascadeindent}
+%Now is the time for all good men to come to the aid of the party.
+%Now is the time for all good men to come to the aid of the party.
+%Now is the time for all good men to come to the aid of the party.
+%\@glhangcarry
+%Now is the time for all good men to come to the aid of the party.
+%\@glhangcarry
+%Now is the time for all good men to come to the aid of the party.
+%\par
+%\endgroup
+%\endinput
+
+
+
 %\ex[glstyle=nlevel]
 %\begingl
 %k-[CL/2] wapm[V/see] -a[AGR/\sc 3acc] -s'i[NEG]
@@ -6,6 +60,33 @@
 %\endgl
 %\xe
 
+\makeatletter
+\newtoks\mytoks
+\def\@showtoks{\@getoptionalarg\@showtoks@i}
+\def\@showtoks@i #1{\mytoks=\expandafter{#1}\writeln{%
+   \@optionalarg\the\mytoks}}
+\let\showtoks=\@showtoks
+
+%When autoglskip is set to false, extraglskip is irrelevant.  The skip
+%between lines of the glwords is determined by gllineskip.
+%?? when autoglskip=true, it shouldn't make any difference whether
+%?? glstruts is true or false.
+
+\ex[everygla=,glwidth=2in,autoglskip=true,glstruts=true,extraglskip=0pt,
+   gllineskip=0pt]
+\begingl
+\gla
+LLLL LLLL LLLL
+LLLL LLLL LLLL
+//
+\glb
+LLLL LLLL LLLL
+LLLL LLLL LLLL
+//
+\endgl
+\xe
+
+\endinput
 
 \ex
 \hsize=5in
@@ -183,11 +264,6 @@ k-[CL/2] wapm[V/see] -a[AGR/\sc 3acc] -s'i[NEG]
 
 
 
-\newtoks\mytoks
-\def\@showtoks{\@getoptionalarg\@showtoks@i}
-\def\@showtoks@i #1{\mytoks=\expandafter{#1}\writeln{%
-   \@optionalarg\the\mytoks}}
-\let\showtoks=\@showtoks
 \newcount\@itemtype
 % 1=+, 2=@, 3=[, 4=], 5=\nogloss, 0=other
 \def\@getitemtype #1{\expandafter\@getitemtype@i #1\@nil}

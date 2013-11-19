@@ -1,4 +1,5 @@
 
+
 %\ex
 %\begingl[glstyle=nlevel,aboveglftskip=2ex,glneveryline={}]
 %Fa'nu'i[show] yu'[me] ni[Obl] {\it O\/}[Op]
@@ -64,6 +65,15 @@
 %
 %
 %\endinput
+
+\def\minigloss#1#2{\outlinebox{%
+   \vtop{\halign{\ministrut ##\hfil\cr #1\cr #2\cr}}}\hskip1pt}%
+\let\ministrut=\relax
+\def\miniglossbare#1#2{\vtop{\halign{##\hfil\cr
+   #1\cr #2\cr}}}
+\def\outlinebox{\psframebox[framesep=0,boxsep=false,linewidth=.4pt]}
+
+
 
 \section Additonal options for glosses
 
