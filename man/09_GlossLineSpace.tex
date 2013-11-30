@@ -1,31 +1,30 @@
-
-\makeatletter
-\newbox\glwordbox
-\def\glboxed{\let\glw@printcol=\glw@printcol@boxed}
-\def\glw@printcol@boxed{%
-   \begingroup
-   \gltoks@sofar={}%
-   \gl@loopmoretrue
-   \loop\ifgl@loopmore
-      \gl@lop\itemtypelist\to\@itemtypenum
-      \gl@lop\aboveskiplist\to\@aboveskip
-      \expandafter\ifdim\@aboveskip=0pt \def\@above{}\else
-         \edef\@above{\noalign{\vskip\@aboveskip}}\fi
-      \gl@lop\strutlist\to\@strut
-      \gl@lopTL\everylist\to\gltoks@every
-      \gl@lopTL\tempa\to\gltoks@next
-      \edef\temp{\the\gltoks@sofar \@above\@strut\the\gltoks@every\the\gltoks@next \cr}%
-      \gltoks@sofar=\expandafter{\temp}%
-      \ifx\tempa\empty \gl@loopmorefalse \fi
-      \repeat
-   \setbox\glwordbox=\vtop{%
-      \gl@lineskipsave
-      \ling@everyglword
-      \halign{\glwordalign{##}\cr \the\gltoks@sofar}}%
-      \psframebox[framesep=-.5pt,boxsep=false]{\box\glwordbox}%
-   \endgroup
-}
-\resetatcatcode
+%\makeatletter
+%\newbox\glwordbox
+%\def\glboxed{\let\glw@printglword=\glw@printglword@boxed}
+%\def\glw@printglword@boxed{%
+%   \begingroup
+%   \gltoks@sofar={}%
+%   \gl@loopmoretrue
+%   \loop\ifgl@loopmore
+%      \gl@lop\itemtypelist\to\@itemtypenum
+%      \gl@lop\aboveskiplist\to\@aboveskip
+%      \expandafter\ifdim\@aboveskip=0pt \def\@above{}\else
+%         \edef\@above{\noalign{\vskip\@aboveskip}}\fi
+%      \gl@lop\strutlist\to\@strut
+%      \gl@lopTL\everylist\to\gltoks@every
+%      \gl@lopTL\tempa\to\gltoks@next
+%      \edef\temp{\the\gltoks@sofar \@above\@strut\the\gltoks@every\the\gltoks@next \cr}%
+%      \gltoks@sofar=\expandafter{\temp}%
+%      \ifx\tempa\empty \gl@loopmorefalse \fi
+%      \repeat
+%   \setbox\glwordbox=\vtop{%
+%      \gl@lineskipsave
+%      \ling@everyglword
+%      \halign{\glwordalign{##}\cr \the\gltoks@sofar}}%
+%      \psframebox[framesep=-.5pt,boxsep=false]{\box\glwordbox}%
+%   \endgroup
+%}
+%\resetatcatcode
 
 \subsection Vertical spacing in the interlinear gloss
 
@@ -49,7 +48,7 @@ building machinery.   Struts are put on each line of each of the
 boxes, which are called {\it glwords}.  The spaceskip is adjusted to
 be the value of |glspace|.
 
-\ex[glspace=1.5em]  \glboxed
+\ex[glspace=1.5em]  \boxglwords %\glboxed
 \begingl
 \gla Ti ma'a'\~nao hao kumuentusi
    ni h\'ayiyi ha'.//
@@ -97,7 +96,7 @@ parameter \hbox{|extraglskip|} as shown below.
 
 \ex
 \hsize=6in
-\glboxed
+\boxglwords %\glboxed
 \let\\=\textsc
 \begingl[extraglskip=1ex]
 \gla
@@ -147,10 +146,32 @@ peacock beside its nest.'//
 \endgl
 \xe
 
+%\ex  \boxglwords
+%\
+%\begingl[extraglskip=1ex,aboveglbskip=-.25ex]
+%\gla
+%Hom\^{a}o sa \v{c}\^{o} p\^{o} tha  \~{n}u nao ng\u{a} hmua. \~{N}u
+%dj\u{a} g\u{a}, \~{n}u dj\u{a} \v{c}\u{o}ng \~{n}u, laih gui r\^{e}o
+%\~{n}u. Todang bboi r\^{o}k jolan \~{n}u nao hma, \~{n}u bb\^{o}h sa
+%droi mr\u{a} d\u{o} bboi gah, a, hruh \~{n}u.//
+%\glb
+%\\{exist} one \\{clf} person old \\{3s} go do field \\{3s} hold
+%machete \\{3s} hold hoe \\{3s} and carry.on.back back.basket \\{3s}
+%while at along trail \\{3s} go field \\{3s} see one \\{clf} peacock
+%stay at \\{drct} -- nest \\{3s}//
+%\glft
+%`There was an old person who went to work in the field. He took
+%along his machete, he took along his hoe, and he carried his
+%basket on his back. While he was on his way to the farm, he saw a
+%peacock beside its nest.'//
+%\endgl
+%\xe
+%
+%\endinput
 \ex
 \hsize=5.8in
 \let\\=\textsc
-\glboxed
+\boxglwords %\glboxed
 \begingl[extraglskip=1ex,aboveglbskip=-.25ex]
 \gla
 Hom\^{a}o sa \v{c}\^{o} p\^{o} tha  \~{n}u nao ng\u{a} hmua. \~{N}u
@@ -193,7 +214,7 @@ b.\tspace
 \xe
 \endinput
 \a
-\glboxed
+\boxglwords %\glboxed
 \begingl
 \gla Ti ma'a'\~nao hao kumuentusi
    ni h\'ayiyi ha'.//
@@ -214,7 +235,7 @@ b.\tspace
    Infin.speak.to not anyone Emp//
 \endgl
 \a
-\glboxed
+\boxglwords %\glboxed
 \begingl
 \gla Ti ma'a'\~nao hao kumuentusi
    ni h\'ayiyi ha'.//

@@ -42,36 +42,36 @@ does not increase the expressive power of the syntax; but it can make
 the code more readable.  |\nogloss{[}|, for example, is equivalent to
 |{[}[]|.
 
-\makeatletter
-\def\gln@begingl{\bgroup
-   \@glspacefalse
-   \ep@setglstrut
-   \ifdim\ling@glwidth=0pt
-      \bgroup
-   \else
-      \vtop\bgroup
-         \hsize=\ling@glwidth
-         \leftskip=0pt
-   \fi
-   \edef\gl@restoreouterbaselineskip{\noexpand\baselineskip=\the\baselineskip}%
-   \futurelet\temp\gln@Ca
-   \ifnum\ep@glhangstyle=0
-      \or
-         \hangindent=\ling@glhangindent
-         \hangafter=1
-      \or
-%         \glwcascade@makeshape
-%         \parshape 9
-%         \glwcascade@parshapetarget
+%\makeatletter
+%\def\gln@begingl{\bgroup
+%   \@glspacefalse
+%   \ep@setglstrut
+%   \ifdim\ling@glwidth=0pt
+%      \bgroup
+%   \else
+%      \vtop\bgroup
+%         \hsize=\ling@glwidth
+%         \leftskip=0pt
 %   \fi
- }
-\resetatcatcode
-
-
-\ex
-\begingl[glstyle=nlevel,glhangstyle=none]
+%   \edef\gl@restoreouterbaselineskip{\noexpand\baselineskip=\the\baselineskip}%
+%   \futurelet\temp\gln@Ca
+%   \ifnum\ep@glhangstyle=0
+%      \or
+%         \hangindent=\ling@glhangindent
+%         \hangafter=1
+%      \or
+%%         \glwcascade@makeshape
+%%         \parshape 9
+%%         \glwcascade@parshapetarget
+%%   \fi
+% }
+%\resetatcatcode
+%
+%
+%\ex
+%\begingl[glstyle=nlevel,glhangstyle=none]
 %\begingl[glstyle=nlevel,glhangindent=0pt,glhangstyle=none]
-[c] a[d] e[]@ [f]+ [c] a[d] e[]@ [f]
-\endgl
-\xe
+%[c] a[d] e[]@ [f]+ [c] a[d] e[]@ [f]
+%\endgl
+%\xe
 

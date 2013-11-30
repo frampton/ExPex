@@ -1,4 +1,208 @@
 
+\lingset{everygla=,extraglskip=0pt}
+\def\X{x{\vrule height6pt depth2pt}}
+\def\A{x{\vrule height6pt depth2pt}}
+\def\Z{.\vrule width2pt height8.5pt depth3.5pt .}
+
+
+
+
+\hsize=2in
+\lingset{everyglilg={\baselineskip=20pt}}
+\lingset{belowglpreambleskip=-8pt}
+\lingset{glhangstyle=none}
+\lingset{extraglskip=8pt}
+\lingset{autoglskip=true}
+\lingset{belowglpreambleskip=0pt}
+\lingset{aboveglftskip=0pt}
+
+\ex[glstyle=wrap]
+\begingl
+\glpreamble preamble preamble preamble preamble //
+\gla
+{\X} {\X} {\X} {\X} {\X} {\X} {\X} {\X} {\X} {\X} {\X} {\X} {\X} {\X}
+{\X} {\X} {\X} {\X}
+//
+\glb
+{\A} {\A} {\A} {\A} {\A} {\A} {\A} {\A} {\A} {\A} {\A} {\A} {\A} {\A}
+{\A} {\A} {\A} {\A}
+//
+\glft free
+free free free free free free free free free free
+//
+\endgl
+\xe
+
+\endinput
+\parindent=0pt
+
+\begingl[glstyle=nlevel]
+\glpreamble preamble preamble preamble preamble \endpreamble
+\X[\A] \X[\A] \X[\A] \X[\A] \X[\A] \X[\A] \X[\A] \X[\A] \X[\A] \X[\A]
+\X[\A] \X[\A] \X[\A] \X[\A] \X[\A] \X[\A] \X[\A] \X[\A] \X[\A]
+\glft
+free free free free free free free free free free
+\endgl
+
+\bigskip
+
+\setbox0=\vbox{\begingl[glstyle=nlevel]
+\glpreamble preamble\endpreamble
+\X[\A]
+\endgl}
+
+%\showbox0
+\copy0
+
+\endinput
+
+
+
+\makeatletter
+\define@key{ling}{glrightskip}[]{%
+   \skip0=0pt plus .1\hsize
+   \def\temp{#1}\ifx\temp\empty \else \skip0=#1\fi
+   \edef\ling@glrightskip{\the\skip0}}
+\lingset{glrightskip=100pt plus 2em}
+%\writeln{++\ling@glrightskip}
+%\hsize=100pt
+%\lingset{glrightskip}
+%\writeln{++\ling@glrightskip}
+
+\define@cmdkeys{ling}[ling@]{glrightskip}
+\lingset{glrightskip=0pt plus .1\hsize}
+\hsize=100pt
+\skip0=\ling@glrightskip
+\writeln{+++\the\skip0}
+
+\resetatcatcode
+
+
+\endinput
+
+It is easiest to understand what the parameters do by examining in
+some detail how a gloss display is constructed.  Consider (\nextx),
+for example, in which box outlines have been added to facilitate
+discussion.
+
+\framedisplay
+\boxglwords
+\ex[glspace=1.2em,extraglskip=.5ex,glhangindent=1.5em]
+\hsize=4in
+\begingl
+\glpreamble Mary ist sicher, dass es den Hans nicht st\"oren w\"urde
+seiner Freundin ihr Herz auszusch\"utten.//
+\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
+seiner Freundin ihr$_i$ Herz auszusch\"utten.//
+\glb Mary is sure that it the-{\sc acc} Hans not annoy would
+his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
+throw}//
+\glft  `Mary is sure that it would not annoy John to reveal her
+heart to his girlfriend.'//
+\endgl
+\xe
+\endframedisplay
+\codedisplay~
+\ex[glspace=1.2em,extraglskip=.5ex,glhangindent=1.5em]
+\hsize=4in
+\begingl
+\glpreamble Mary ist sicher, dass es den Hans nicht st\"oren w\"urde
+seiner Freundin ihr Herz auszusch\"utten.//
+\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
+seiner Freundin ihr$_i$ Herz auszusch\"utten.//
+\glb Mary is sure that it the-{\sc acc} Hans not annoy would
+his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
+throw}//
+\glft  `Mary is sure that it would not annoy John to reveal her
+heart to his girlfriend.'//
+\endgl
+\xe
+|endcodedisplay
+
+\def\parvalue#1{{\tt \char"7C #1\char"7C }}
+
+
+\noindent 1. {\it Formating the preamble}\enspace The preamble is set
+as ordinary running text, using whatever \Tex\ settings hold in the
+environment, with the tokens \parvalue{everyglpreamble} inserted at
+the beginning.  This is grouped so that any changes made in the
+preamble do not leak out.  This is followed by inserting vertical skip
+determined by \parvalue{afterpreambleskip}.
+
+\smallskip
+
+\noindent 2. {\it Formating the interlinear gloss}: \enspace All of
+the items in the various lines in the interlinear gloss are
+accumulated before the boxes which make up the interlinear gloss are
+typeset.  These vboxes, outlined in (\lastx), are called glwords.
+These boxes are fed to \Tex's standard paragraph building machinery.
+There are two separate issues; parameters which affect how the boxes
+are built and parameters that affect paragraph building.
+
+\smallskip
+
+\begingroup
+\leftskip 1.5em
+\parindent=0pt
+{\it Formating the glwords}:\enspace \parvalue{everyglword} is
+inserted at the start.  Each line of the glword starts with a strut
+and an appropriate hook; \parvalue{everygla} for a gla line, etc.
+Vertical skip \parvalue{aboveglbskip} is inserted above the glb line,
+and so forth.
+
+\smallskip
+
+{\it Forming the glwords into a paragraph}:\enspace Horizontal skip
+\parvalue{glskip} is inserted between the glwords and vertical skip
+\parvalue{extraglskip} is inserted between the lines of glwords.   The
+rightskip is set to \parvalue{glrightskip}.  Hanging indentation is
+determined by \parvalue{glhangstyle} and \parvalue{glhangindent}.  The
+interlinear gloss is grouped so that \Tex\ parameter changes are kept
+local.
+
+\endgroup
+\smallskip
+\noindent 3. {\it Formating the free translation}:\enspace Finally,
+the free translation is typeset as standard text, separated by
+vertical skip \parvalue{aboveglftskip} from the interlinear skip above
+it.  \parvalue{everyglft} is inserted at the start of processing the
+free translation.
+
+\resetatcatcode
+
+\endinput
+
+
+\hsize=5in
+
+\immediate\openout0=tempfile
+\newtoks\stoks
+\obeylines
+\stoks={\begingl
+\glpreamble Mary ist sicher, dass es den Hans nicht st\"oren w\"urde
+seiner Freundin ihr Herz auszusch\"utten.//
+\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
+seiner Freundin ihr$_i$ Herz auszusch\"utten.//
+\glb Mary is sure that it the-{\sc acc} Hans not annoy would
+his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
+throw}//
+\glft  `Mary is sure that it would not annoy John to reveal her
+heart to his girlfriend.'//
+\endgl}%
+\immediate\write0{\the\stoks}
+\immediate\closeout0
+
+\expandafter\codedisplay\input tempfile
+|endcodedisplay
+
+
+
+
+
+
+
+
+\endinput
 \makeatletter
 
 \newdimen\ep@cascadeindent
@@ -34,7 +238,7 @@
    \advance\ep@cascadeindent by \next\ep@hangindentamount
    \makeshape{\ep@cascadecount}{\ep@cascadeindent}
 }
-
+\
 %\begingroup
 %\parindent=0pt
 %\hsize=4in
