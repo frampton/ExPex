@@ -1,71 +1,5 @@
 
 
-%\ex
-%\begingl[glstyle=nlevel,aboveglftskip=2ex,glneveryline={}]
-%Fa'nu'i[show] yu'[me] ni[Obl] {\it O\/}[Op]
-%t{\it in\/}aitai-mu[{\it WH\/}{[obj]}.read-agr]  {\it t\thinspace}[] na[L] lepblu.[book]
-%\glft `Show me the book that you read.'
-%\endgl
-%\xe
-%
-%\endinput
-%
-%\ex[glstyle=nlevel,glhangindent=0pt,extraglskip=1ex]
-%\begingl
-%Mary$_i$[Mary] ist[is] sicher,[sure]
-%dass[that] es[it] den[the-\sc acc] Hans[Hans] nicht[not]
-%   st\"oren[annoy] w\"urde[would]
-%seiner[his-\sc dat] Freundin[girlfriend-\sc dat] ihr$_i$[her-\sc acc]
-%   Herz[heart-\sc acc] auszusch\"utten.[out to throw]
-%\endgl
-%\xe
-
-
-%\endinput
-
-
-
-
-%
-%
-%\ex[everygla=,glhangstyle=normal]<@period>
-%\begingl
-%\gla Fa'nu'i yu' ni [ [ {\it O} t{\it in\/}aitai-mu {\it t\/} ] na
-%lepblu ] @ .//
-%\glb show me Obl Op {\it WH\/}[obj].read-agr {} L book//
-%\glft ``Show me the book that you read.''//
-%\endgl
-%\xe
-%
-%\ex \begingl[glstyle=nlevel]
-%Fa'nu'i[show]
-%yu'[me]
-%ni[Obl]
-%{[[\thinspace}[]@a
-%{\it O\/}[Op]
-%t{\it in\/}aitai-mu[{\it WH\/}{[obj]}.read-agr]
-%{\it t\thinspace}[]@
-%{]}[]
-%na[L]
-%lepblu{]}.[book]
-%\endilg
-%\glft ``Show me the book that you read.''//
-%\endgl
-%\xe
-%
-%
-%
-%
-%
-%
-%
-
-%\glft ``Show me the book that you read.''//
-%\endgl
-%
-%
-%\endinput
-
 \def\minigloss#1#2{\outlinebox{%
    \vtop{\halign{\ministrut ##\hfil\cr #1\cr #2\cr}}}\hskip1pt}%
 \let\ministrut=\relax
@@ -75,75 +9,78 @@
 
 
 
-\section Additonal options for glosses
-
-\subsection Glosses which span page breaks
+\section An alternate syntax for coding glosses
 
 \begininventory
 \parameters*
-\idx{|glbreaking|}& |true| or |false|& |false|\rlap{\quad (with default
-value |true|)}\cr
+|gltype|& |wrap| or |nlevel|& |wrap|\cr
 \endinventory
-In the wrap style (|glstyle=wrap|), there is now the option of
-building glosses in a vbox or not.  Building a gloss in a vbox has the
-advantage that its width can be more easily controlled, if this is
-desired, and of preventing the gloss from being split between two
-pages, if this is desired.  Sometimes, however, particularly with the
-long glosses that result from glossing a narrative, it is desirable
-for a glosses to continue over a page break.  The parameter
-|glbreaking| controls whether or not the gloss is built in a vbox.  If
-not (i.e. |glbreaking| is set to |true|), the gloss is generated as a
-sequence of word glosses, which are fed into Tex's usual page building
-machinery.
+The last section assumed the default setting, `wrap'.  The `nlevel'
+gloss style produces identical displays, but they are coded
+differently. Compare the two ways of coding the display (\nextx),
+which repeats \getref{basicglosssec}.
 
-This is illustrated below.  The page is temporarily narrowed
-(|\hsize=2.5in|) for illustrative purposes.  The coding is given
-first.
+\framedisplay
+\ex[glstyle=nlevel]
+\begingl
+k-[CL/2] wapm[V/see] -a[AGR/\sc 3acc] -s'i[NEG]
+-m[AGR/\sc 2pl] -wapunin[TNS/preterit] -uk[AGR/\sc 3pl]
+\glft `you (pl) didn't see them'
+\endgl
+\xe
+\endframedisplay
 
-
-\codedisplay
-\ex
-\hsize=2.5in
-\let\\=\textsc
-\begingl[glhangindent=0pt,glbreaking=true]
-\gla Hom\^{a}o sa \v{c}\^{o} p\^{o} tha  \~{n}u nao ng\u{a}
-hmua. \~{N}u dj\u{a} g\u{a}, \~{n}u dj\u{a} \v{c}\u{o}ng \~{n}u,
-laih gui r\^{e}o \~{n}u. Todang bboi r\^{o}k jolan \~{n}u nao
-hma, \~{n}u bb\^{o}h sa droi mr\u{a} d\u{o} bboi gah, a, hruh
-\~{n}u.//
-\glb \\{exist} one \\{clf} person old \\{3s} go do field
-\\{3s} hold machete \\{3s} hold hoe \\{3s} and carry.on.back
-back.basket \\{3s} while at along trail \\{3s} go field \\{3s}
-see one \\{clf} peacock stay at \\{drct} -- nest \\{3s}
-//
+\noindent
+\vtop{\hsize=3in \leftskip=0pt
+\codedisplay~
+\ex[glstyle=nlevel]
+\begingl
+k-[CL/2]
+wapm[V/see]
+-a[AGR/\sc 3acc]
+-s'i[NEG]
+-m[AGR/\sc 2pl]
+-wapunin[TNS/preterit]
+-uk[AGR/\sc 3pl]
+\glft `you (pl) didn't see them'
 \endgl
 \xe
 |endcodedisplay
-
-\ex
-\hsize=2.5in
-\let\\=\textsc
-\begingl[glhangstyle=none]
-\gla Hom\^{a}o sa \v{c}\^{o} p\^{o} tha  \~{n}u nao ng\u{a}
-hmua. \~{N}u dj\u{a} g\u{a}, \~{n}u dj\u{a} \v{c}\u{o}ng \~{n}u,
-laih gui r\^{e}o \~{n}u. Todang bboi r\^{o}k jolan \~{n}u nao
-hma, \~{n}u bb\^{o}h sa droi mr\u{a} d\u{o} bboi gah, a, hruh
-\~{n}u.//
-\glb \\{exist} one \\{clf} person old \\{3s} go do field
-\\{3s} hold machete \\{3s} hold hoe \\{3s} and carry.on.back
-back.basket \\{3s} while at along trail \\{3s} go field \\{3s}
-see one \\{clf} peacock stay at \\{drct} -- nest \\{3s}
-//
+}
+\qquad
+\vtop{\hsize=3in \leftskip=0pt
+\codedisplay~
+\ex[glstyle=wrap]
+\begingl
+\gla k- wapm -a -s'i -m
+   -wapunin -uk //
+\glb CL V AGR NEG AGR TNS AGR //
+\glc 2 see {\sc 3acc} {}
+   {\sc 2pl} preterit {\sc 3pl} //
+\glft `you (pl) didn't see them'
 \endgl
 \xe
+|endcodedisplay
+}
 
 
-If gloss breaking is in effect, the setting of |glwidth| has no
-effect.
+One big advantage to this style of coding complex glosses is that the
+gloss of a word and the word are adjacent in the code, as they are in
+the display which is produced; vertically adjacent in the display,
+horizontally adjacent in the code. This makes the code much more
+readable. In effect, an aspect of WYSIWG is built into the coding.
+This is particularly useful if the gloss has many words, the gloss of
+a narrative for example.
 
-
-
-\subsection glstyle = nlevel
+Putting aside considertation of the free translation until later, the
+list between |\begingl| and |\endgl| is processed as a space separated
+list.  Only top level spaces are separators.  Spaces inside
+|[|\dots|]| are effectively hidden from this parsing.  So, for
+example, the space in |-a[AGR/\sc 3acc]| does not mislead the parser.
+The material inside |[|\dots|]| is processed as a |/| separated list.
+Of course, |/| in this material must be hidden from the parser so |/|
+cannot appear at the top level.  The same is true of |]|, for obvious
+reasons.
 
 \begininventory
 \macros
@@ -157,40 +94,7 @@ effect.
 has somewhat different meanings in wrap style and n-level style
 glosses.}
 
-We begin by recoding (\getref{wapm}) from Section
-\getref{basicglosssec}.
 
-\framedisplay
-\ex[glstyle=nlevel]
-\begingl
-k-[CL/2] wapm[V/see] -a[AGR/\sc 3acc] -s'i[NEG]
--m[AGR/\sc 2pl] -wapunin[TNS/preterit] -uk[AGR/\sc 3pl]
-\glft `you (pl) didn't see them'
-\endgl
-\xe
-\endframedisplay
-\codedisplay~
-\ex[glstyle=nlevel]
-\begingl
-k-[CL/2] wapm[V/see] -a[AGR/\sc 3acc] -s'i[NEG]
--m[AGR/\sc 2pl] -wapunin[TNS/preterit] -uk[AGR/\sc 3pl]
-\glft `you (pl) didn't see them'
-\endgl
-\xe
-|endcodedisplay
-The big advantage to this style of coding complex glosses is that the
-gloss of a word and the word are adjacent in the code, as they are in
-the display which is produced. This makes the code much more readable.
-In effect, an aspect of WYSIWG is built into the coding.
-
-Putting aside considertation of the free translation until later, the
-list between |\begingl| and |\endgl| is processed as a space separated
-list.  Spaces inside |[|\dots|]| are effectively hidden from this
-parsing.  So, for example, the space in |-a[AGR/\sc 3acc]| does not
-mislead the parser.  The material inside |[|\dots|]| is processed as a
-|/| separated list.  Of course, |/| in this material must be hidden
-from the parser so |/| cannot appear at the top level.  The same is
-true of |]|, for obvious reasons.
 
 \def\<#1>{$\langle$#1$\rangle$}
 
@@ -520,4 +424,70 @@ baseline of the first line of the free translation does not depend on
 the height of the characters in the free translation.}
 
 \endinput
+
+\subsection Glosses which span page breaks
+
+\begininventory
+\parameters*
+\idx{|glbreaking|}& |true| or |false|& |false|\rlap{\quad (with default
+value |true|)}\cr
+\endinventory
+In the wrap style (|glstyle=wrap|), there is now the option of
+building glosses in a vbox or not.  Building a gloss in a vbox has the
+advantage that its width can be more easily controlled, if this is
+desired, and of preventing the gloss from being split between two
+pages, if this is desired.  Sometimes, however, particularly with the
+long glosses that result from glossing a narrative, it is desirable
+for a glosses to continue over a page break.  The parameter
+|glbreaking| controls whether or not the gloss is built in a vbox.  If
+not (i.e. |glbreaking| is set to |true|), the gloss is generated as a
+sequence of word glosses, which are fed into Tex's usual page building
+machinery.
+
+This is illustrated below.  The page is temporarily narrowed
+(|\hsize=2.5in|) for illustrative purposes.  The coding is given
+first.
+
+
+\codedisplay
+\ex
+\hsize=2.5in
+\let\\=\textsc
+\begingl[glhangindent=0pt,glbreaking=true]
+\gla Hom\^{a}o sa \v{c}\^{o} p\^{o} tha  \~{n}u nao ng\u{a}
+hmua. \~{N}u dj\u{a} g\u{a}, \~{n}u dj\u{a} \v{c}\u{o}ng \~{n}u,
+laih gui r\^{e}o \~{n}u. Todang bboi r\^{o}k jolan \~{n}u nao
+hma, \~{n}u bb\^{o}h sa droi mr\u{a} d\u{o} bboi gah, a, hruh
+\~{n}u.//
+\glb \\{exist} one \\{clf} person old \\{3s} go do field
+\\{3s} hold machete \\{3s} hold hoe \\{3s} and carry.on.back
+back.basket \\{3s} while at along trail \\{3s} go field \\{3s}
+see one \\{clf} peacock stay at \\{drct} -- nest \\{3s}
+//
+\endgl
+\xe
+|endcodedisplay
+
+\ex
+\hsize=2.5in
+\let\\=\textsc
+\begingl[glhangstyle=none]
+\gla Hom\^{a}o sa \v{c}\^{o} p\^{o} tha  \~{n}u nao ng\u{a}
+hmua. \~{N}u dj\u{a} g\u{a}, \~{n}u dj\u{a} \v{c}\u{o}ng \~{n}u,
+laih gui r\^{e}o \~{n}u. Todang bboi r\^{o}k jolan \~{n}u nao
+hma, \~{n}u bb\^{o}h sa droi mr\u{a} d\u{o} bboi gah, a, hruh
+\~{n}u.//
+\glb \\{exist} one \\{clf} person old \\{3s} go do field
+\\{3s} hold machete \\{3s} hold hoe \\{3s} and carry.on.back
+back.basket \\{3s} while at along trail \\{3s} go field \\{3s}
+see one \\{clf} peacock stay at \\{drct} -- nest \\{3s}
+//
+\endgl
+\xe
+
+
+If gloss breaking is in effect, the setting of |glwidth| has no
+effect.
+
+
 

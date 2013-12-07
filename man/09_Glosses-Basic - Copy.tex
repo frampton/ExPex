@@ -247,7 +247,7 @@ gla-line is not longer italicized, the glb-line is set in
 a smaller font, and it is moved closer to the gla-line.
 
 \framedisplay
-\ex[glspace=1.5em,everygla=,everyglb=\footnotesize,aboveglbskip=-.2ex]<wapm2>
+\ex[glspace=1.5em,everygla=,everyglb=\footnotesize,aboveglbskip=-.2ex]
 \begingl
 \gla k- wapm -a -s'i -m -wapunin -uk //
 \glb CL V AGR NEG AGR TNS AGR //
@@ -355,62 +355,208 @@ c.\quad
 \endgl
 \xe
 
+%\ex[glwidth=2.3in,dima=.7em]
+%a.\tspace
+%\begingl[glrightskip=0pt,glspace=1em plus 1fil]
+%\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
+%seiner Freundin ihr$_i$ Herz auszusch\"utten.//
+%\glb Mary is sure that it the-{\sc acc} Hans not annoy would
+%his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
+%throw}//
+%\endgl
+%\hfill
+%b.\tspace
+%\begingl[glrightskip=0pt plus 1fil,glspace=.5em]
+%\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
+%seiner Freundin ihr$_i$ Herz auszusch\"utten.//
+%\glb Mary is sure that it the-{\sc acc} Hans not annoy would
+%his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
+%throw}//
+%\endgl
+%\kern1em
+%\medskip
+%c.\tspace
+%\begingl
+%\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
+%seiner Freundin ihr$_i$ Herz auszusch\"utten.//
+%\glb Mary is sure that it the-{\sc acc} Hans not annoy would
+%his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
+%throw}//
+%\endgl
+%\kern1em
+%\xe
 
-\subsubsection Where should parameter changes be made?
 
-Consider (\getref{wapm2}) again.  The code can be written as
 
-\codedisplay
-\ex[glspace=1.5em,everygla=,everyglb=\footnotesize,aboveglbskip=-.2ex]
-\begingl
-\gla k- wapm -a -s'i -m -wapunin -uk //
-\glb CL V AGR NEG AGR TNS AGR //
-\glc 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
-\glft `you (pl) didn't see them'//
+
+
+We start with some examples.  A more comprehensive discussion of the
+parameter system will follow.
+
+
+
+
+
+
+What adjustments would we like to be able to make?  For the preamble,
+we would like to be able to choose the font and the vertical space
+between the preamble and the interlinear gloss.  The parameters
+|everyglpreamble| and |aboveglpreambleskip| allow this.  Similar
+adjustments for the free translation are done by |everyglft| and
+|glaboveglftskip|.
+
+
+
+
+
+
+
+The list below includes the core \ExPex\ parameters which affect gloss
+displays.  The meanings of most of them should be clear from their
+names.  Those whose meanings are not clear will be discussed below. Of
+course, certain \Tex\ settings in the environment will also affect
+gloss displays.
+\medskip
+
+\def\\#1{\noalign{\smallskip}\quad #1\cr}%
+
+\parinventory
+\\{Preamble\hidewidth}
+& \idx{|everyglpreamble|}& token list& |{}|\cr
+& \idx{|belowglpreambleskip|\user}& (!)dimension& \textdim{1 ex}\cr
+\\{Free translation\hidewidth}
+& \idx{|everyglft|}& token list& |{}|\cr
+& \idx{|aboveglftskip|\user}& (!)dimension& \textdim{1 ex}\cr
+\\{Building the glwords\hidewidth}
+& \idx{|everygla|}& token list& |\it|\cr
+& \idx{|everyglb|}& token list& |{}|\cr
+& \idx{|everyglc|}& token list& |{}|\cr
+& \idx{|aboveglbskip|\user}& (!)dimension& \textdim{0 pt}\cr
+& \idx{|aboveglcskip|\user}& (!)dimension& \textdim{0 pt}\cr
+\\{Forming the glwords into a paragraph\hidewidth}
+& \idx{|glspace|\user}& \inc dimension& \textdim{.5 em} plus
+   \textdim{.4 em} minus \textdim{.15 em}\cr
+& \idx{|extraglskip|\user}& (!)dimension& \textdim{0 pt}\cr
+%\\{Hanging indentation\hidewidth}
+& \idx{|glhangindent|}& dimension& \textdim{1 em}\cr
+& \idx{|glhangstyle|}& |none|, |normal|, or |cascade|& |normal|\cr
+%& \idx{|everyglilg|}& token list& |{}|\cr
+%& \idx{|everygl|}& token list& |{}|\cr
+\endparinventory
+\vskip-1ex
+\hrule
+\medskip
+
+
+
+\hrule
+\medskip
+\parinventory
+\\{Horizontal spacing\hidewidth}
+\quad & \idx{|glspace|\user}& \inc dimension& \textdim{.5 em} plus
+\textdim{.4 em} minus \textdim{.15 em}\cr
+\\{Hooks for font changes, struts, etc.\hidewidth}
+& \idx{|everygl|}& token list& |{}|\cr
+& \idx{|everyglpreamble|}& token list& |{}|\cr
+& \idx{|everyglilg|}& token list& |{}|\cr
+& \idx{|everygla|}& token list& |\it|\cr
+& \idx{|everyglb|}& token list& |{}|\cr
+& \idx{|everyglc|}& token list& |{}|\cr
+& \idx{|everyglft|}& token list& |{}|\cr
+\\{Vertical spacing\hidewidth}
+& \idx{|belowglpreambleskip|\user}& (!)dimension& \textdim{1 ex}\cr
+& \idx{|aboveglbskip|\user}& (!)dimension& \textdim{0 pt}\cr
+& \idx{|aboveglcskip|\user}& (!)dimension& \textdim{0 pt}\cr
+& \idx{|aboveglftskip|\user}& (!)dimension& \textdim{1 ex}\cr
+& \idx{|extraglskip|\user}& (!)dimension& \textdim{0 pt}\cr
+\\{Hanging indentation\hidewidth}
+& \idx{|glhangindent|}& dimension& \textdim{1 em}\cr
+& \idx{|glhangstyle|}& |none|, |normal|, or |cascade|& |normal|\cr
+\endparinventory
+\vskip-1ex
+\hrule
+\medskip
+
+Suppose for example that rather than the gloss in (\getref{wapm}) the
+following style is desired.
+
+\framedisplay
+\ex
+\begingl[glspace=2em]
+\gla[everygla=] k- wapm -a -s'i -m -wapunin -uk //
+\glb[everyglb=\sc,aboveglbskip=-.4ex]
+   cl v agr neg agr tns agr //
+\glb 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
+\glft[everyglft=\it,aboveglftskip=0pt] `you (pl) didn't see them'//
 \endgl
 \xe
-|endcodedisplay
+\endframedisplay
+There are several differences with (\getref{wapm}).  The words are
+more widely separated; the font in the |\gla| line is not italic;  the
+font in the free translation is italic; the first |\glb| line is set
+in a smaller font and is moved up closer to the |\gla| line; and there
+is no extra vertical skip between the free translation and the last
+line of the interlinear gloss, as there is in (\getref{wapm}).
 
-\noindent or
+Here is one way to write the code:
 
 \codedisplay
 \ex
-\begingl[glspace=1.5em]
+\begingl[glspace=2em]
 \gla[everygla=] k- wapm -a -s'i -m -wapunin -uk //
-\glb[everyglb=\footnotesize,aboveglbskip=-.2ex]
-   CL V AGR NEG AGR TNS AGR //
+\glb[everyglb=\sc,aboveglbskip=-.4ex]
+   cl v agr neg agr tns agr //
+\glb 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
+\glft[everyglft=\it,aboveglftskip=0pt] `you (pl) didn't see them'//
+\endgl
+\xe
+|endcodedisplay
+
+The setting of |glspace| determines the horizontal skip between glwords
+in the interlinear gloss.  A lot of stretch is allowed since
+
+
+Here is an alternative which produces the same output.  It has the
+advantage that all of the parameter settings are gathered in one
+place, making it easier to modify.
+
+\codedisplay
+\ex
+\begingl[glspace=2em,everygla=,everyglb=\sc,
+   aboveglbskip=-.4ex,everyglft=\it,aboveglftskip=0pt]
+\gla k- wapm -a -s'i -m -wapunin -uk //
+\glb cl v agr neg agr tns agr //
 \glc 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
 \glft `you (pl) didn't see them'//
 \endgl
 \xe
 |endcodedisplay
-The latter is perhaps conceptually neater, in that the parameter
-changes have scope only where the changes are relevant.  But the
-former has the big advantage that it is much easier to see what the
-parameter setting are.
 
 If you use multiple instances of the same gloss format, a style should
 be defined
 
 \codedisplay
-\definelingstyle{Potawatami}{glspace=1.5em,everygla=,
-   everyglb=\footnotesize,aboveglbskip=-.2ex}
+\definelingstyle{Potawatami}{glspace=2em,everygla=,everyglb=\sc,
+   aboveglbskip=-.4ex,everyglft=\it,aboveglftskip=0pt}
 |endcodedisplay
 
 Then, typesetting a gloss in that style is done simply.
 
-\def\goop{\quad $\vdots$}
-
 \codedisplay
-\ex[lingstyle=Potawatami]
-\begingl
-|goop
+\ex
+\begingl[lingstyle=Potawatami]
+\gla k- wapm -a -s'i -m -wapunin -uk //
+\glb Ccl V Agr Neg Agr Tns Agr //
+\glc 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
+\glft `you (pl) didn't see them'//
+\endgl
 \xe
 |endcodedisplay
 
 If you want a sequence of glosses to all be done in this style, you
 can say:
 
+\def\goop{\quad $\vdots$}
 \codedisplay
 \begingroup
 \lingset{lingstyle=Potawatami}
@@ -418,34 +564,13 @@ can say:
 \endgroup
 |endcodedisplay
 
-\subsection  Exceptional {\tt \char"5C gla} items
-\deftag{\the\secno.\the\subsecno}{atdiacritic}
-
-Items on the |\gla| line are generally associated with items on
-the other lines of the interlinear gloss.  There are however a
-few items, called here {\it exceptional items}, which are
-interpreted in an exceptional fashion. There are three kinds of exceptional
-items: the single character |+| or |@|, and any item which begins with
-the control sequence |\nogloss|.\footnote{Version 4 of {\it Expex} had
-two additional exceptional items, the single characters |[| and |]|.
-In version 5, these characters still operate as in Version 4, but
-their use is discouraged and their use as exceptional |\gla|
-characters will disappear from {\it ExPex} at some point.  |\nogloss|
-is more general, as explained below.}
-
-\subsubsection {\tt +}
-\deftag{\the\secno.\the\subsecno.\the\subsubsecno}{plusdiacritic}
-
-\sidx{|+|, exceptional gloss item}%
-Sometimes it is desirable to override natural wrapping and
-break up the gloss so that the syntax is emphasized, as in the
-following.
-
 \framedisplay
-\ex<Marysicher>
+\ex[extraglskip=1ex,glhangstyle=cascade] \hsize=4in
 \begingl
-\gla Mary$_i$ ist sicher, + dass es den Hans nicht st\"oren w\"urde
-+ seiner Freundin ihr$_i$ Herz auszusch\"utten.//
+\glpreamble Mary ist sicher, dass es den Hans nicht st\"oren w\"urde
+seiner Freundin ihr Herz auszusch\"utten.//
+\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
+seiner Freundin ihr$_i$ Herz auszusch\"utten.//
 \glb Mary is sure that it the-{\sc acc} Hans not annoy would
 his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
 throw}//
@@ -454,155 +579,6 @@ heart to his girlfriend.'//
 \endgl
 \xe
 \endframedisplay
-
-\bigskip
-This is accomplished by inserting `|+|' appropriately, as shown in the
-code below.  When |+| is encountered, the line is broken and a new
-line started.  Hanging indentation, either normal or cascading, is
-preserved.
-
-\codedisplay
-\ex
-\begingl
-\gla Mary$_i$ ist sicher, + dass es den Hans nicht st\"oren w\"urde
-+ seiner Freundin ihr$_i$ Herz auszusch\"utten.//
-\glb Mary is sure that it the-{\sc acc} Hans not annoy would
-his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
-throw}//
-\glft  `Mary is sure that it would not annoy John to reveal her
-heart to his girlfriend.'//
-\endgl
-\xe
-|endcodedisplay
-
-\subsubsection {\tt @}
-\deftag{\the\secno.\the\subsecno.\the\subsubsecno}{atdiacritic}
-
-\sidx{|@|, exceptional gloss item}%
-Sometimes it is desirable to omit the space between two entries.
-
-\framedisplay
-\ex<wiye>
-\begingl
-\gla wiye kepi e- @ ca//
-\glb two whitemen {\sc 1p:3d}- found//
-\endgl
-\xe
-\endframedisplay
-
-This is accomplished by inserting `|@|' appropriately, as shown
-in the code below.
-
-\codedisplay
-\ex
-\begingl
-\gla wiye kepi e- @ ca//
-\glb two whitemen {\sc 1p:3d}- found//
-\endgl
-\xe
-|endcodedisplay
-In the unlikely event that you need a gla entry which
-would normally be entered as |@|, enter it as |{\relax @}|
-so that it is not interpreted as a directive to omit a
-space.\footnote{This is a change.  In version 4, |{{@}}| was
-suggested.  This no longer works because various parsing steps strip
-away the grouping.  |{{{{@}}}}| does work, but |{\relax @}| is more straightforward.}
-(\getref{@period}) below shows another use for the |@| diacritic.
-
-\exbreak
-\subsubsection {\tt \char"5C nogloss}
-
-Suppose you want to produce a gloss display like the one below.
-
-\framedisplay
-\ex[everygla=,glhangstyle=normal]<@period>
-\begingl
-\gla Fa'nu'i yu' ni \nogloss{[[} @ {\it O} t{\it in\/}aitai-mu
-\nogloss{{\it t\/}]} na {lepblu].}//
-\glb show me Obl Op {\it WH\/}[obj].read-agr L book//
-\endgl
-\xe
-\endframedisplay
-\noindent Note that the brackets are not glossed.
-
-This can be done using the |@| gloss diacritic as follows.
-
-\codedisplay
-\ex[everygla=,glhangstyle=normal]<@period>
-\begingl
-\gla Fa'nu'i yu' ni {[[} @ {\it O} t{\it in\/}aitai-mu
-{{\it t\/}]} na {lepblu].}//
-\glb show me Obl {} Op {\it WH\/}[obj].read-agr {} L book//
-\endgl
-\xe
-|endcodedisplay
-\noindent The gloss alignment is preserved by the use of empty elements in
-the second row.
-
-If glosses are long and/or if there are many rows, it is tedious and
-error prone to insert suitable empty elements.\footnote{Glosses of
-narratives can have hundreds of elements.} |\nogloss| is intended to
-simplify constructing glosses in which there are unglossed items on
-the top line.  To produce (\lastx), you can write:
-
-\codedisplay
-\ex[everygla=,glhangstyle=normal]<@period>
-\begingl
-\gla Fa'nu'i yu' ni \nogloss{[[} @ {\it O} t{\it in\/}aitai-mu
-\nogloss{{\it t\/}]} na {lepblu].}//
-\glb show me Obl Op {\it WH\/}[obj].read-agr L book//
-\endgl
-\xe
-|endcodedisplay
-
-If you want extra space between the brackets and the words they
-bracket, the following is one way to achieve this.
-
-\framedisplay
-\ex[everygla=,glhangstyle=normal]
-\begingl
-\gla Um-\"asudda' h\"am yan \nogloss{$[\,$} @ i taotao \nogloss{$[\,$} @
-{\it O\/} ni si Juan ilek-\~na nu guahu \nogloss{$[\,$} @ mal\"agu' gui
-\nogloss{$[\,$} @
-asudd\"a'-\~na \nogloss{{\it t\/}$\,]]]]$.}//
-\glb agr-meet we with the person Op Comp the Juan say-agr Obl me
-agr.want he {\it WH\/}[obl].meet-agr//
-\endgl
-\xe
-\endframedisplay
-\codedisplay~
-\ex[everygla=,glhangstyle=normal]
-\begingl
-\gla Um-\"asudda' h\"am yan \nogloss{$[\,$} @ i taotao \nogloss{$[\,$} @
-{\it O\/} ni si Juan ilek-\~na nu guahu \nogloss{$[\,$} @ mal\"agu' gui
-\nogloss{$[\,$} @ asudd\"a'-\~na \nogloss{{\it t\/}$\,]]]]$.}//
-\glb agr-meet we with the person Op Comp the Juan say-agr Obl me
-agr.want he {\it WH\/}[obl].meet-agr//
-\endgl
-\xe
-|endcodedisplay
-
-
-%\ex[textoffset=1in,dima=.5em]<Chung1>
-%\begingl[extraglskip=1.2ex]
-%\gla Ti ma'a'\~nao hao kumuentusi\pnode(\lingdima,0){B2} \pnode(-\lingdima,0){A1}ni h\'ayiyi ha'.//
-%\glb \pnode(-.5em,0){A2}not agr.afraid you
-%Infin.speak.to\pnode(\lingdima,0){B1} not anyone Emp//
-%\glft ``You're not afraid to talk to anyone.''//
-%\endgl
-%\pcline{|*-|*}(A2)(A1)
-%\pcline{<->}(A2)(A1)
-%\nbput[ref=r]{glskip\ }
-%\pcline{|*-|*}(B1|B2)(B1)
-%\pcline{<->}(B1|B2)(B1)
-%\naput[ref=l]{\ baselineskip}
-%\xe
-
-\section An alternate syntax for coding glosses
-
-\endinput
-\section More about glosses
-
 \subsection The parameter {\tt glwidth}
 
 If the parameter |glwidth| is set to a nonzero value, the gloss is
@@ -836,6 +812,173 @@ there is not room for it at the right.  For example, if the gloss
 
 In spite of its limitations, |\rightcomment| is occasionally
 quite useful.
+
+\subsection  Exceptional {\tt \char"5C gla} items
+\deftag{\the\secno.\the\subsecno}{atdiacritic}
+
+Items on the |\gla| line are generally associated with items on
+the other lines of the interlinear gloss.  There are however a
+few items, called here {\it exceptional items}, which are
+interpreted in an exceptional fashion. There are three kinds of exceptional
+items: the single character |+| or |@|, and any item which begins with
+the control sequence |\nogloss|.\footnote{Version 4 of {\it Expex} had
+two additional exceptional items, the single characters |[| and |]|.
+In version 5, these characters still operate as in Version 4, but
+their use is discouraged and their use as exceptional |\gla|
+characters will disappear from {\it ExPex} at some point.  |\nogloss|
+is more general, as explained below.}
+
+\subsubsection {\tt +}
+\deftag{\the\secno.\the\subsecno.\the\subsubsecno}{plusdiacritic}
+
+\sidx{|+|, exceptional gloss item}%
+Sometimes it is desirable to override natural wrapping and
+break up the gloss so that the syntax is emphasized, as in the
+following.
+
+\framedisplay
+\ex<Marysicher>
+\begingl
+\gla Mary$_i$ ist sicher, + dass es den Hans nicht st\"oren w\"urde
++ seiner Freundin ihr$_i$ Herz auszusch\"utten.//
+\glb Mary is sure that it the-{\sc acc} Hans not annoy would
+his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
+throw}//
+\glft  `Mary is sure that it would not annoy John to reveal her
+heart to his girlfriend.'//
+\endgl
+\xe
+\endframedisplay
+
+\bigskip
+This is accomplished by inserting `|+|' appropriately, as shown in the
+code below.  When |+| is encountered, the line is broken and a new
+line started.  Hanging indentation, either normal or cascading, is
+preserved.
+
+\codedisplay
+\ex
+\begingl
+\gla Mary$_i$ ist sicher, + dass es den Hans nicht st\"oren w\"urde
++ seiner Freundin ihr$_i$ Herz auszusch\"utten.//
+\glb Mary is sure that it the-{\sc acc} Hans not annoy would
+his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
+throw}//
+\glft  `Mary is sure that it would not annoy John to reveal her
+heart to his girlfriend.'//
+\endgl
+\xe
+|endcodedisplay
+
+\subsubsection {\tt @}
+\deftag{\the\secno.\the\subsecno.\the\subsubsecno}{atdiacritic}
+
+\sidx{|@|, exceptional gloss item}%
+Sometimes it is desirable to omit the space between two entries.
+
+\framedisplay
+\ex<wiye>
+\begingl
+\gla wiye kepi e- @ ca//
+\glb two whitemen {\sc 1p:3d}- found//
+\endgl
+\xe
+\endframedisplay
+
+This is accomplished by inserting `|@|' appropriately, as shown
+in the code below.
+
+\codedisplay
+\ex
+\begingl
+\gla wiye kepi e- @ ca//
+\glb two whitemen {\sc 1p:3d}- found//
+\endgl
+\xe
+|endcodedisplay
+In the unlikely event that you need a gla entry which
+would normally be entered as |@|, enter it as |{\relax @}|
+so that it is not interpreted as a directive to omit a
+space.\footnote{This is a change.  In version 4, |{{@}}| was
+suggested.  This no longer works because various parsing steps strip
+away the grouping.  |{{{{@}}}}| does work, but |{\relax @}| is more straightforward.}
+(\getref{@period}) below shows another use for the |@| diacritic.
+
+\exbreak
+\subsubsection {\tt \char"5C nogloss}
+
+Suppose you want to produce a gloss display like the one below.
+
+\framedisplay
+\ex[everygla=,glhangstyle=normal]<@period>
+\begingl
+\gla Fa'nu'i yu' ni \nogloss{[[} @ {\it O} t{\it in\/}aitai-mu
+\nogloss{{\it t\/}]} na {lepblu].}//
+\glb show me Obl Op {\it WH\/}[obj].read-agr L book//
+\endgl
+\xe
+\endframedisplay
+\noindent Note that the brackets are not glossed.
+
+This can be done using the |@| gloss diacritic as follows.
+
+\codedisplay
+\ex[everygla=,glhangstyle=normal]<@period>
+\begingl
+\gla Fa'nu'i yu' ni {[[} @ {\it O} t{\it in\/}aitai-mu
+{{\it t\/}]} na {lepblu].}//
+\glb show me Obl {} Op {\it WH\/}[obj].read-agr {} L book//
+\endgl
+\xe
+|endcodedisplay
+\noindent The gloss alignment is preserved by the use of empty elements in
+the second row.
+
+If glosses are long and/or if there are many rows, it is tedious and
+error prone to insert suitable empty elements.\footnote{Glosses of
+narratives can have hundreds of elements.} |\nogloss| is intended to
+simplify constructing glosses in which there are unglossed items on
+the top line.  You can write:
+
+\framedisplay
+\ex[everygla=,glhangstyle=normal]<@period>
+\begingl
+\gla Fa'nu'i yu' ni \nogloss{[[} @ {\it O} t{\it in\/}aitai-mu
+\nogloss{{\it t\/}]} na {lepblu].}//
+\glb show me Obl Op {\it WH\/}[obj].read-agr L book//
+\endgl
+\xe
+\endframedisplay
+
+If you want extra space between the brackets and the words they
+bracket, the following is one option.
+
+\ex[everygla=,glhangstyle=normal]
+\begingl
+\gla Um-\"asudda' h\"am yan \nogloss{$[\,$} @ i taotao \nogloss{$[\,$} @ {\it O\/}
+ni si Juan ilek-\~na nu guahu \nogloss{$[\,$} @ mal\"agu' gui
+\nogloss{$[\,$} @
+asudd\"a'-\~na \nogloss{{\it t\/}$\,]]]]$.}//
+\glb agr-meet we with the person Op Comp the Juan say-agr Obl me
+agr.want he {\it WH\/}[obl].meet-agr//
+\endgl
+\xe
+
+
+%\ex[textoffset=1in,dima=.5em]<Chung1>
+%\begingl[extraglskip=1.2ex]
+%\gla Ti ma'a'\~nao hao kumuentusi\pnode(\lingdima,0){B2} \pnode(-\lingdima,0){A1}ni h\'ayiyi ha'.//
+%\glb \pnode(-.5em,0){A2}not agr.afraid you
+%Infin.speak.to\pnode(\lingdima,0){B1} not anyone Emp//
+%\glft ``You're not afraid to talk to anyone.''//
+%\endgl
+%\pcline{|*-|*}(A2)(A1)
+%\pcline{<->}(A2)(A1)
+%\nbput[ref=r]{glskip\ }
+%\pcline{|*-|*}(B1|B2)(B1)
+%\pcline{<->}(B1|B2)(B1)
+%\naput[ref=l]{\ baselineskip}
+%\xe
 
 
 \subsection  Line spacing in wrapped glosses
