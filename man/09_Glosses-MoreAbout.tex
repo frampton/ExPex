@@ -1,103 +1,18 @@
 
-\begingroup
-
-\showboxdepth=1
-\showboxbreadth=10
-\parindent=0pt
-
-
-\newbox\wrapbox
-\newbox\nlevelbox
-
-\def\ruler{\psline[linewidth=.2pt](0,0)(1.5in,0)}
-
-\lingset{extraglskip=10pt,aboveglftskip=5pt,everygla=,aboveglbskip=-5pt,
-   aboveglnlineskip={,-5pt}}
-
-\setbox\wrapbox=\vtop{\leftskip=0pt \hsize=.5in
-\begingl
-\glpreamble aa aa aa //
-\gla {\ruler}X X X {\ruler}X X//
-\glb {\ruler}Y Y Y Y Y//
-\glft {\ruler}zz zz zz zz zz //
-\endgl
-}
-
-\setbox\nlevelbox=\vtop{\leftskip=0pt \hsize=.5in
-\begingl[glstyle=nlevel]
-\glpreamble aa aa aa \endpreamble
-X[Y]
-X[Y]
-X[Y]
-X[Y]
-X[Y]
-\glft zz zz zz zz zz
-\endgl
-}
-
-%\setbox\wrapbox=\vtop{\leftskip=0pt \hsize=.5in
-%\begingl
-%\gla {\ruler}X //
-%\glb {\ruler}Y //
-%\glft {\ruler}z //
-%\endgl
-%}
+%\lingset{glwidth=2.6in}
 %
-%\setbox\nlevelbox=\vtop{\leftskip=0pt \hsize=.5in
-%\begingl[glstyle=nlevel]
-%X[Y]
-%\glft z
+%\begingl
+%\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
+%seiner Freundin ihr$_i$ Herz auszusch\"utten.//
+%\glb Mary is sure that it the-{\sc acc} Hans not annoy would
+%his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
+%throw}//
+%\glft  `Mary is sure that it would not annoy John to reveal her
+%heart to his girlfriend.'//
 %\endgl
-%}
-
-%\showbox\wrapbox  \showbox\nlevelbox
-\leavevmode\box\wrapbox \qquad\box\nlevelbox
-
-\endgroup
-\endinput
-
-\endgroup
-k-[Cl/2]
-wapm[V/see]
--a[Agr$_1$/\sc 3acc]
--s'i[Neg]
--m[Agr$_2$/\sc 2pl]
--wapunin[Tns/preterit]
--uk[Agr$_3$/\sc 3pl]
-\glft `you (pl) didn't see them'
-\endgl
-}\xe
-
-
-
-
-\ex[extraglskip=12pt,aboveglftskip=7pt]
-a.\quad
-\vtop{\leftskip=0pt \hsize=2in
-\begingl
-\gla k- wapm -a -s'i -m -wapunin -uk //
-\glb Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
-\glb 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
-\glft `you (pl) didn't see them'//
-\endgl
-}
-\hfil
-b.\quad
-\vtop{\leftskip=0pt \hsize=2in
-\begingl[glstyle=nlevel,glneveryline={\it}]
-k-[Cl/2]
-wapm[V/see]
--a[Agr$_1$/\sc 3acc]
--s'i[Neg]
--m[Agr$_2$/\sc 2pl]
--wapunin[Tns/preterit]
--uk[Agr$_3$/\sc 3pl]
-\glft `you (pl) didn't see them'
-\endgl
-}\xe
-
-\endinput
-
+%
+%\endinput
+%
 \section More about glosses
 
 \subsection The parameter {\tt glwidth}

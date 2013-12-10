@@ -1,5 +1,25 @@
 
 
+%\makeatletter
+%\lingset{glnabovelineskip={0,7pt}}
+%\gl@lop\gln@abovelineskip\to\temp
+%\writeln{====\meaning\gln@abovelineskip}
+%\def\goop{\writeln{\meaning\gln@abovelineskip}}
+%\def\foop{\writeln{*****\meaning\gln@abovelineskip*****}}
+%\resetatcatcode
+%\foop
+%\ex[glstyle=nlevel,glneveryline={\it,\sc,\sc},
+%   glnabovelineskip={,-2pt}]
+%\bgroup
+%{\lingset{glstyle=nlevel,glneveryline={\it,\sc,\sc},
+%   glnabovelineskip={,-2pt}}}
+%\setlist\L{1,2}
+%\egroup
+%\foop
+
+
+
+
 \def\minigloss#1#2{\outlinebox{%
    \vtop{\halign{\ministrut ##\hfil\cr #1\cr #2\cr}}}\hskip1pt}%
 \let\ministrut=\relax
@@ -57,12 +77,11 @@ wapm[V/see]
 \glb CL V AGR NEG AGR TNS AGR //
 \glc 2 see {\sc 3acc} {}
    {\sc 2pl} preterit {\sc 3pl} //
-\glft `you (pl) didn't see them'
+\glft `you (pl) didn't see them'//
 \endgl
 \xe
 |endcodedisplay
 }
-
 
 One big advantage to this style of coding complex glosses is that the
 gloss of a word and the word are adjacent in the code, as they are in
@@ -82,19 +101,74 @@ Of course, |/| in this material must be hidden from the parser so |/|
 cannot appear at the top level.  The same is true of |]|, for obvious
 reasons.
 
+The glossed words are written on separate lines above, but this is
+only for clarity.  The code below is equivalent.
+
+\codedisplay~
+\ex[glstyle=nlevel]\begingl k-[CL/2] wapm[V/see] -a[AGR/\sc 3acc]
+-s'i[NEG] -m[AGR/\sc 2pl] -wapunin[TNS/preterit] -uk[AGR/\sc 3pl] \glft
+`you (pl) didn't see them'\endgl\xe
+|endcodedisplay
+
+\subsection Parameters which modify particular lines
+
+The various lines in a gloss which is coded in the wrap style are
+identified by name, so parameters like |everygla| and |aboveglbskip|
+can be used to modify the named line.  |everygla| modifies the |\gla|
+line and |aboveglbskip| modifies the |\glb| line.  This method for
+modifying lines is not available for coding in the nlevel style.
+Instead, the lines must be referred to positionally.
+
 \begininventory
-\macros
-\idx{|\nogloss|}, \idx{|\glft|}\footnote{}\endmc
 \parameters
 |glneveryline|& list of token lists& |{}|\cr
-|glnabovelineextraskip|& list of dimensions& |{}|\cr
-|glbaselineskip|& skip& |\baselineskip|\cr
+|glnabovelineskip|& list of dimensions& |{}|\cr
 \endinventory
-\vfootnote{\the\fnno}{The macro |\glft|
-has somewhat different meanings in wrap style and n-level style
-glosses.}
 
+\framedisplay
+\ex[glstyle=nlevel,glneveryline={\it,\sc,\sc},
+   glnabovelineskip={,-2pt}]
+\begingl
+k-[cl/2]
+wapm[v/\rm see]
+-a[agr/3acc]
+-s'i[neg]
+-m[agr/\sc 2pl]
+-wapunin[tns/preterit]
+-uk[agr/3pl]
+\endgl
+\xe
+\endframedisplay
+\codedisplay~
+\ex[glstyle=nlevel,glneveryline={\it,\sc,\sc},
+   glnabovelineskip={,-2pt}]
+\begingl
+k-[cl/2]
+wapm[v/\rm see]
+-a[agr/3acc]
+-s'i[neg]
+-m[agr/\sc 2pl]
+-wapunin[tns/preterit]
+-uk[agr/3pl]
+\endgl
+\xe
+|endcodedisplay
+Note that a list of dimensions |{,-2pt}| with dimensions missing is
+acceptable; the missing dimensions are assumed to be |0pt|.  Missing
+entries in the value of |glneveryline|, either because the list is
+shorter than the number of lines in the interlinear gloss or because
+of null entries on the list, are similarly assumed to be null and
+cause no problem.  The material inside the brackets, or material
+delimited by |/| can be missing as well, but the brackets are
+mandatory.  Spaces after |[| or |/| are ignored, so for example,
+|wapm[v/\rm see]| and |wapm[ v/ \rm see]| produce the same output.
 
+There is no parameter |aboveglaskip| for use in the wrap coding style
+since vertical skip in the interlinear gloss makes sense only between
+lines.  Similarly, the first item in the list specified by
+|glnabovelineskip|, which corresponds to |\aboveglaskip|, is ignored.
+
+\subsection The syntax of coding nlevel glosses
 
 \def\<#1>{$\langle$#1$\rangle$}
 
@@ -129,80 +203,7 @@ which can appear in the context |\hbox{|\dots|}|. \<word> cannot
 contain top-level spaces. \<gloss item> cannot contain either
 top-level |/| or top-level |]| (but can contain top-level spaces).
 
-
-
-
-
-The parameter |glneveryline| is illustrated below.
-
-\framedisplay
-\ex[glstyle=nlevel,glneveryline={\it,\sc,\sc}]
-\begingl
-k-[cl/2]
-wapm[v/\rm see]
--a[agr/3acc]
--s'i[neg]
--m[agr/\sc 2pl]
--wapunin[tns/preterit]
--uk[agr/3pl]
-\endgl
-\xe
-\endframedisplay
-\codedisplay
-\ex[glstyle=nlevel,glneveryline={\it,\sc,\sc}]
-\begingl
-k-[cl/2]
-wapm[v/\rm see]
--a[agr/3acc]
--s'i[neg]
--m[agr/\sc 2pl]
--wapunin[tns/preterit]
--uk[agr/3pl]
-\endgl
-\xe
-|endcodedisplay
-
-The use of |glnabovelineskip| is illustrated below.  The vertical
-space underneath the words is closed up by putting a vertical skip of
--2pt over the second line of the gloss.
-
-\framedisplay
-\ex[glstyle=nlevel,glneveryline={\it,\sc,\sc},
-   glnabovelineextraskip={,-2pt}]
-\begingl
-k-[cl/2]
-wapm[v/\rm see]
--a[agr/3acc]
--s'i[neg]
--m[agr/\sc 2pl]
--wapunin[tns/preterit]
--uk[agr/3pl]
-\endgl
-\xe
-\endframedisplay
-\codedisplay~
-\ex[glstyle=nlevel,glneveryline={\it,\sc,\sc},
-   glnabovelineextraskip={,-2pt}]
-\begingl
-k-[cl/2]
-wapm[v/\rm see]
--a[agr/3acc]
--s'i[neg]
--m[agr/\sc 2pl]
--wapunin[tns/preterit]
--uk[agr/3pl]
-\endgl
-\xe
-|endcodedisplay
-Note that a list of dimensions |{,-2pt}| with dimensions missing is
-acceptable; the missing dimensions are assumed to be |0pt|.  Missing
-entries in the value of |glneveryline|, either because the list is
-shorter than the number of lines in the interlinear gloss or because
-of null entries on the list, are similarly assumed to be null and
-cause no problem.  The material inside the brackets, or material
-delimited by |/| can be missing as well, but the brackets are
-mandatory.  Spaces after |[| or |/| are ignored, so for example,
-|wapm[v/\rm see]| and |wapm[ v/ \rm see]| produce the same output.
+\subsection Line spacing inside glwords
 
 One spacing problem that is handled automatically in the wrap style
 must be handled by the user in the nlevel style.  It is not common,
@@ -225,6 +226,58 @@ in (\nextx).
 |endcodedisplay
 Not only is more space between the lines needed, but there is
 misalignment of the baselines on the second level.
+
+One might think to fix the problem in (\lastx) by putting extra
+vertical skip between the lines of the gloss, as in the code below.
+
+\codedisplay
+\ex[glstyle=nlevel,glneveryline={\it},glnabovelineskip={,.5ex}]
+\begingl m-[(mo-)] wope[(a\AccentedBarredW ope)] \endgl \xe
+|endcodedisplay
+
+But the result is less than satisfactory:
+
+\framedisplay
+\ex[glstyle=nlevel,glneveryline={\it},glnabovelineskip={,.5ex}]
+\begingl m-[(mo-)] wope[(a\AccentedBarredW ope)] \endgl \xe
+\endframedisplay
+
+The baselines of the second lines of the glwords are not aligned.  In
+wrap style coding, the material for all of the glwords is accumulated
+before any of the glwords are constructed, so the presence of an extra
+tall line in the second glword is known before the first glword is
+constructed.  An adjustment is made accordingly.  In nlevel style
+coding, the first glword is boxed and contributed to a paragraph
+before the material to construct the second glword is read, so there
+is no way for any adjustment to be made automatically.
+
+There are two solutions.  One solution for the problem above is to
+insert extra tall struts on the second line of every glword.
+Normal struts in the 12pt type used in this manual are \textdim{10 pt}
+high and \textdim{4 pt} deep.  The following code will produce (\nextx).
+
+
+
+\framedisplay
+\ex[glstyle=nlevel,glneveryline={\it,\vrule height14pt width0pt}]
+\begingl m-[(mo-)] wope[(a\AccentedBarredW ope)] \endgl \xe
+\endframedisplay
+
+Another solution is to increase the baselineskip inside glwords.
+
+\framedisplay
+\ex[glstyle=nlevel,glneveryline={\it},everyglilg={\baselineskip=18pt}]
+\begingl m-[(mo-)] wope[(a\AccentedBarredW ope)] \endgl \xe
+\endframedisplay
+
+
+
+
+Standard struts are normally inserted on
+every line of every glword.
+
+
+
 
 |glneveryline={,5pt}| would give more space over the second level but
 it will not fix the misaligned baselines. There are two solutions,

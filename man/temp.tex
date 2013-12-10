@@ -3,638 +3,151 @@
 
 
 
-\lingset{everygla=,extraglskip=0pt}
-\def\X{x{\vrule height6pt depth2pt}}
-\def\A{x{\vrule height6pt depth2pt}}
-\def\Z{.\vrule width2pt height8.5pt depth3.5pt .}
+\def\ruler{\psline[linewidth=.2pt](0,0)(1.5in,0)}
 
-
-
-
-\hsize=2in
-\lingset{everyglilg={\baselineskip=20pt}}
-\lingset{belowglpreambleskip=-8pt}
-\lingset{glhangstyle=none}
-\lingset{extraglskip=8pt}
-\lingset{autoglskip=true}
-\lingset{belowglpreambleskip=0pt}
-\lingset{aboveglftskip=0pt}
-
-\ex[glstyle=wrap,glhangstyle=cascade]
+\Lingset{linewidth=.2pt,everygla={},glhangstyle=cascade}
+\leavevmode
+\vtop{\hsize=1in \parindent=0pt
 \begingl
-\glpreamble preamble preamble preamble preamble //
 \gla
-{\X} {\X} {\X} {\X} {\X} {\X} {\X} {\X} {\X} {\X} {\X} {\X} {\X} {\X}
-{\X} {\X} {\X} {\X}
+X X X + X X X X
+X X X X X X X
 //
 \glb
-{\A} {\A} {\A} {\A} {\A} {\A} {\A} {\A} {\A} {\A} {\A} {\A} {\A} {\A}
-{\A} {\A} {\A} {\A}
-//
-\glft free
-free free free free free free free free free free
+Y Y Y Y Y Y Y
+Y Y Y Y Y Y Y
 //
 \endgl
-\xe
-
-\endinput
-\parindent=0pt
-
+}%
+\vrule height10pt depth1in width.2pt
+\vtop{\hsize=1in \parindent=0pt
+\leavevmode
 \begingl[glstyle=nlevel]
-\glpreamble preamble preamble preamble preamble \endpreamble
-\X[\A] \X[\A] \X[\A] \X[\A] \X[\A] \X[\A] \X[\A] \X[\A] \X[\A] \X[\A]
-\X[\A] \X[\A] \X[\A] \X[\A] \X[\A] \X[\A] \X[\A] \X[\A] \X[\A]
-\glft
-free free free free free free free free free free
+X[Y] X[Y] X[Y]+ X[Y] X[Y] X[Y] X[Y]
+X[Y] X[Y] X[Y] X[Y] X[Y] X[Y] X[Y]
 \endgl
-
-\bigskip
-
-\setbox0=\vbox{\begingl[glstyle=nlevel]
-\glpreamble preamble\endpreamble
-\X[\A]
-\endgl}
-
-%\showbox0
-\copy0
-
-\endinput
+}%
 
 
 
-\makeatletter
-\define@key{ling}{glrightskip}[]{%
-   \skip0=0pt plus .1\hsize
-   \def\temp{#1}\ifx\temp\empty \else \skip0=#1\fi
-   \edef\ling@glrightskip{\the\skip0}}
-\lingset{glrightskip=100pt plus 2em}
-%\writeln{++\ling@glrightskip}
-%\hsize=100pt
-%\lingset{glrightskip}
-%\writeln{++\ling@glrightskip}
 
-\define@cmdkeys{ling}[ling@]{glrightskip}
-\lingset{glrightskip=0pt plus .1\hsize}
-\hsize=100pt
-\skip0=\ling@glrightskip
-\writeln{+++\the\skip0}
 
-\resetatcatcode
+
 
 
 \endinput
-
-It is easiest to understand what the parameters do by examining in
-some detail how a gloss display is constructed.  Consider (\nextx),
-for example, in which box outlines have been added to facilitate
-discussion.
-
-\framedisplay
-\boxglwords
-\ex[glspace=1.2em,extraglskip=.5ex,glhangindent=1.5em]
-\hsize=4in
-\begingl
-\glpreamble Mary ist sicher, dass es den Hans nicht st\"oren w\"urde
-seiner Freundin ihr Herz auszusch\"utten.//
-\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
-seiner Freundin ihr$_i$ Herz auszusch\"utten.//
-\glb Mary is sure that it the-{\sc acc} Hans not annoy would
-his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
-throw}//
-\glft  `Mary is sure that it would not annoy John to reveal her
-heart to his girlfriend.'//
-\endgl
-\xe
-\endframedisplay
-\codedisplay~
-\ex[glspace=1.2em,extraglskip=.5ex,glhangindent=1.5em]
-\hsize=4in
-\begingl
-\glpreamble Mary ist sicher, dass es den Hans nicht st\"oren w\"urde
-seiner Freundin ihr Herz auszusch\"utten.//
-\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
-seiner Freundin ihr$_i$ Herz auszusch\"utten.//
-\glb Mary is sure that it the-{\sc acc} Hans not annoy would
-his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
-throw}//
-\glft  `Mary is sure that it would not annoy John to reveal her
-heart to his girlfriend.'//
-\endgl
-\xe
-|endcodedisplay
-
-\def\parvalue#1{{\tt \char"7C #1\char"7C }}
-
-
-\noindent 1. {\it Formating the preamble}\enspace The preamble is set
-as ordinary running text, using whatever \Tex\ settings hold in the
-environment, with the tokens \parvalue{everyglpreamble} inserted at
-the beginning.  This is grouped so that any changes made in the
-preamble do not leak out.  This is followed by inserting vertical skip
-determined by \parvalue{afterpreambleskip}.
-
-\smallskip
-
-\noindent 2. {\it Formating the interlinear gloss}: \enspace All of
-the items in the various lines in the interlinear gloss are
-accumulated before the boxes which make up the interlinear gloss are
-typeset.  These vboxes, outlined in (\lastx), are called glwords.
-These boxes are fed to \Tex's standard paragraph building machinery.
-There are two separate issues; parameters which affect how the boxes
-are built and parameters that affect paragraph building.
-
-\smallskip
 
 \begingroup
-\leftskip 1.5em
+
+\showboxdepth=1
+\showboxbreadth=10
 \parindent=0pt
-{\it Formating the glwords}:\enspace \parvalue{everyglword} is
-inserted at the start.  Each line of the glword starts with a strut
-and an appropriate hook; \parvalue{everygla} for a gla line, etc.
-Vertical skip \parvalue{aboveglbskip} is inserted above the glb line,
-and so forth.
 
-\smallskip
 
-{\it Forming the glwords into a paragraph}:\enspace Horizontal skip
-\parvalue{glskip} is inserted between the glwords and vertical skip
-\parvalue{extraglskip} is inserted between the lines of glwords.   The
-rightskip is set to \parvalue{glrightskip}.  Hanging indentation is
-determined by \parvalue{glhangstyle} and \parvalue{glhangindent}.  The
-interlinear gloss is grouped so that \Tex\ parameter changes are kept
-local.
+\newbox\wrapbox
+\newbox\nlevelbox
+
+\def\ruler{\psline[linewidth=.2pt](0,0)(1.5in,0)}
+
+\lingset{extraglskip=10pt,aboveglftskip=5pt,everygla=,aboveglbskip=-5pt,
+   aboveglnlineskip={,-5pt},everyglilg={\baselineskip=20pt}}
+
+\setbox\wrapbox=\vtop{\leftskip=0pt \hsize=.5in
+\begingl
+\glpreamble aa aa aa //
+\gla {\ruler}X X X {\ruler}X + X//
+\glb {\ruler}Y Y Y Y Y//
+\glft {\ruler}zz zz zz zz //
+\endgl
+\par after
+}
+
+%\setbox\wrapbox=\vtop{\leftskip=0pt \hsize=.5in
+%\begingl
+%\glpreamble aa aa aa //
+%\gla X + X //
+%\glb Y Y //
+%\glft {\ruler}zz zz zz zz //
+%\endgl
+%\par after
+%}
+
+\setbox\nlevelbox=\vtop{\leftskip=0pt \hsize=.5in
+\begingl[glstyle=nlevel]
+%\glpreamble aa aa aa \endpreamble
+X[Y]
+\nogloss{X}
+X[Y]
+X[Y]
+\nogloss{X}+
+X[Y]
+%\glft zz zz zz zz
+\endgl
+%\par ee
+}
+
+%\setbox\wrapbox=\vtop{\leftskip=0pt \hsize=.5in
+%\begingl
+%\gla {\ruler}X //
+%\glb {\ruler}Y //
+%\glft {\ruler}z //
+%\endgl
+%}
+%
+%\setbox\nlevelbox=\vtop{\leftskip=0pt \hsize=.5in
+%\begingl[glstyle=nlevel]
+%X[Y]
+%\glft z
+%\endgl
+%}
+
+%\showbox\wrapbox
+%\showbox\nlevelbox
+\leavevmode\box\wrapbox
+%\qquad\box\nlevelbox
 
 \endgroup
-\smallskip
-\noindent 3. {\it Formating the free translation}:\enspace Finally,
-the free translation is typeset as standard text, separated by
-vertical skip \parvalue{aboveglftskip} from the interlinear skip above
-it.  \parvalue{everyglft} is inserted at the start of processing the
-free translation.
-
-\resetatcatcode
-
 \endinput
 
-
-\hsize=5in
-
-\immediate\openout0=tempfile
-\newtoks\stoks
-\obeylines
-\stoks={\begingl
-\glpreamble Mary ist sicher, dass es den Hans nicht st\"oren w\"urde
-seiner Freundin ihr Herz auszusch\"utten.//
-\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
-seiner Freundin ihr$_i$ Herz auszusch\"utten.//
-\glb Mary is sure that it the-{\sc acc} Hans not annoy would
-his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
-throw}//
-\glft  `Mary is sure that it would not annoy John to reveal her
-heart to his girlfriend.'//
-\endgl}%
-\immediate\write0{\the\stoks}
-\immediate\closeout0
-
-\expandafter\codedisplay\input tempfile
-|endcodedisplay
+\endgroup
+k-[Cl/2]
+wapm[V/see]
+-a[Agr$_1$/\sc 3acc]
+-s'i[Neg]
+-m[Agr$_2$/\sc 2pl]
+-wapunin[Tns/preterit]
+-uk[Agr$_3$/\sc 3pl]
+\glft `you (pl) didn't see them'
+\endgl
+}\xe
 
 
 
 
-
-
-
-
-\endinput
-\makeatletter
-
-\newdimen\ep@cascadeindent
-\newdimen\ep@hangindentamount
-\newcount\ep@cascadecount
-
-\ep@cascadecount=10
-\ep@cascadeindent=0pt
-\ep@hangindentamount=\ling@glhangindent
-
-\parindent=0pt
-\def\makeshape#1#2{{%
-   \count0=#1
-   \ep@dima=#2
-   \ep@dimb=\hsize
-   \advance\ep@dimb by -\ep@dima
-   \edef\cascadeshape{}
-   \loop\ifnum\count0 >0
-      \edef\cascadeshape{\cascadeshape \the\ep@dima\space\the\ep@dimb\space}%
-      \advance\ep@dima by \ling@glhangindent
-      \advance\ep@dimb by -\ling@glhangindent
-      \advance\count0 by -1
-      \repeat
-   \edef\next{#1\space\cascadeshape}%
-   \xdef\next{\noexpand\expandafter\noexpand\parshape#1\space\cascadeshape}}%
-   \next
-   \ignorespaces
-}
-\def\@glhangcarry{%
-   \par
-   \edef\next{\the\prevgraf}%
-   \advance\ep@cascadecount by -\next
-   \advance\ep@cascadeindent by \next\ep@hangindentamount
-   \makeshape{\ep@cascadecount}{\ep@cascadeindent}
-}
-\
-%\begingroup
-%\parindent=0pt
-%\hsize=4in
-%\makeshape{\ep@cascadecount}{\ep@cascadeindent}
-%Now is the time for all good men to come to the aid of the party.
-%Now is the time for all good men to come to the aid of the party.
-%Now is the time for all good men to come to the aid of the party.
-%\@glhangcarry
-%Now is the time for all good men to come to the aid of the party.
-%\@glhangcarry
-%Now is the time for all good men to come to the aid of the party.
-%\par
-%\endgroup
-%\endinput
-
-
-
-%\ex[glstyle=nlevel]
-%\begingl
-%k-[CL/2] wapm[V/see] -a[AGR/\sc 3acc] -s'i[NEG]
-%-m[AGR/\sc 2pl] -wapunin[TNS/preterit] -uk[AGR/\sc 3pl]
-%\glft `you (pl) didn't see them'
-%\endgl
-%\xe
-
-\makeatletter
-\newtoks\mytoks
-\def\@showtoks{\@getoptionalarg\@showtoks@i}
-\def\@showtoks@i #1{\mytoks=\expandafter{#1}\writeln{%
-   \@optionalarg\the\mytoks}}
-\let\showtoks=\@showtoks
-
-%When autoglskip is set to false, extraglskip is irrelevant.  The skip
-%between lines of the glwords is determined by gllineskip.
-%?? when autoglskip=true, it shouldn't make any difference whether
-%?? glstruts is true or false.
-
-\ex[everygla=,glwidth=2in,autoglskip=true,glstruts=true,extraglskip=0pt,
-   gllineskip=0pt]
+\ex[extraglskip=12pt,aboveglftskip=7pt]
+a.\quad
+\vtop{\leftskip=0pt \hsize=2in
 \begingl
-\gla
-LLLL LLLL LLLL
-LLLL LLLL LLLL
-//
-\glb
-LLLL LLLL LLLL
-LLLL LLLL LLLL
-//
-\endgl
-\xe
-
-\endinput
-
-\ex
-\hsize=5in
-\begingl[everyglc=\tenrm,aboveglcskip=-2pt,glspace=!.5em,
-   extraglskip=1ex,aboveglftskip=0pt]
-\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
-seiner Freundin ihr$_i$ Herz auszusch\"utten.//
-\glb Mary is sure that it the Hans not annoy would
-his girlfriend her heart {out to throw}//
-\glc {} {} {} {} {} DAT {} {} {} {} DAT DAT ACC ACC //
-\glft  `Mary is sure that it would not annoy John to reveal her
-heart to his girlfriend.'//
-\endgl
-\xe
-
-
-
-\ex[glstyle=nlevel,glhangstyle=normal,glneveryline={\it,,\footnotesize},
-   glnabovelineextraskip={,,-3pt}]
-\begingl
-Mary$_i$[Mary]
-ist[is]
-sicher,[sure]
-dass[that]
-es[it]
-den[the/ACC]
-Hans[Hans]
-nicht[not]
-st\"oren[annoy]
-w\"urde[would]
-seiner[his/DAT]
-Freundin[girlfriend/DAT]
-ihr$_i$[her/ACC]
-Herz[heart/ACC]
-auszusch\"utten[out to throw]
-\endgl
-\xe
-
-\ex[glstyle=nlevel,glhangstyle=normal,glneveryline={\it,,\footnotesize},
-   glnabovelineextraskip={,,-3pt},glwordalign=center]
-\begingl
-Mary$_i$[Mary]
-ist[is]
-sicher,[sure]
-dass[that]
-es[it]
-den[the/ACC]
-Hans[Hans]
-nicht[not]
-st\"oren[annoy]
-w\"urde[would]
-seiner[his/DAT]
-Freundin[girlfriend/DAT]
-ihr$_i$[her/ACC]
-Herz[heart/ACC]
-auszusch\"utten[out to throw]
-\endgl
-\xe
-
-\ex[glhangstyle=normal,glufcloseup=.4ex,everygluf=\footnotesize]
-\begingl
-\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren
-   w\"urde seiner Freundin ihr$_i$ Herz auszusch\"utten.//
-\glb Mary is sure that it \gluf/the/ACC/ Hans not annoy would
-   \gluf/his/DAT/ \gluf/girlfriend/DAT/ \gluf/her/ACC/
-   \gluf/heart/ACC/ {out to throw}//
-\glft `Mary is sure that to reveal her heart to his girlfriend
-would not damage John.'//
-\endgl
-\xe
-
-\endinput
-
-
-
-
-
-
-
-
-
-
-
-`Mary is sure that to reveal her heart to his girlfriend
-would not damage John.'//
-\endgl
-\xe
-
-\endinput
-
-%\makeatletter
-%
-%
-%\def\AccentedBarredW{$\acute{\hbox{$\overline w$}}$}
-%
-%\framedisplay
-%\ex
-%\begingl[glstyle=nlevel,glneveryline={,\varstrut{4pt}}]
-%m-[(mo-)] wope[(a\AccentedBarredW ope)] \endgl \xe
-%\endframedisplay
-%
-%
-%\ex[glstyle=nlevel,glneveryline={\it}]
-%\begingl
-%\glpreamble Independent order verb structure with its three agreement
-%suffixes, labeled Agr$_1$, Agr$_2$, and Agr$_3$.
-%\glilg k-[CL/2] wapm[V/see] -a[Agr$_1$/\sc 3acc] -s'i[NEG]
-%-m[Agr$_2$/\sc 2pl] -wapunin[TNS/preterit] -uk[Agr$_3$/\sc 3pl]
-%\glft `you (pl) didn't see them'
-%\endgl
-%\xe
-%
-%\endinput
-
-\ex[belowpreambleskip=0pt,aboveglftskip=0pt,aboveglbskip=0pt,
-   aboveglcskip=0pt,everygla=,everyglb=,everyglc=,
-   everyglft=]<wapm>
-\begingl
-\glpreamble (Independent order verb structure with its three
-agreement suffixes, labeled {\sc AGR$_1$}, {\sc AGR$_2$}, and {\sc
-AGR$_3$}.)//
 \gla k- wapm -a -s'i -m -wapunin -uk //
-\glb CL V AGR$_1$ NEG AGR$_2$ TNS AGR$_3$ //
+\glb Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
 \glb 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
 \glft `you (pl) didn't see them'//
 \endgl
-\xe
-
-
-\ex[glstyle=nlevel]
-\begingl
-k-[CL/2] wapm[V/see] -a[AGR/\sc 3acc] -s'i[NEG]
--m[AGR/\sc 2pl] -wapunin[TNS/preterit] -uk[AGR/\sc 3pl]
+}
+\hfil
+b.\quad
+\vtop{\leftskip=0pt \hsize=2in
+\begingl[glstyle=nlevel,glneveryline={\it}]
+k-[Cl/2]
+wapm[V/see]
+-a[Agr$_1$/\sc 3acc]
+-s'i[Neg]
+-m[Agr$_2$/\sc 2pl]
+-wapunin[Tns/preterit]
+-uk[Agr$_3$/\sc 3pl]
 \glft `you (pl) didn't see them'
 \endgl
-\xe
+}\xe
 
 \endinput
 
-\ex[glstyle=nlevel,belowpreambleskip=0pt,aboveglftskip=0pt,
-   aboveglbskip=0pt,   aboveglcskip=0pt,everygla=,everyglb=,
-   everyglc=,everyglft=]<gln-wapm>
-\begingl
-\glpreamble
-(Independent order verb structure with its three
-agreement suffixes, labeled {\sc AGR$_1$}, {\sc AGR$_2$}, and {\sc
-AGR$_3$}.)
-\glilg
-k-[CL/2] wapm[V/see] -a[AGR/\sc 3acc] -s'i[NEG]
--m[AGR/\sc 2pl] -wapunin[TNS/preterit] -uk[AGR/\sc 3pl]
-\glft
-`you (pl) didn't see them'
-\endgl
-\xe
-
-\endinput
-
-
-\makeatletter
-\let\mergerow=\glw@mergerow
-\resetatcatcode
-
-\ex[everygla=]
-\begingl
-\gla a1 {\hfil b1} //
-\glb a2 bbbb2 //
-\showtoks\mainlist
-\endgl\xe
-
-
-
-\endinput
-
-
-
-
-
-\newcount\@itemtype
-% 1=+, 2=@, 3=[, 4=], 5=\nogloss, 0=other
-\def\@getitemtype #1{\expandafter\@getitemtype@i #1\@nil}
-\def\@getitemtype@i #1#2\@nil{%
-   \def\temp{#2}%
-   \ifx\temp\empty
-      \if\ep@samecharcode#1+\relax
-         \@itemtype=1
-      \else\if\ep@samecharcode#1@\relax
-         \@itemtype=2
-      \else\if\ep@samecharcode #1[\relax
-         \@itemtype=3
-      \else\if\ep@samecharcode #1]
-         \@itemtype=4
-      \else \@itemtype=0
-         \fi\fi\fi\fi
-   \else
-      \ifx#1\nogloss \@itemtype=5
-      \else \@itemtype=0 \fi
-   \fi
-}
-
-\lingset{glhangindent=0pt,glstyle=wrap,glrightskip=0pt plus 1in,
-   extraglskip=1ex,everygla=}
-
-%\def\nogloss#1{#1}
-
-\ex\begingl
-\gla a1 b1 @ r r//
-\glb a2 b2 e e e//
-\endgl\xe
-
-\endinput
-
-\ex[glwidth=2.4in]
-a.\quad
-\begingl
-\gla
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc//
-\glb
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc//
-\endgl
-\hfil
-b.\quad
-\begingl
-\gla
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc//
-\glb
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc//
-\endgl
-\xe
-
-\ex[glwidth=2.4in,glhangstyle=cascade,glhangindent=1em,extraglskip=0pt]
-%\ex[glwidth=2.4in,glhangstyle=normal,glhangindent=1em,extraglskip=0pt]
-%\ex[glwidth=2.4in,glhangstyle=none,glhangindent=1em]
-a.\quad
-\begingl
-\glpreamble this is one way of doing it, although opinions on this
-may differ//
-\gla
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc//
-\glb
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc//
-\glft this is one way of doing it, although opinions on this
-may differ//
-\endgl
-\hfil
-b.\quad
-\begingl
-\gla
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc//
-\glb
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc//
-\endgl
-\xe
-
-\hsize=2in
-\ex[glwidth=0pt,glhangstyle=cascade,glhangindent=1em]
-\begingl
-\gla
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc//
-\glb
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc//
-\endgl
-\xe
-
-\endinput
-
-\ex
-\begingl[glstyle=wrap,glwidth=0pt,glbreaking=false]
-\gla
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-//
-\glb
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-aaa bbb ccc
-//
-\endgl
-\xe
