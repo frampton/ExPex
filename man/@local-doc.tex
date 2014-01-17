@@ -122,8 +122,10 @@
 \Lingset{%
    boxsep=false,
    framesep=1.5ex,
-   abovefdskip=2.8ex plus .5ex,
-   belowfdskip=2ex plus .3ex minus .1ex,
+%   abovefdskip=2.8ex plus .5ex,
+%   belowfdskip=2ex plus .3ex minus .1ex,
+   abovefdskip=3ex plus .5ex,
+   belowfdskip=3ex plus .3ex minus .1ex,
    fdtopcorrect=\lingaboveexskip,
    fdbotcorrect=\lingbelowexskip
 }
@@ -312,4 +314,5 @@
 \let\sc=\twelvesc
 \def\textsc#1{{\sc #1}}
 %
+\def\parvalue#1{{\tt \char"7C \kern-.6pt #1\kern-.6pt \char"7C }}
 

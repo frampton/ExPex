@@ -1,21 +1,6 @@
 
 \section Examples without parts
 
-\lingset{dima=1.3em}
-\noindent
-\begininventory
-\macros \idx{|\ex|}|~[]|, \idx{|\xe|}\endmc
-\counter \idx{|\excnt|}\endmc
-\parameters
-\idx{|numoffset|\user} & \inc dimension& \textdim{0 pt}\cr
-\idx{|textoffset|\user}& \inc dimension& \textdim{1 em}\cr
-\idx{|aboveexskip|\user}& \inc skip&
-   2.7\dimskip ex plus .4\dimskip ex minus .4\dimskip ex\cr
-\idx{|belowexskip|\user}& \inc skip&
-   2.7\dimskip ex plus .4\dimskip ex minus .4\dimskip ex\cr
-\idx{|exskip|}& skip& (pseudo-parameter)\cr
-\endinventory
-%
 Sections will usually begin with an inventory of the parameters and
 user friendly macros and registers that are introduced in the section,
 The initial settings of parameters will be given if they are relevant.
@@ -32,6 +17,21 @@ accessible by the macro |\ling«key»|. A \inc\ prefix on ``dimension''
 or ``skip'' indicates that the parameter is incrementable, by a
 dimension or a skip as the case may be.
 
+\lingset{dima=1.3em}
+\noindent
+\begininventory
+\macros \idx{|\ex|}|~[]|, \idx{|\xe|}\endmc
+\counter \idx{|\excnt|}\endmc
+\parameters
+\idx{|numoffset|\user} & \inc dimension& \textdim{0 pt}\cr
+\idx{|textoffset|\user}& \inc dimension& \textdim{1 em}\cr
+\idx{|aboveexskip|\user}& \inc skip&
+   2.7\dimskip ex plus .4\dimskip ex minus .4\dimskip ex\cr
+\idx{|belowexskip|\user}& \inc skip&
+   2.7\dimskip ex plus .4\dimskip ex minus .4\dimskip ex\cr
+\idx{|exskip|}& skip& (pseudo-parameter)\cr
+\endinventory
+%
 |\ex| constructions are terminated by |\xe|.  The following
 sample paragraph illustrates the use of |\ex| \dots|\xe|. The
 convention in this manual is that text, {\it as it would appear in
@@ -135,9 +135,10 @@ measured from the left margin.
 
 \noindent Example numbering is automatic.  The count is kept in
 |\excnt|.  It is incremented when |\ex| is expanded, before the
-number is typeset.  Outside examples, |\excnt| gives the count
-of the next example.   Inside examples, it also gives the count of the
-next example, not the current one.  Vertical skip is inserted
+number is typeset.  |\excnt| will therefore always give the count
+of the next example.   Note that this means that inside
+|\ex|\dots|\xe|, |excnt| does not give the count of the current
+example. Vertical skip is inserted
 before and after examples, of amounts determined by the values of
 |aboveexskip| and |belowexskip|.
 

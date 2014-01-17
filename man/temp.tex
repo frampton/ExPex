@@ -1,31 +1,42 @@
 
-
-
-
-
-\def\ruler{\psline[linewidth=.2pt](0,0)(1.5in,0)}
-
-\Lingset{linewidth=.2pt,everygla={},glhangstyle=cascade}
-\leavevmode
-\vtop{\hsize=1in \parindent=0pt
-\begingl
-\gla
-X X X + X X X X
-X X X X X X X
-//
-\glb
-Y Y Y Y Y Y Y
-Y Y Y Y Y Y Y
-//
+\hsize=2in
+\ex
+\begingl[glrightskip=0pt plus 1fil]
+\gla xxx xxx xxx xxx @ xxx @ xxx @ xxx//
 \endgl
+\xe
+
+\endinput
+
+
+
+\ex
+uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu
+
+uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu
+\xe
+
+xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx
+
+xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx
 }%
-\vrule height10pt depth1in width.2pt
-\vtop{\hsize=1in \parindent=0pt
-\leavevmode
-\begingl[glstyle=nlevel]
-X[Y] X[Y] X[Y]+ X[Y] X[Y] X[Y] X[Y]
-X[Y] X[Y] X[Y] X[Y] X[Y] X[Y] X[Y]
-\endgl
+%
+\vtop{\hsize=2in \parindent=0pt
+\parskip=\baselineskip
+\lingset{exskip=0pt}
+xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx
+
+xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx
+
+\ex[everyex={\parskip=0pt}]
+uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu
+
+uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu
+\xe
+
+xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx
+
+xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx
 }%
 
 

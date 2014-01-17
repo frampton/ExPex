@@ -17,25 +17,24 @@ heading.)
 
 The key-value approach to parameter setting in \Tex, which
 originated with David Carlisle's |keyval| package, is illustrated
-by the key |glspace|. \ExPex\ uses to it set one of the
-parameters used in typesetting glosses.  Executing the command
+by the key |textoffset|. \ExPex\ makes the distance from the example
+number to the text equal to value associated with this key.
+Executing the command
 
 
 \sidx{|\lingset|}
 \exfrag
-|\lingset{glspace=1.3em}|
+|\lingset{textoffset=1.3em}|
 \xe
 
-\noindent results in the definition (or redefinition) of the
-macro |\lingglspace| so that it expands to the value \textdim{1.3
-em}.
-The macro |\begingl|, which is used to typeset glosses, uses
-|\lingglspace|, typesetting the gloss so that the minimal
-interword separation is the dimension which |\lingglspace|
-expands~to.  But \ExPex\ users never have to concern themselves
-with the macro |\lingglspace|.  If they are not satisfied with
-the default spacing, they simply have to know that |glspace| is
-the key to setting the word spacing in glosses.
+\noindent results in the definition (or redefinition) of the macro
+|\lingtextoffset| so that it expands to the value \textdim{1.3 em}.
+The macro |\ex|, which is used to typeset examples without labeled
+parts, uses |\lingtextoffset|. But \ExPex\ users never have to
+concern themselves with the macro |\lingtextoffset|.  If they are not
+satisfied with the default spacing, they simply have to know that
+|textoffset| is the key for setting the distance from example number
+to the text.
 
 The argument of |\lingset| can be a comma separated sequence of
 key/value pairs. The syntax is:
@@ -49,21 +48,23 @@ from left to right. If a value contains a comma, it must be
 hidden from the mechanism which parses the list by putting the
 value in braces. The braces are removed by the parser.
 
-Several \ExPex\ macros take an optional argument, delimited by
-brackets, which is passed to |\lingset|.  |\begingl|, used to
-typeset glosses, takes an optional argument.  You might say, for
+Many \ExPex\ macros take an optional argument, delimited by
+brackets, which is passed to |\lingset|.  |\ex|, for example,
+takes an optional argument.  You might say, for
 example,
 
 \exfrag
-|\begingl[glspace=.9em,everyglft=\it]|
+|\ex[textoffset=1.4em,aboveexskip=0pt]|
 \xe
 
-\noindent The optional argument of |\begingl| will be passed to
-|\lingset| and the result evaluated, so that the gloss will be
-typeset with these parameter settings.  This is carried out
-inside a group, so the global settings of the parameters are not
-affected. As we will see later, |everyglft=\it| will result in an
-italicized translation.
+\noindent The argument of |\ex| will be passed to |\lingset| and the result
+evaluated, so that the example will be typeset with these parameter
+settings.  This is carried out inside a group, so the global settings
+of the parameters are not affected. As we will see later,
+|aboveexskip=0pt| will cause the example to be typeset with no
+vertical skip above it.  This is sometimes useful in avoiding
+exagerated spacing when an example directly follows another one, with
+no intervening text.
 
 \ExPex\ has various kinds of keys.  The distinctions depend on
 the effect of executing (\nextx) and the restrictions on the
@@ -74,65 +75,63 @@ possible values which can appear.
 \xe
 
 \noindent {\it Command key\/}:\enspace
-After (\lastx) is executed, the macro |\ling«key»| or
-|\ling@«key»| expands to {\sl value}.  It will be made clear when
-the key is introduced whether it is |\ling«key»| or |\ling@«key»|
-that is
-defined.
-
+After (\lastx) is executed, the macro |\ling«key»| or |\ling@«key»|
+expands to {\sl value}.  It will be made clear when the key is
+introduced whether it is |\ling«key»| or |\ling@«key»| that is
+defined.\footnote{If there was a significant chance that some users
+might want easy access to the macro value, |\ling«key»|, with no |@|
+in the macro name, was used.}
 
 \smallskip
 \noindent {\it Incremental dimension parameter\/}:\enspace {\sl
-value\/} must be a dimension or a dimension prefixed by |!|. If
-{\sl value\/} is a dimension, it is stored in |\ling«key»|. If it
-is a !-prefixed dimension, the prefixed dimension is added to its
-former dimension and the result stored in |\ling«key»|. If
-|\ling@«key»| is undefined or does not expand to a dimension, a
-fatal error results.  Incremental parameters are very useful if
-minor adjustments to the format are desired.  There are {\it
-incremental skip parameters\/} as well, which operate on an
-entirely parallel manner.
+value\/} must be a dimension or a dimension prefixed by |!|. If {\sl
+value\/} is a dimension, it is stored in |\ling«key»|. If it is a
+!-prefixed dimension, the prefixed dimension is added to its former
+dimension and the result stored in |\ling«key»|. There must be a
+dimension to increment, so a fatal error results if |\ling«key»| does
+not expand to a dimension. Incremental parameters are very useful if a
+minor adjustment to the format in a particular example is desired.
+There are {\it incremental skip parameters\/} as well, which operate
+on an entirely parallel manner.
 
 \smallskip
-\noindent {\it Choice parameter\/}:\enspace
-{\sl value\/} must be drawn from a prescribed list.  Although the
-\ExPex\ choice parameters do store {\sl value\/} when (\lastx)
-is executed, the main purpose of executing (\lastx) is the side
-effects which are coded into the definition of the key.
+\noindent {\it Choice parameter\/}:\enspace The {\sl value\/} which is
+assigned must be drawn from a prescribed list. \ExPex\ choice
+parameters do not store {\sl value\/} when (\lastx) is executed; the
+purpose of executing (\lastx) is the side effects which are coded into
+the definition of the key.
 
 The parameter |labelalign| illustrates this.
-|\lingset{labelalign=«value»}| is valid only if {\sl value\/} is
-one of |left|, |center|, or |right|.  A fatal error results
-otherwise.  The effect is to appropriately define the macro
-|\@labelprint| which is used to typeset the labels of subparts in
-multipart examples.
+|\lingset{labelalign=«value»}| is valid only if {\sl value\/} is one
+of |left|, |center|, or |right|.  A fatal error results otherwise. The
+effect is to appropriately define the macro |\@labelprint| which is
+used to typeset the labels of subparts in multipart examples.
 \smallskip
 
 \smallskip
 \noindent {\it Pseudo parameter\/}: (\lastx) is executed for its
-side effects.  {\sl value\/} is not stored. The key |samplelabel|
-illustrates this.  When |\lingset{samplelabel=A.}| is executed,
-for example, the macro |\ling@samplelabel| is not defined.
+side effects.  A {\sl value\/} is not stored. The key |samplelabel|
+illustrates this.  When |\lingset{samplelabel=A.}| is executed, no
+\ExPex\ macro which expands to {\sl value\/} is defined.
 Instead, the parameter |labelwidth| is set to the width of
 ``A.'' in the current font.
 
 \medskip
-In the interest of clarity, the exposition above was somewhat
-oversimplified (i.e. told some lies, but small lies).  The macro
-in which a value associated with {\sl key\/} is stored was
-assumed to be |\ling@«key»|.  In fact, some keys use
-|\ling«key»|, with no |@| in the macro name so that they are
-easier for the user to access. In those cases in which it
-appeared that there is a significant chance that some users will
-want easy access to the value of a parameter at some point, the
-macro name |\ling«key»| was used rather than |\ling@«key»|.
-
-When keys are defined, they can be given default values, as part
+When XKV keys are defined, they can be given default values, as part
 of their definitions.  If a key |foo|, for example, is given the
-default value |2pt|, then executing |\lingset{foo}| is equivalent
-to executing |\lingset{foo=2pt}|.  Only a few \ExPex\ keys have
-default values, but most are set to an initial value in {\sl
-expex.tex}.
+default value |2pt|, then executing |\lingset{foo}| is equivalent to
+executing |\lingset{foo=2pt}|.  Only a few \ExPex\ keys have default
+values in the XKV sense, but most are set to an initial value in {\sl
+expex.tex}.  This initial value will sometimes be called the default
+setting of the key, even though the key does not have a default
+setting in the XKV sense.
+
+Frequent reference is made to the ``value of a key'', meaning the
+result of expanding the macro associated with the key in case the key
+is a command key or incremental key (either a dimension or skip).  The
+notation {\tt \char"7C{\sl key}\char"7C} is often used to indicate the
+value of the key.  So, for example, \parvalue{textoffset} is the value
+associated with the key |textoffset|.
 
 
 
