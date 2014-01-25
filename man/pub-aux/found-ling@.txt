@@ -1,0 +1,14 @@
+\def\define@ling@cmdkeys{\define@cmdkeys{ling}[ling@]}
+\define@boolkey{ling}[ling@]{avoidnumlabelclash}[true]{}
+\define@ling@cmdkeys{appendtopexarg}
+\define@boolkey{ling}[ling@]{nopreamble}[true]{}
+\define@ling@cmdkeys{crskip}
+\define@ling@cmdkeys{everygl,everyglpreamble,everygl,everyglilg,everyglft}
+\define@ling@cmdkeys{everyglword,glrightskip,glhangindent,glwidth}
+\define@boolkey{ling}[ling@]{glstruts}{}%
+\define@ling@cmdkeys{everygla,everyglb,everyglc}
+      \define@ling@cmdkeys{everygl#1}%
+\define@ling@cmdkeys{everybrack}
+\define@ling@cmdkeys{everygluf,glufcloseup}
+\define@ling@cmdkeys{mincitesep}
+\define@ling@cmdkeys{everytrailingcitation}

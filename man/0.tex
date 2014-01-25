@@ -1,48 +1,37 @@
 
 \input eplain
 \input pst-asr
-\input @mybasics.tex
+\input JF-basics.tex
 \input pstricks
 \input pst-node \catcode`\@=12
-\input ../core/expex-srcadd
-%\input experiment
-%\input ../core/expex-src
-%\input ../core/expex-add
-\input @lingdoc
-\input @code-beta
-\input @timesfonts
-\input @sections
-\input @local-doc
-\input ../core/eptexfn
-\input @optarg
-%\input @emwidth
+\input ../expex/expex
+\input JF-lingdoc
+\input JF-code
+\input JF-timesfonts
+\input JF-sections
+\input JF-local-doc
+\input ../expex/eptexfn
+\input JF-optarg
 
 %\gathertags
 %\gathercontents
 %\gathernotes
-
 %\refproofing
 %\indexproofingtrue
 
-%\input killspace  \bye
-%\get 09_gln  \bye
-%\input ./experimental/demo2  \bye
-%\input parser  \bye
-%\input temp \bye
-%\input meadowlark  \bye
-%\input glossstruts  \bye
+%\input temp  \bye
 
-%\pageno=-1
-%\get 000doc-cover
-%\get @contents
-%\get 01_intro
-%\get 02_Examples
-%\get 03_XKV
-%\get 04_Ex
-%\get 05_MultiPart-Basics
-%\get 06_MoreExamples
-%\get 07_UserStyles
-%\get 08_Judgments
+\pageno=-1
+\get 000doc-cover
+\get JF-contents
+\get 01_intro
+\get 02_Examples
+\get 03_XKV
+\get 04_Ex
+\get 05_MultiPart-Basics
+\get 06_MoreExamples
+\get 07_UserStyles
+\get 08_Judgments
 \get 09_Glosses-Basic
 \get 10_Glosses-Nlevel
 \get 11_Glosses-MoreAbout
@@ -51,23 +40,24 @@
 \get 14_Tables
 \get 15_PSTricks
 \get 16_PageBreaks
-%\input @mkindex \bye
+\input JF-mkindex \bye
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% additions (appendices to the manual)
+ additions (appendices to the manual)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bye
+%\input ./solutions/crippen  \bye
+%\input gathered \bye
+%\input temp  \bye
+
+
 
 %\input temp            \bye
 %\input add-doc
 %\input 09_GlossLinespace
-%\input nlevelbracks
 %\input nlevelsyntax
-%\input nlevelhang
 %\get 09_Glosses-Basic
-%\input ./solutions/crippen
-%\input add-vspace
-%\input ../add/nlevel/demo/scratch
-%\input ../add/nlevel/demo/Erromangan
+\input ../add/nlevel/demo/Erromangan
 
 %\get 09_gln \bye
 %\get 09_BoxedGloss \bye

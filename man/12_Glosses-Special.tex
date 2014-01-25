@@ -1,62 +1,7 @@
-%
-%\ex[glstyle=nlevel,glhangstyle=cascade,
-%   glneveryline={\hfil\eightrm\insertno,\it},
-%   glnabovelineskip={,-1pt},glspace=!.4em]
-%\count0=1
-%\def\insertno{(\the\count0)\global\advance\count0 by 1}%
-%\begingl
-%{}[Hom\^{a}o/\textsc{exist}]
-%[sa/one]
-%[\v{c}\^{o}/\textsc{clf}]
-%[p\^{o}/person]
-%[tha/old]
-%[\~{n}u/\textsc{3s}]
-%[nao/go]
-%[ng\u{a}/do]
-%[hmua./field]
-%[\~{N}u/\textsc{3s}]
-%[dj\u{a}/hold]
-%[g\u{a},/machete]
-%[\~{n}u/\textsc{3s}]
-%[dj\u{a}/hold]
-%[\v{c}\u{o}ng/hoe]
-%[\~{n}u,/\textsc{3s}]
-%[laih/and]
-%[gui/carry.on.back]
-%[r\^{e}o/back.basket]
-%[\~{n}u./\textsc{3s}]
-%[Todang/while]
-%[bboi/at]
-%[r\^{o}k/along]
-%[jolan/trail]
-%[\~{n}u/\textsc{3s}]
-%[nao/go]
-%[hma,/field]
-%[\~{n}u/\textsc{3s}]
-%[bb\^{o}h/see]
-%[sa/one]
-%[droi/\textsc{clf}]
-%[mr\u{a}/peacock]
-%[d\u{o}/stay]
-%[bboi/at]
-%[gah,/\textsc{drct}]
-%[a,/--]
-%[hruh/nest]
-%[\~{n}u./\textsc{3s}]
-%\glft
-%`There was an old person who went to work in the field. He took
-%along his machete, he took along his hoe, and he carried his
-%basket on his back. While he was on his way to the farm, he saw a
-%peacock beside its nest.'
-%\endgl
-%\xe
-%
-%\endinput
 
-\section Glosses; Special topics
+\section Glosses; Special topics\par\nobreak
 
-\vskip-2ex
-\subsection User defined levels
+\subsection* User defined levels
 
 \begininventory
 \macros* \idx{|\defineglwlevels|}\endmc
@@ -319,8 +264,8 @@ typeset is not necessarily the same as the order in which they
 appear after it is typeset.
 
 \subsection Cascading hanging indentation in glosses
-\deftag{\the\secno.\the\subsecno}{cascadingsec}
 
+\deftagsec{cascadingsec}
 \raggedbottom
 \lingset{glhangindent=.25in,everygl=\openup.5ex,
    everyglword=\normalbaselines,everyglft=\normalbaselines,
@@ -350,7 +295,7 @@ peacock beside its nest.'//
 \xe
 \endframedisplay
 
-is achieved by
+is produced by
 \codedisplay~
 \ex[glhangstyle=cascade]
 \let\\=\textsc
@@ -459,7 +404,8 @@ would not damage John.'
 |endcodedisplay
 
 The result is almost, but not quite, identical to (\lastx).  The
-underfixes are positioned somewhat differently.
+underfixes are positioned somewhat differently, not center aligned
+under the word above them.
 
 \framedisplay
 \ex[glstyle=nlevel,glneveryline={\it,,\footnotesize},
@@ -485,20 +431,24 @@ would not damage John.'
 \endgl
 \xe
 \endframedisplay
-
+See (\getref{wapm2}) below for a gloss display in the nlevel style
+which is closer to (\blastx).
 
 \subsection Center alignment in glwords
 
+\begininventory
+\parameters*
+\idx{|glwordalign|}& |left| or |center|& |left|\cr
+\endinventory
 When glwords are assembled, in either the wrap or nlevel styles, an
 alignment inside a vbox is constructed.  The alignments use an |\hfil|
 on the right, so that the text on the various lines of a glword is
-left aligned.  Occasionally it is desirable, for one reason or
-another, to center align a particular line by inserting an |\hfil| on
-the left, to balance the implicit |\hfil| on the right.  Compare, for
-example, (\nextx) with (\getref{wapm2}).
+left aligned.  The parameter |glwordalign| allows the choice of center
+alignment.  This is occasionally useful.  Compare, for example,
+(\nextx) with (\getref{wapm2}).
 
 \framedisplay
-\ex[glspace=1.5em,everygla=\hfil,everyglb=\hfil\footnotesize,
+\ex[glspace=1.5em,everygla=\hfil,glwordalign=center,
    everyglc=\hfil,aboveglbskip=-.2ex]<wapm2>
 \begingl
 \gla k- wapm -a -s'i -m -wapunin -uk //
@@ -509,7 +459,7 @@ example, (\nextx) with (\getref{wapm2}).
 \xe
 \endframedisplay
 \codedisplay~
-\ex[glspace=1.5em,everygla=\hfil,everyglb=\hfil\footnotesize,
+\ex[glspace=1.5em,everygla=\hfil,glwordalign=center,
    everyglc=\hfil,aboveglbskip=-.2ex]
 \begingl
 \gla k- wapm -a -s'i -m -wapunin -uk //
@@ -520,17 +470,19 @@ example, (\nextx) with (\getref{wapm2}).
 \xe
 |endcodedisplay
 
-Center alignment in glwords is particularly useful if you need to
-number the glwords; to facilitate discussion, for example.
+Center alignment in glwords is useful if you need to number the
+glwords; to facilitate discussion, for example.
 
 \framedisplay
 \ex[glstyle=nlevel,glhangstyle=cascade,
-   glneveryline={\hfil\eightrm\insertno,\it,},
+   glneveryline={\insertno,\it,},
+   glwordalign=center,
    glnabovelineskip={,-1pt},glspace=!.4em]
-\count0=1
-\def\insertno{(\the\count0)\global\advance\count0 by 1}%
-\begingl
-{}[Hom\^{a}o/\textsc{exist}]
+\putfnno
+\count255=1
+\def\insertno{\footnotesize(\the\count255)\global\advance\count255 by 1}%
+\begingl[]
+[Hom\^{a}o/\textsc{exist}]
 [sa/one]
 [\v{c}\^{o}/\textsc{clf}]
 [p\^{o}/person]
@@ -579,8 +531,8 @@ peacock beside its nest.'
 \def\goop{\quad $\vdots$ \par}%
 \codedisplay~
 \ex[glstyle=nlevel,glhangstyle=cascade,
-   glneveryline={\hfil\eightrm,\it,},glnabovelineskip={,-1pt},
-   glspace=!.4em]
+   glneveryline={\insertno,\it,},glwordalign=center,
+   glnabovelineskip={,-1pt},glspace=!.4em]
 \begingl
 (1)[Hom\^{a}o/\textsc{exist}]
 (2)[sa/one]
@@ -599,13 +551,12 @@ peacock beside its nest.'
 Numbering can be automated.  One way to do this is below.
 
 \codedisplay
-\ex[glstyle=nlevel,glhangstyle=cascade,
-   glneveryline={\hfil\eightrm\insertno,\it,},
+\ex[glstyle=nlevel,glhangstyle=cascade,glneveryline={\hfil\insertno,\it,},
    glnabovelineskip={,-1pt},glspace=!.4em]
-\count0=1
-\def\insertno{(\the\count0)\global\advance\count0 by 1}%
-\begingl
-\relax[Hom\^{a}o/\textsc{exist}]
+\count255=1|putfnno
+\def\insertno{\eightrm(\the\count255)\global\advance\count255 by 1}%
+\begingl[]
+[Hom\^{a}o/\textsc{exist}]
 [sa/one]
 [\v{c}\^{o}/\textsc{clf}]
 [p\^{o}/person]
@@ -613,12 +564,14 @@ Numbering can be automated.  One way to do this is below.
 [\~{n}u/\textsc{3s}]
 |goop
 |endcodedisplay
-\medskip
-\noindent
-Note that a line 1 entry is made for the first glword.  \ExPex\
-tolerates missing entries, but at least one glword must have an entry.
-|\relax| is sufficient.
-
+\vfootnote{\the\fnno}{\Tex\ reserves |\count255| for scratchwork.
+Since the assignment needs to be global, it is important to use a
+count register that does not serve another purpose.  If a named count
+register is available, it would be better to use that register.}%
+Note carefully that |\begingl| has been supplied with an empty
+argument.  Otherwise the parser would have been confused and |[Hom|\dots\
+would have been interpreted as an optional argument.  An alternative
+would have been |\begingl{}[Hom|\dots\ or \thinspace|\begingl\relax[Hom|\dots\thinspace.
 
 
 

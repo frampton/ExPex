@@ -1,0 +1,6 @@
+
+0.tex is the master file.  If a new index is made, the file 0.idx
+which is generated must be sorted and edited to make the file 0-index
+which is used.  I have a python program which does almost all the
+work.  If anyone is interested, get in touch with me.
+

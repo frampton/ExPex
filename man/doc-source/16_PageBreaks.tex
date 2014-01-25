@@ -1,0 +1,179 @@
+\def\TEX{T\kern-.1em\lower.5ex\hbox{E}X}
+
+\section Control over page breaking inside examples
+
+Page breaking is generally much more disruptive if it occurs
+inside an example than if it occurs in a paragraph of text. Steps
+can be taken to minimize the possibility that examples are
+disrupted by page breaks.  Avoiding disruption can mean either
+that a page break does not occur, or if it does, it happens at a
+``good place''.  If the parts of a multi-part example naturally
+form subgroups, it is desirable to encourage a break between
+subgroups and discourage a break inside a subgroup.
+
+\ExPex\ attempts to provide tools to help avoid breaking examples
+between pages and, if they must be split, making it easy to
+specify where in the example splitting should be encouraged or
+discouraged. This must be balanced with limitations on how much
+white space at the bottom of pages is allowable.
+
+The amount of whitespace at the bottom of pages and how much
+variability in the vertical skip between examples and the
+surrounding text is acceptable will probably vary between
+different intended purposes: handout, draft, paper, camera-ready
+paper, lecture notes, camera-ready book manuscript, etc.  It will
+also vary between different stages of production.  Different
+editors may have different views of the tradeoff between keeping
+examples intact and allowing whitespace at the bottom of pages.
+There is no sense in spending time on formatting while you are
+still working on a draft.  \ExPex\ therefore provides a number of
+parameters which can be adjusted to control various aspects of
+page breaking.
+
+In spite of efforts to guide \Tex\ in making good decisions about
+page breaking, the results are not always satisfactory.
+\medskip
+\begingroup \leftskip=3em \rightskip=3em
+\noindent
+\noindent Every once and a while,
+\TEX\ will produce a really awful looking page and you will
+wonder what happened.  For example, you might get just one
+paragraph and a whole lot of white space, when some of the text
+on the following page would easily fit into the white space.  The
+reason for such apparently anomalous behavior is almost always
+that no good page break is possible; even the alternative that
+looks better to you
+is quite terrible as far as \TEX\ is concerned!\par
+\hfill
+(from Knuth's
+\TEX book, p. 115)\par
+\endgroup
+\medskip
+\noindent In situations like this, one has to give up on
+encouraging \Tex\ to do the right thing and give explicit orders
+to break the page by inserting |\eject| or |\vfil\eject| in the
+appropriate place.  The drawback to an explicit order is that it
+remains in force after revisions are made to the document.  If it
+causes page breaking that is obviously bad, the problem will
+usually be seen when editing.  The biggest danger is that
+the output is not terrible, but it is less than ideal and the
+discrepancy is missed in less than meticulous copy editing.
+
+\subsection Discouraging page breaks in examples
+
+\deftagpage{exbreakpage}%
+\begininventory
+\macros* \idx{|\exbreak|}\endmc
+\parameters
+\idx{|exbreakfil|}& skip& 0\dimskip pt plus 4\dimskip ex\cr
+\idx{|exbreakpenalty|}& integer& |-500|\cr
+\idx{|splitpartspenalty|}& integer& |200|\cr
+\endinventory
+
+\noindent \Tex\ carries out page breaking by assigning a cost
+(via penalties) to each possible page break and choosing the
+lowest cost option.  Plain \Tex\ defines a macro |\goodbreak|
+which ends the current paragraph and gives a negative penalty
+($-500$) if a page break is taken after the paragraph.  A
+negative penalty is a reward, which encourages page breaking at
+that point.  The \ExPex\ macro |\exbreak| is a variant of
+|\goodbreak|.  It not only ends the current paragraph and awards a
+penalty (a reward if the penalty is negative) if a page break is
+taken at that point, but makes it easier for a satisfactory page
+break to be taken by allowing the page to end with some vertical
+fill, allowing some whitespace to appear at the bottom of the
+broken page.
+
+|\exbreak| is inserted at the beginning of every |\ex| or |\pex|
+block.  The penalty and amount of fill are parameterized.  The
+default values are suitable for camera-ready copy, assuming that
+the publisher is willing to tolerate a small amount of whitespace
+at the bottom of a page in return for keeping an example intact.
+$4\,\rm\,ex$ is about $1.5$ times the distance between baselines
+in most fonts.  For drafts, I set |exbreakfil=.3\vsize|, which
+keeps almost all examples intact at the cost of allowing substantial
+whitespace to appear at the bottom of a page.
+
+The setting of |exbreakfil| can be overridden by supplying a
+value directly as an optional argument of |\exbreak|.  For
+example, |\exbreak[5ex]| acts like |\exbreak| (with no argument)
+with |exbreakfil| is set to \textdim{5 ex}.
+
+Page breaks right before an example part in a |\pex| construction
+introduced by |\a| are discouraged by imposing a penalty
+determined by the setting of |splitpartspenalty|.
+If |splitpartspenalty| is set to 10000, such breaks will
+be completely disallowed.  I use this setting for writing drafts.
+Coupled with a generous setting of |\exbreakfil|, almost all page
+breaks in examples are eliminated, which is what I prefer in
+writing a draft.  The default value is more suitable for finished
+documents.
+
+In older versions of \ExPex\relax, |\exbreak| was called |\goodpar|.
+The present name is more consistent with \Tex's naming habits.
+
+
+\subsection Controlling where page breaks occur in examples (if
+they must)
+
+If a page break within an example cannot be avoided
+because it would require too much vertical fill to be inserted,
+it is often important to control where within the example the
+page break is made.  Consider for example a display like
+(\nextx).
+
+\framedisplay
+\pex[exbreakpenalty=-10,interpartskip=.25ex]
+\a example A
+\a contrast with example A\exbreak
+\a example B
+\a variation on B
+\a another variation on B
+\a a third variation on B\exbreak
+\a example C
+\a contrast with example C
+\xe
+\endframedisplay
+
+Suppose the logic of the examples pairs a and b, c--f, and g and
+h.  How do you avoid a page break which interrupts the logic of
+the collection of examples?  One option is the standard \Tex\
+method of using |\nobreak| to prevent a page break, as in the
+code below:
+
+ \codedisplay
+\pex[interpartskip=.25ex]
+\a example A\par\nobreak
+\a contrast with example A
+\a example B\par\nobreak
+\a variation on B\par\nobreak
+\a another variation on B\par\nobreak
+\a a third variation on B
+\a example C\par\nobreak
+\a contrast with example C
+\xe |endcodedisplay
+
+\noindent  Note that |\par| must precede |\nobreak|.  We are
+interested in preventing a page break in the process of adding
+lines to the current page, not in preventing a break in the
+process of building the lines which are added to the current
+page.  |\par| breaks the line, which takes \Tex\  out of line
+building mode and puts it into page building mode.
+
+|\exbreak| offers an alternative.
+
+\codedisplay
+\pex[interpartskip=.25ex]
+\a example A
+\a contrast with example A\exbreak
+\a example B
+\a variation on B
+\a another variation on B
+\a a third variation on B\exbreak
+\a example C
+\a contrast with example C
+\xe |endcodedisplay
+
+
+
+

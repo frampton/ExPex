@@ -1,0 +1,50 @@
+
+ExPex Jan 2014
+
+-------------------------------------------------------------
+ExPex is maintained by John Frampton <j.frampton@neu.edu>
+-------------------------------------------------------------
+
+ExPex is designed to assist linguists in typesetting examples and
+glosses and in creating named reference to examples and parts of
+examples.
+
+-------------------------------------------------------------
+
+COPYRIGHT 2006-2014  by John Frampton <j.frampton@neu.edu>
+
+This program can be redistributed and/or modified under the terms
+of the LaTeX Project Public License, which can be found in the CTAN
+archives in directory macros/latex/base/lppl.txt.
+
+-------------------------------------------------------------
+
+The files in this distribution (v 5.0) are:
+
+   README
+   expex.tex            Main macro file
+   expex.sty            Latex wrapper for expex.tex
+   expex-doc.pdf        User's Guide
+
+   eptexfn.tex          Tex footnote macros
+   epltxfn.sty          LaTex footnote package
+   epltxchapno.sty      LaTex package for chapter.number example
+                        numbering
+
+   expex-demo.tex       The code for most of the examples
+   expex-doc.zip        The source code for the User's Guide
+
+-------------------------------------------------------------
+
+expex-demo.tex
+
+This file contains most of the examples in the documentation.  It is
+intended to facilitate user experimentation with ExPex typesetting.
+Users can easily modify examples and see what the effect is. It can be
+run under either Plain Tex or LaTex.  Except for expex.tex and
+expex.sty, all files needed to run expex-demo should be part of any
+Tex installation.
+
+-------------------------------------------------------------
+John Frampton (Jan 24, 2014)
+

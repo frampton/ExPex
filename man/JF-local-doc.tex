@@ -1,0 +1,318 @@
+\makeatletter
+\def\slname#1{\@ifnextchar\relax{{\sl #1}}{{\sl #1\/}}}
+\def\ExPex{\slname{ExPex}}
+\def\LaTex{\slname{LaTex}}
+\def\Tex{\slname{Tex}}
+\def\XKeyVal{\slname{XKeyVal}}
+\def\PSTricks{\slname{PSTricks}}
+
+\def\index#1{%
+   \ifgatherindex
+      \write@index{#1, \the\pageno}%
+   \fi
+}
+% abbreviations
+\def\pst#1{{\sl pst-#1}}
+\def\backslash{\char"5C }
+\def\titlekey#1{{\tt #1}}
+\def\value#1{\hbox{$\vert|#1|\vert$}}
+% headline for finished version
+\dimpuba=-\vsize \advance\dimpuba by -.4in
+\lingset{headline=\hfil \ifnum\pageno<1 \else \the\pageno\hfil \fi,
+   headlinelevel=\dimpuba}
+% formatting
+\def\parinventory{\pst@ifstar\parinventory@a}
+%\def\parinventory@a{%
+%   \par \noindent Parameter{\if@star\else s\fi}:\par\nobreak
+%   \noindent\qquad
+%   \vtop\bgroup\openup1pt
+%      \halign\bgroup##\hfil&& \qquad ##\hfil\cr}
+\def\parinventory@a{%
+   \par\bgroup  \parindent=0pt
+   \halign\bgroup ##\hfil& \quad ##\hfil&& \qquad ##\hfil\cr
+      \omit Parameter{\if@star\else s\fi}:\hidewidth\cr
+   \noalign{\par\nobreak}}
+\def\endparinventory{\egroup\egroup\bigskip\noindent}
+%\def\begininventory{\@getoptionalarg\begininventory@a}
+%\def\begininventory@a{\medskip\vbox\bgroup\hrule\medskip \bgroup
+%   \openup2pt
+%   \halign\bgroup \quad ##\hfil&&
+%      \hskip \ifx\@optionalarg\empty 2em \else\@optionalarg\fi ##\hfil\cr
+%}
+%\def\endinventory{\egroup\egroup \medskip\hrule\bigskip\egroup\noindent}
+\def\parameters{\omit Parameters:\hidewidth\cr
+   \hfil\it key& \hfil\it value& \hfil\it initial setting}
+\def\parameter{\omit Parameter:\hidewidth\cr
+   \hfil\it key& \hfil\it value& \hfil\it initial setting}
+
+\def\begininventory{\@getoptionalarg\begininventory@a}
+\def\begininventory@a{\medskip\vbox\bgroup\line{\leaders\hrule\hfil}\bgroup
+   \openup2pt
+   \halign\bgroup \quad ##\hfil&&
+      \hskip \ifx\@optionalarg\empty 2em \else\@optionalarg\fi ##\hfil\cr
+}
+\def\endinventory{\egroup\egroup \medskip\hrule\egroup\bigskip\noindent}
+\def\parameters{\omit Parameters:\hidewidth\cr
+   \hfil\it key& \hfil\it value& \hfil\it initial setting}
+\def\parameter{\omit Parameter:\hidewidth\cr
+   \hfil\it key& \hfil\it value& \hfil\it initial setting}
+\def\parameters{\omit\pst@ifstar\parameters@a}
+\def\parameters@a{Parameter\if@star\else s\fi:\hidewidth\cr
+   \hfil\it key& \hfil\it value& \hfil\it initial
+   value\cr}
+\def\parametersdef{\omit\pst@ifstar\parametersdef@a}
+\def\parametersdef@a{Parameter\if@star\else s\fi:\hidewidth\cr
+   \hfil\it key& \hfil\it value& \hfil\it initial
+   value& \hfil\it default value\cr}
+\def\macros{\omit\pst@ifstar\macros@a}
+\def\counter{\omit Counter:\enspace}
+\def\endmc{\hidewidth\cr}
+\def\macros@a{Macro\if@star\else s\fi:\enspace}
+
+\def\beginmacinventory{\pst@ifstar\beginmacinventory@a}
+\def\beginmacinventory@a{\bgroup\parindent=0pt \hrule\medskip
+   Macro{\if@star \else s\fi}:\enspace}
+\def\endmacinventory{\medskip\egroup\hrule\bigskip\noindent}
+
+
+%\def\begininventory{\bigskip\bgroup
+%   \setbox0=\vtop\bgroup\openup2pt
+%      \halign\bgroup \quad ##\hfil&& \tspace ##\hfil\cr
+%}
+%\def\endinventory{\egroup\egroup
+%   \noindent
+%      \psframebox[framesep=1ex,boxsep=false,doubleline=true]{\box0}%
+%      \egroup\bigskip}
+
+
+\def\smalldisplay{\medskip\noindent\hfil}
+\def\endsmalldisplay{\medskip\noindent}
+\def\excentered{\@getoptionalarg\exc@a}
+\def\exc@a{%
+\vbox\bgroup\bigskip \leftskip=0pt plus 1fil
+   \rightskip=0pt plus 1.2fil \parindent=0pt \parfillskip=0pt
+   \ifx\@optionalarg\@empty \else \hsize=\jf@pars \fi
+   \let\xe=\exc@b
+   \hrule
+   \par\nobreak
+   \bigskip
+}
+\def\exc@b{\par\nobreak\bigskip\hrule\bigskip\egroup}
+% \tfb (tight frame box)
+\def\tfb{\medskip \setbox\tmpbox=\hbox\bgroup}
+\def\endtfb{\egroup\noindent
+   \psframebox[boxsep=true,framesep=3pt]{\box\tmpbox}\medskip}
+
+% pst-asr utilities
+
+\def\slant#1{{\sl #1}}
+
+\parindent=2em
+\rightskip=0pt plus 2em
+
+\newbox\@framedisplaybox
+\newskip\abovefdskip
+\newskip\abovefdtildeskip
+\newskip\aboveexskipfd
+\abovefdskip=\lingaboveexskip
+\abovefdtildeskip=1ex
+\define@ling@cmdkeys{abovefdskip,belowfdskip,
+   fdtopcorrect,fdbotcorrect,everyfd}
+\Lingset{%
+   boxsep=false,
+   framesep=1.5ex,
+%   abovefdskip=2.8ex plus .5ex,
+%   belowfdskip=2ex plus .3ex minus .1ex,
+   abovefdskip=3ex plus .5ex,
+   belowfdskip=3ex plus .3ex minus .1ex,
+   fdtopcorrect=\lingaboveexskip,
+   fdbotcorrect=\lingbelowexskip
+}
+\def\framedisplay{\@tildecheck\framedisplay@a}
+\def\framedisplay@a{\@getoptionalarg\framedisplay@aa}
+\def\framedisplay@aa{\bgroup
+   \Ling@usearg
+   \setbox\@framedisplaybox=\vbox\bgroup\vskip-\ling@fdtopcorrect
+}
+\def\endframedisplay{%
+   \vskip-\ling@fdbotcorrect
+   \egroup
+   \vskip\ling@abovefdskip
+   \noindent
+   \psframebox[boxsep=false,linewidth=1.2pt]%
+      {\copy\@framedisplaybox}%
+   \vskip\ling@belowfdskip
+   \egroup
+}
+\define@choicekey{ling}{fdcorrect}[\ling@fdcorrect\@N]%
+   {none,both,bottom,top}{%
+      \ifcase\@N
+            \lingset{fdtopcorrect=0pt,fdbotcorrect=0pt}
+         \or
+            \lingset{fdtopcorrect=\lingaboveexskip,
+               fdbotcorrect=\lingbelowexskip}
+         \or
+            \lingset{fdtopcorrect=0pt,
+               fdbotcorrect=\lingbelowexskip}
+         \or
+            \lingset{fdtopcorrect=\lingaboveexskip,
+               fdbotcorrect=0pt}
+         \fi
+}
+\lingset{fdcorrect=both}
+
+% code fragment display
+\def\codefragment{\medskip\begingroup \leftskip=3em \parindent=0pt
+   \obeylines}
+\def\endcodefragment{\medskip\endgroup \noindent}
+\def\exfrag{%
+   \exdisplay[exskip=1.3ex plus.4ex minus.4ex]\noexno}
+% #2 can be \par, so \long is needed
+\long\def\if@tildeverb#1#2{\ifx#2~\@tildetrue\def\next{#1}\else
+   \@tildefalse\def\next{\expandafter #1\string#2}\fi \next}
+\def\codedisplay{\if@tildeverb\codedisplay@a}
+\def\codedisplay@a{%
+   \edef\@@aboveexskip{\ifx\next\empty 0pt\else 1.5ex\fi}%
+   \exdisplay[aboveexskip=\@@aboveexskip,
+      belowexskip=1.5ex]\noexno
+   \verbatim}
+\def\endcodedisplay{\endverbatim\xe}
+\def\ellide{\kern.6em\dots\kern.3em}
+\def\verbdots{\endverbatim \ellide\verbatim}
+
+\def\normalss{\def\leftss{.55}\def\rightss{.35}}
+\def\setss #1 #2 {\def\leftss{#1}\def\rightss{#2}}
+\normalss
+
+% side by side, code and output
+\def\beginss{\if@tildeverb\beginss@a}
+\def\beginss@a{%
+   \if@tilde\else\bigskip\fi
+   \bgroup
+   \parindent=0pt
+   \noindent
+   \line
+      \bgroup\vtop\bgroup
+      \hsize=\leftss\hsize
+         \verbatim
+}
+\def\midss{%
+         \endverbatim
+   \egroup
+   \hsize=\rightss\hsize
+   \setbox\@framedisplaybox=\vtop\bgroup
+      \lingset{exskip=0pt}
+
+}
+\def\endss{%
+   \egroup
+   \hfill
+   \vtop{%
+      \psframebox[boxsep=false]{\box\@framedisplaybox}%
+      \bigskip}%
+   \egroup\egroup
+   \bigskip
+   \noindent
+}
+% auxiliary fonts
+\font\spacefont=txsya at 10pt
+\font\titlett=txtt at 13.3pt
+
+\edef\spacesym{\lower1.6pt
+   \hbox to\wd0{\spacefont \kern.3pt\char"78 \hss\char"79 \kern.3pt}}
+\def\ttcs#1{{\tt \char"5C #1}}
+
+\outer\def\section #1\par{%
+   \global\advance\secno by 1  \global\subsecno=0
+      \global\subsubsecno=0
+   \vfil\eject
+   {\noindent \sectiontitlefont
+       \the\secno.\enskip #1\par}\nobreak
+   \xdef\sectiontitle{\twelverm Section \the\secno:\enspace #1}%
+   \ifgathercontents \edef\temp{{\the\secno}}%
+      \expandafter\writecontents\temp{#1}\sec\fi \nobreak
+   \medskip\nobreak\noindent
+}
+%\def\mkheadline{%\rput[Bl](0,\lingheadlinelevel){%
+%   \rput[Bl](0,5.5ex){\hbox to\hsize{\sectiontitle\hfil
+%      \ifnum\pageno>0 \the\pageno \fi}}}
+\def\sectiontitle{}
+\font\sectiontitlefont=t1xss at 14pt
+
+\def\chapscurrsec{\ifnum\chapno>0 \the\chapno
+   \ifnum\secno>0 .\the\secno
+   \ifnum\subsecno>0 .\the\subsecno
+   \ifnum\subsubsecno>0 .\the\subsubsecno \fi\fi\fi\fi}
+\def\nochapscurrsec{\ifnum\secno>0 \the\secno
+   \ifnum\subsecno>0 .\the\subsecno
+   \ifnum\subsubsecno>0 .\the\subsubsecno \fi\fi\fi}
+\let\currsec\nochapscurrsec
+\def\deftagsec#1{\deftag\currsec{#1}}
+\def\introsec#1{%
+   \noindent \the\introsecno.\enspace
+   \advance\introsecno by 1
+   {\it #1}
+   \medskip
+}
+\newcount\introsecno
+\introsecno=1
+\define@lingcmdkeys{secfil}
+\outer\def\section #1\par{%
+   \global\advance\secno by 1
+   \global\subsecno=0
+   \global\subsubsecno=0
+   \vskip0pt plus \lingsecfil
+   \penalty-100
+   \vskip0pt plus -\lingsecfil
+   \bigskip
+   \vskip\parskip
+   {\noindent \titlefont{main}
+       \the\secno.\enskip #1}\par\nobreak
+   \ifgathercontents \edef\temp{{\the\secno}}%
+      \expandafter\writecontents\temp{#1}\sec\fi
+   \medskip\noindent
+}
+\lingset{secfil=.2\vsize}
+
+\def\boxglwords{\let\glw@printglword=\glw@printglwordboxed}
+\def\glw@printglwordboxed{%
+   \begingroup
+   \gltoks@sofar={}%
+   \gl@loopmoretrue
+   \loop\ifgl@loopmore
+      \gl@lop\aboveskiplist\to\@aboveskip
+      \expandafter\ifdim\@aboveskip=0pt \def\@above{}\else
+         \edef\@above{\noalign{\vskip\@aboveskip}}\fi
+      \gl@lop\strutlist\to\@strut
+      \gl@lopTL\everylist\to\gltoks@every
+      \gl@lopTL\@currentitem\to\gltoks@next
+      \edef\temp{\the\gltoks@sofar \@above\@strut\the\gltoks@every\the\gltoks@next \cr}%
+      \gltoks@sofar=\expandafter{\temp}%
+      \ifx\@currentitem\empty \gl@loopmorefalse \fi
+      \repeat
+   \psframebox[framesep=-.2pt,boxsep=false,linewidth=.4pt]{\vtop{%
+%      \gl@lineskipsave
+      \ling@everyglword
+      \halign{\glwordalign{##}\cr \the\gltoks@sofar}}}%
+   \endgroup
+}
+
+
+
+\resetatcatcode
+
+\lingset{exbreakfil=8ex}
+\raggedbottom
+\def\dimskip{\hskip.12em}
+\def\textdim#1{\textdimA#1 }
+\def\textdimA#1 #2 {\hbox{#1\dimskip #2}}
+\def\user{\raise.2ex\hbox{$\dag $}}
+\def\inc{(!)\kern.7pt}
+% ---- small caps
+%\font\twelvesc=cmcsc10 scaled\magstep1
+\let\sc=\twelvesc
+\def\textsc#1{{\sc #1}}
+%
+%\def\parvalue#1{{\tt \char"7C \kern-.6pt #1\kern-.6pt \char"7C }}
+\def\parvalue#1{Val(|#1|)}
+

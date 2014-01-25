@@ -1,8 +1,54 @@
 
-\hsize=2in
+\def\thesecno{%
+   \the\secno
+   \ifnum\subsecno > 0 .\the\subsecno
+      \ifnum \subsubsecno > 0 .\the\subsubsecno \fi
+   \fi
+}
+
+\writeln{\goop}
+
+xxx
+\section title
+
+xxx
+\writeln{\goop}
+\subsection title
+
+xxx
+\writeln{\goop}
+\subsubsection title
+
+xxx
+\writeln{\goop}
+
+\endinput
+
+
+
+\vsize=2in
+\leavevmode
+\vskip.5in
+\ex[glwordalign=center]
+\begingl[everygla=]
+\gla x  xx //
+\glb xx  x //
+\endgl\par\nobreak
+\xe
+
+\ex[glwordalign=center,glstyle=nlevel,glneveryline={}]
+\begingl
+x[xx]  xx[x]
+\endgl
+\xe
+
+\endinput
+
+
 \ex
-\begingl[glrightskip=0pt plus 1fil]
-\gla xxx xxx xxx xxx @ xxx @ xxx @ xxx//
+\begingl[glbrackbracksep=1em,glbrackwordsep=1em]
+\gla a [ [  bb ] ] //
+\glb x yy //
 \endgl
 \xe
 
