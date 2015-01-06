@@ -1,0 +1,74 @@
+Subject:   Re: dante.ctan.org upload: expex
+To:        ctan@dante.de
+On 1/25/2014 4:09 AM, Petra Ruebe-Pugliese wrote:
+
+Hello John,
+
+thanks for your upload:
+
+On Saturday 25 January 2014 at 03:28:26 +0100 ctan-upload@dante.de wrote:
+
+ Name of contribution: expex
+ Version number: 5.0
+ Author's name: John Frampton
+ Author's email: j.frampton@neu.edu
+ Location on CTAN: /macros/plain/contrib/expex
+ Summary description: Format linguistic examples and glosses, with reference capabilities
+ License type: lppl
+
+ Announcement text: Yes
+ ----------------------------------------------------------------------
+
+ 1) Major extension of the glossing macros to have the option of an entirely different input syntax.
+ 2) Glosses now break over pages, if desired.
+ 3) Provision for chapter.number numbering of examples in book.cls and other similar LaTex classes.
+
+ ----------------------------------------------------------------------
+  [...]
+
+ Notes to maintainers:
+ ------------------------------------------------------------------------
+ It now resides in ../plain/contrib but it has a .sty wrapper
+ and almost all users are LaTex users.  Where it sits is fine
+ with me, provided LaTex users have no problems finding it.
+
+   I created a symlink to /macros/latex/contrib/expex .
+ ------------------------------------------------------------------------
+
+  Notes to uploader:
+
+  1. Please do not forget to include into your upload file
+     expex*.zip a top level directory named "expex/" (cf. the
+     "xxx/" in  our explanation in the "Preparation" section of
+     http://www.ctan.org/upload).
+     This makes out installation process easier and safer.
+
+  2. Please use a good zip program like WinZip, the Windows 7/8
+     built-in or the zipper from info-zip.org, or make sure
+     that all your text files (here: the .sty and .tex files) have
+     UNIX type (LF only) line terminators.
+     The following files had Windows (CR-LF) line endings:
+             ./epltxchapno.sty
+             ./expex-demo.tex
+             ./expex.tex
+             ./epltxfn.sty
+             ./eptexfn.tex
+             ./expex.sty
+     (I remember having talked to you about that last August, and
+      you seem to have managed to produce the "text vs. binary"
+      flags at least once ...)
+
+  3. Your version date is still a bit ahead of times: 2014/01/27,
+     but never mind that   ;-)
+
+  I have installed the new files, replacing the old ones and
+  creating the symlink (softlink) mentioned above.
+
+  I will post the announcement after the delay of about 24 hours
+  necessary for the changes to get visible word-wide.
+
+       Kind regards
+    Petra Rübe-Pugliese
+     for the CTAN team
+
+

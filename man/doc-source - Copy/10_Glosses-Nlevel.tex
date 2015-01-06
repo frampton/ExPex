@@ -1,0 +1,397 @@
+
+
+%\makeatletter
+%\lingset{glnabovelineskip={0,7pt}}
+%\gl@lop\gln@abovelineskip\to\temp
+%\writeln{====\meaning\gln@abovelineskip}
+%\def\goop{\writeln{\meaning\gln@abovelineskip}}
+%\def\foop{\writeln{*****\meaning\gln@abovelineskip*****}}
+%\resetatcatcode
+%\foop
+%\ex[glstyle=nlevel,glneveryline={\it,\sc,\sc},
+%   glnabovelineskip={,-2pt}]
+%\bgroup
+%{\lingset{glstyle=nlevel,glneveryline={\it,\sc,\sc},
+%   glnabovelineskip={,-2pt}}}
+%\setlist\L{1,2}
+%\egroup
+%\foop
+
+
+
+
+\def\minigloss#1#2{\outlinebox{%
+   \vtop{\halign{\ministrut ##\hfil\cr #1\cr #2\cr}}}\hskip1pt}%
+\let\ministrut=\relax
+\def\miniglossbare#1#2{\vtop{\halign{##\hfil\cr
+   #1\cr #2\cr}}}
+\def\outlinebox{\psframebox[framesep=0,boxsep=false,linewidth=.4pt]}
+
+
+
+\section Nlevel glosses; an alternate coding syntax
+
+\deftagsec{nlevelsec}
+\begininventory
+\macros* \idx{|\endpreamble|}\endmc
+\parameters*
+\idx{|glstyle|}& |wrap| or |nlevel|& |wrap|\cr
+\endinventory
+The last section assumed the default setting, `wrap'.  The `nlevel'
+gloss style produces identical displays, but they are coded
+differently. Compare the two ways of coding the display (\nextx),
+which repeats (\getref{wapm}).
+
+\framedisplay
+\ex[glstyle=nlevel]
+\begingl
+k-[CL/2] wapm[V/see] -a[AGR/\sc 3acc] -s'i[NEG]
+-m[AGR/\sc 2pl] -wapunin[TNS/preterit] -uk[AGR/\sc 3pl]
+\glft `you (pl) didn't see them'
+\endgl
+\xe
+\endframedisplay
+
+\noindent
+\vtop{\hsize=3in \leftskip=0pt
+\codedisplay~
+\ex[glstyle=nlevel]
+\begingl
+k-[CL/2]
+wapm[V/see]
+-a[AGR/\sc 3acc]
+-s'i[NEG]
+-m[AGR/\sc 2pl]
+-wapunin[TNS/preterit]
+-uk[AGR/\sc 3pl]
+\glft `you (pl) didn't see them'
+\endgl
+\xe
+|endcodedisplay
+}
+\qquad
+\vtop{\hsize=3in \leftskip=0pt
+\codedisplay~
+\ex[glstyle=wrap]
+\begingl
+\gla k- wapm -a -s'i -m
+   -wapunin -uk //
+\glb CL V AGR NEG AGR TNS AGR //
+\glc 2 see {\sc 3acc} {}
+   {\sc 2pl} preterit {\sc 3pl} //
+\glft `you (pl) didn't see them'//
+\endgl
+\xe
+|endcodedisplay
+}
+
+The advantage to this style of coding complex glosses is that the
+gloss of a word and the word itself are adjacent in the code, just as
+they are in the display which is produced; vertically adjacent in the
+display, horizontally adjacent in the code. This makes the code much
+more readable. In effect, an aspect of WYSIWG is built into the
+coding. This is particularly useful if the gloss has many words, the
+gloss of a narrative for example.
+
+Putting aside consideration of the preamble and the free translation
+for the moment, the
+list between |\begingl| and |\endgl| is processed as a space separated
+list.  Only top level spaces are separators.  Spaces inside
+|[|\dots|]| are effectively hidden from this parsing.  So, for
+example, the space in |-a[AGR/\sc 3acc]| does not mislead the parser.
+The material inside |[|\dots|]| is processed as a |/| separated list.
+Of course, |/| in this material must be hidden from the parser so |/|
+cannot appear at the top level.  The same is true of |]|, for obvious
+reasons.
+
+The glossed words are written on separate lines above, but this is
+only for clarity.  The code below is equivalent.  It saves on virtual
+paper, but is not as easily deciphered.
+
+\codedisplay~
+\ex[glstyle=nlevel]\begingl k-[CL/2] wapm[V/see] -a[AGR/\sc 3acc]
+-s'i[NEG] -m[AGR/\sc 2pl] -wapunin[TNS/preterit] -uk[AGR/\sc 3pl] \glft
+`you (pl) didn't see them'\endgl\xe
+|endcodedisplay
+
+The preamble and free translation in the wrap style are terminated by
+|//|.  In the nlevel style, |\endpreamble| ends the preamble and
+|\endgl| terminates the free translation.  There is no special
+termination of the free translation.  This is illustrated by the
+coding of (\getref{sicher}) in the nlevel style.
+
+\codedisplay
+\ex[glstyle=nlevel]
+\begingl
+\glpreamble Mary ist sicher, dass es den Hans nicht st\"oren w\"urde
+seiner Freundin ihr Herz auszusch\"utten.\endpreamble
+Mary$_i$[Mary]
+ist[is]
+sicher,[sure]
+dass[that]
+es[it]
+den[the-\sc acc]
+Hans[Hans]
+nicht[not]
+st\"oren[annoy]
+w\"urde[would]
+seiner[his-\sc dat]
+Freundin[girlfriend-\sc dat]
+ihr$_i$[her-\sc acc]
+Herz[heart-\sc acc]
+auszusch\"utten.[out to throw]
+\glft  `Mary is sure that it would not annoy John to reveal her heart to his girlfriend.'
+\endgl
+\xe
+|endcodedisplay
+
+
+\subsection Parameters which modify particular lines
+
+The various lines in a gloss which is coded in the wrap style are
+identified by name, so parameters like |everygla| and |aboveglbskip|
+can be used to modify the named line.  |everygla| modifies the |\gla|
+line and |aboveglbskip| modifies the |\glb| line.  This method for
+modifying lines is not available for coding in the nlevel style
+because the lines are not numbered.
+Instead, they  must be referred to positionally.
+
+\begininventory
+\parameters
+\idx{|glneveryline|}& list of token lists& |{\it}|\cr
+\idx{|glnabovelineskip|}& list of dimensions& |{}|\cr
+\endinventory
+
+\framedisplay
+\ex[glstyle=nlevel,glneveryline={\it,\sc,\sc},
+   glnabovelineskip={,-2pt}]
+\begingl
+k-[cl/2]
+wapm[v/\rm see]
+-a[agr/3acc]
+-s'i[neg]
+-m[agr/\sc 2pl]
+-wapunin[tns/preterit]
+-uk[agr/3pl]
+\endgl
+\xe
+\endframedisplay
+\codedisplay~
+\ex[glstyle=nlevel,glneveryline={\it,\sc,\sc},
+   glnabovelineskip={,-2pt}]
+\begingl
+k-[cl/2]
+wapm[v/\rm see]
+-a[agr/3acc]
+-s'i[neg]
+-m[agr/\sc 2pl]
+-wapunin[tns/preterit]
+-uk[agr/3pl]
+\endgl
+\xe
+|endcodedisplay
+Note that a list of dimensions |{,-2pt}| with dimensions missing is
+acceptable; the missing dimensions are assumed to be |0pt|.  Missing
+entries in the value of |glneveryline|, either because the list is
+shorter than the number of lines in the interlinear gloss or because
+of null entries on the list, are similarly assumed to be null and
+cause no problem.  The material inside the brackets, or material
+delimited by |/| can be missing as well, but the brackets are
+mandatory.  Spaces after |[| or |/| are ignored, so for example,
+|wapm[v/\rm see]| and |wapm[ v/ \rm see]| produce the same output.
+
+There is no parameter |aboveglaskip| for use in the wrap coding style
+since vertical skip in the interlinear gloss makes sense only between
+lines.  Similarly, the first item in the list specified by
+|glnabovelineskip|, which corresponds to |\aboveglaskip|, is ignored.
+
+%\subsection The syntax of coding nlevel glosses
+%
+%\def\<#1>{$\langle$#1$\rangle$}
+%
+%Formally, the syntax of nlevel glosses can be given as a system of
+%rewriting rules.  Quantities in angle brackets are either specified in
+%other rewriting rules or explained in words. \<spaces> consists of one
+%or more spaces.  $\vert$ is logical or.
+%
+%\bigskip
+%\begingroup
+%\leftskip=\parindent
+%\parindent=0pt
+%\<gloss display> $\to$ |\begingl| \<interlinear gloss> \<spaces> |\endgl|
+%$\vert$\par \qquad |\begingl| \<interlinear gloss> \<spaces> |\glft|
+%\<free translation> |\endgl|
+%
+%\<interlinear gloss> $\to$ \<word gloss> $\vert$
+%   \<word gloss> \<spaces> \<interlinear gloss>
+%
+%\<word gloss> $\to$
+%   \<word> |[| \<gloss> |]| $\vert$
+%   \<word> |[| \<gloss> |]| \<diacritic>
+%
+%\<gloss> $\to$ \<gloss item> $\vert$ \<gloss item> |/| \<gloss>
+%
+%\<diacritic> $\to$ |@| $\vert$ |+|
+%\bigskip
+%\endgroup
+%\noindent
+%\<word>, and \<gloss item> must be material
+%which can appear in the context |\hbox{|\dots|}|. \<word> cannot
+%contain top-level spaces. \<gloss item> cannot contain either
+%top-level |/| or top-level |]| (but can contain top-level spaces).
+
+\subsection \ttcs{nogloss} and the diacritics {\tt @} and {\tt +}\thinspace
+
+\def\ge#1{\langle\hbox{\sl #1}\,\rangle}
+
+\noindent A word gloss $\ge{word}|[|\ge{gloss$_1$}|/|\ldots|]|$ can
+optionally be immediately followed by one of |@| and |+|.  A |@|
+cancels the usual space between the typeset word glosses.  A |+|
+introduces a line break.  This should be compared with the
+different syntax in the wrap style; see Sections \getref{atsec} and
+\getref{plussec}.  In the nlevel style they are diacritics; in the
+wrap style they are exceptional words.  For example, the following
+code produces the same output as the code which is given for
+(\getref{wiye}).
+
+\codedisplay
+\ex[glstyle=nlevel]
+\begingl wiye[two] kepi[whitemen] e-[\sc 1p:3d-]@ ca[found] \endgl
+\xe
+|endcodedisplay
+
+|\nogloss| in nlevel style glosses works very much
+the same way that it works in wrap style glosses.
+
+%\framedisplay
+%\ex
+%\begingl[glstyle=nlevel,glneveryline={},glhangindent=0pt]
+%Fa'nu'i[show] yu'[me] ni[Obl] {[[\thinspace}[]@
+%{\it O\/}[Op] t{\it in}aitai-mu[{\it WH\/}{[obj]}.read-agr]@
+%{{\it t}\thinspace]}[] na[L] {lepblu\thinspace ].}[book]
+%\endgl
+%\xe
+%\endframedisplay
+%\codedisplay~
+%\ex
+%\begingl[glstyle=nlevel,glneveryline={},glhangindent=0pt]
+%Fa'nu'i[show] yu'[me] ni[Obl] {[[\thinspace}[]@
+%{\it O\/}[Op] t{\it in}aitai-mu[{\it WH\/}{[obj]}.read-agr]
+%\bare{{\it t}\thinspace]} na[L] {lepblu\thinspace ].}[book]
+%\endgl
+%\xe
+%|endcodedisplay
+%
+%A term like |{[[\thinspace}[]| is somewhat confusing, because brackets
+%are both typeset and used to demarcate the gloss; |[[\thinspace| is a
+%word, but |[]| is an empty gloss.  The macro |\nogloss| is provided to
+%make the coding of examples with empty glosses more straightforward.
+
+\framedisplay
+\ex
+\begingl[glstyle=nlevel,glneveryline={}]
+Fa'nu'i[show]
+yu'[me] ni[Obl]
+\nogloss{[[\thinspace}@ {\it O}[Op]
+t{\it in\/}aitai-mu[{\it WH\/}{[obj]}.read-agr]
+\nogloss{{\it t}\thinspace ]}
+na[L]
+lepblu[book]@ \nogloss{].}
+\endgl
+\xe
+\endframedisplay
+\def\goop{\kern2pt \putfnno}
+\codedisplay
+\ex
+\begingl[glstyle=nlevel,glneveryline={}]
+Fa'nu'i[show]
+yu'[me]
+ni[Obl]
+\nogloss{[[\thinspace}@ {\it O}[Op]
+t{\it in\/}aitai-mu[{\it WH\/}{[obj]}.read-agr]
+\nogloss{{\it t}\thinspace ]}
+na[L]
+lepblu[book]@ \nogloss{].}
+\endgl
+\xe|goop
+|endcodedisplay
+\vfootnote{\the\fnno}{%
+Italics are used to highlight an infix in the verb in the
+relative clause.  The spacing could be improved.  Horizontal skip should be
+used ; |{\it \hskip.8pt in\hskip.4pt}|, for example.}
+
+\subsection Line spacing inside glwords
+
+One spacing problem that is handled automatically in the wrap style
+must be handled by the user in the nlevel style.  It is not common,
+but is worth mentioning because it might cause a perplexing problem if
+it does arise.  Characters on lower levels which are extra tall can
+cause misalignment of the baselines.  Suppose, for example, that you
+want to use a gloss to give some information about the
+morphophonological derivation of a surface form, as is attempted
+in (\nextx).
+
+\framedisplay
+\ex[glstyle=nlevel,glneveryline={\it}]
+\gdef\AccentedBarredW{$\acute{\hbox{$\overline w$}}$}%
+\begingl m-[(mo-)] wope[(a\AccentedBarredW ope)] \endgl \xe
+\endframedisplay
+\codedisplay
+\ex[glstyle=nlevel,glneveryline={\it}]
+\begingl m-[(mo-)] wope[(a\AccentedBarredW ope)] \endgl \xe
+|endcodedisplay
+Not only is more space between the lines needed, but there is
+misalignment of the baselines on the second level.
+
+One might think to fix the problem in (\lastx) by putting extra
+vertical skip between the lines of the gloss, as in the code below.
+
+\codedisplay
+\ex[glstyle=nlevel,glneveryline={\it},glnabovelineskip={,.5ex}]
+\begingl m-[(mo-)] wope[(a\AccentedBarredW ope)] \endgl \xe
+|endcodedisplay
+
+But the result is less than satisfactory:
+
+\framedisplay
+\ex[glstyle=nlevel,glneveryline={\it},glnabovelineskip={,.5ex}]
+\begingl m-[(mo-)] wope[(a\AccentedBarredW ope)] \endgl \xe
+\endframedisplay
+There is now vertical space over the second line of the glwords, but
+the baselines of the second lines of the glwords are not aligned.  In
+wrap style coding, the material for all of the glwords is accumulated
+before any of the glwords are constructed, so the presence of an extra
+tall line in the second glword is known before the first glword is
+constructed.  An adjustment is made to preserve baseline alignment. In
+nlevel style coding, the first glword is boxed and contributed to a
+paragraph before the material to construct the second glword is read,
+so there is no way for any adjustment to be made automatically.
+
+There are two solutions.  One solution for the problem above is to
+insert extra tall struts on the second line of every glword.
+Normal struts in the 12pt type used in this manual are \textdim{10 pt}
+high and \textdim{4 pt} deep.  The following code will produce (\nextx).
+
+\codedisplay
+\ex[glstyle=nlevel,glneveryline={\it,\vrule height14pt width0pt}]
+\begingl m-[(mo-)] wope[(a\AccentedBarredW ope)] \endgl
+\xe
+|endcodedisplay
+\framedisplay~
+\ex[glstyle=nlevel,glneveryline={\it,\vrule height14pt width0pt}]
+\begingl m-[(mo-)] wope[(a\AccentedBarredW ope)] \endgl \xe
+\endframedisplay
+
+Another solution is to increase the baselineskip inside glwords.
+
+\codedisplay
+\ex[glstyle=nlevel,glneveryline={\it},everyglword={\baselineskip=18pt}]
+\begingl m-[(mo-)] wope[(a\AccentedBarredW ope)] \endgl \xe
+|endcodedisplay
+\framedisplay~
+\ex[glstyle=nlevel,glneveryline={\it},everyglword={\baselineskip=18pt}]
+\begingl m-[(mo-)] wope[(a\AccentedBarredW ope)] \endgl
+\xe
+\endframedisplay
+
+

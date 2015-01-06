@@ -1,8 +1,7 @@
 
-\section More on Glosses
+\section Glosses; Special topics\par\nobreak
 
-\vskip-2ex
-\subsection User defined levels
+\subsection* User defined levels
 
 \begininventory
 \macros* \idx{|\defineglwlevels|}\endmc
@@ -64,7 +63,6 @@ interlinear gloss
 \idx{|sssep|}& dimension& 3\dimskip em\cr
 \idx{|ssratio|}& decimal& |.6 |\cr
 \idx{|ssrightskip|}& skip& 0\dimskip pt plus 2\dimskip em\cr
-\idx{|glhangstyle|}& |normal|, |none|, or |cascade|& |normal|\cr
 \endinventory
 
 \lingset{everygl=\openup.5ex,
@@ -211,7 +209,6 @@ The complete code for the example above is:
 
 \codedisplay
 \ex[everypanel=\footnotesize]<panelex>
-\def\\#1{{\footnotesize\uppercase{#1}}}%
 \let\\=\textsc
 \beginglpanel[ssratio=.5,glhangstyle=none]
 \gla Hom\^{a}o$^1$ sa \v{c}\^{o} p\^{o} tha  \~{n}u nao ng\u{a}
@@ -268,6 +265,7 @@ appear after it is typeset.
 
 \subsection Cascading hanging indentation in glosses
 
+\deftagsec{cascadingsec}
 \raggedbottom
 \lingset{glhangindent=.25in,everygl=\openup.5ex,
    everyglword=\normalbaselines,everyglft=\normalbaselines,
@@ -297,7 +295,7 @@ peacock beside its nest.'//
 \xe
 \endframedisplay
 
-is achieved by
+is produced by
 \codedisplay~
 \ex[glhangstyle=cascade]
 \let\\=\textsc
@@ -334,7 +332,7 @@ peacock beside its nest.'//
 desired, with grammatical markings written below the gloss.
 
 \framedisplay
-\ex[glhangstyle=normal,glufcloseup=.4ex,everygluf=\footnotesize]
+\ex[glufcloseup=.4ex,everygluf=\footnotesize]
 \begingl
 \gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren
    w\"urde seiner Freundin ihr$_i$ Herz auszusch\"utten.//
@@ -351,7 +349,7 @@ would not damage John.'//
 construct such a display.
 
 \codedisplay
-\ex[glhangstyle=normal,glufcloseup=.4ex,everygluf=\footnotesize]
+\ex[glufcloseup=.4ex,everygluf=\footnotesize]
 \begingl
 \gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren
    w\"urde seiner Freundin ihr$_i$ Herz auszusch\"utten.//
@@ -374,5 +372,209 @@ up.  Without some closeup, the underfixes are not positioned close
 enough to the glosses they modify (in my opinion). The macro |\gluf|
 centers the underfix below the word it annotates.  Its syntax should
 be clear from the example above.
+
+The introduction of the nlevel gloss style makes |\gluf| unnecessary.
+Its use should be avoided in the future because it will be removed
+from \ExPex\ in some future version.  The code below shows (\lastx)
+would be coded in the nlevel style.
+
+\codedisplay
+\ex[glstyle=nlevel,glneveryline={\it,,\footnotesize},
+   glnabovelineskip={,,-.4ex},extraglskip=0pt]
+\begingl
+Mary$_i$[Mary]
+ist[is]
+sicher,[sure]
+dass[that]
+es[it]
+den[the/ACC]
+Hans[Hans]
+nicht[not]
+st\"oren[annoy]
+w\"urde[would]
+seiner[his/DAT]
+Freundin[girlfriend/DAT]
+ihr$_i$[her/ACC]
+Herz[heart/ACC]
+auszusch\"utten.[out to throw]
+\glft `Mary is sure that to reveal her heart to his girlfriend
+would not damage John.'
+\endgl
+\xe
+|endcodedisplay
+
+The result is almost, but not quite, identical to (\lastx).  The
+underfixes are positioned somewhat differently, not center aligned
+under the word above them.
+
+\framedisplay
+\ex[glstyle=nlevel,glneveryline={\it,,\footnotesize},
+   glnabovelineskip={,,-.4ex},extraglskip=0pt]
+\begingl
+Mary$_i$[Mary]
+ist[is]
+sicher,[sure]
+dass[that]
+es[it]
+den[the/ACC]
+Hans[Hans]
+nicht[not]
+st\"oren[annoy]
+w\"urde[would]
+seiner[his/DAT]
+Freundin[girlfriend/DAT]
+ihr$_i$[her/ACC]
+Herz[heart/ACC]
+auszusch\"utten.[out to throw]
+\glft `Mary is sure that to reveal her heart to his girlfriend
+would not damage John.'
+\endgl
+\xe
+\endframedisplay
+See (\getref{wapm2}) below for a gloss display in the nlevel style
+which is closer to (\blastx).
+
+\subsection Center alignment in glwords
+
+\begininventory
+\parameters*
+\idx{|glwordalign|}& |left| or |center|& |left|\cr
+\endinventory
+When glwords are assembled, in either the wrap or nlevel styles, an
+alignment inside a vbox is constructed.  The alignments use an |\hfil|
+on the right, so that the text on the various lines of a glword is
+left aligned.  The parameter |glwordalign| allows the choice of center
+alignment.  This is occasionally useful.  Compare, for example,
+(\nextx) with (\getref{wapm2}).
+
+\framedisplay
+\ex[glspace=1.5em,everygla=\hfil,glwordalign=center,
+   everyglc=\hfil,aboveglbskip=-.2ex]<wapm2>
+\begingl
+\gla k- wapm -a -s'i -m -wapunin -uk //
+\glb CL V AGR NEG AGR TNS AGR //
+\glc 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
+\glft `you (pl) didn't see them'//
+\endgl
+\xe
+\endframedisplay
+\codedisplay~
+\ex[glspace=1.5em,everygla=\hfil,glwordalign=center,
+   everyglc=\hfil,aboveglbskip=-.2ex]
+\begingl
+\gla k- wapm -a -s'i -m -wapunin -uk //
+\glb CL V AGR NEG AGR TNS AGR //
+\glc 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
+\glft `you (pl) didn't see them'//
+\endgl
+\xe
+|endcodedisplay
+
+Center alignment in glwords is useful if you need to number the
+glwords; to facilitate discussion, for example.
+
+\framedisplay
+\ex[glstyle=nlevel,glhangstyle=cascade,
+   glneveryline={\insertno,\it,},
+   glwordalign=center,
+   glnabovelineskip={,-1pt},glspace=!.4em]
+\putfnno
+\count255=1
+\def\insertno{\eightrm(\the\count255)\global\advance\count255 by 1}%
+\begingl[]
+[Hom\^{a}o/\textsc{exist}]
+[sa/one]
+[\v{c}\^{o}/\textsc{clf}]
+[p\^{o}/person]
+[tha/old]
+[\~{n}u/\textsc{3s}]
+[nao/go]
+[ng\u{a}/do]
+[hmua./field]
+[\~{N}u/\textsc{3s}]
+[dj\u{a}/hold]
+[g\u{a},/machete]
+[\~{n}u/\textsc{3s}]
+[dj\u{a}/hold]
+[\v{c}\u{o}ng/hoe]
+[\~{n}u,/\textsc{3s}]
+[laih/and]
+[gui/carry.on.back]
+[r\^{e}o/back.basket]
+[\~{n}u./\textsc{3s}]
+[Todang/while]
+[bboi/at]
+[r\^{o}k/along]
+[jolan/trail]
+[\~{n}u/\textsc{3s}]
+[nao/go]
+[hma,/field]
+[\~{n}u/\textsc{3s}]
+[bb\^{o}h/see]
+[sa/one]
+[droi/\textsc{clf}]
+[mr\u{a}/peacock]
+[d\u{o}/stay]
+[bboi/at]
+[gah,/\textsc{drct}]
+[a,/--]
+[hruh/nest]
+[\~{n}u./\textsc{3s}]
+\glft
+`There was an old person who went to work in the field. He took
+along his machete, he took along his hoe, and he carried his
+basket on his back. While he was on his way to the farm, he saw a
+peacock beside its nest.'
+\endgl
+\xe
+\endframedisplay
+\def\goop{\quad $\vdots$ \par}%
+\codedisplay~
+\ex[glstyle=nlevel,glhangstyle=cascade,
+   glneveryline={\insertno,\it,},glwordalign=center,
+   glnabovelineskip={,-1pt},glspace=!.4em]
+\begingl
+(1)[Hom\^{a}o/\textsc{exist}]
+(2)[sa/one]
+(3)[\v{c}\^{o}/\textsc{clf}]
+(4)[p\^{o}/person]
+|goop
+(35)[gah,/\textsc{drct}]
+(36)[a,/--]
+(37)[hruh/nest]
+(38)[\~{n}u./\textsc{3s}]
+\glft  |dots
+\endgl
+\xe
+|endcodedisplay
+
+Numbering can be automated.  One way to do this is below.
+
+\codedisplay
+\ex[glstyle=nlevel,glhangstyle=cascade,glneveryline={\hfil\insertno,\it,},
+   glnabovelineskip={,-1pt},glspace=!.4em]
+\count255=1|putfnno
+\def\insertno{\eightrm(\the\count255)\global\advance\count255 by 1}%
+\begingl[]
+[Hom\^{a}o/\textsc{exist}]
+[sa/one]
+[\v{c}\^{o}/\textsc{clf}]
+[p\^{o}/person]
+[tha/old]
+[\~{n}u/\textsc{3s}]
+|goop
+|endcodedisplay
+\vfootnote{\the\fnno}{\Tex\ reserves |\count255| for scratchwork.
+Since the assignment needs to be global, it is important to use a
+count register that does not serve another purpose.  If a named count
+register is available, it would be better to use that register.}%
+Note carefully that |\begingl| has been supplied with an empty
+argument.  Otherwise the parser would have been confused and |[Hom|\dots\
+would have been interpreted as an optional argument.  An alternative
+would have been |\begingl{}[Hom|\dots\ or \thinspace|\begingl\relax[Hom|\dots\thinspace.
+
+
+
+
 
 

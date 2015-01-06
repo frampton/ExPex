@@ -1,0 +1,126 @@
+
+\section User defined styles
+
+\begininventory
+\macros* \idx{|\definelingstyle|}\endmc
+\parameters
+\idx{|everyex|\user}& token list& |{}|\cr
+\idx{|Everyex|\user}& token list& |{}|\cr
+\idx{|lingstyle|}& list of key settings (see below)& |{}|\cr
+\endinventory
+%
+Aside from all the \ExPex\ parameters introduced to this point,
+there are numerous \Tex\ parameters that affect the appearance
+of examples: line spacing, hsize, font selection, etc.  These are
+all quantities that \Tex\ itself provides mechanisms for setting
+to suit the user.  You may want to make adjustments of these
+parameters every time a particular kind of example is typeset, so
+that special settings hold inside these examples independently of
+the contextual settings.  For example, suppose you have many
+examples that, for some reason, you want to format like~(\nextx),
+with a narrow width, italic font, an oversized gap between the
+example number and the text, and a somewhat greater than normal
+separation between baselines.
+
+\framedisplay
+\leftline{\vbox{%
+\ex[textoffset=3em]
+\hsize=3in \rightskip=0pt plus 2em \it \advance\baselineskip by 2pt
+Und hier k\"onnen wir sehen was f\"ur Unfug wird gemacht
+wenn er einen ganz langen Satz binnen kriegt.
+\xe
+}\hfil}
+\endframedisplay
+
+One way to do this is:
+
+\codedisplay~
+\ex[textoffset=3em]
+\hsize=3in \rightskip=0pt plus 2em \it \advance\baselineskip by 2pt
+Und hier k\"onnen wir sehen was f\"ur Unfug wird gemacht
+wenn er einen ganz langen Satz binnen kriegt.
+\xe
+|endcodedisplay
+Some rightskip is included because with such a narrow width it is
+otherwise difficult to avoid overfull lines.
+
+If you have many examples that you want to typeset in this way
+that are scattered throughout a document, it is awkward to have
+to remember all of these settings and enter them each time an
+example of this kind needs to be formatted.  Furthermore, if you
+change your mind about some detail of this special formatting,
+you need to go through the document and change each instance of
+this formatting.  \ExPex\ allows you to package all the
+formatting changes into one named unit, called a ``style''.  If
+this style is called ``narrow italic'', then you can write the following
+to achieve the format of (\lastx).
+
+\codedisplay
+\ex[lingstyle=narrow italic]
+|endcodedisplay
+
+The various format specifications are packaged into a style
+by saying:\sidx{|lingstyle|}
+
+\codedisplay
+\definelingstyle{narrow italic}{textoffset=3em,
+   everyex={\hsize=3in \rightskip=0pt plus 2em
+      \it \advance\baselineskip by 2pt}}
+|endcodedisplay
+Thereafter, setting the parameter |lingstyle| to |narrow italic|
+has the effect of setting all the parameters as specified in the
+style definition (the two parameters |textoffset| and |everyex|
+in this example). The parameter |everyex| works in the following
+way.  If |everyex| is set to {\sl value\/}, a macro |\lingeveryex|
+is defined whose expansion is {\sl value}.  When
+an |\ex| or |\pex| construction is initiated, {\it after\/} any
+parameter settings take effect, |\lingeveryex| is executed.
+
+\ExPex\ provides a second parameter, |Everyex|, which is similar to
+|expex|.  If |Expex| is set to value, a macro |ling@Everypex| is
+defined. When
+an |\ex| or |\pex| construction is initiated, {\it before\/} after any
+local parameter changes take effect, |\lingEveryex| is executed.
+The reasons for providing both |everyex| and |Everyex| are
+subtle. Different stages of the writing/rewriting/editing process
+may call for different treatments of example formatting,
+particularly if the final aim is a camera ready product.  Suppose
+you normally make double spaced drafts with an hsize of
+\textdim{6.5 in} and that your final aim is to produce camera ready copy with
+an hsize of \textdim{4.375 in}.  Suppose also that you are at
+editing stage where you want to see exactly how the examples
+will be formatted in the finished product, but still want full width
+double spaced text.  One way to accomplish this is to say
+
+\codedisplay
+\lingset{everyex={\hsize=4.375in \normalbaselines}}
+|endcodedisplay
+at the beginning of your document.  |\normalbaselines|
+is a standard \Tex\ macro which establishes the normal line
+spacing for the current font.  This makes the hsize and line
+spacing inside examples independent of the hsize and line spacing
+you select for the text (outside examples).
+
+This will accomplish what you want.  But it makes the further use
+of |everyex| in your document awkward.  If you want a particular
+example to be set in italics, for example, you might think to
+use:
+
+\codedisplay
+\ex[everyex=\it]
+|endcodedisplay
+
+\noindent This will certainly produce an italicized example
+because |\it| will be evaluated early on in typesetting the
+example.  But it has the unfortunate consequence of overwriting
+the initial setting of |everyex|, removing the special line
+spacing within examples.
+
+|Everyex| is provided to accommodate situations like this. The
+intention is that special settings that should hold inside
+examples throughout the document are assigned to |Everyex|, with
+|expex| reserved for local variations.  Since |\lingEveryex| is
+evaluated before local parameter changes take effect, parameter
+settings specified by |Expex| will be overridden by any local
+parameter settings.
+

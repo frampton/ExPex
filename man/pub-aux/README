@@ -1,0 +1,30 @@
+
+Publishing a new edition
+
+If there is no new version of the User's Guide:
+
+1) Make sure that all files use LF eol termination.  Run CRLF2LF (with
+appropriate intro configuration).
+
+2) Use Windows compression so that there is an expex folder at the
+highest level in the zip file.
+
+3) Look at CTAN.txt for comments on last upload.
+
+-----------------------------------------------------------------------
+
+If there is a new version of the User's Guide, there are two Python
+scripts which help.
+
+1) mkinventory.py goes though ..\..\expex\expex.tex and extracts an
+index of all public macro definitions and all parameters.  It is
+useful for editing the User's Guide to ensure that everything is
+covered.
+
+2) process_idx.py generates ..\0-index.tex from 0.idx.  0-index.tex might
+need some minor tweaks, but it is more or less good from the start.
+
+
+
+
+

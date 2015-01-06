@@ -723,8 +723,8 @@
    \gl@beginglstyle
 }
 % parameters which are used in both gloss styles
-\define@ling@cmdkeys{everygl,everyglpreamble,everyglilg,everyglft}
-\define@ling@cmdkeys{everyglword,glrightskip,glhangindent,glwidth}
+\define@ling@cmdkeys{everygl,everyglpreamble,everyglilg, everyglft,
+   everyglword,glrightskip,glhangindent,glwidth}
 \define@lingincskipkeys{glspace,aboveglftskip,belowglpreambleskip,extraglskip}
 \newbox\glstrutbox
 \def\glstrut{\unhcopy\glstrutbox}
@@ -1234,14 +1234,12 @@
    \ling@everyglft
 }
 \def\gln@endgl{\par\egroup\egroup\egroup\egroup}
-\define@lingkey{glneveryline}{\setlist\gln@everyline{#1}}
-\define@lingkey{glnabovelineskip}{\setlist\gln@abovelineskip{#1}%
+\define@lingkey{glneveryline}{\ep@setlist\gln@everyline{#1}}
+\define@lingkey{glnabovelineskip}{\ep@setlist\gln@abovelineskip{#1}%
    \gl@lop\gln@abovelineskip\to\temp
    \gl@push{}\to\gln@abovelineskip
    }
-\def\setlist#1#2{\def#1{}\XKV@for@n{#2}\@this{\gl@eappend\@this\to#1}}
-%\def\ep@setlist#1#2{\def#1{}\XKV@for@n{#2}\@this{\expandafter\ep@append\@this\to#1}}
-%\def\setlist#1#2{\def#1{}\XKV@for@n{#2}\@this{\expandafter\gl@normalappend\@this\to#1}}
+\def\ep@setlist#1#2{\def#1{}\XKV@for@n{#2}\@this{\gl@eappend\@this\to#1}}
 \lingset{glneveryline={\it},glnabovelineskip={}}
 %%%%%%%%%%%%%%%% end nlevel %%%%%%%%%%%%%%%%%%%%
 

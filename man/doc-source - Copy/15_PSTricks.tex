@@ -1,0 +1,94 @@
+
+\everymath={}%
+
+\section ExPex and PSTricks
+
+\begininventory
+\macros* \idx{|\Lingset|}\endmc
+\endinventory
+Several features of \ExPex\relax, listed in (\nextx), come into
+play only if {\sl pstricks.tex\/} has been loaded at the point
+that {\sl expex.tex\/} is loaded.  They are intended to make it
+easier to use {\sl PSTricks\/} in examples.
+
+\pex[labeltype=numeric]
+\a |\Lingset| is activated.  It works like |\lingset|, but if
+there are parameters which are not in the family {\sl ling}, they are
+passed to |\psset|.
+\a The family {\sl ling\/} is added to the set of parameter families
+which |\psset| can set.
+\a The optional argument of |\ex|, |\pex|, and |\exdisplay| is
+passed to |\Lingset|.
+\xe
+
+\noindent |\Lingset| first scans its argument from left to right
+and sets all the parameters from the family {\sl ling}.  The
+remaining keys are then passed to |\psset|.  If {\sl PSTricks\/}
+has not been loaded, |\Lingset| is defined, but its meaning is
+the meaning of |\lingset|.
+
+This is illustrated by (\nextx).
+
+\medskip
+\framedisplay%[exclude]
+\ex[angle=-90,nodesep=0pt,arrows=->,labelsep=.25ex,linearc=.7ex,
+   dima=.2em]
+\def\\#1(#2){\rnode{#2}{\strut #1}}%
+%
+\vrule height0pt depth5.3ex width0pt
+\\Whom(A) did John persuade \\t(B) [ PRO to visit \\whom(C) ]
+\ncbar[armA=3.5ex,offsetB=\lingdima]{B}{A}
+\bput{0}{$M_{sp}=2$}
+\ncbar[armA=4.5ex,offsetB=-\lingdima]{C}{A}
+\bput{0}(1.2){$M_{sp}=6$}
+\xe
+\endframedisplay
+
+\noindent (The example is from Juan Uriagereka, in {\sl The Role
+of Economy Principles in Linguistic Theory}.)
+
+In the code below, note that the optional argument of |\ex| is
+used to set the \PSTricks\ parameters |angle|, |arrows|,
+|nodesep|, |labelsep|, and |linearc|, and the \ExPex\ parameter
+|dima|.  Note also that the \ExPex\ scratch dimension
+|\lingdima| is used seamlessly by the {\sl PST-Node\/} macros.
+
+\CLnum
+\ex[angle=-90,nodesep=0pt,arrows=->,dima=.2em, labelsep=.25ex,
+   linearc=.7ex]
+\def\\#1(#2){\rnode{#2}{\strut #1}}%
+%
+\vrule height0pt depth5.3ex width0pt
+\\Whom(A) did John persuade \\t(B) [ PRO to visit \\whom(C) ]
+\ncbar[armA=3.5ex,offsetB=\lingdima]{B}{A}
+\bput{0}{$M_{sp}=2$}
+\ncbar[armA=4.5ex,offsetB=-\lingdima]{C}{A}
+\bput{0}(1.2){$M_{sp}=6$}
+\xe |endCLnum
+
+\noindent Since the connections which \PSTricks\ draws are
+dimensionless, a zero width |\vrule| is used to give correct
+spacing.  (The width can first be made nonzero so it is visible,
+and the depth adjusted.)
+
+The following gives the same result.\exbreak
+
+\CLnum
+\ex
+\psset{angle=-90,nodesep=0pt,arrows=->,dima=.2em,labelsep=.25ex,
+   linearc=.7ex}|endCLnum
+\removelastskip
+\hskip.7in $\vdots$
+\vskip1em
+
+|\Lingset| and |\psset| are not entirely equivalent, even when
+\PSTricks\ is active.  If a key name in the family {\sl ling\/}
+is the same as a key name in another family which has also been
+added as part of the \PSTricks\ extended family, |\Lingset| will
+treat it unambiguously as in the {\sl ling\/} family.   |\psset|,
+on the other hand, does not give priority to keys in the {\sl
+ling\/} family.  Exactly how |\psset| establishes priority is a
+complex matter, depending on the history of the formation of the
+\PSTricks\ extended family.
+
+

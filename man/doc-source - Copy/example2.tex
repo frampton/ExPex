@@ -1,0 +1,53 @@
+
+\vfil\eject
+\introsec{Named reference}
+
+\codedisplay
+If examples and parts of examples are tagged, they can be
+referred to by name.
+
+\pex<pg>
+\a This is the man that John interviewed {\sl e\/} before
+telling you that you should give the job to~{\sl e}.
+\a<A> This is someone who John expected {\sl e\/} to be successful
+though believing {\sl e\/} to be incompetent.
+\xe
+
+Now, names can be used.  The name/reference pairs can be written
+to a file, making forward reference possible and backwards
+reference at a distance reliable.  You can refer to part
+\getref{pg.A} of example (\getref{pg}), or (\getfullref{pg.A}).
+
+If you use a tag that has not been defined, {\sl ExPex\/} will
+let you know. If you try to reference a name which has no
+reference, \getref{pg.B} for example, a warning will be issued
+and the (bracketed) tag printed as shown at the beginning of this
+sentence.  If you try to tag a part of an example which has no
+tag, {\sl ExPex\/} will let you know about that as well.
+|endcodedisplay
+
+\framedisplay~
+\bigskip
+If examples and parts of examples are tagged, they can be
+referred to by name.
+
+\pex<pg>
+\a This is the man that John interviewed {\sl e\/} before
+telling you that you should give the job to~{\sl e}.
+\a<A> This is someone who John expected {\sl e\/} to be successful
+though believing {\sl e\/} to be incompetent.
+\xe
+
+Now, names can be used.  The name/reference pairs can be written
+to a file, making forward reference possible and backwards
+reference at a distance reliable.  You can refer to part
+\getref{pg.A} of example (\getref{pg}), or (\getfullref{pg.A}).
+
+If you use a tag that has not been defined, {\sl ExPex\/} will
+let you know. If you try to reference a name which has no
+reference, \getref{pg.B} for example, a warning will be issued
+and the (bracketed) tag printed as shown at the beginning of this
+sentence.  If you try to tag a part of an example which has no
+tag, {\sl ExPex\/} will let you know about that as well.
+\bigskip
+\endframedisplay

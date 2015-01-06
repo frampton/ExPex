@@ -1,0 +1,374 @@
+
+\section More about glosses
+
+\deftagsec{moreaboutsec}
+\subsection The parameter {\tt glwidth}
+
+\begininventory
+\parameters*
+\idx{|glwidth|}& dimension& \textdim{0 pt}\cr
+\endinventory
+If the parameter |glwidth| is set to a nonzero value, the gloss is
+built in a vbox whose width is the setting of |glwidth|. The following
+example illustrates the usefulness of the explicit width option.
+
+\ex[glwidth=2.6in]<sicher2>
+a.\quad
+\begingl
+\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
+seiner Freundin ihr$_i$ Herz auszusch\"utten.//
+\glb Mary is sure that it the-{\sc acc} Hans not annoy would
+his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
+throw}//
+\glft  `Mary is sure that it would not annoy John to reveal her
+heart to his girlfriend.'//
+\endgl
+\hfil
+b.\quad
+\begingl
+\gla Mary$_i$ ist sicher, dass seiner Freunden ihr$_i$ Herz
+auszuch\"utten dem Hans nicht schaden w\"urde.//
+\glb Mary is sure that his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc}
+heart-{\sc acc} {out to throw} the-{\sc dat} Hans not damage would//
+\glft `Mary is sure that to reveal her heart to his girlfriend
+would not damage John.'//
+\endgl
+\xe
+
+\codedisplay~
+\ex[glwidth=2.6in]
+a.\quad
+\begingl
+\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
+seiner Freundin ihr$_i$ Herz auszusch\"utten.//
+\glb Mary is sure that it the-{\sc acc} Hans not annoy would
+his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
+throw}//
+\glft  `Mary is sure that it would not annoy John to reveal her
+heart to his girlfriend.'//
+\endgl
+\hfil
+b.\quad
+\begingl
+\gla Mary$_i$ ist sicher, dass seiner Freunden ihr$_i$ Herz
+auszuch\"utten dem Hans nicht schaden w\"urde.//
+\glb Mary is sure that his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc}
+heart-{\sc acc} {out to throw} the-{\sc dat} Hans not damage would//
+\glft `Mary is sure that to reveal her heart to his girlfriend
+would not damage John.'//
+\endgl
+\xe
+|endcodedisplay
+
+
+
+%
+%
+%
+%\subsection The width of the gloss
+%
+%In the wrap style (the only gloss style currently implemented),
+%the gloss is built in a vbox whose width is determined implicitly
+%if the parameter |glwidth| is set to \textdim{0 pt}. The width is
+%$h-l-r$, where $h$, $l$, and $r$, are the current values of
+%|\hsize|, |\leftskip|, and |\rightskip|, respectively.  This
+%implicit determination of the width of the gloss is appropriate
+%for use with the \ExPex\ macros which typeset examples because
+%they adjust the leftskip appropriately inside examples.
+%
+%If you want to supply an example number or explicit label, it will not
+%work to say something like the following if |glwidth| is set to
+%\textdim{0 pt}.
+%
+%\def\goop{\dots\ }
+%\codedisplay
+%[A]\quad \begingl |goop \endgl
+%|endcodedisplay
+
+%The vbox built by the gloss macro will not fit on the same line with
+%the [A].
+%
+%You must say:
+%
+%\def\temp{\dots }
+%\codedisplay
+%\ex[exno=A,exnoformat={[X]}] \begingl |temp \endgl
+%|endcodedisplay
+%The braces around |[A]| are needed to so that the optional argument
+%is correctly delineated.  For example:
+%
+%\framedisplay
+%\ex[exno={(6), p. 14},exnoformat={[X]}]
+%\begingl
+%\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
+%seiner Freundin ihr$_i$ Herz auszusch\"utten.//
+%\glb Mary is sure that it the-{\sc acc} Hans not annoy would
+%his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
+%throw}//
+%\endgl
+%\xe
+%\endframedisplay
+%\codedisplay~
+%\ex[exno={(6), p. 14},exnoformat={[X]}]
+%\begingl
+%\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
+%seiner Freundin ihr$_i$ Herz auszusch\"utten.//
+%\glb Mary is sure that it the-{\sc acc} Hans not annoy would
+%his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
+%throw}//
+%\endgl
+%\xe
+%|endcodedisplay
+%
+%If the parameter |glwidth| is set to a nonzero dimension, the width of
+%the vbox that the gloss is constructed in is the specified dimension.
+%
+%The following example illustrates the usefulness of the explicit
+%width option.
+%
+%\ex[glwidth=2.6in]<sicher2>
+%a.\quad
+%\begingl
+%\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
+%seiner Freundin ihr$_i$ Herz auszusch\"utten.//
+%\glb Mary is sure that it the-{\sc acc} Hans not annoy would
+%his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
+%throw}//
+%\glft  `Mary is sure that it would not annoy John to reveal her
+%heart to his girlfriend.'//
+%\endgl
+%\hfil
+%b.\quad
+%\begingl
+%\gla Mary$_i$ ist sicher, dass seiner Freunden ihr$_i$ Herz
+%auszuch\"utten dem Hans nicht schaden w\"urde.//
+%\glb Mary is sure that his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc}
+%heart-{\sc acc} {out to throw} the-{\sc dat} Hans not damage would//
+%\glft `Mary is sure that to reveal her heart to his girlfriend
+%would not damage John.'//
+%\endgl
+%\xe
+%
+%\codedisplay~
+%\ex[glwidth=2.6in]
+%a.\quad
+%\begingl
+%\gla Mary$_i$ ist sicher, dass es den Hans nicht st\"oren w\"urde
+%seiner Freundin ihr$_i$ Herz auszusch\"utten.//
+%\glb Mary is sure that it the-{\sc acc} Hans not annoy would
+%his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc} heart-{\sc acc} {out to
+%throw}//
+%|exbreak\glft  `Mary is sure that it would not annoy John to reveal her
+%heart to his girlfriend.'//
+%\endgl
+%\hfil
+%b.\quad
+%\begingl
+%\gla Mary$_i$ ist sicher, dass seiner Freunden ihr$_i$ Herz
+%auszuch\"utten dem Hans nicht schaden w\"urde.//
+%\glb Mary is sure that his-{\sc dat} girlfriend-{\sc dat} her-{\sc acc}
+%heart-{\sc acc} {out to throw} the-{\sc dat} Hans not damage would//
+%\glft `Mary is sure that to reveal her heart to his girlfriend
+%would not damage John.'//
+%\endgl
+%\xe
+%|endcodedisplay
+
+
+\subsection Comments and citations
+
+\begininventory
+\macros
+\idx{|\trailingcitation|}, \idx{|\rightcomment|}\endmc
+\parameters
+\idx{|mincitesep|}& dimension& \textdim{1.5 em}\cr
+\idx{|everytrailingcitation|}& token list& empty\cr
+\endinventory
+
+The following illustrates two different ways to append a comment or
+citation to a gloss.
+
+\framedisplay
+\ex
+\begingl
+\gla \rightcomment{[Potawatami]}k- wapm -a -s'i -m -wapunin -uk //
+\glb \rightcomment{category}Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
+\glb 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
+\glft `you (pl) didn't see them'\trailingcitation{(Hockett 1948,
+   p. 143)}//
+\endgl
+\xe
+\endframedisplay
+\codedisplay~
+\ex
+\begingl
+\gla \rightcomment{[Potawatami]}k- wapm -a -s'i -m -wapunin -uk //
+\glb \rightcomment{category}Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
+\glb 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
+\glft `you (pl) didn't see them'\trailingcitation{(Hockett 1948,
+   p. 143)}//
+\endgl
+\xe
+|endcodedisplay
+
+\noindent or
+
+\codedisplay~
+\ex
+\begingl[glstyle=nlevel,glneveryline={\it}]
+{\rightcomment{[Potawatami]}k-}[\rightcomment{category}Cl/2]
+wapm[V/see]
+-a[Agr$_1$/\sc 3acc]
+-s'i[Neg]
+-m[Agr$_2$/\sc 2pl]
+-wapunin[Tns/peterit]
+-uk[Agr$_3$/\sc 3pl]
+\glft `you (pl) didn't see them'\trailingcitation{(Hockett 1948,
+   p. 143)}
+\endgl
+\xe
+|endcodedisplay
+|\trailingcitation| will put the citation on the same line as the last
+line of the free translation if there is enough room for it, otherwise at the
+end of the  following line.  The parameter |mincitesep| determines the
+minimum whitespace between the end of the free translation and the
+citation that is tolerated; the default is \textdim{1.5 em}.
+|everytrailingcitation| can be used to specify the font for trailing
+citations.
+
+|\trailingcitation| is useful outside the context of glosses.
+
+\framedisplay
+\pex
+\a\relax [Which pilot who shot at it$_1$]$_2$ hit [which
+MIG$_2$ that had chased him$_2$]$_1$?\trailingcitation{(Barss, 2000)}
+
+\a\relax [Which pilot who shot at it$_1$]$_2$ hit [which MIG$_2$ that had
+chased him$_2$]$_1$?\trailingcitation{(Higgenbotham and May, 1981)}
+\xe
+\endframedisplay
+\codedisplay~
+\pex
+\a\relax [Which pilot who shot at it$_1$]$_2$ hit [which MIG$_2$ that had
+chased him$_2$]$_1$?\trailingcitation{(Barss, 2000)}
+
+\a\relax [Which pilot who shot at it$_1$]$_2$ hit [which MIG$_2$ that had
+chased him$_2$]$_1$?\trailingcitation{(Higgenbotham and May, 1981)}
+\xe
+|endcodedisplay
+
+
+|\rightcomment{|\dots|}| must come first in the first item on the
+line.  The macro is very primitive.  It does not
+consider the width of the citation or the amount of whitespace at
+the right of the gloss.  The citation will overlap the gloss if
+there is not room for it at the right.  For example, if the gloss
+(\lastx) is attempted with an hsize of \textdim{3.5 in} and
+|glspace=.5em|, the result is (\nextx).
+
+\framedisplay
+\hsize=3.5in
+\ex
+\rightcomment{[Potawatami]}
+\begingl
+\gla k- wapm -a -s'i -m -wapunin -uk //
+\glb \rightcomment{category}Cl V Agr$_1$ Neg Agr$_2$ Tns Agr$_3$//
+\glb 2 see {\sc 3acc} {} {\sc 2pl} preterit {\sc 3pl} //
+\glft `you (pl) didn't see them'\trailingcitation{(Hockett 1948,
+   p. 143)}//
+\endgl
+\xe
+\endframedisplay
+
+In spite of its limitations, |\rightcomment| is occasionally
+quite useful.
+
+
+\subsection  Line spacing in wrapped glosses
+
+Users might prefer to increase \parvalue{extraglskip}.  Compare
+(\nextx a), which uses the default setting of |extraglskip|
+(\textdim{.5 ex}), to (\nextx b), which increases this by another
+\textdim{.5 ex}.
+
+\framedisplay
+\pex[extraglskip=2pt]
+\a \begingl
+\gla Um-\"asudda' h\"am yan \nogloss{$[\,$} @ i taotao \nogloss{$[\,$} @ {\it O\/}
+ni si Juan ilek-\~na nu guahu \nogloss{$[\,$} @ mal\"agu' gui
+\nogloss{$[\,$} @
+asudd\"a'-\~na \nogloss{{\it t\/}$\,]]]]$.}//
+\glb agr-meet we with the person Op Comp the Juan say-agr Obl me
+agr.want he {\it WH\/}[obl].meet-agr//
+\endgl
+\a \begingl[extraglskip=!.5ex]
+\gla Um-\"asudda' h\"am yan \nogloss{$[\,$} @ i taotao \nogloss{$[\,$} @ {\it O\/}
+ni si Juan ilek-\~na nu guahu \nogloss{$[\,$} @ mal\"agu' gui
+\nogloss{$[\,$} @
+asudd\"a'-\~na \nogloss{{\it t\/}$\,]]]]$.}//
+\glb agr-meet we with the person Op Comp the Juan say-agr Obl me
+agr.want he {\it WH\/}[obl].meet-agr//
+\endgl
+\xe
+\endframedisplay
+\def\temp{\quad \dots\ {\rm ({\it same as the gloss above\/})} }%
+\codedisplay~
+\pex[everygla=]
+\a \begingl
+\gla Um-\"asudda' h\"am yan \nogloss{$[\,$} @ i taotao \nogloss{$[\,$}
+@ {\it O\/} ni si Juan ilek-\~na nu guahu \nogloss{$[\,$} @ mal\"agu'
+gui \nogloss{$[\,$} @ asudd\"a'-\~na \nogloss{{\it t\/}$\,]]]]$.}//
+\glb agr-meet we with the person Op Comp the Juan say-agr Obl me
+agr.want he {\it WH\/}[obl].meet-agr//
+\endgl
+\a \begingl[extraglskip=!.5ex] |temp \endgl
+\xe
+|endcodedisplay
+
+
+\subsubsection How to avoid overfull boxes in glosses
+\deftagsec{overfullsec}
+
+\begininventory
+\parameters
+%\idx{|glspace|}& skip& \textdim{.5 em} plus \textdim{.4 em} minus
+%   \textdim{.15 em}\hfil\cr
+\idx{|glrightskip|}& skip& \textdim{0 pt} plus \textdim{.1 hsize}\hfil \cr
+\endinventory
+%
+Hopefully, you will never encounter the problem which the
+parameterization in this section is designed to solve, the
+``overfull line'' error message.  The default setting puts
+\textdim{.5 em} of glue between the glwords on a line, plus
+\textdim{.4 em} of stretchability and \textdim{.15 em} of
+shrinkage.  The interglword spacing on a line can therefore vary
+from \textdim{.35 em} up to \textdim{.9 em} to accommodate the
+needs of the Tex linebreaking algorithm.\footnote{%
+This is a much larger range than is typical in running text, but
+it is appropriate in glosses, which typically have many large
+whitespace gaps on one line or the other.}
+Further, the default settings allow up to 10\% of the hsize of
+whitespace to appear at the end of the line of glwords.  The
+possible extra space at the right edge and
+stretchability/shrinkability of the space between glwords means
+that line breaking in glosses will rarely encounter problems with
+overfull lines.
+
+In unusual cases, there may be a problem.  Your publisher (or
+you) may be particularly fussy and demand a particular spacing
+and/or better right alignment in glosses.  Or you might want to make
+an unusually narrow gloss, which increases the chances that there
+might not be enough flexibility in the spacing.
+
+If you do run into the problem of overfull lines in a gloss, two
+parameters allow for a great deal of flexibility; |glspace| and
+|glrightskip|. |glspace| is an incremental parameter, so you could say,
+for example, |\lingset{glspace=!0pt plus .2em}|, increasing the
+stretchability of the interglword space by \textdim{.2 em}. Or,
+you might want to increase the stretchability of the rightskip
+in a particular troublesome gloss to allow more whitespace at the
+right edge.  An acceptable solution will depend on your
+particular typesetting aesthetics. Solving line breaking problems
+is often troublesome and requires experimentation.
+
+

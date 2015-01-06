@@ -1,0 +1,22 @@
+
+\newcount\fnno
+\fnno=0
+
+
+\makeatletter
+\def\footnote{\let\@sf\empty % parameter #2 (the text) is read later
+  \ifhmode\edef\@sf{\spacefactor\the\spacefactor}\/\fi
+  \putfnno\@sf
+  \footnotebody}
+\def\putfnno{\global\advance\fnno by 1 $^{\the\fnno}$}
+\def\footnotebody{\expandafter\vfootnote\expandafter{\the\fnno}}
+\def\vfootnote#1{\insert\footins\bgroup
+  \interlinepenalty\interfootnotelinepenalty
+  \splittopskip\ht\strutbox % top baseline for broken footnotes
+  \splitmaxdepth\dp\strutbox \floatingpenalty\@MM
+  \leftskip\z@skip \rightskip\z@skip \spaceskip\z@skip \xspaceskip\z@skip
+  \the\everyfootnote #1.\enspace\footstrut\futurelet\next\fo@t}
+\newtoks\everyfootnote
+\everyfootnote={\tenpoint\noindent}
+\resetatcatcode
+

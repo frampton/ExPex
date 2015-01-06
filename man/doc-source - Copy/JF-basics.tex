@@ -1,0 +1,27 @@
+
+\def\writeln#1{\immediate\write16{#1}\ignorespaces}
+\def\makeatletter{%
+  \edef\resetatcatcode{\catcode`\noexpand\@\the\catcode`\@\relax}%
+  \catcode`\@11\relax
+}%
+\makeatletter
+% \get is like \input, but is more tolerant of special characters
+%    and groups the input
+\def\get{\begingroup \get@A \get@B}
+\def\get@A{\bgroup \catcode`_=11 \catcode`~=11}
+\def\get@B #1 {\get@C #1 \endgroup}
+% \getinput reads funny file names, but doesn't group
+\def\getinput{\get@A \get@C}
+\def\get@C #1 {\gdef\@filename{#1}\egroup \mark{\@filename}
+   \input\@filename}
+%% public dimensions and skips (for general use)
+\newdimen\dimpuba
+\newdimen\dimpubb
+\def\@enamedef#1{\expandafter\edef\csname #1\endcsname}
+\newtoks\mytoks
+\def\@showtoks{\@getoptionalarg\@showtoks@i}
+\def\@showtoks@i #1{\mytoks=\expandafter{#1}\writeln{%
+   \@optionalarg\the\mytoks}}
+\let\showtoks=\@showtoks
+\resetatcatcode
+
