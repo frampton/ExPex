@@ -726,83 +726,30 @@
 }
 \def\chooseref@a#1#2{#2}
 \def\chooseref@g#1#2{#1}
-% ----- glosses -------------------------------------------------------
-\def\ling@glstyle{wrap}
-\def\ling@glftpos{below}
-\define@choicekey{ling}{glstyle}[\ling@glstyle\gl@style@num]{wrap,nlevel}{%
-   \ifnum\gl@style@num=0 \glw@assignlevels \fi
-   \gl@setprefix
-}
+%%%%%%%%%%%%%%%%%%%
+%%%%% glosses %%%%%
+%%%%%%%%%%%%%%%%%%%
 \def\begingl{\bgroup\@getoptionalarg\gl@begingl}
 \def\gl@begingl{%
    \ling@usearg
    \ling@everygl
-   \gl@beginglstyle
+   \gl@begingl@a
 }
-% parameters which are used in both gloss styles
-\define@ling@cmdkeys{everygl,everyglpreamble,everyglilg, everyglft,
-   everyglword,glrightskip,glhangindent,glwidth}
-\define@lingincskipkeys{glspace,aboveglftskip,belowglpreambleskip,extraglskip}
-\newbox\glstrutbox
-\def\glstrut{\unhcopy\glstrutbox}
-\define@boolkey{ling}[ling@]{glstruts}{}%
-\newdimen\ep@cascadeindent
-\newdimen\ep@hangindentamount
-\newcount\ep@cascadecount
-\define@choicekey{ling}{glhangstyle}[\temp\ep@glhangstyle]%
-   {none,normal,cascade}%
-   {\ifnum\ep@glhangstyle=2
-      \ep@cascadecount=10
-      \ep@cascadeindent=0pt
-      \ep@hangindentamount=\ling@glhangindent
-    \fi }
-\lingset{glhangstyle=normal,glrightskip=0pt plus .1\hsize}
-% dimensions
-% switches
-\newif\if@glpreamble
-\newif\if@glft
-%
-% list manipulation macros (ala Knuth) that are used in both gloss styles
-\newtoks\gltoks@a
-\newtoks\gltoks@b
-\def\gl@push #1\to #2{%
-   \gltoks@a={\\{#1}}%
-   \gltoks@b=\expandafter{#2}%
-   \edef#2{\the\gltoks@a\the\gltoks@b}%
-}
-\def\gl@append #1\to #2{%
-   \gltoks@a={\\{#1}}%
-   \gltoks@b=\expandafter{#2}%
-   \xdef#2{\the\gltoks@b\the\gltoks@a}%
-}
-\def\gl@lop#1\to#2{\ifx#1\empty
-   \let#2\empty \else\expandafter\gl@lopoff#1\gl@lopoff#1#2\fi}
-\long\def\gl@lopoff\\#1#2\gl@lopoff#3#4{\def#4{#1}\def#3{#2}}
-\def\gl@eappend{\expandafter\gl@append}
-\newif\ifgl@loopmore
-\def\gl@lopTL#1\to#2{%
-   \ifx#1\empty #2={}\else
-      \expandafter\gl@lopoffTL#1\gl@lopoffTL#1#2\fi}
-\long\def\gl@lopoffTL\\#1#2\gl@lopoffTL#3#4{#4={#1}\def#3{#2}}
-%%%%%%%%%%%%%%%%%%%% wrap style glosses %%%%%%%%%%%%%%%%%%%%
-% \gl@wrap@below@begin sets up the environment
-% \gla, \glb, etc. fill in the various lists which are initialized in
-% the environment
-% The input (something like the following)
-% \gla x1 x2 x3 //
-% \glb y1 y2 y3 //
-% \glc z1 z2 z3 //
-% gets converted into a list of lists (using Knuth's list macros)
-%    {{x1,y1,z1},{x2,y2,z2},{x3,y3,z3}}
-% auxiliary lists are also made at the same time
-%    list of struts, list of "everygl<name>"
-% Then these lists are popped, one position at a time, and vboxes
-% are built.  The vboxes are fed into Tex's regular paragraph
-% building machinary.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% introduced "glossbreaking" boolean parameter
-\define@boolkey{ling}[ling@]{glossbreaking}[true]{}
-\lingset{glossbreaking=false}
+\define@choicekey{ling}{glstyle}[\ling@glstyle\gl@style@num]{wrap,nlevel}[wrap]%
+   {\ifnum\gl@style@num=0 \gl@wrap@assignlevels \fi \gl@setprefix }
+\define@choicekey{ling}{glftpos}[\ling@glftpos\gl@ftpos@num]{below,right}[below]%
+   {\gl@setprefix}
+% \gl@prefix is set to one of gl@wrap@below@, gl@wrap@right@, gl@nlevel@below@,
+%  and gl@nlevel@right@
+\def\gl@setprefix{\edef\gl@prefix{gl@\ling@glstyle @\ling@glftpos @}}
+\def\glft{\csname \gl@prefix ft\endcsname}
+\def\gl@begingl@a{\csname \gl@prefix begin\endcsname}
+\def\endgl{\csname \gl@prefix end\endcsname}
+\def\glpreamble{\csname \gl@prefix preamble\endcsname}
+% 14 different functions must be defined, 4 (or 2) for each of the 4 prefixes
+% <prefix> + begin, preamble, ft, or end  with no preamble for glftpos=right
+%%%%%%%%%%%%%%%%%%%%
+% 1. the four <prefix> + begin commands
 \def\gl@wrap@below@begin{\gl@wrap@below@begin@a}
 \def\gl@wrap@below@begin@a{%
    \bgroup
@@ -832,7 +779,193 @@
    \let\strutlist=\empty
    \let\everylist=\empty
 }
+\def\gl@wrap@right@begin{%
+   \ep@setssdims
+   \leavevmode\bgroup\hbox\bgroup
+      \hsize=\ssleftwd
+      \lingset{glwidth=\ssleftwd}
+      \gl@wrap@below@begin
+}
+\def\gl@nlevel@below@begin{\gl@nlevel@below@begin@a}
+\def\gl@nlevel@below@begin@a{%
+   \bgroup
+   \parindent0pt
+   \bgroup
+   \@glspacefalse
+   \ep@setglstrut
+   \ifdim\ling@glwidth=0pt
+      \bgroup
+   \else
+      \vtop\bgroup
+         \hsize=\ling@glwidth
+         \leftskip=0pt
+   \fi
+   \futurelet\temp\gl@nlevel@below@begin@b
+}
+\def\gl@nlevel@below@begin@b{%
+   \ifx\temp\glpreamble \let\next=\relax
+   \else \let\next=\gln@ilg \fi \next}
+\def\gl@nlevel@right@begin{%
+   \ep@setssdims
+   \vtop\bgroup
+      \def\gl@prefix{gl@nlevel@below@}%
+      \hsize=\ssleftwd \leftskip=0pt
+      \hangindent=\ling@glhangindent
+      \hangafter=1
+      \let\gl@nlevel@below@ft=\gl@nlevel@right@medial
+      \begingl
+}
+%%%%%%%%%%%%%%%%%%%%
+% 2. the two <prefix> + preamble commands
+\long\def\gl@wrap@below@preamble #1// {%
+   \@glpreambletrue
+   {\hangindent=0pt \hangafter=0 \ling@everyglpreamble #1\strut
+   \par
+   \vskip\lingbelowglpreambleskip \leavevmode}%
+}
+\def\gl@nlevel@below@preamble #1\endpreamble{%
+   \ling@everyglpreamble
+   #1\strut
+   \vskip\lingbelowglpreambleskip
+   \vskip\lingextraglskip
+   \egroup\bgroup
+   \gln@ilg
+}
+%%%%%%%%%%%%%%%%%%%%
+% 3. the four <prefix> + ft commands
+\def\gl@wrap@below@ft{\@getoptionalarg\gl@wrap@below@ft@a}
+\long\def\gl@wrap@below@ft@a #1//{%
+   \glw@printilgsetup
+   \glw@printilg@a
+   \vskip\lingaboveglftskip
+   \nointerlineskip
+   \egroup
+   \@glfttrue
+   \ifx\glstrut\strut
+      \ifdim\gl@maxdplast>\dp\strutbox \prevdepth=\gl@maxdplast \fi
+      \fi
+   \ling@usearg
+   \@ilgborderadjustment
+   \ling@everyglft
+   \strut #1\par
+}
+\def\gl@wrap@right@ft #1//{%
+   \gl@wrap@below@end
+   \hskip\lingsssep
+   \vtop{%
+      \leftskip=0pt
+      \rightskip=\lingssrightskip
+      \parindent=0pt
+      \hsize=\ssrightwd
+      \ling@everyglft
+      #1}%
+      \ignorespaces
+}
+\def\gl@nlevel@below@ft{%
+   \vskip\lingaboveglftskip
+   \vskip\lingextraglskip
+   \egroup\bgroup
+   \nointerlineskip
+   \strut
+   \ling@everyglft
+}
+\def\gl@wrap@right@ft #1//{%
+   \gl@wrap@below@end
+   \hskip\lingsssep
+   \vtop{%
+      \leftskip=0pt
+      \rightskip=\lingssrightskip
+      \parindent=0pt
+      \hsize=\ssrightwd
+      \ling@everyglft
+      #1}%
+      \ignorespaces
+}
+%%%%%%%%%%%%%%%%%%%%
+% 4. the four <prefix> + end commands
+\def\gl@wrap@below@end{%
+   \if@glft \else \glw@printilg\egroup \fi
+   \egroup\egroup\egroup
+}
+\def\gl@wrap@right@end{\egroup\egroup}
+\def\gl@nlevel@below@end{\par\egroup\egroup\egroup\egroup}
+\def\gl@nlevel@right@end{\egroup\egroup}
+%%%%%%%%%%%%%%%%%%%%
+% \gl@nlevel@right@begin calls \gl@nlevel@right@medial
+\expandafter\def\expandafter\gl@nlevel@right@medial\expandafter
+   {\gl@nlevel@below@end \gl@nlevel@right@medial@a}
+\def\gl@nlevel@right@medial@a{\egroup
+   \def\gl@prefix{gl@nlevel@right@}%
+   \hskip\lingsssep
+   \vtop\bgroup
+      \leftskip=0pt
+      \rightskip=\lingssrightskip
+      \parindent=0pt
+      \hsize=\ssrightwd
+      \ling@everyglft
+}
+%%%%%%%%%%%%%%%%%%%%
+% parameters which are used in both gloss styles
+\define@ling@cmdkeys{everygl,everyglpreamble,everyglilg, everyglft,
+   everyglword,glrightskip,glhangindent,glwidth}
+\define@lingincskipkeys{glspace,aboveglftskip,belowglpreambleskip,extraglskip}
+\newbox\glstrutbox
+\def\glstrut{\unhcopy\glstrutbox}
+\define@boolkey{ling}[ling@]{glstruts}{}%
+\newdimen\ep@cascadeindent
+\newdimen\ep@hangindentamount
+\newcount\ep@cascadecount
+\define@choicekey{ling}{glhangstyle}[\temp\ep@glhangstyle]%
+   {none,normal,cascade}%
+   {\ifnum\ep@glhangstyle=2
+      \ep@cascadecount=10
+      \ep@cascadeindent=0pt
+      \ep@hangindentamount=\ling@glhangindent
+    \fi }
+\lingset{glhangstyle=normal,glrightskip=0pt plus .1\hsize}
+% dimensions
+% switches
+\newif\if@glpreamble
+\newif\if@glft
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% list manipulation macros (ala Knuth) that are used in both gloss styles
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\newtoks\gltoks@a
+\newtoks\gltoks@b
+\def\gl@push #1\to #2{%
+   \gltoks@a={\\{#1}}%
+   \gltoks@b=\expandafter{#2}%
+   \edef#2{\the\gltoks@a\the\gltoks@b}%
+}
+\def\gl@append #1\to #2{%
+   \gltoks@a={\\{#1}}%
+   \gltoks@b=\expandafter{#2}%
+   \xdef#2{\the\gltoks@b\the\gltoks@a}%
+}
+\def\gl@lop#1\to#2{\ifx#1\empty
+   \let#2\empty \else\expandafter\gl@lopoff#1\gl@lopoff#1#2\fi}
+\long\def\gl@lopoff\\#1#2\gl@lopoff#3#4{\def#4{#1}\def#3{#2}}
+\def\gl@eappend{\expandafter\gl@append}
+\newif\ifgl@loopmore
+\def\gl@lopTL#1\to#2{%
+   \ifx#1\empty #2={}\else
+      \expandafter\gl@lopoffTL#1\gl@lopoffTL#1#2\fi}
+\long\def\gl@lopoffTL\\#1#2\gl@lopoffTL#3#4{#4={#1}\def#3{#2}}
+
+%%%%%  wrap style parsing, done by \gla, \glb, etc.
+% \glw@ is used as a prefix for all of the internal commands
+% various lists are created as the parsing proceeds
+% \mainlist, \itemtypelist, \aboveskiplist, \strutlist, \everylist
+% mainlist is a list of lists of items, the first item in mainlist
+% is the list of items that are stacked up in the first vbox which
+% is shipped to Tex's line making machinary
+% needs much more documentation
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% introduced "glossbreaking" boolean parameter
+\define@boolkey{ling}[ling@]{glossbreaking}[true]{}
+\lingset{glossbreaking=false}
 
 % As the list of lists is assembled, heights and depths of each
 % item are computed and maximum row heights and maximum row depths
@@ -920,7 +1053,7 @@
       \to\everylist
    \gltoks@a=\expandafter{\everylist}%
 }
-\def\glw@assignlevels{%
+\def\gl@wrap@assignlevels{%
    \expandafter\XKV@for@n\expandafter{\glw@levels}\levelname
    {\glw@assign@level\levelname}%
 }
@@ -953,6 +1086,8 @@
 \def\defineglwlevels#1{\XKV@for@n{#1}\thislevel
    {\expandafter\define@glw@level\expandafter{\thislevel}}%
 }
+\let\ling@glftpos\relax  % a trick to allow forward reference
+\lingset{glstyle=wrap,glftpos=below}
 \def\glw@glx#1{%   x suggests any label (as argument to \glw@glx)
    \def\worklist{}%
    \glw@initializemaxhtdp
@@ -999,32 +1134,12 @@
 }
 \defineglwlevels{b,c}
 \newif\ifglw@spacebefore
-\long\def\gl@wrap@below@preamble #1// {%
-   \@glpreambletrue
-   {\hangindent=0pt \hangafter=0 \ling@everyglpreamble #1\strut
-   \par
-   \vskip\lingbelowglpreambleskip \leavevmode}%
-}
-\def\gl@wrap@below@ft{\@getoptionalarg\gl@wrap@below@ft@a}
-\long\def\gl@wrap@below@ft@a #1//{%
-   \glw@printilgsetup
-   \glw@printilg@a
-   \vskip\lingaboveglftskip
-   \nointerlineskip
-   \egroup
-   \@glfttrue
-   \ifx\glstrut\strut
-      \ifdim\gl@maxdplast>\dp\strutbox \prevdepth=\gl@maxdplast \fi
-      \fi
-   \ling@usearg
-   \@ilgborderadjustment
-   \ling@everyglft
-   \strut #1\par
-}
-\def\gl@wrap@below@end{%
-   \if@glft \else \glw@printilg\egroup \fi
-   \egroup\egroup\egroup
-}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PRINTING FROM THE LISTS BUILT BY THE WRAP PARSING MACHINERY
+% Commands which read the lists and produce the boxes which are fed into Tex's
+% line building machinary.
+
 \def\glw@printilg{\glw@printilgsetup \glw@printilg@a}
 \def\glw@printilgsetup{%
    \@glspacefalse
@@ -1144,39 +1259,12 @@
       \let\glwordalign=\gl@wordaligncenter
    \fi
 }
-%%%%%%%%%%%%%%%%%%%% nlevel style glosses %%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%% NLEVEL PARSING AND BOX ASSEMBLY %%%%%%%%%%%%%%%%%%%%
+%% \gln@ is used as a prefix for the internal commands
 \def\ep@setglstrut{%
    \ifling@glstruts  \setbox\glstrutbox=\copy\strutbox
    \else \setbox\glstrutbox=\hbox{}%
    \fi
-}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\def\gl@nlevel@below@begin{\gl@nlevel@below@begin@a}
-\def\gl@nlevel@below@begin@a{%
-   \bgroup
-   \parindent0pt
-   \bgroup
-   \@glspacefalse
-   \ep@setglstrut
-   \ifdim\ling@glwidth=0pt
-      \bgroup
-   \else
-      \vtop\bgroup
-         \hsize=\ling@glwidth
-         \leftskip=0pt
-   \fi
-   \futurelet\temp\gl@nlevel@below@begin@b
-}
-\def\gl@nlevel@below@begin@b{%
-   \ifx\temp\glpreamble \let\next=\relax
-   \else \let\next=\gln@ilg \fi \next}
-\def\gl@nlevel@below@preamble #1\endpreamble{%
-   \ling@everyglpreamble
-   #1\strut
-   \vskip\lingbelowglpreambleskip
-   \vskip\lingextraglskip
-   \egroup\bgroup
-   \gln@ilg
 }
 \def\gln@ilg{%
    \ling@everyglilg
@@ -1192,7 +1280,6 @@
    \leavevmode
    \gln@ilg@a
 }
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newif\if@glspace
 \def\gln@ilg@a{\futurelet\temp\gln@ilg@b}
 \def\gln@ilg@b{\ifx\temp\endgl \let\next=\relax
@@ -1260,15 +1347,6 @@
 }
 \def\ep@diacriticerror#1{%
    \@expexerror{bad gloss diacritic: #1 (only @ and + permitted)}\end}
-\def\gl@nlevel@below@ft{%
-   \vskip\lingaboveglftskip
-   \vskip\lingextraglskip
-   \egroup\bgroup
-   \nointerlineskip
-   \strut
-   \ling@everyglft
-}
-\def\gl@nlevel@below@end{\par\egroup\egroup\egroup\egroup}
 \define@lingkey{glneveryline}{\ep@setlist\gln@everyline{#1}}
 \define@lingkey{glnabovelineskip}{\ep@setlist\gln@abovelineskip{#1}%
    \gl@lop\gln@abovelineskip\to\temp
@@ -1276,7 +1354,7 @@
    }
 \def\ep@setlist#1#2{\def#1{}\XKV@for@n{#2}\@this{\gl@eappend\@this\to#1}}
 \lingset{glneveryline={\it},glnabovelineskip={}}
-%%%%%%%%%%%%%%%% end nlevel %%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%% END NLEVEL %%%%%%%%%%%%%%%%%%%%
 
 % ----- brackets -----
 \newif\if@glpostbrack
@@ -1322,15 +1400,7 @@
    \ep@glmkcascade
 }
 % ----- side by side (ss) gloss style -----
-\def\gl@setprefix{\edef\gl@prefix{gl@\ling@glstyle @\ling@glftpos @}}
-\def\glft{\csname \gl@prefix ft\endcsname}
-\def\gl@beginglstyle{\csname \gl@prefix begin\endcsname}
-\def\endgl{\csname \gl@prefix end\endcsname}
-\def\glpreamble{\csname \gl@prefix preamble\endcsname}
-
-\define@choicekey{ling}{glftpos}[\ling@glftpos\gl@ftpos@num]%
-   {below,right}{\gl@setprefix}
-
+% dimension used in wrap@right and nlevel@right constructions
 \define@lingcmdkeys{sssep,ssratio,ssrightskip}
 \lingset{sssep=2em,ssratio=.6,ssrightskip=0pt plus 2em}
 \newdimen\ssleftwd
@@ -1343,71 +1413,6 @@
    \ssrightwd=\dimen0
    \advance\ssrightwd by -\ssleftwd
 }
-\def\gl@wrap@right@begin{%
-   \ep@setssdims
-   \leavevmode\bgroup\hbox\bgroup
-      \hsize=\ssleftwd
-      \lingset{glwidth=\ssleftwd}
-      \gl@wrap@below@begin
-}
-\def\gl@wrap@right@end{\egroup\egroup}
-\def\gl@wrap@right@ft #1//{%
-   \gl@wrap@below@end
-   \hskip\lingsssep
-   \vtop{%
-      \leftskip=0pt
-      \rightskip=\lingssrightskip
-      \parindent=0pt
-      \hsize=\ssrightwd
-      \ling@everyglft
-      #1}%
-      \ignorespaces
-}
-\expandafter\def\expandafter\gl@nlevel@right@medial\expandafter
-   {\gl@nlevel@below@end \gl@nlevel@right@medial@a}
-\def\gl@nlevel@right@medial@a{\egroup
-   \def\gl@prefix{gl@nlevel@right@}%
-   \hskip\lingsssep
-   \vtop\bgroup
-      \leftskip=0pt
-      \rightskip=\lingssrightskip
-      \parindent=0pt
-      \hsize=\ssrightwd
-      \ling@everyglft
-}
-\def\gl@nlevel@right@begin{%
-   \ep@setssdims
-   \vtop\bgroup
-      \def\gl@prefix{gl@nlevel@below@}%
-      \hsize=\ssleftwd \leftskip=0pt
-      \hangindent=\ling@glhangindent
-      \hangafter=1
-      \let\gl@nlevel@below@ft=\gl@nlevel@right@medial
-      \begingl
-}
-\def\gl@nlevel@right@end{\egroup\egroup}
-%% experimental
-%\def\gl@nlevel@right@begin{%
-%   \ep@setssdims
-%   \leavevmode\bgroup\hbox\bgroup
-%      \hsize=\ssleftwd
-%      \lingset{glwidth=\ssleftwd}
-%      \gl@nlevel@below@begin
-%}
-%\def\gl@nlevel@right@end{\egroup\egroup}
-%\def\gl@nlevel@right@ft #1{%
-%   \gl@nlevel@right@end
-%   \hskip\lingsssep
-%   \vtop{%
-%      \leftskip=0pt
-%      \rightskip=\lingssrightskip
-%      \parindent=0pt
-%      \hsize=\ssrightwd
-%      \ling@everyglft
-%      #1}%
-%      \ignorespaces
-%}
-%% end experimental
 % ----- gloss with a side panel
 \define@lingcmdkeys{everypanel}
 \lingset{everypanel={}}

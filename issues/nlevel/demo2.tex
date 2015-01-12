@@ -1,0 +1,122 @@
+
+\input expex
+
+\def\\#1 {\medskip\noindent {\tt #1}\vskip-2ex}
+\hsize=4in
+
+\\wrap/right
+
+\exdisplay[glstyle=wrap,glftpos=right]
+\begingl
+\gla AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA //
+\glb aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa //
+\glc aa aa aa aa aa aa aa aa aa aa aa aa //
+\glft
+xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx
+xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx
+xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx //
+\endgl
+\xe
+
+\\nlevel/right
+
+\exdisplay[glstyle=nlevel,glftpos=right]
+\begingl
+AAA[aaa/aa] AAA[aaa/aa] AAA[aaa/aa] AAA[aaa/aa] AAA[aaa/aa] AAA[aaa/aa]
+AAA[aaa/aa] AAA[aaa/aa] AAA[aaa/aa] AAA[aaa/aa] AAA[aaa/aa] AAA[aaa/aa]
+\glft
+xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx
+xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx
+xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx
+\endgl
+\xe
+
+\\wrap/below
+
+\exdisplay[glstyle=wrap,glftpos=below]
+\glpreamble this is a preamble //
+\begingl
+\gla AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA //
+\glb aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa //
+\glc aa aa aa aa aa aa aa aa aa aa aa aa //
+\glft
+xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx
+xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx
+xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx //
+\endgl
+\xe
+
+\\nlevel/below
+
+\exdisplay[glstyle=nlevel,glftpos=below]
+\begingl
+\glpreamble this is a preamble\endpreamble
+AAA[aaa/aa] AAA[aaa/aa] AAA[aaa/aa] AAA[aaa/aa] AAA[aaa/aa] AAA[aaa/aa]
+AAA[aaa/aa] AAA[aaa/aa] AAA[aaa/aa] AAA[aaa/aa] AAA[aaa/aa] AAA[aaa/aa]
+\glft
+xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx
+xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx
+xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx
+\endgl
+\xe
+
+\vfil\break
+
+\\wrap/below
+
+\ex[glstyle=wrap,glftpos=below]
+\glpreamble this is a preamble //
+\begingl
+\gla AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA //
+\glb aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa //
+\glc aa aa aa aa aa aa aa aa aa aa aa aa //
+\glft
+xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx
+xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx
+xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx //
+\endgl
+\xe
+
+\\nlevel/below
+
+\ex[glstyle=nlevel,glftpos=below]
+\begingl
+\glpreamble this is a preamble\endpreamble
+AAA[aaa/aa] AAA[aaa/aa] AAA[aaa/aa] AAA[aaa/aa] AAA[aaa/aa] AAA[aaa/aa]
+AAA[aaa/aa] AAA[aaa/aa] AAA[aaa/aa] AAA[aaa/aa] AAA[aaa/aa] AAA[aaa/aa]
+\glft
+xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx
+xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx
+xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx
+\endgl
+\xe
+
+\\wrap/right
+
+\ex[glstyle=wrap,glftpos=right]
+\begingl
+\gla AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA //
+\glb aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa //
+\glc aa aa aa aa aa aa aa aa aa aa aa aa //
+\glft
+xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx
+xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx
+xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx //
+\endgl
+\xe
+
+\\nlevel/right
+
+\ex[glstyle=nlevel,glftpos=right]
+\begingl
+AAA[aaa/aa] AAA[aaa/aa] AAA[aaa/aa] AAA[aaa/aa] AAA[aaa/aa] AAA[aaa/aa]
+AAA[aaa/aa] AAA[aaa/aa] AAA[aaa/aa] AAA[aaa/aa] AAA[aaa/aa] AAA[aaa/aa]
+\glft
+xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx
+xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx
+xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx
+\endgl
+\xe
+
+\bye
+
