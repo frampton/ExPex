@@ -1,0 +1,50 @@
+
+
+\input eplain
+\input expex
+\input eptexfn
+\input epdemoaux
+
+\newtoks\alloctoks
+%\alloctoks={}
+%\makeatletter
+%\gl@push X\to \alloctoks
+%\gl@push Y\to \alloctoks
+%\gl@push R\to \alloctoks
+%\gl@lop\alloctoks\to\happy
+%\immediate\write16{\happy}
+%\gl@lop\alloctoks\to\happy
+%\immediate\write16{\happy}
+%\gl@lop\alloctoks\to\happy
+%
+%
+%\immediate\write16{\happy}
+%\resetatcatcode
+
+\fnno=15
+\
+\vskip4in
+
+Some text with a footnote.\footnote{This is a footnote.}
+
+\ex
+\allocglfns{A,B,C}
+\begingl
+\gla {k\'\i} dh\`an {g\`aj\`a g\`aj\`a g\`aj\`a} y\`a-\`a c\'e'd-k{\'i} bw\`a
+m\`o \'a c\'esh m\'un 'k\=a'b\=us\glfnmark{A} //
+\glb {\sc COMP} great {{\sc IDPH}}\glfnmark{B} go.{\sc SING}-{\sc LNK}
+break-{\sc AD1} stomach.{\sc PART} {\sc MO} {\sc LOC.CL2} ground
+{\sc DEM.LOC.ANPH}\glfnmark{C} {shattered} //
+\glft `and he flailed through the air, breaking into pieces there on the
+ground.' //
+\endgl
+\glfntext{{\sl 'k\=a'b\=us\/} denotes something broken into pieces, or something
+which has become fragile after a heavy impact of some kind.}
+\glfntext{{\sl g\`aj\`a g\`aj\`a g\`aj\`a\/} is an ideophone for a long (thin)
+thing going through the air, such as a spear with a wobbling shaft, or a tall
+person waving their arms about flailingly.}
+\glfntext{stuff}
+\xe
+
+More text with a footnote.\footnote{This is a footnote.}
+

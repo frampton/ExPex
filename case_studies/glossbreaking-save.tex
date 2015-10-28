@@ -1,0 +1,66 @@
+\documentclass[12pt,a4paper,french]{book}
+\usepackage[T1]{fontenc}
+%\usepackage[utf8]{inputenc}
+\renewcommand{\baselinestretch}{1.3}
+\usepackage{babel}
+\usepackage{expex}
+\newcommand{\pt}{\textsc{2sg.fam}}
+\newcommand{\pv}{\textsc{2sg.pol}}
+\usepackage{fontspec}
+\begin{document}
+
+\lingset{glstyle=nlevel,glossbreaking=true,glrightskip=0pt plus 5em,glspace=1em
+plus 3em}
+
+\ex[everyglpreamble=\tt,glhangstyle=none,glspace=1.5em minus .5em,
+   glnabovelineskip={,-6pt},glrightskip=0pt plus 10em]
+\def\\#1{{\bfseries{#1}}}%
+\raggedbottom
+\begingl
+\glpreamble
+ART : dzień dobry \\{pani} \\{mario} artur
+górski z tej strony (.) nie nie proszę nie przełączać do ojca ja mam
+krótkie pytanie do \\{pani} czy \\{pamięta} \\{pani}
+sprawę którą ojciec prowadził przeciwko Tadeuszowi Zawadzkiemu/ czy ten
+zawadzki ma firmę konsultingową/ gdyby \\{pani} \\{mogła}
+sprawdzić dokładnie (.) tak zaczekam (.) rozumiem (.) i jak to się
+skończyło/ wiedziałem że \\{pani} \\{jest} jak najlepszy
+komputer \\{Pani} \\{Mario} (.) dziękuję bardzo aha proszę
+nie mówić ojcu, że dzwoniłem dobrze/ dobrze dziękuję bardzo do widzenia
+\endpreamble
+{ART :}[{}]   {dzień dobry}[Bonjour]   \\{pani}[MM-{\sc voc}]
+\\{mario}[FN-{\sc voc}]   artur[FN-{\sc nom}]   górski[LN-{\sc nom}]
+z[de] tej[ce]   strony[coté]   {(.)}[{}]   nie[non]   nie[non]
+proszę[{s'il vous plaît}]   nie[{\sc neg}]
+przełączać[{mettre en communication}]   do[chez]
+ojca[père] ja[{\sc 1sg}]   mam[avoir-{\sc 1sg}]   krótkie[court]
+pytanie[question]   do[pour]   \\{pani}[\pv~]   czy[{\sc q}]
+\\{pamięta}[{se souvenir-\pv}]   \\{pani}[\pv~]
+sprawę[affaire]   którą[que]   ojciec[père]
+prowadził[mener-{\sc 3sg.pst}]   przeciwko[contre]   Tadeuszowi[FN-{\sc dat}]
+Zawadzkiemu/[LN-{\sc dat}]   czy[{\sc q}]   ten[ce]   zawadzki[LN-{\sc nom}]
+ma[avoir-{\sc 3sg}]   firmę[société]   konsultingową/[{de consulting}]
+gdyby[si]   \\{pani}[\pv~]   \\{mogła}[pouvoir-{\sc 3sg}]
+sprawdzić[vérifier]   dokładnie[{en détaille}]   {(.)}[{}]   tak[oui]
+zaczekam[attendre-{\sc 1sg.fut}]   {(.)}[{}] rozumiem[comprendre-{\sc 1sg}]
+{(.)}[{}]   i[et]   jak[comment]   to[ce]   się[{\sc part.refl}]
+skończyło/[finir-{\sc 3sg.pst}] wiedziałem[savoir-{\sc 1sg.pst}]   że[que]
+\\{pani}[\pv~] \\{jest}[être-{\sc 3sg}] jak[comme]
+najlepszy[meilleur] komputer[ordinateur]   \\{Pani}[MM-{\sc voc}]
+\\{Mario}[FN-{\sc voc}]   {(.)}[{}]   dziękuję[remercier-{\sc 1sg}]
+bardzo[beaucoup]   aha[{\sc pe}]   proszę[{s'il vous plaît}]   nie[{\sc neg}]
+mówić[dire]   ojcu,[père] że[que]   dzwoniłem[appeler-{\sc 1sg.pst}]
+dobrze/[bien]   dobrze[bien] dziękuję[remercier-{\sc 1sg}] bardzo[beaucoup]
+do[au]   widzenia[revoir]
+%
+\glft Bonjour Madame Marie, c'est Artur Gorski ici. Non, non, ne me passez pas
+mon père. J'ai une petit question à vous poser, est-ce que vous vous rappelez
+l'affaire que mon père menait contre Tadeusz Zawacki? Est-ce que ce Zawadzki
+possède un société de consulting? Si vous pouviez vérifier pour être sûr.
+Oui j'attends. Je comprends et comment ça s'est finit? Je savais que vous êtes
+comme le meilleur ordinateur Madame Marie. Merci beaucoup. Ah, ne dites au père
+que j'ai appelé, d'accord? bien, merci beaucoup. Au revoir.//
+\endgl
+\xe
+
+\end{document}

@@ -12,6 +12,7 @@
 *.idx
 *.zip
 distributions/
+testing/
 web/
 man-old/
 questions/

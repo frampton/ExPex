@@ -1,0 +1,23 @@
+
+\lingset{exnoformat=X,glhangstyle=none}
+\newcounter{scnt}
+% \scntinit to initialize the sentence number counter
+\def\scntinit#1 {\setcounter{scnt}{#1}}
+\newlength{\swidth}
+% \setswidth establishes a gutter for the sentence number (#1), a following
+%    period, a gap between the period and the name (#2), and the name (#3)
+\def\setswidth #1 #2 #3 {\setbox0=\hbox{#1.\hskip#2 #3}%
+   \setlength{\swidth}{\wd0}}
+% \speaker uses ExPex's \exdisplay to typeset the sentences
+\def\speaker#1{%
+   \exdisplay
+   \setlength{\leftskip}{\swidth}
+   \addtolength{\leftskip}{\lingtextoffset}
+   \leavevmode
+   \llap{\hbox to \leftskip{\thescnt.\hfil #1\hskip\lingtextoffset}}%
+   \global\stepcounter{scnt}%
+   \ignorespaces
+}
+\let\endspeaker\xe
+
+

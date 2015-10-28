@@ -1,0 +1,200 @@
+From:	Jeremy Hammond <Jeremy.Hammond@mpi.nl>
+Sent:	Friday, December 09, 2011 5:21 AM
+To:	Frampton, John
+Subject:	Re: latex, expex and conversation transcripts
+
+Hi John
+
+Thanks for the reply, I'll take a look at it all over the weekend and report
+back. I have another question re \newcommand environments within expex but I'll
+post that on a list as I think others may have had issues with it and might have
+solutions.
+
+I agree with you that a  prominent maker (like [ ) on the first line would be
+good to handle the placement of the overlap. Your suggestion would work well for
+one person overlap.
+
+I think in real life speech data it is more complicated than that so the
+question is whether to implement this first solution immediately, or develop a
+more complex solution that can account for more messy data (multiple lines of
+overlap that occur concurrently).
+
+Cheers
+Jeremy
+
+
+
+
+Jeremy Hammond
+Syntax, Typology and Information Structure Group
+Max Planck Institute for Psycholinguistics
+P: +31-24-3521171
+E: Jeremy.Hammond@mpi.nl
+W: http://www.mpi.nl/people/hammond-jeremy
+
+
+
+
+On 08/12/2011, at 4:11 AM, John Frampton wrote:
+
+>
+> Hi Jeremy,
+>
+> I still am not sure what you want to do about overlap.  Given what I do
+> understand, I think I would handle it by putting a prominent mark on the
+> previous
+> line indicating if and where the following sentence began in the case of
+> overlap.
+>
+> As far as the glossing is concerned, I would do it as in the attached file.
+>
+> Perhaps we can clarify what you want.
+>
+> - John
+>
+>
+>
+>
+> On 12/1/2011 4:57 AM, Jeremy Hammond wrote:
+>> Hi John,
+>>
+>> Thanks for the prompt reply!
+>>
+>> I have included a zip file for your perusal it includes:
+>>
+>> Two original files for ELAN if you have it (they are just java xml so you can read them without it):
+>> sample_wsn.eaf
+>> sample_wsn.pfsx (the preferences file - just keep in the same directory)
+>>
+>> Exported from Elan to plain text:
+>> sample_wsn.txt (note the ordering within blocks can be semi-random, the naming of lines is user-dependant&  it is a messy use of tabs and spaces to align)
+>>
+>> the script I wrote to turn Elan export files into parsed files for the modified \a environment:
+>> elan2latex.py:
+>>
+>> The output of that script based on the first files:
+>> sample_wsn_latexready.txt:
+>>
+>> The output once compiled with the sty file I included in the last email:
+>>
+>> latex_output.pdf
+>>
+>> Plus
+>> One really long elan export that I have been using for testing (not abnormal) - please don't circulate this one:
+>> sample_wsn_really_long.txt
+>>
+>>
+>> So, the problems here are
+>>
+>> (1) in example 1.2. This line "aha" should be vertically aligned with the preceding turn (in this case I have said at the beginning of "itonga". Should also allow for multiple speakers to be aligned. and for multiple turns to be concatenated in alignment.
+>>
+>> (2) I have marked this with an open/close bracket sequence so that a script can tell which is which but the final output should change ] for [ so there are two [. One in the first line and one in the second precisely aligned.
+>>
+>> (3) I would need to write a script for either Elan or the txt file that pairs up the [] sequences so that each ] annotation knows what is its antecedent. I was thinking that it would look for "]" characters and then once it found  one look backwards for the closest "[" (with the criteria that the time code must overlap) and then tag with a two part latex macro (which is the hard bit!). It would be pretty bad to leave the [] as the input for a latex macro. It would be better to preprocess the file in Elan or a text editor.
+>>
+>> (4) the [] shouldn't be in italics but this a trivial fix using \emph
+>>
+>> (5) although it doesn't show up here, the wrapping of \transshort is not perfect because it is using the latex wrapping criteria not the expex wrapping criteria. So sometimes it comes out a few mm wrong on the left alignment. As far as I could tell there was no way to leave out a gloss line from \begingl.
+>>
+>>
+>> Jeremy
+>>
+>>
+>>
+>>
+>
+> <jfsample.tex>
+
+From:	Jeremy Hammond <Jeremy.Hammond@mpi.nl>
+Sent:	Thursday, December 01, 2011 4:58 AM
+To:	Frampton, John
+Subject:	Re: latex, expex and conversation transcripts
+Attachments:	elan2latex.zip; ATT00001.txt
+
+Hi John,
+
+Thanks for the prompt reply!
+
+I have included a zip file for your perusal it includes:
+
+Two original files for ELAN if you have it (they are just java xml so you can
+read them without it): sample_wsn.eaf sample_wsn.pfsx (the preferences file -
+just keep in the same directory)
+
+Exported from Elan to plain text: sample_wsn.txt (note the ordering within
+blocks can be semi-random, the naming of lines is user-dependant & it is a messy
+use of tabs and spaces to align)
+
+the script I wrote to turn Elan export files into parsed files for the modified
+\a environment: elan2latex.py:
+
+The output of that script based on the first files: sample_wsn_latexready.txt:
+
+The output once compiled with the sty file I included in the last email:
+
+latex_output.pdf
+
+Plus One really long elan export that I have been using for testing (not
+abnormal) - please don't circulate this one: sample_wsn_really_long.txt
+
+
+So, the problems here are
+
+(1) in example 1.2. This line "aha" should be vertically aligned with the
+preceding turn (in this case I have said at the beginning of "itonga". Should
+also allow for multiple speakers to be aligned. and for multiple turns to be
+concatenated in alignment.
+
+(2) I have marked this with an open/close bracket sequence so that a script can
+tell which is which but the final output should change ] for [ so there are two
+[. One in the first line and one in the second precisely aligned.
+
+(3) I would need to write a script for either Elan or the txt file that pairs up
+the [] sequences so that each ] annotation knows what is its antecedent. I was
+thinking that it would look for "]" characters and then once it found  one look
+backwards for the closest "[" (with the criteria that the time code must
+overlap) and then tag with a two part latex macro (which is the hard bit!). It
+would be pretty bad to leave the [] as the input for a latex macro. It would be
+better to preprocess the file in Elan or a text editor.
+
+(4) the [] shouldn't be in italics but this a trivial fix using \emph
+
+(5) although it doesn't show up here, the wrapping of \transshort is not perfect
+because it is using the latex wrapping criteria not the expex wrapping criteria.
+So sometimes it comes out a few mm wrong on the left alignment. As far as I
+could tell there was no way to leave out a gloss line from \begingl.
+
+
+Jeremy
+
+
+
+
+From:	Jeremy Hammond <Jeremy.Hammond@mpi.nl>
+Sent:	Wednesday, November 30, 2011 12:50 PM
+To:	Frampton, John
+Subject:	latex, expex and conversation transcripts
+Attachments:	PastedGraphic-1.tiff; ATT00001.txt
+
+Hi John,
+
+I hope you don't mind me writing directly to you about this but I have got as far as I can get with online resources and user manuals.
+
+I am greatly impressed with your expex package. I have been using it for a while on Latex (I am still a new user but am seeming to get the hang of it). I had finally got annoyed with Word once too many times with linguists examples etc.
+
+Any I am interested in automatically creating nice transcripts from my files that are transcribed in ELAN - a free transcription tool here at the MPI which I am one of the testers for. We spend a lot of time making nice time-aligned transcriptions in xml that can account for speaker overlap and multiple lines of analysis per utterance. Anyway...
+
+So far I have done some tinkering with your package to get near to what I want. My work isn't quite perfect though and I'm sure could be improved (in particular the alignment of \transshort and the use of \ljudge to insert a speaker ID). I have pasted at the end of the email the latex macros that I am using and some sample text (ignore the messy unicode characters).
+
+My question about development of features. As part of transcription of multi-party texts you often get overlapped speech. One way of marking this is with alignment of the two overlapped turns with a "[" where the overlap occurs and indenting the second turn to the level of where the over lap starts.
+
+
+In my trivial example:
+
+J: And Alex said 	[you have a great car
+P:				[mmm who said?
+J: Alex
+P: ohhh, that is nice of him
+
+Previously this has been done with fixed width fonts and by hand. Tiresome and stupid considering that now we have xml that can do so much more. Now as you can imagine when you are working with small languages you need to have glosses/freetranslations too which is why I looked to your expex package.  I have included a small excerpt image from my friend's recent dissertation to show you what it could look like. It is from http://thesis.ideophone.org/. See line 84.
+

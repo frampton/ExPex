@@ -203,11 +203,10 @@
 \csname \ling@titles titles\endcsname
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 % already allocated 0,1,2,3,\itfam (4), \slfam (5),
 %     \bffam (6), \ttfam (7)
-
-\newfam\bcalfam        % 8    bold math symbol
+\chardef\bcalfam=8
+%\newfam\bcalfam        % 8    bold math symbol  ???? 8 already allocated!!!!
 \newfam\smallcalfam    % 9    small math symbol
 \newfam\smallrmfam     % A
 \newfam\mitafam        % B    alternate math symbol

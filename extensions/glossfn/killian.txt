@@ -1,0 +1,854 @@
+From:	Don Killian <donald.killian@helsinki.fi>
+Sent:	Wednesday, August 26, 2015 7:25 AM
+To:	Frampton, John
+Subject:	Re: expex
+
+Not a problem! And enjoy your activities :)  Summer is sadly over here 
+in Finland.. i think autumn kinda started today. Colder, grey, and rainy.
+
+And no clue about next year, lets see what happens. I have a job doing 
+some data mining in one project until the end of the year, will apply 
+for some grants in the meanwhile. Hopefully one of them comes through!
+
+Don
+
+On 08/26/2015 02:19 PM, John Frampton wrote:
+> Congratulations!
+>
+> I can't thank you enough for your contribution to a proposed
+> companion to Expex.  It is great - right to the point.  At the
+> moment, I'm immersed in summer activity (kayaking, fishing, cycling),
+> but I will get to work on putting together an Expex companion in the
+> fall.  I owe it to you.
+>
+> Do you know where you will be next year?
+>
+> Best, John
+>
+> Sent from my iPad
+>
+>> On Aug 26, 2015, at 3:08 AM, Don Killian
+>> <donald.killian@helsinki.fi> wrote:
+>>
+>> Hi John,
+>>
+>> Apparently "coming to the end" means hurriedly trying to fix all
+>> the corrections the external reviewers suggested, before your
+>> defense. I overestimated my ability to be quicker it seems. But now
+>> that I've handed in my dissertation for print, I can do two
+>> things.
+>>
+>> First:
+>>
+>> https://dl.dropboxusercontent.com/u/9706227/Killian%202015%20-%20Topics%20in%20Uduk%20Phonology%20and%20Morphosyntax.pdf
+>>
+>>
+>>
+A link to my dissertation itself.
+>>
+>> Second:
+>>
+>> I'll try to make a list of some challenges I've had, and give some
+>> examples. This one may take longer, but I'm sure I can come up with
+>> some fairly easily at least.
+>>
+>> The first thing that comes to mind is the fnhack that you helped me
+>> with earlier. If you haven't included that in the official version
+>> yet, I think it's worth doing so. It's a neat trick, and definitely
+>> beyond the average person's ability to do.
+>>
+>> Here are some of the instances I needed the footnote hack:
+>>
+>> \newbox\fnbox \ex[aboveexskip=0pt] \makefootnotehacks{A} \begingl
+>> \gla sho??k {a?ra?bi?ya?\fnhackA} // \glb foot \textsc{ass.cl2}:car
+>> // \glft `tire, wheel (lit: foot of car)' // \endgl \xe
+>> \footnotehacktext{\emph{a?ra?bi?ya?} is a fast-speech contraction
+>> of \emph{a? a?ra?bi?ya?}.}
+>>
+>> \newbox\fnbox \ex \makefootnotehacks{A,B} \begingl \gla ki? dha?n
+>> {ga?ja? ga?ja? ga?ja?} ya?-a? ?ce??d-ki? bwa? mo? a? ?ce?sh mu?n
+>> ?ka??bu?s // \glb \textsc{comp} great {\textsc{idph}\fnhackA}
+>> go.\textsc{sing}-\textsc{lnk} break-\textsc{ad1}
+>> stomach.\textsc{part} \textsc{mo} \textsc{loc.cl2} ground
+>> \textsc{dem.loc.anph} {shattered\fnhackB} // \glft `and he flailed
+>> through the air, breaking into pieces there on the ground.' //
+>> \endgl \xe \footnotehacktext{Ga?ja?ga?ja?ga?ja? denotes an
+>> ideophone for a long (thin) thing going through the air, such as a
+>> spear with a wobbling shaft, or a tall person waving their arms
+>> about flailingly.} \footnotehacktext{?Ka??bu?s denotes something
+>> broken into pieces, or something which has become fragile after a
+>> heavy impact of some kind.}
+>>
+>> Ideophones appear to be a particularly problematic part of speech
+>> to gloss effectively without footnotes. Another area is phrasal
+>> verbs, which work similarly in Uduk to English in that they're
+>> frequently discontinuous and you can't always guess the meaning of
+>> the sentence based on the individual words.
+>>
+>> di?, exist, plus ki?, complementizer, somehow is used to negate
+>> other verbs for instance. Without footnotes, either I'd lose the
+>> meaning of the individual words, or then I?d lose the reader on the
+>> intermediate step between the individual glosses and free
+>> translation.
+>>
+>> Page 20 gives a fairly simple example of pst-asr.
+>>
+>> \ex\quad \asr \3b{a?}m \endasr \qquad versus\qquad \asr
+>> \2b{a?}\1{m?} \endasr \xe
+>>
+>> Uduk can have both syllabic as well as non-syllabic sonorants, so
+>> it's a nice way to represent that I think.
+>>
+>> Examples with the dotted lines are found on page 43. I still don't
+>> know if that's the best way to represent those, but I don't have a
+>> strong familiarity with the theoretical background behind that type
+>> of representation, I have to admit.
+>>
+>> \ex \asr[xgap=2em,syB=2.5em] bama| \@(0,sy){L}
+>> \-[style=dotted](1,ts) \@(1,sy){M} \-(1,ts) \@(2,sy){L}
+>> \-[style=dotted](3,ts) \@(3,sy){M} \-(3,ts) |\endasr \TO
+>> \asr[xgap=2em,syB=2.5em] bama| \@(1,sy){L} \-(1,ts) \@(3,sy){L}
+>> \-(3,ts) |\endasr \xe
+>>
+>> For basic glossing examples, I never really had any other problems
+>> that I can recall. There are 1516 glossed examples in my
+>> dissertation, so i do rely quite heavily on glossed examples. I'm
+>> also quite sure there probably were easier ways to do some things
+>> compared to what I did. Small caps is one I'm really not sure of..
+>> you use {\sc acc}, I used \textsc{acc}, but I wonder if there's any
+>> way to automate more things which basically are always
+>> abbreviations?
+>>
+>> Another area which I may not have done the best way to do things
+>> had to do with the spacing between the examples. It was good for
+>> any instance in which I had text and then an example, but it was
+>> too much space in between one example and the next, possibly due to
+>> the way I set up my paragraphs (I prefer space between the
+>> paragraphs, and no indentations).
+>>
+>> \setlength{\parskip}{1.3ex plus 0.2ex minus 0.2ex}
+>> \setlength{\parindent}{0pt}
+>>
+>> So for any instances in which I had multiple glossed examples in a
+>> row, I used \ex[aboveexskip=0pt].
+>>
+>> Oh, and one last thing: it might be worth stressing \gathertags a
+>> bit more in the documentation when referring to examples. I
+>> basically stuck that in my preamble and then I think the very first
+>> time, ran it through a few times until it found everything. I
+>> personally found it quite important, since I did have one of those
+>> complex projects (book length manuscript) that you mentioned :)
+>>
+>> I'm happy to share any more examples that you might find
+>> interesting from my thesis. I don't think they're terribly
+>> difficult or challenging per se, but maybe they can still add to
+>> things.
+>>
+>> Thanks again!
+>>
+>> Best,
+>>
+>> Don
+>>
+>>> On 03/23/2015 03:35 PM, Frampton, John wrote: Hi Don,
+>>>
+>>> I certainly would like to see your thesis.
+>>>
+>>> I have wanted user contributions to the User's Guide, or maybe a
+>>> Companion to the User's Guide that has more or less complicated
+>>> examples worked out by users, or problems that users faced and
+>>> have had to solve - in more or less their own words.  I think no
+>>> one has ever wanted to go first, although I know that various
+>>> people have done things that would be useful for such a
+>>> collection.  It would be great for you to start if off with some
+>>> of the problems you have had to work out in writing your thesis.
+>>> Don't worry much about the format at this point.  I'll have to
+>>> work out some kind of template that user contributions can be
+>>> plugged into.
+>>>
+>>>
+>>> Best, John
+>>>
+>>> -----Original Message----- From: Don Killian
+>>> [mailto:donald.killian@helsinki.fi] Sent: Monday, March 23, 2015
+>>> 7:03 AM To: Frampton, John Subject: expex
+>>>
+>>> Hi John!
+>>>
+>>> I am coming to the end of my thesis, and I was thinking that
+>>> quite a few times over the past few years, I've had some
+>>> questions or difficulties with expex and other packages which
+>>> you've helped me with. Thanks once again for all your help.. you
+>>> will get a special mention in my dedication, and I can send you a
+>>> copy of the grammar if you are interested.
+>>>
+>>> But I was also thinking that now that I am going to have some
+>>> more time in the future, I could also help return the favor if
+>>> you're interested.
+>>>
+>>> Where I might be able to help is by giving more examples of ways
+>>> in which the package could be used, and less technical
+>>> explanations of how to do so. I have a fair idea of where most
+>>> people's abilities to understand technical stuff lie, so I could
+>>> say what is easily understood and what is harder to follow
+>>> without a programming background (which I don't have). I could
+>>> even help with writing some documentation if you are ok with the
+>>> idea.
+>>>
+>>> Any thoughts? Would this be something that would be useful or
+>>> interesting for you?
+>>>
+>>> Best,
+>>>
+>>> Don
+>>>
+>>> -- Don Killian Researcher in African Linguistics Department of
+>>> Modern Languages PL 24 (Unioninkatu 40) FI-00014 University of
+>>> Helsinki +358 (0)44 5016437
+>>>
+ From:	John Frampton <j.frampton@neu.edu>
+Sent:	Wednesday, August 26, 2015 7:19 AM
+To:	Don Killian
+Subject:	Re: expex
+
+Congratulations!
+
+I can't thank you enough for your contribution to a proposed companion to Expex.  It is great - right to the point.  At the moment, I'm immersed in summer activity (kayaking, fishing, cycling), but I will get to work on putting together an Expex companion in the fall.  I owe it to you.
+
+Do you know where you will be next year?
+
+Best,
+John
+
+Sent from my iPad
+
+> On Aug 26, 2015, at 3:08 AM, Don Killian <donald.killian@helsinki.fi> wrote:
+> 
+> Hi John,
+> 
+> Apparently "coming to the end" means hurriedly trying to fix all the corrections the external reviewers suggested, before your defense. I overestimated my ability to be quicker it seems. But now that I've handed in my dissertation for print, I can do two things.
+> 
+> First:
+> 
+> https://dl.dropboxusercontent.com/u/9706227/Killian%202015%20-%20Topics%20in%20Uduk%20Phonology%20and%20Morphosyntax.pdf
+> 
+> A link to my dissertation itself.
+> 
+> Second:
+> 
+> I'll try to make a list of some challenges I've had, and give some examples. This one may take longer, but I'm sure I can come up with some fairly easily at least.
+> 
+> The first thing that comes to mind is the fnhack that you helped me with earlier. If you haven't included that in the official version yet, I think it's worth doing so. It's a neat trick, and definitely beyond the average person's ability to do.
+> 
+> Here are some of the instances I needed the footnote hack:
+> 
+> \newbox\fnbox
+> \ex[aboveexskip=0pt]
+> \makefootnotehacks{A}
+> \begingl
+> \gla sho??k {a?ra?bi?ya?\fnhackA} //
+> \glb foot \textsc{ass.cl2}:car //
+> \glft `tire, wheel (lit: foot of car)' //
+> \endgl
+> \xe
+> \footnotehacktext{\emph{a?ra?bi?ya?} is a fast-speech contraction of \emph{a? a?ra?bi?ya?}.}
+> 
+> \newbox\fnbox
+> \ex
+> \makefootnotehacks{A,B}
+> \begingl
+> \gla ki? dha?n {ga?ja? ga?ja? ga?ja?} ya?-a? ?ce??d-ki? bwa? mo? a? ?ce?sh mu?n ?ka??bu?s //
+> \glb \textsc{comp} great {\textsc{idph}\fnhackA} go.\textsc{sing}-\textsc{lnk} break-\textsc{ad1} stomach.\textsc{part} \textsc{mo} \textsc{loc.cl2} ground \textsc{dem.loc.anph} {shattered\fnhackB} //
+> \glft `and he flailed through the air, breaking into pieces there on the ground.' //
+> \endgl
+> \xe
+> \footnotehacktext{Ga?ja?ga?ja?ga?ja? denotes an ideophone for a long (thin) thing going through the air, such as a spear with a wobbling shaft, or a tall person waving their arms about flailingly.}
+> \footnotehacktext{?Ka??bu?s denotes something broken into pieces, or something which has become fragile after a heavy impact of some kind.}
+> 
+> Ideophones appear to be a particularly problematic part of speech to gloss effectively without footnotes. Another area is phrasal verbs, which work similarly in Uduk to English in that they're frequently discontinuous and you can't always guess the meaning of the sentence based on the individual words.
+> 
+> di?, exist, plus ki?, complementizer, somehow is used to negate other verbs for instance. Without footnotes, either I'd lose the meaning of the individual words, or then I?d lose the reader on the intermediate step between the individual glosses and free translation.
+> 
+> Page 20 gives a fairly simple example of pst-asr.
+> 
+> \ex\quad
+> \asr \3b{a?}m
+> \endasr
+> \qquad versus\qquad
+> \asr \2b{a?}\1{m?}
+> \endasr
+> \xe
+> 
+> Uduk can have both syllabic as well as non-syllabic sonorants, so it's a nice way to represent that I think.
+> 
+> Examples with the dotted lines are found on page 43. I still don't know if that's the best way to represent those, but I don't have a strong familiarity with the theoretical background behind that type of representation, I have to admit.
+> 
+> \ex
+> \asr[xgap=2em,syB=2.5em] bama|
+> \@(0,sy){L}
+>   \-[style=dotted](1,ts)
+> \@(1,sy){M}
+>   \-(1,ts)
+> \@(2,sy){L}
+>   \-[style=dotted](3,ts)
+> \@(3,sy){M}
+>   \-(3,ts)
+> |\endasr
+> \TO
+> \asr[xgap=2em,syB=2.5em] bama|
+> \@(1,sy){L}
+>   \-(1,ts)
+> \@(3,sy){L}
+>   \-(3,ts)
+> |\endasr
+> \xe
+> 
+> For basic glossing examples, I never really had any other problems that I can recall. There are 1516 glossed examples in my dissertation, so i do rely quite heavily on glossed examples. I'm also quite sure there probably were easier ways to do some things compared to what I did. Small caps is one I'm really not sure of.. you use {\sc acc}, I used \textsc{acc}, but I wonder if there's any way to automate more things which basically are always abbreviations?
+> 
+> Another area which I may not have done the best way to do things had to do with the spacing between the examples. It was good for any instance in which I had text and then an example, but it was too much space in between one example and the next, possibly due to the way I set up my paragraphs (I prefer space between the paragraphs, and no indentations).
+> 
+> \setlength{\parskip}{1.3ex plus 0.2ex minus 0.2ex}
+> \setlength{\parindent}{0pt}
+> 
+> So for any instances in which I had multiple glossed examples in a row, I used \ex[aboveexskip=0pt].
+> 
+> Oh, and one last thing: it might be worth stressing \gathertags a bit more in the documentation when referring to examples. I basically stuck that in my preamble and then I think the very first time, ran it through a few times until it found everything. I personally found it quite important, since I did have one of those complex projects (book length manuscript) that you mentioned :)
+> 
+> I'm happy to share any more examples that you might find interesting from my thesis. I don't think they're terribly difficult or challenging per se, but maybe they can still add to things.
+> 
+> Thanks again!
+> 
+> Best,
+> 
+> Don
+> 
+>> On 03/23/2015 03:35 PM, Frampton, John wrote:
+>> Hi Don,
+>> 
+>> I certainly would like to see your thesis.
+>> 
+>> I have wanted user contributions to the User's Guide, or maybe a
+>> Companion to the User's Guide that has more or less complicated
+>> examples worked out by users, or problems that users faced and have
+>> had to solve - in more or less their own words.  I think no one has
+>> ever wanted to go first, although I know that various people have
+>> done things that would be useful for such a collection.  It would be
+>> great for you to start if off with some of the problems you have had
+>> to work out in writing your thesis.  Don't worry much about the
+>> format at this point.  I'll have to work out some kind of template
+>> that user contributions can be plugged into.
+>> 
+>> 
+>> Best, John
+>> 
+>> -----Original Message----- From: Don Killian
+>> [mailto:donald.killian@helsinki.fi] Sent: Monday, March 23, 2015 7:03
+>> AM To: Frampton, John Subject: expex
+>> 
+>> Hi John!
+>> 
+>> I am coming to the end of my thesis, and I was thinking that quite a
+>> few times over the past few years, I've had some questions or
+>> difficulties with expex and other packages which you've helped me
+>> with. Thanks once again for all your help.. you will get a special
+>> mention in my dedication, and I can send you a copy of the grammar if
+>> you are interested.
+>> 
+>> But I was also thinking that now that I am going to have some more
+>> time in the future, I could also help return the favor if you're
+>> interested.
+>> 
+>> Where I might be able to help is by giving more examples of ways in
+>> which the package could be used, and less technical explanations of
+>> how to do so. I have a fair idea of where most people's abilities to
+>> understand technical stuff lie, so I could say what is easily
+>> understood and what is harder to follow without a programming
+>> background (which I don't have). I could even help with writing some
+>> documentation if you are ok with the idea.
+>> 
+>> Any thoughts? Would this be something that would be useful or
+>> interesting for you?
+>> 
+>> Best,
+>> 
+>> Don
+>> 
+>> -- Don Killian Researcher in African Linguistics Department of Modern
+>> Languages PL 24 (Unioninkatu 40) FI-00014 University of Helsinki +358
+>> (0)44 5016437
+>> 
+ From:	Don Killian <donald.killian@helsinki.fi>
+Sent:	Wednesday, August 26, 2015 3:09 AM
+To:	Frampton, John
+Subject:	Re: expex
+
+Hi John,
+
+Apparently "coming to the end" means hurriedly trying to fix all the 
+corrections the external reviewers suggested, before your defense. I 
+overestimated my ability to be quicker it seems. But now that I've 
+handed in my dissertation for print, I can do two things.
+
+First:
+
+https://dl.dropboxusercontent.com/u/9706227/Killian%202015%20-%20Topics%20in%20Uduk%20Phonology%20and%20Morphosyntax.pdf
+
+A link to my dissertation itself.
+
+Second:
+
+I'll try to make a list of some challenges I've had, and give some 
+examples. This one may take longer, but I'm sure I can come up with some 
+fairly easily at least.
+
+The first thing that comes to mind is the fnhack that you helped me with 
+earlier. If you haven't included that in the official version yet, I 
+think it's worth doing so. It's a neat trick, and definitely beyond the 
+average person's ability to do.
+
+Here are some of the instances I needed the footnote hack:
+
+\newbox\fnbox
+\ex[aboveexskip=0pt]
+\makefootnotehacks{A}
+\begingl
+\gla sho??k {a?ra?bi?ya?\fnhackA} //
+\glb foot \textsc{ass.cl2}:car //
+\glft `tire, wheel (lit: foot of car)' //
+\endgl
+\xe
+\footnotehacktext{\emph{a?ra?bi?ya?} is a fast-speech contraction of \emph{a? 
+a?ra?bi?ya?}.}
+
+\newbox\fnbox
+\ex
+\makefootnotehacks{A,B}
+\begingl
+\gla ki? dha?n {ga?ja? ga?ja? ga?ja?} ya?-a? ?ce??d-ki? bwa? mo? a? ?ce?sh mu?n ?ka??bu?s //
+\glb \textsc{comp} great {\textsc{idph}\fnhackA} 
+go.\textsc{sing}-\textsc{lnk} break-\textsc{ad1} stomach.\textsc{part} 
+\textsc{mo} \textsc{loc.cl2} ground \textsc{dem.loc.anph} 
+{shattered\fnhackB} //
+\glft `and he flailed through the air, breaking into pieces there on the 
+ground.' //
+\endgl
+\xe
+\footnotehacktext{Ga?ja?ga?ja?ga?ja? denotes an ideophone for a long (thin) 
+thing going through the air, such as a spear with a wobbling shaft, or a 
+tall person waving their arms about flailingly.}
+\footnotehacktext{?Ka??bu?s denotes something broken into pieces, or 
+something which has become fragile after a heavy impact of some kind.}
+
+Ideophones appear to be a particularly problematic part of speech to 
+gloss effectively without footnotes. Another area is phrasal verbs, 
+which work similarly in Uduk to English in that they're frequently 
+discontinuous and you can't always guess the meaning of the sentence 
+based on the individual words.
+
+di?, exist, plus ki?, complementizer, somehow is used to negate other 
+verbs for instance. Without footnotes, either I'd lose the meaning of 
+the individual words, or then I?d lose the reader on the intermediate 
+step between the individual glosses and free translation.
+
+Page 20 gives a fairly simple example of pst-asr.
+
+\ex\quad
+\asr \3b{a?}m
+\endasr
+\qquad versus\qquad
+\asr \2b{a?}\1{m?}
+\endasr
+\xe
+
+Uduk can have both syllabic as well as non-syllabic sonorants, so it's a 
+nice way to represent that I think.
+
+Examples with the dotted lines are found on page 43. I still don't know 
+if that's the best way to represent those, but I don't have a strong 
+familiarity with the theoretical background behind that type of 
+representation, I have to admit.
+
+\ex
+\asr[xgap=2em,syB=2.5em] bama|
+\@(0,sy){L}
+    \-[style=dotted](1,ts)
+\@(1,sy){M}
+    \-(1,ts)
+\@(2,sy){L}
+    \-[style=dotted](3,ts)
+\@(3,sy){M}
+    \-(3,ts)
+|\endasr
+\TO
+\asr[xgap=2em,syB=2.5em] bama|
+\@(1,sy){L}
+    \-(1,ts)
+\@(3,sy){L}
+    \-(3,ts)
+|\endasr
+\xe
+
+For basic glossing examples, I never really had any other problems that 
+I can recall. There are 1516 glossed examples in my dissertation, so i 
+do rely quite heavily on glossed examples. I'm also quite sure there 
+probably were easier ways to do some things compared to what I did. 
+Small caps is one I'm really not sure of.. you use {\sc acc}, I used 
+\textsc{acc}, but I wonder if there's any way to automate more things 
+which basically are always abbreviations?
+
+Another area which I may not have done the best way to do things had to 
+do with the spacing between the examples. It was good for any instance 
+in which I had text and then an example, but it was too much space in 
+between one example and the next, possibly due to the way I set up my 
+paragraphs (I prefer space between the paragraphs, and no indentations).
+
+\setlength{\parskip}{1.3ex plus 0.2ex minus 0.2ex}
+\setlength{\parindent}{0pt}
+
+So for any instances in which I had multiple glossed examples in a row, 
+I used \ex[aboveexskip=0pt].
+
+Oh, and one last thing: it might be worth stressing \gathertags a bit 
+more in the documentation when referring to examples. I basically stuck 
+that in my preamble and then I think the very first time, ran it through 
+a few times until it found everything. I personally found it quite 
+important, since I did have one of those complex projects (book length 
+manuscript) that you mentioned :)
+
+I'm happy to share any more examples that you might find interesting 
+from my thesis. I don't think they're terribly difficult or challenging 
+per se, but maybe they can still add to things.
+
+Thanks again!
+
+Best,
+
+Don
+
+On 03/23/2015 03:35 PM, Frampton, John wrote:
+> Hi Don,
+>
+> I certainly would like to see your thesis.
+>
+> I have wanted user contributions to the User's Guide, or maybe a
+> Companion to the User's Guide that has more or less complicated
+> examples worked out by users, or problems that users faced and have
+> had to solve - in more or less their own words.  I think no one has
+> ever wanted to go first, although I know that various people have
+> done things that would be useful for such a collection.  It would be
+> great for you to start if off with some of the problems you have had
+> to work out in writing your thesis.  Don't worry much about the
+> format at this point.  I'll have to work out some kind of template
+> that user contributions can be plugged into.
+>
+>
+> Best, John
+>
+> -----Original Message----- From: Don Killian
+> [mailto:donald.killian@helsinki.fi] Sent: Monday, March 23, 2015 7:03
+> AM To: Frampton, John Subject: expex
+>
+> Hi John!
+>
+> I am coming to the end of my thesis, and I was thinking that quite a
+> few times over the past few years, I've had some questions or
+> difficulties with expex and other packages which you've helped me
+> with. Thanks once again for all your help.. you will get a special
+> mention in my dedication, and I can send you a copy of the grammar if
+> you are interested.
+>
+> But I was also thinking that now that I am going to have some more
+> time in the future, I could also help return the favor if you're
+> interested.
+>
+> Where I might be able to help is by giving more examples of ways in
+> which the package could be used, and less technical explanations of
+> how to do so. I have a fair idea of where most people's abilities to
+> understand technical stuff lie, so I could say what is easily
+> understood and what is harder to follow without a programming
+> background (which I don't have). I could even help with writing some
+> documentation if you are ok with the idea.
+>
+> Any thoughts? Would this be something that would be useful or
+> interesting for you?
+>
+> Best,
+>
+> Don
+>
+> -- Don Killian Researcher in African Linguistics Department of Modern
+> Languages PL 24 (Unioninkatu 40) FI-00014 University of Helsinki +358
+> (0)44 5016437
+>
+From:	Frampton, John
+Sent:	Monday, March 23, 2015 9:36 AM
+To:	'Don Killian'
+Subject:	RE: expex
+
+Hi Don,
+
+I certainly would like to see your thesis.
+
+I have wanted user contributions to the User's Guide, or maybe a Companion to the User's Guide that has more or less complicated examples worked out by users, or problems that users faced and have had to solve - in more or less their own words.  I think no one has ever wanted to go first, although I know that various people have done things that would be useful for such a collection.  It would be great for you to start if off with some of the problems you have had to work out in writing your thesis.  Don't worry much about the format at this point.  I'll have to work out some kind of template that user contributions can be plugged into.
+
+
+Best,
+John
+
+-----Original Message-----
+From: Don Killian [mailto:donald.killian@helsinki.fi] 
+Sent: Monday, March 23, 2015 7:03 AM
+To: Frampton, John
+Subject: expex
+
+Hi John!
+
+I am coming to the end of my thesis, and I was thinking that quite a few times over the past few years, I've had some questions or difficulties with expex and other packages which you've helped me with. Thanks once again for all your help.. you will get a special mention in my dedication, and I can send you a copy of the grammar if you are interested.
+
+But I was also thinking that now that I am going to have some more time in the future, I could also help return the favor if you're interested.
+
+Where I might be able to help is by giving more examples of ways in which the package could be used, and less technical explanations of how to do so. I have a fair idea of where most people's abilities to understand technical stuff lie, so I could say what is easily understood and what is harder to follow without a programming background (which I don't have). I could even help with writing some documentation if you are ok with the idea.
+
+Any thoughts? Would this be something that would be useful or interesting for you?
+
+Best,
+
+Don
+
+--
+Don Killian
+Researcher in African Linguistics
+Department of Modern Languages
+PL 24 (Unioninkatu 40)
+FI-00014 University of Helsinki
++358 (0)44 5016437
+From:	Don Killian <donald.killian@helsinki.fi>
+Sent:	Monday, March 23, 2015 7:03 AM
+To:	Frampton, John
+Subject:	expex
+
+Hi John!
+
+I am coming to the end of my thesis, and I was thinking that quite a few 
+times over the past few years, I've had some questions or difficulties 
+with expex and other packages which you've helped me with. Thanks once 
+again for all your help.. you will get a special mention in my 
+dedication, and I can send you a copy of the grammar if you are interested.
+
+But I was also thinking that now that I am going to have some more time 
+in the future, I could also help return the favor if you're interested.
+
+Where I might be able to help is by giving more examples of ways in 
+which the package could be used, and less technical explanations of how 
+to do so. I have a fair idea of where most people's abilities to 
+understand technical stuff lie, so I could say what is easily understood 
+and what is harder to follow without a programming background (which I 
+don't have). I could even help with writing some documentation if you 
+are ok with the idea.
+
+Any thoughts? Would this be something that would be useful or 
+interesting for you?
+
+Best,
+
+Don
+
+-- 
+Don Killian
+Researcher in African Linguistics
+Department of Modern Languages
+PL 24 (Unioninkatu 40)
+FI-00014 University of Helsinki
++358 (0)44 5016437
+From:	Frampton, John
+Sent:	Monday, March 09, 2015 6:33 AM
+To:	'Don Killian'
+Subject:	RE: [Ling-TeX] expex numbering and referencing
+Attachments:	pst-examples2.tex
+
+
+I discovered the source of your confusion.  The file pst-asr-examples was intended to be used without expex.  I could not assume that everyone who wanted to try out pst-asr had expex installed.  I have attached a slightly modified version of pst-asr-examples which uses expex.  There are not many changes, but there are some crucial one.
+
+-----Original Message-----
+From: Don Killian [mailto:donald.killian@helsinki.fi] 
+Sent: Saturday, March 07, 2015 1:08 PM
+To: Frampton, John
+Subject: Re: [Ling-TeX] expex numbering and referencing
+
+Hi John,
+
+That simple example worked fine as well. But I'm afraid I'm not able to break things down enough to analyze what is doing what after that.
+
+After Monday is fine. Enjoy your weekend!
+
+Best,
+
+Don
+
+
+On 03/07/2015 01:54 PM, John Frampton wrote:
+> Don,
+>
+> I am away from home until Sunday evening and did not bring my 
+> computer.  I will look at your problem on Monday.  I don't think it is 
+> serious.  pst-asr and expex work well together.  I use them together 
+> every day.
+>
+> Best, John
+>
+> If you are trying to troubleshoot a problem, always start as simple as 
+> you can.  Start with
+>
+> \ex \asr bama\endasr \xe
+>
+> Then add things one at a time until there is an error.  That way you 
+> know what is responsible for the problem.
+>
+>
+> Sent from my iPad
+>
+>> On Mar 7, 2015, at 5:23 AM, Don Killian <donald.killian@helsinki.fi> 
+>> wrote:
+>>
+>> Hi John,
+>>
+>> The preamble code is copy-pasted from you earlier (I can't find the 
+>> email though), when I was having trouble getting pst-asr to work. I 
+>> have no clue about tex coding, and generally don't touch it.
+>>
+>> If I run the example you give, it works fine as is. Adding a few 
+>> extra lines also is still fine, e.g.
+>>
+>> \ex[tag=mytag1] example\xe \getref{mytag1} \ex[tag=mytag2] example\xe 
+>> \getref{mytag2} \ex[tag=mytag3] example\xe \getref{mytag3}
+>>
+>> If I run the example you give PLUS something from pst-asr, however, I 
+>> get an undefined control sequence for \TO.
+>>
+>> \ex \asr[xgap=2em,syB=2.5em] bama| \@(0,sy){L}
+>> \-[style=dotted](1,ts) \@(1,sy){M} \-(1,ts) \@(2,sy){L}
+>> \-[style=dotted](3,ts) \@(3,sy){M} \-(3,ts) |\endasr \TO 
+>> \asr[xgap=2em,syB=2.5em] bama| \@(1,sy){L} \-(1,ts) \@(3,sy){L}
+>> \-(3,ts) |\endasr \xe
+>>
+>> If I remove everything in the preamble but
+>>
+>> \def\TO{\quad$\rightarrow$\quad}
+>>
+>> I get complete gibberish writing on top of itself. Your earlier 
+>> suggestion was to put what I had in the preamble. Adding the preamble 
+>> code fixed the pst-asr issues, but I'm guessing that there's a 
+>> conflict with expex though?  How can I have both packages working?
+>>
+>> Best,
+>>
+>> Don
+>>
+>>> On 03/07/2015 01:51 AM, John Frampton wrote: I don't understand your 
+>>> code.  Why are you defining \ex?  If you define \ex, your definition 
+>>> will be used, not the expex definition.
+>>>
+>>> There is a User's Guide.  You really should read it.  Not all the 
+>>> details, but you can pick out the main points.
+>>>
+>>> run the following, with no preamble
+>>>
+>>> \ex[tag=mytag] example\xe \getref{mytag}
+>>>
+>>> What do you get?  If it doesn't work, send me the .tex file and the 
+>>> .log file.
+>>>
+>>>
+>>> Sent from my iPad
+>>>
+>>>> On Mar 6, 2015, at 8:07 AM, Don Killian 
+>>>> <donald.killian@helsinki.fi> wrote:
+>>>>
+>>>> Hi guys,
+>>>>
+>>>> I must be doing something wrong, and sorry for asking a question 
+>>>> which might be stupid, but I still wasn't able to figure this out. 
+>>>> My goals are fairly simple.. I want to be able to refer to specific 
+>>>> examples in my text, and I can't get it to work.
+>>>>
+>>>> Perhaps I can get one clarification.. what is the difference 
+>>>> between \pex and \ex?
+>>>>
+>>>> When I'm trying to label things, \ex[tag=bewithpp] does not work at 
+>>>> all, and it shows up in the text. \pex[tag=bewithpp] may work 
+>>>> better (it doesn't show up in the text at least), but references to 
+>>>> it still do not. No matter which one I use, If I try to use 
+>>>> \getref{bewithpp} I get something like the
+>>>> following:
+>>>>
+>>>> -- Note that in many instances, such as example [bewithpp], the 
+>>>> constructions should be more appropriately translated as ‘be with’ 
+>>>> rather than ‘have’. --
+>>>>
+>>>> I tried using \pex instead of \ex, but if I do that, then all my 
+>>>> examples are 1.
+>>>>
+>>>> Similarly, for not explicitly tagged examples, if I use \nextx, it 
+>>>> always just says (1).
+>>>>
+>>>> One thing I was thinking, pst-asr does require me to put in some 
+>>>> code which I admittedly don't understand. Does this have a conflict 
+>>>> with expex?
+>>>>
+>>>> I have this in my preamble:
+>>>>
+>>>> ---
+>>>> \newpsstyle{bigsyls}{extragap=.6ex,unitxgap=true,xgap=3.5ex,
+>>>> ts=0pt ($\times$),sy=5.5ex ($\sigma$) .7ex,ph=-4.5ex (pf)} 
+>>>> \newpsstyle{dotted}{linestyle=dotted,linewidth=1.2pt,dotsep=1.6pt}
+>>>>
+>>>>
+\def\feat#1{$\rm [#1]$}
+>>>> \def\crossing{\pscircle[linestyle=solid,linewidth=.5pt](0,0){.7ex}}
+>>>> %
+>>>>
+>>>>
+>>>>
+>>
+>>>>
+\newdimen\dimpuba
+>>>> \newdimen\dimpubb \newcount\exno \exno=0 \def\ex{\vskip1.8em 
+>>>> \allowbreak\noindent \advance\exno by 1  \bgroup \parindent=0pt 
+>>>> (\the\exno)\quad} \def\xe{\par\egroup} 
+>>>> \def\TO{\quad$\rightarrow$\quad} \tiershortcuts \raggedbottom
+>>>> ---
+>>>>
+>>>> Suggestions or help are much appreciated!
+>>>>
+>>>> Best,
+>>>>
+>>>> Don -- Don Killian Researcher in African Linguistics Department of 
+>>>> Modern Languages PL 24 (Unioninkatu 40) FI-00014 University of 
+>>>> Helsinki +358 (0)44 5016437
+>>>>
+>>>
+>>
+>> -- Don Killian Researcher in African Linguistics Department of Modern 
+>> Languages PL 24 (Unioninkatu 40) FI-00014 University of Helsinki +358 
+>> (0)44 5016437
+
+--
+Don Killian
+Researcher in African Linguistics
+Department of Modern Languages
+PL 24 (Unioninkatu 40)
+FI-00014 University of Helsinki
++358 (0)44 5016437
+From:	Frampton, John
+Sent:	Sunday, March 08, 2015 9:25 PM
+To:	'Don Killian'
+Subject:	RE: [Ling-TeX] expex numbering and referencing
+Attachments:	killian.tex
+
+The attached works fine.  I can't help you further unless you spend some of your time looking at the documentation and trying to work out minimal examples for your questions.
+
+If you do, I'll be glad to help. 
+
+Best,
+John
+

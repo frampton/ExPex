@@ -1,0 +1,53 @@
+\ProvidesPackage{epltxfn}%
+  [2015/10/05 v2.0 LaTex footnote macro for ExPex (JF)]
+\RequirePackage{expex}
+
+\makeatletter
+
+\def\everyfootnote{%
+   \keepexcntlocal
+   \excnt=1
+   \lingset{exskip=1ex,exnotype=roman,sampleexno=,
+      labeltype=alpha,labelanchor=numright,labeloffset=.6em,
+      textoffset=.6em}
+}
+\renewcommand{\@makefntext}[1]{%
+   \everyfootnote
+   \parindent=1em
+   \noindent
+   \@thefnmark.\enspace #1%
+}
+
+
+\def\innerfnno#1{\let\@sf\empty
+   \ifhmode\edef\@sf{\spacefactor\the\spacefactor}\/\fi
+   {\advance\c@footnote by #1 $^{\the\c@footnote}$}\@sf}
+\def\outerfntext{\global\advance\c@footnote by 1
+   \def\@thefnmark{\the\c@footnote}\@footnotetext}
+
+
+
+\newtoks\alloctoks
+\newcount\alloc@fnno
+\def\allocglfns#1{%
+   \alloctoks={}%
+   \alloc@fnno=\c@footnote
+   \XKV@for@n{#1}\which{%
+      \edef\temp{glfn@mark\which}%
+      \advance\alloc@fnno by 1
+      \expandafter\xdef\csname glfn@no\which\endcsname{\the\alloc@fnno}%
+      \expandafter\xdef\csname \temp\endcsname
+         {$\mskip1.5mu ^{\the\alloc@fnno}$}%
+      \expandafter\gl@push\which\to\alloctoks}%
+      \ignorespaces
+}
+\def\glfnmark #1{%
+   \csname glfn@mark#1\endcsname
+}
+\def\glfntext{%
+   \global\advance\c@footnote 1
+   \gl@lop\alloctoks\to\happy
+   \edef\@thefnmark{\csname glfn@mark\happy\endcsname}%
+   \footnotetext
+}
+\resetatcatcode

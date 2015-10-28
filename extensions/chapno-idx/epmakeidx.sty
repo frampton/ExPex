@@ -1,0 +1,12 @@
+
+\makeatletter
+\def\indexbyexampleno{\@bsphack \begingroup \@sanitize \jf@wrindex}
+\def\jf@wrindex#1{%
+   \jf@protected@write \@indexfile {}%
+   {\string \indexentry {#1}{\thechapter-\the\excnt}}\endgroup \@esphack}
+\long\def\jf@protected@write#1#2#3{\begingroup
+   #2\let \protect \@unexpandable@protect
+   \edef \reserved@a {\immediate\write #1{#3}}\reserved@a \endgroup \if@nobreak
+   \ifvmode \nobreak \fi \fi}
+\resetatcatcode
+

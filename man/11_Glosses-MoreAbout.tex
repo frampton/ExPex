@@ -2,11 +2,12 @@
 \section More about glosses
 
 \deftagsec{moreaboutsec}
-\subsection The parameter {\tt glwidth}
+\subsection The parameters {\tt glossbreaking} and {\tt glwidth}
 
 \begininventory
 \parameters*
 \idx{|glwidth|}& dimension& \textdim{0 pt}\cr
+\idx{|glbreaking|}& boolean& true\cr
 \endinventory
 If the parameter |glwidth| is set to a nonzero value, the gloss is
 built in a vbox whose width is the setting of |glwidth|. The following
@@ -60,7 +61,24 @@ would not damage John.'//
 \xe
 |endcodedisplay
 
+If |glwidth| is set to \textdim{0 pt} the gloss is constructed in a vbox only if
+|glossbreaking| is set to |false|.  This is the initial setting.\footnote{The
+initial setting is |false| for reasons of backwards compatability.} The width of
+the  box is The width is $h-l-r$, where $h$, $l$, and $r$, are the current
+values of |\hsize|, |\leftskip|, and |\rightskip|, respectively.  This implicit
+determination of the width of the gloss is appropriate for use with the \ExPex\
+macros which typeset examples.  These macros adjust the leftskip, so the width
+of the gloss vbox must be adjusted to correspond to the available space.
 
+If |glwidth| is set to \textdim{0 pt} and |glossbreaking| is true, the gloss is
+not constructed in a vbox, so it can {\it break between pages}.  This is
+particularly useful in glossing stories or translations, which frequently run
+over several pages.
+
+Note that although the initial setting of |glossbreaking| is |false|, the
+default setting is |true|.  This means that |\lingset{glossbreaking}| is
+equivalent to |\lingset{glossbreaking=true}|. Parameters that are set with no
+value specified are set to their default values.
 
 %
 %
@@ -69,12 +87,7 @@ would not damage John.'//
 %
 %In the wrap style (the only gloss style currently implemented),
 %the gloss is built in a vbox whose width is determined implicitly
-%if the parameter |glwidth| is set to \textdim{0 pt}. The width is
-%$h-l-r$, where $h$, $l$, and $r$, are the current values of
-%|\hsize|, |\leftskip|, and |\rightskip|, respectively.  This
-%implicit determination of the width of the gloss is appropriate
-%for use with the \ExPex\ macros which typeset examples because
-%they adjust the leftskip appropriately inside examples.
+%if the parameter |glwidth| is set to \textdim{0 pt}.
 %
 %If you want to supply an example number or explicit label, it will not
 %work to say something like the following if |glwidth| is set to

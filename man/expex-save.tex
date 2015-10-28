@@ -1,5 +1,5 @@
 \def\ExPexMessage
-   {2015/10/05 v5.0e ExPex linguistics example formatter (JF)}
+   {2014/03/10 v5.0b ExPex linguistics example formatter (JF)}
 % -------------------------------------------------------
 % jf 2011/12/09  (v4.0a)
 %  1) fixed bug in how exceptional gla items are detected
@@ -37,16 +37,6 @@
 % jf 2014/03/08  (v5.0b)
 %   1. restored allowing {} empty items in wrap glosses
 %   2. introduced <glossbreaking> parameter
-% jf 2014/03/14  (v5.0c)
-%   1. fixed reference for IJAL style
-%   2. fixed initialization for roman number parts in \pex
-% jf 2015/01/06  (v5.0d)
-%   glftpos=right now works with the nlevel style
-%   many internal names were changed to the general form
-%     \gl@<style>@<ftpos>@<name> to make the code for switching style and
-%     ftpos much more transparent
-% jf 2015/09/30  (v5.0e)
-%   right panel in nlevel style
 % --------------------------------------------------------
 \edef\resetatcatcode{\catcode`\noexpand\@\the\catcode`\@\relax}
 \catcode`\@=11\relax
@@ -226,8 +216,6 @@
 \let\stepexcnt=\ep@globalstepexcnt
 \def\keepexcntlocal{\let\stepexcnt=\ep@localstepexcnt}
 \def\ex@setup{%             also used by \pex
-%% TENTATIVE, insert \par
-   \par
    \global\@specialexnofalse
    \latex@tagex
    \lingEveryex
@@ -373,7 +361,8 @@
       \epd@numright\or \epd@labelleft\or \epd@textleft \fi
 }
 \def\ep@pexcntinit{\ifnum\ep@labelgen=2\else
-   \pexcnt=\ling@pexcnt \fi}
+   \pexcnt=\ling@pexcnt
+   \advance\pexcnt by -1 \fi}
 \define@key[epx@]{labels}{tag}{\def\@optionaltag{#1}}
 \define@key[epx@]{labels}{label}{\def\@specialexno{#1}}
 \def\ep@setlabelkeys{\setkeys[epx@]{labels}}
@@ -397,22 +386,19 @@
    \def\@specialexno{}\def\@optionaltag{}%
    \@getoptionalarg\ep@putlabel@a
 }
-% 03/14/2014 changed defs to edefs below
 \def\ep@putlabel@a{%
    \ep@useoptionallabelarg
    \ifx\@specialexno\empty
          \ifcase\ep@labelgen
-            \edef\ep@label{\the\ep@everylabel \char\the\pexcnt}%
-%            \edef\ep@label{\the\ep@everylabel \char\noexpand\the\pexcnt}%
+            \def\ep@label{\the\ep@everylabel \char\the\pexcnt}%
             \advance\pexcnt by 1
          \or
-            \edef\ep@label{\the\ep@everylabel \number\pexcnt}%
-%            \edef\ep@label{\the\ep@everylabel \number\noexpand\pexcnt}%
+            \def\ep@label{\the\ep@everylabel \number\pexcnt}%
             \advance\pexcnt by 1
          \or
             \ep@popLL
          \or
-            \edef\ep@label{\the\ep@everylabel \romannumeral\noexpand\pexcnt}%
+            \def\ep@label{\the\ep@everylabel \romannumeral\pexcnt}%
             \advance\pexcnt by 1
          \fi
       \else
@@ -437,12 +423,6 @@
 \define@choicekey{ling}{labelanchor}[\scratch\ep@labelanchor]%
    {numright,numleft,margin}[]{}
 \define@lingkey{pexcnt}{\edef\ling@pexcnt{#1}}
-% IJAL style
-\definelingstyle{IJAL}{labelwidth=2em,labelanchor=numleft,
-   labeloffset=0pt,labelformat=(A),everylabel=\actualexno,
-   textanchor=normal,textoffset=1em,preambleanchor=text,
-   preambleoffset=0pt,avoidnumlabelclash,
-   appendtopexarg={samplelabel=(\actualexno a)}}
 %-----------------------------------------
 %----- judgments -----
 \def\judge#1{\rm #1\kern .1em \ignorespaces}
@@ -483,12 +463,11 @@
 }
 \def\ep@inserttabellabel{\@getoptionaltag\ep@inserttablelabel@a}
 \def\ep@inserttablelabel@a{%
-%   \global\advance\pexcnt by 1
+   \global\advance\pexcnt by 1
    \ifx\@optionaltag\empty \else
       \deftaglabel{\@optionaltag}%
       \fi
    \edef\foop{\ep@label.}\foop
-   \global\advance\pexcnt by 1
 }
 \def\ep@omitlabel{\omit\hskip\linglabeloffset\hfil}
 %\def\endpextable{\egroup\egroup \par \prevdepth=\dp\strutbox}
@@ -545,9 +524,7 @@
    fullrefformat=XA,labelalign=left,labelwidth=.92em}
 \definelabeltype{numeric}{labelgen=number,pexcnt=1,labelformat=A.,
    fullrefformat=X.A,labelalign=right,labelwidth=.75em}
-% 03/14/14 bug fix (wrong start to roman series labels)
-\definelabeltype{roman}{labelgen=romannumber,pexcnt=2,labelformat=(A),
-%\definelabeltype{roman}{labelgen=romannumber,pexcnt=1,labelformat=(A),
+\definelabeltype{roman}{labelgen=romannumber,pexcnt=1,labelformat=(A),
    fullrefformat=XA,labelalign=left,labelwidth=1.5em}
 %-- tags and reference -----
 %----- local reference to example numbers -----
@@ -729,14 +706,19 @@
 \def\chooseref@a#1#2{#2}
 \def\chooseref@g#1#2{#1}
 % ----- glosses -----
-\def\ling@glstyle{wrap}
-\def\ling@glftpos{below}
-%%%% TEMP
-\def\RR{\writeln{RR after: \noexpand\glft -> \meaning\glft}}
-%%%% END TEMP
-\define@choicekey{ling}{glstyle}[\ling@glstyle\gl@style@num]{wrap,nlevel}{%
-   \ifnum\gl@style@num=0 \glw@assignlevels \fi
-   \gl@setprefix
+\define@choicekey{ling}{glstyle}[\ling@glstyle\gl@stylenum]{wrap,nlevel}{%
+   \ifcase\gl@stylenum
+      \let\gl@beginglstyle\glw@begingl
+      \let\endgl\glw@endgl
+      \glw@assignlevels
+      \let\glpreamble=\glw@preamble
+      \let\glft=\glw@glft
+   \else
+      \let\gl@beginglstyle\gln@begingl
+      \let\endgl\gln@endgl
+      \let\glpreamble=\gln@preamble
+      \let\glft=\gln@ft
+      \fi
 }
 \def\begingl{\bgroup\@getoptionalarg\gl@begingl}
 \def\gl@begingl{%
@@ -790,7 +772,7 @@
       \expandafter\gl@lopoffTL#1\gl@lopoffTL#1#2\fi}
 \long\def\gl@lopoffTL\\#1#2\gl@lopoffTL#3#4{#4={#1}\def#3{#2}}
 %%%%%%%%%%%%%%%%%%%% wrap style glosses %%%%%%%%%%%%%%%%%%%%
-% \gl@wrap@below@begin sets up the environment
+% \glw@begingl sets up the environment
 % \gla, \glb, etc. fill in the various lists which are initialized in
 % the environment
 % The input (something like the following)
@@ -806,10 +788,10 @@
 % building machinary.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % introduced "glossbreaking" boolean parameter
-\define@boolkey{ling}[ling@]{glossbreaking}[true]{}
+\define@boolkey{ling}[ling@]{glossbreaking}{}
 \lingset{glossbreaking=false}
-\def\gl@wrap@below@begin{\gl@wrap@below@begin@a}
-\def\gl@wrap@below@begin@a{%
+\def\glw@begingl{\glw@begingl@a}
+\def\glw@begingl@a{%
    \bgroup
    \parindent0pt
    \ep@setglstrut
@@ -928,18 +910,15 @@
    {\glw@assign@level\levelname}%
 }
 \def\glw@assign@level#1{%
-   \edef\Temp{#1}\def\XTemp{ft}%
-   \ifx\Temp\XTemp \let\temp\relax \else
-      \edef\temp{\noexpand\let
-         \expandafter\noexpand\csname gl#1\endcsname
-         \expandafter\noexpand\csname glw@gl#1\endcsname}\fi
+   \edef\temp{\noexpand\let
+      \expandafter\noexpand\csname gl#1\endcsname
+      \expandafter\noexpand\csname glw@gl#1\endcsname}%
    \temp
 }
-% \glw@gla and \gl@wrap@below@ft get their definitions directly
+% \glw@gla and \glw@glft get their definitions directly
 % \glw@gl<name> gets defined via \defineglwlevels, which adds <name> to the
 % list \glw@levels of defined glw levels
 \def\glw@levels{a,ft}
-%\def\glw@levels{a,ft}
 \def\define@glw@level#1{%
    \expandafter\ifx\csname glw@gl#1\endcsname\relax
       \define@ling@cmdkeys{everygl#1}%
@@ -947,8 +926,8 @@
       \XKV@addtolist@o\glw@levels{#1}%
       \lingset{everygl#1=,abovegl#1skip=0pt}
       \expandafter\def\csname glw@gl#1\endcsname{\glw@glx{#1}}%
-      \ifx\gl@style@num\undefined \else
-         \ifnum\gl@style@num=0 \glw@assign@level{#1}\fi\fi
+      \ifx\gl@stylenum\undefined \else
+         \ifnum\gl@stylenum=0 \glw@assign@level{#1}\fi\fi
    \else
       \@expexwarn{Level #1 is already defined}
    \fi
@@ -1002,14 +981,14 @@
 }
 \defineglwlevels{b,c}
 \newif\ifglw@spacebefore
-\long\def\gl@wrap@below@preamble #1// {%
+\long\def\glw@preamble #1// {%
    \@glpreambletrue
    {\hangindent=0pt \hangafter=0 \ling@everyglpreamble #1\strut
    \par
    \vskip\lingbelowglpreambleskip }%
 }
-\def\gl@wrap@below@ft{\@getoptionalarg\gl@wrap@below@ft@a}
-\long\def\gl@wrap@below@ft@a #1//{%
+\def\glw@glft{\@getoptionalarg\glw@glft@a}
+\long\def\glw@glft@a #1//{%
    \glw@printilgsetup
    \glw@printilg@a
    \vskip\lingaboveglftskip
@@ -1024,7 +1003,7 @@
    \ling@everyglft
    \strut #1\par
 }
-\def\gl@wrap@below@end{%
+\def\glw@endgl{%
    \if@glft \else \glw@printilg\egroup \fi
    \egroup\egroup\egroup
 }
@@ -1155,8 +1134,8 @@
    \fi
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\def\gl@nlevel@below@begin{\gl@nlevel@below@begin@a}
-\def\gl@nlevel@below@begin@a{%
+\def\gln@begingl{\gln@begingl@a}
+\def\gln@begingl@a{%
    \bgroup
    \parindent0pt
    \bgroup
@@ -1169,12 +1148,12 @@
          \hsize=\ling@glwidth
          \leftskip=0pt
    \fi
-   \futurelet\temp\gl@nlevel@below@begin@b
+   \futurelet\temp\gln@begingl@b
 }
-\def\gl@nlevel@below@begin@b{%
+\def\gln@begingl@b{%
    \ifx\temp\glpreamble \let\next=\relax
    \else \let\next=\gln@ilg \fi \next}
-\def\gl@nlevel@below@preamble #1\endpreamble{%
+\def\gln@preamble #1\endpreamble{%
    \ling@everyglpreamble
    #1\strut
    \vskip\lingbelowglpreambleskip
@@ -1264,7 +1243,7 @@
 }
 \def\ep@diacriticerror#1{%
    \@expexerror{bad gloss diacritic: #1 (only @ and + permitted)}\end}
-\def\gl@nlevel@below@ft{%
+\def\gln@ft{%
    \vskip\lingaboveglftskip
    \vskip\lingextraglskip
    \egroup\bgroup
@@ -1272,7 +1251,7 @@
    \strut
    \ling@everyglft
 }
-\def\gl@nlevel@below@end{\par\egroup\egroup\egroup\egroup}
+\def\gln@endgl{\par\egroup\egroup\egroup\egroup}
 \define@lingkey{glneveryline}{\ep@setlist\gln@everyline{#1}}
 \define@lingkey{glnabovelineskip}{\ep@setlist\gln@abovelineskip{#1}%
    \gl@lop\gln@abovelineskip\to\temp
@@ -1326,19 +1305,29 @@
    \ep@glmkcascade
 }
 % ----- side by side (ss) gloss style -----
-\def\gl@setprefix{\edef\gl@prefix{gl@\ling@glstyle @\ling@glftpos @}}
-\def\glft{\csname \gl@prefix ft\endcsname}
-\def\gl@beginglstyle{\csname \gl@prefix begin\endcsname}
-\def\endgl{\csname \gl@prefix end\endcsname}
-\def\glpreamble{\csname \gl@prefix preamble\endcsname}
-
-\define@choicekey{ling}{glftpos}[\ling@glftpos\gl@ftpos@num]%
-   {below,right}{\gl@setprefix}
-
+\define@choicekey{ling}{glftpos}[\temp\ep@glftpos]%
+   {below,right}{%
+      \ifcase\ep@glftpos
+         \let\gl@beginglstyle\glw@begingl
+         \let\endgl\glw@endgl
+         \let\glft=\glw@glft
+      \or
+         \let\gl@beginglstyle=\glw@ss@begingl
+         \let\endgl=\glw@ss@endgl
+         \let\glft\glw@ss@glft
+      \fi
+}
 \define@lingcmdkeys{sssep,ssratio,ssrightskip}
 \lingset{sssep=2em,ssratio=.6,ssrightskip=0pt plus 2em}
 \newdimen\ssleftwd
 \newdimen\ssrightwd
+\def\glw@ss@begingl{%
+   \ep@setssdims
+   \leavevmode\bgroup\hbox\bgroup
+      \hsize=\ssleftwd
+      \lingset{glwidth=\ssleftwd}
+      \glw@begingl
+}
 \def\ep@setssdims{%
    \dimen0 =\hsize
    \advance\dimen0 by -\leftskip
@@ -1347,16 +1336,9 @@
    \ssrightwd=\dimen0
    \advance\ssrightwd by -\ssleftwd
 }
-\def\gl@wrap@right@begin{%
-   \ep@setssdims
-   \leavevmode\bgroup\hbox\bgroup
-      \hsize=\ssleftwd
-      \lingset{glwidth=\ssleftwd}
-      \gl@wrap@below@begin
-}
-\def\gl@wrap@right@end{\egroup\egroup}
-\def\gl@wrap@right@ft #1//{%
-   \gl@wrap@below@end
+\def\glw@ss@endgl{\egroup\egroup}
+\def\glw@ss@glft #1//{%
+   \glw@endgl
    \hskip\lingsssep
    \vtop{%
       \leftskip=0pt
@@ -1367,81 +1349,21 @@
       #1}%
       \ignorespaces
 }
-\expandafter\def\expandafter\gl@nlevel@right@medial\expandafter
-   {\gl@nlevel@below@end \gl@nlevel@right@medial@a}
-\def\gl@nlevel@right@medial@a{\egroup
-   \def\gl@prefix{gl@nlevel@right@}%
-   \hskip\lingsssep
-   \vtop\bgroup
-      \leftskip=0pt
-      \rightskip=\lingssrightskip
-      \parindent=0pt
-      \hsize=\ssrightwd
-      \ling@everyglft
-}
-\def\gl@nlevel@right@begin{%
-   \ep@setssdims
-   \vtop\bgroup
-      \def\gl@prefix{gl@nlevel@below@}%
-      \hsize=\ssleftwd \leftskip=0pt
-      \let\gl@nlevel@below@ft=\gl@nlevel@right@medial
-      \begingl
-}
-\def\gl@nlevel@right@end{\egroup\egroup}
-%% experimental
-%\def\gl@nlevel@right@begin{%
-%   \ep@setssdims
-%   \leavevmode\bgroup\hbox\bgroup
-%      \hsize=\ssleftwd
-%      \lingset{glwidth=\ssleftwd}
-%      \gl@nlevel@below@begin
-%}
-%\def\gl@nlevel@right@end{\egroup\egroup}
-%\def\gl@nlevel@right@ft #1{%
-%   \gl@nlevel@right@end
-%   \hskip\lingsssep
-%   \vtop{%
-%      \leftskip=0pt
-%      \rightskip=\lingssrightskip
-%      \parindent=0pt
-%      \hsize=\ssrightwd
-%      \ling@everyglft
-%      #1}%
-%      \ignorespaces
-%}
-%% end experimental
 % ----- gloss with a side panel
-%2015 added macros for side panel in nlevel style
 \define@lingcmdkeys{everypanel}
 \lingset{everypanel={}}
 \def\beginglpanel{\@getoptionalarg\beginglpanel@a}
-%\def\beginglpanel@a{%
-%   \bgroup
-%   \let\endgl=\gl@wrap@panel@end
-%   \ling@usearg
-%   \ep@setssdims
-%   \leavevmode
-%      \lingset{glwidth=\ssleftwd}
-%      \begingl
-%}
 \def\beginglpanel@a{%
    \bgroup
-   \ifcase\gl@style@num
-      \let\endgl=\gl@wrap@panel@end
-   \else
-      \let\endgl=\gl@nlevel@panel@end
-   \fi
-   \begin@glpanel@right
-}
-\def\begin@glpanel@right{%
+   \let\endgl=\glw@panel@endgl
    \ling@usearg
    \ep@setssdims
    \leavevmode
-   \lingset{glwidth=\ssleftwd}
-   \begingl
+      \lingset{glwidth=\ssleftwd}
+      \begingl
 }
-\def\gl@wrap@panel@end{%
-   \gl@wrap@below@end
+\def\glw@panel@endgl{%
+   \glw@endgl
    \hfill
    \vtop\bgroup
    \hsize=\ssrightwd
@@ -1449,15 +1371,6 @@
    \rightskip=\lingssrightskip
    \lingeverypanel
 }
-\def\gl@nlevel@panel@end{%
-   \gl@nlevel@below@end
-   \hfill
-   \vtop\bgroup
-   \hsize=\ssrightwd
-   \leftskip=0pt
-   \rightskip=\lingssrightskip
-   \lingeverypanel
-}%
 \def\endpanel{\egroup\egroup\par}
 % ----- underfixes -----
 \def\gluf/#1/#2/{%
@@ -1531,10 +1444,11 @@
    glwidth=0pt,
    glufcloseup=.4ex,
    everygluf=,
+%   everybrack=\rm,
+%   glbracketsep=.15em,
    glstyle=wrap,
    extraglskip=.5ex,
    mincitesep=1.5em,
    glstruts=true
 }
 \resetatcatcode
-

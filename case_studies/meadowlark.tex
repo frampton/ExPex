@@ -1,0 +1,69 @@
+
+\documentclass{article}
+\usepackage{expex,tipa}
+
+\def\ips{\tipaencoding\slshape}
+\def\mroot{$\surd$}
+\let\L\textbeltl  % belted l
+\def\w{\super w}  % w superscript
+
+\begin{document}
+
+
+\ex[glstyle=wrap,glspace=1.4em plus.4em minus.2em,everygla=\ips,
+   everyglb=\ips]
+\begingl
+\gla[everygla=\ips] hoi Ekn {\L}E {x\w}ElEP t{g\w}El' st{\'\i}m {hE\L}
+   {kuPEcx\w ist} {\L a} Pa{\v c}sEtqEt//
+\glb[everyglb=\ips] hoi {\mroot}PEkn {\L}E {x\w}ElEP t{g\w}El' {s +
+   \mroot t\'\i m} {hE\L} ku-PEc-\mroot{x\w}ist {\L}a Pa{\v c}sEtqEt//
+\glb then {\mroot}say det Meadowlark why {nomlz + \mroot what} conn
+   2nom-cust-{\mroot}one.travels det {day time}//
+\glb then {she said} det Meadowlark why {what is it} conn {you travel
+   about} det {day time}//
+\glft Then Meadowlark said, ``Why do you travel about in the day
+   time?''//
+\endgl
+\xe
+
+\lingset{glstyle=nlevel,glspace=1.4em plus.4em minus.2em,
+   glneveryline={\ips,\ips}}
+
+\ex
+\begingl
+hoi[ hoi / then / then ]
+Ekn[ {\mroot}PEkn / {\mroot}say / {she said} ]
+{\L}E[ {\L}E / det / det]
+{x\w}ElEP[ {x\w}ElEP/ Meadowlark/ Meadowlark ]
+t{g\w}El'[ t{g\w}El'/ why / why ]
+st{\'\i}m[ s + \mroot t{\'\i}m / nomlz + \mroot what / what is it ]
+hE\L[ hE\L / conn / conn ]
+kuPEc{x\w}ist[ ku-PEc-\mroot{x\w}ist / 2nom-cust-{\mroot}one.travels /
+   you travel about ]
+{\L}a[ {\L}a / det / det ]
+Pa{\v c}sEtqEt[ Pa{\v c}sEtqEt / day time / day time ]
+\glft Then Meadowlark said, ``Why do you travel about in the day
+   time?''
+\endgl
+\xe
+
+\ex[extraglskip=2ex,aboveglftskip=2ex]
+\begingl
+hoi[ hoi / then / then ]
+Ekn[ {\mroot}PEkn / {\mroot}say / {she said} ]
+{\L}E[ {\L}E / det / det]
+{x\w}ElEP[ {x\w}ElEP/ Meadowlark/ Meadowlark ]
+t{g\w}El'[ t{g\w}El'/ why / why ]
+st{\'\i}m[ s + \mroot t{\'\i}m / nomlz + \mroot what / what is it ]
+hE\L[ hE\L / conn / conn ]
+kuPEc{x\w}ist[ ku-PEc-\mroot{x\w}ist / 2nom-cust-{\mroot}one.travels /
+   you travel about ]
+{\L}a[ {\L}a / det / det ]
+Pa{\v c}sEtqEt[ Pa{\v c}sEtqEt / day time / day time ]
+\glft Then Meadowlark said, ``Why do you travel about in the day
+   time?''
+\endgl
+\xe
+
+\end{document}
+

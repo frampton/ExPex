@@ -1,0 +1,49 @@
+% from Anna Vernerova
+
+\documentclass[12pt]{article}
+\usepackage{expex}
+
+\begin{document}
+
+\def\ADJ{$_{\hbox{\tiny\sc ADJ}}$}
+\lingset{glstyle=wrap,everyglb=\small\ttfamily}
+
+\ex
+\begingl
+\gla Informa\v{c}n{\'\i}  st\v{r}edisko podpo\v{r}{\'\i} export.//
+\glb AANS1----1A----  NNNS1-----A----  VB-S---3P-AA---  NNIS4-----A----//
+\glb Atr Sb Pred Obj//
+\glb RSTR ACT PRED PAT//
+\glc information{\ADJ} office {will support} export//
+\glft `An information office will support export.'//
+\endgl
+\xe
+
+\defineglwlevels{m,s,t}
+% m = morphological, s = syntactic, t = tectogrammatical
+\lingset{everyglm=\small\ttfamily,everygls=\small\rmfamily,
+   everyglt=\small\ttfamily}
+
+\ex[glstyle=wrap]
+\begingl
+\gla Informa\v{c}n{\'\i}  st\v{r}edisko podpo\v{r}{\'\i} export.//
+\glm AANS1----1A----  NNNS1-----A----  VB-S---3P-AA---  NNIS4-----A----//
+\gls Atr Sb Pred Obj//
+\glt RSTR ACT PRED PAT//
+\glc information{\ADJ} office {will support} export//
+\glft `An information office will support export.'//
+\endgl
+\xe
+
+
+\pex[glstyle=nlevel]
+\begingl[glneveryline={\it,\small\ttfamily,\small\ttfamily,\small\ttfamily}]
+Informa\v{c}n\'\i[AANS1----1A----/Atr/RSTR/information\ADJ]
+st\v{r}edisko[NNNS1-----A----/Sb/ACT/office]
+podpo\v{r}\'\i­[VB-S---3P-AA---/Pred/PRED/will support]
+export.[NNIS4-----A----/Obj/PAT/export]
+\glft `An information office will support export.'
+\endgl
+\xe
+
+\end{document}

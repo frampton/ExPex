@@ -1,0 +1,50 @@
+
+%\input c:/texlive/texmf-local/tex/generic/expex/expex.tex
+%\input c:/texlive/2015/texmf-dist/tex/generic/expex/expex.tex
+\input expex
+
+
+\lingset{glstyle=nlevel}
+
+\ex
+\begingl
+a[A] b[B]
+\endgl
+\xe
+
+\ex[glstyle=wrap]
+\begingl
+\gla a b //
+\glb A B //
+\endgl
+\xe
+
+\ex
+\begingl
+\glpreamble
+a b c
+\endpreamble
+a[A] b[B]
+\glft a b c
+\endgl
+\xe
+
+\bye
+
+%\documentclass[12pt]{article}
+%\usepackage{expex}
+%
+%\begin{document}
+%
+%\lingset{glstyle=nlevel}
+%
+%\begingl
+%\glpreamble
+%a b c
+%\endpreamble
+%a[A] b[B]
+%\glft a b c
+%\endgl
+%
+%\end{document}
+%

@@ -1,0 +1,42 @@
+
+\documentclass{book}
+\usepackage{expex,makeidx,epmakeidx,epltxchapno}
+
+\lingset{exnotype=chapter.arabic,chapnumseparator=/}
+
+\makeindex
+
+\begin{document}
+
+\chapter{First Chapter Name}
+
+%  \indexbyexampleno#1 writes #1 to the index, indexed by the example number
+%  it is defined in epmakeidx.sty
+%  the index entry is in the same format as the entries indexed by pages
+
+What should be put in the \index{index}index?
+
+\ex First example.\indexbyexampleno{First}
+% This will put "First" in the index, indexed by chapter_number-example_number.
+\xe
+
+\ex Second example.\indexbyexampleno{Second}
+\xe
+
+
+
+\chapter{SecondChapterName}
+
+Here are some more \index{index entries}index entries.
+
+\ex Third example.\indexbyexampleno{Third}
+\xe
+
+\ex Second example (repeated).\indexbyexampleno{Second}
+\xe
+
+\printindex
+
+\end{document}
+
+

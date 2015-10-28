@@ -1,4 +1,16 @@
 
-a
-b
+\def\minigloss#1#2{\outlinebox{%
+   \vtop{\halign{\ministrut ##\hfil\cr #1\cr #2\cr}}}\hskip1pt}%
+\let\ministrut=\relax
+\def\miniglossbare#1#2{\vtop{\halign{##\hfil\cr
+   #1\cr #2\cr}}}
+\def\outlinebox{\psframebox[framesep=0,boxsep=false,linewidth=.4pt]}
+
+\ex[glstyle=nlevel]
+\begingl
+k-[CL/2] wapm[V/see] -a[AGR/\sc 3acc] -s'i[NEG]
+-m[AGR/\sc 2pl] -wapunin[TNS/preterit] -uk[AGR/\sc 3pl]
+\glft `you (pl) didn't see them'
+\endgl
+\xe
 

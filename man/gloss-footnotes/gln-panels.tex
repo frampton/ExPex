@@ -1,0 +1,27 @@
+\makeatletter
+\def\gln@panel@endgl{%
+   \gln@endgl
+   \hfill
+   \vtop\bgroup
+   \hsize=\ssrightwd
+   \leftskip=0pt
+   \rightskip=\lingssrightskip
+   \lingeverypanel
+}%
+\def\begin@glpanel@right{%
+   \ling@usearg
+   \ep@setssdims
+   \leavevmode
+   \lingset{glwidth=\ssleftwd}
+   \begingl
+}
+\def\beginglpanel@a{%
+   \bgroup
+   \ifcase\gl@stylenum
+      \let\endgl=\glw@panel@endgl
+   \else
+      \let\endgl=\gln@panel@endgl
+   \fi
+   \begin@glpanel@right
+}
+\resetatcatcode

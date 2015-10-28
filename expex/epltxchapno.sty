@@ -8,6 +8,7 @@
 % numbered (n.1), (n.2), etc. in chapter n.  The \deftag/\getref
 % mechanism produces the desired reference.
 
+\makeatletter
 \@ifundefined{if@mainmatter}{\newif\if@mainmatter\@mainmattertrue}\relax
 \def\@chapter[#1]#2{\ifnum \c@secnumdepth >\m@ne
                        \if@mainmatter
@@ -32,4 +33,12 @@
                       \@afterheading
                     \fi}
 \lingset{exnotype=chapter.arabic}
+\define@lingcmdkeys{chapnumseparator}
+\lingset{chapnumseparator=.}
+\def\ep@rawexnoprint{\thechapter\lingchapnumseparator\number\excnt}%
+\resetatcatcode
+
+
+
+
 

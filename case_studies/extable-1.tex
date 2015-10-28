@@ -1,0 +1,31 @@
+% answering a question posed by Daniel Hirst
+
+
+\documentclass{article}
+\usepackage{expex}
+
+\newenvironment{extable}
+   {\vtop\bgroup
+      \labels
+      \advance\hsize by -\leftskip
+      \raggedright
+      \leftskip=0pt
+      \begin{tabular}}%
+   {\end{tabular}\egroup}
+\resetatcatcode
+
+
+\begin{document}
+
+\ex<SP1>
+\begin{extable}[t]{@{}l @{\quad}l *{8}{@{\qquad}l @{\quad}l}}
+\tl& papa& \tl& papaa& \tl<pappa>& pappa& \tl& paapa\\
+\tl& pappaa& \tl& paapaa& \tl& paappa& \tl& paappaa\\
+\end{extable}
+\xe
+
+Refer to (\getref{SP1}), (\getfullref{SP1.pappa}), or part \getref{SP1.pappa}.
+
+\end{document}
+
+

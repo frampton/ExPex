@@ -1,0 +1,32 @@
+
+\documentclass[12pt]{article}
+\usepackage{expex,epltxfn}
+
+\begin{document}
+
+\ex
+\allocglfns{C,A,D}
+\begingl
+\gla a b\glfnmark{A} c d //
+\glb A\glfnmark{C} B C D\glfnmark{D} //
+\endgl
+\glfntext{C text}
+\glfntext{A text}
+\glfntext{D text}
+\xe
+
+text\footnote{some text}
+
+\ex
+\allocglfns{B,A}
+\begingl
+\gla a b c d e f g h\glfnmark{A} //
+\glb AAA\glfnmark{B} B C D E F G H //
+\endgl
+\glfntext{comment on AAA}
+\glfntext{comment on h}
+\xe
+
+\end{document}
+
+

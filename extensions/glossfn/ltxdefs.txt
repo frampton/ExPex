@@ -1,0 +1,12 @@
+\long\def\@footnotetext #1->\insert \footins {\reset@font \footnotesize
+\interlinepenalty \interfootnotelinepenalty \splittopskip \footnotesep
+\splitmaxd epth \dp \strutbox \floatingpenalty \@MM \hsize \columnwidth
+\@parboxrestore \protected@edef \@currentlabel {\csname p@footnote\endcsname
+\@thefnmark }\color@ begingroup \@makefntext {\rule \z@ \footnotesep
+\ignorespaces #1\@finalstrut \strutbox }\color@endgroup }
+
+\def@makefntext #1->\everyfootnote \parindent =1em \noindent \@thefnmark .\enspace #1
+
+thempfn +++macro:->\thefootnote
+thefootnote +++macro:->\@arabic \c@footnote
+

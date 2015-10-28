@@ -1,0 +1,119 @@
+% in response to a question from Jonathan Brindle
+
+% XeLatex file
+
+\documentclass[12pt]{article}
+\usepackage{expex,tipa}
+
+\def\ipb{\tipaencoding\fontshape{sl}\fontseries{bx}\selectfont}
+
+\begin{document}
+
+\ex
+\vtop{\halign{%
+   #\hfil& \hskip1.4em \ipb #\hfil& \hskip3em \ipb #\hfil& \hskip3em `#'\hfil\cr
+& \omit \hskip2em \hwit{singular}&  \omit\hskip3em \hwit{plural} &
+   \omit\hskip3em \hwit{gloss}\cr
+\noalign{\smallskip}
+a.& j\`Oh\'O& w\`\i\'e& horse\cr
+b.& kp\'O\`N& b\'ER\`a& big\cr
+c.& s\'ann\'\i\'\i& s\'al\'\i m\'a& gold\cr
+d.& t\^O& t\'a\'a& kind\cr
+}}\xe
+
+
+You can use some of the resources ExPex provides to simplify things.  First,
+you can use \verb!\tspace! to gather the dimensions into the heading so that it is
+easier to adjust the settings to what you want.
+
+\ex[dima=1.4em,dimb=3em]
+\vtop{\halign{%
+   #\hfil& \tspace[dima] \ipb #\hfil& \tspace[dimb] \ipb #\hfil& \tspace[dimb] `#'\hfil\cr
+& \omit \tspace[dima] \hwit{singular}&  \omit\tspace[dimb]\hwit{plural}&
+   \omit\tspace[dimb]\hwit{gloss}\cr
+\noalign{\smallskip}
+a.& j\`Oh\'O& w\`\i\'e& horse\cr
+b.& kp\'O\`N& b\'ER\`a& big\cr
+c.& s\'ann\'\i\'\i& s\'al\'\i m\'a& gold\cr
+d.& t\^O& t\'a\'a& kind\cr
+}}\xe
+
+You can use \verb!\tl! and \verb!\nl! to make labeling automatic.  You can also use the fact
+that \verb!\tspace! with no optional argument defaults to \verb!\tspace[dima]!.
+
+\ex[dima=1.4em,dimb=3em]
+\vtop{\labels\halign{%
+   \tl #\hfil& \tspace \ipb #\hfil& \tspace[dimb] \ipb #\hfil& \tspace[dimb] `#'\hfil\cr
+\nl & \omit \tspace \hwit{singular}&  \omit\tspace[dimb]\hwit{plural}&
+   \omit\tspace[dimb]\hwit{gloss}\cr
+\noalign{\smallskip}
+& j\`Oh\'O& w\`\i\'e& horse\cr
+& kp\'O\`N& b\'ER\`a& big\cr
+& s\'ann\'\i\'\i& s\'al\'\i m\'a& gold\cr
+& t\^O& t\'a\'a& kind\cr
+}}\xe
+
+You can label parts easily.
+
+\ex[dima=1.4em,dimb=3em]<AA>
+\vtop{\labels\halign{%
+   \tl #\hfil& \tspace \ipb #\hfil& \tspace[dimb] \ipb #\hfil& \tspace[dimb] `#'\hfil\cr
+\nl & \omit \tspace \hwit{singular}&  \omit\tspace[dimb]\hwit{plural}&
+   \omit\tspace[dimb]\hwit{gloss}\cr
+\noalign{\smallskip}
+& j\`Oh\'O& w\`\i\'e& horse\cr
+<kpon>& kp\'O\`N& b\'ER\`a& big\cr
+& s\'ann\'\i\'\i& s\'al\'\i m\'a& gold\cr
+& t\^O& t\'a\'a& kind\cr
+}}\xe
+
+You can refer to \getref{AA} or \getfullref{AA.kpon}
+
+You if you have multiple examples with the same basic form, you can define a new
+command (or environment) to eliminate repetion in typesetting. `glex' below
+stands from `gloss example'.  Obviously, you can call it whatever you wish.
+
+%\def\beginglex{%
+%   \vtop\bgroup\labels\halign\bgroup
+%      \tl ##\hfil& \tspace \ipb ##\hfil& \tspace[dimb] \ipb ##\hfil&
+%         \tspace[dimb] `##'\hfil\cr
+%   \nl & \omit \tspace \hwit{singular}&  \omit\tspace[dimb]\hwit{plural}&
+%      \omit\tspace[dimb]\hwit{gloss}\cr
+%\noalign{\smallskip}
+%}
+%\def\endglex{\egroup\egroup}
+
+If you use the same dima and dimb over many examples, setting them can be global.
+
+\lingset{dima=1.4em,dimb=3em}
+
+%\ex
+%\beginglex
+%& j\`Oh\'O&       w\`\i\'e&           horse\cr
+%<kpon>&           kp\'O\`N& b\'ER\`a& big\cr
+%& s\'ann\'\i\'\i& s\'al\'\i m\'a&     gold\cr
+%& t\^O&           t\'a\'a&            kind\cr
+%\endglex
+%\xe
+
+\newenvironment{glex}
+   {\vtop\bgroup\labels\halign\bgroup
+      \tl ##\hfil& \tspace \ipb ##\hfil& \tspace[dimb] \ipb ##\hfil&
+         \tspace[dimb] `##'\hfil\cr
+   \nl & \omit \tspace \hwit{singular}&  \omit\tspace[dimb]\hwit{plural}&
+      \omit\tspace[dimb]\hwit{gloss}\cr
+   \noalign{\smallskip}}
+   {\egroup\egroup}
+
+\ex
+\begin{glex}
+& j\`Oh\'O&       w\`\i\'e&           horse\cr
+<kpon>&           kp\'O\`N& b\'ER\`a& big\cr
+& s\'ann\'\i\'\i& s\'al\'\i m\'a&     gold\cr
+& t\^O&           t\'a\'a&            kind\cr
+\end{glex}
+\xe
+
+
+
+\end{document}

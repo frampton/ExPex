@@ -28,14 +28,32 @@
       \@expexerror{\footnotesize must be defined}\fi
    \footnotesize
    \everyfootnote \noindent #1.\enspace\footstrut\futurelet\next\fo@t}
+\def\innerfnno#1{\let\@sf\empty
+   \ifhmode\edef\@sf{\spacefactor\the\spacefactor}\/\fi
+   {\advance\fnno by #1 $^{\the\fnno}$}\@sf}
+\def\outerfntext{\global\advance\fnno by 1 \vfootnote{\the\fnno}}
 
+\newcount\alloc@fnno
 \def\allocglfns#1{%
+   \alloctoks={}%
+   \alloc@fnno=\fnno
    \XKV@for@n{#1}\which{%
-      \advance\fnno by 1
-      \expandafter\xdef\csname glfnmark\which\endcsname
-         {$\,{}^{\the\fnno}$}}%
-   \ignorespaces
-}%
-\def\glfntext{\global\advance\fnno by 1 \vfootnote{\the\fnno}}
+      \edef\temp{glfn@mark\which}%
+      \advance\alloc@fnno by 1
+      \expandafter\xdef\csname glfn@no\which\endcsname{\the\alloc@fnno}%
+      \expandafter\xdef\csname \temp\endcsname
+         {$\mskip1.5mu ^{\the\alloc@fnno}$}%
+      \expandafter\gl@push\which\to\alloctoks}%
+      \ignorespaces
+}
+\def\glfnmark #1{%
+   \csname glfn@mark#1\endcsname
+}
+\def\glfntext{%
+   \global\advance\fnno 1
+   \gl@lop\alloctoks\to\happy
+   \edef\temp{glfn@no\happy}%
+   \expandafter\vfootnote\expandafter{\csname \temp\endcsname}%
+}
 
 \resetatcatcode

@@ -1,5 +1,5 @@
 \ProvidesPackage{epltxfn}%
-  [2011/12/05 v1.0 LaTex footnote macro for ExPex (JF)]
+  [2015/10/05 v2.0 LaTex footnote macro for ExPex (JF)]
 \RequirePackage{expex}
 \makeatletter
 \def\everyfootnote{%
@@ -15,4 +15,13 @@
    \noindent
    \@thefnmark.\enspace #1%
 }
+\def\allocglfns#1{\begingroup
+   \XKV@for@n{#1}\which{%
+      \edef\temp{glfnmark\which}%
+      \advance\c@footnote by 1
+      \expandafter\xdef\csname \temp\endcsname
+         {$\mskip1.5mu ^{\the\c@footnote}$}}\endgroup
+         \ignorespaces}%
+%        \lingset{belowexskip=0pt}\ignorespaces}%
+\def\glfntext{\global\advance\c@footnote by 1 \footnotetext}
 \resetatcatcode

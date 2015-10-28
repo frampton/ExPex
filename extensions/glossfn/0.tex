@@ -1,0 +1,21 @@
+
+
+\input expex
+\input eptexfn2
+\input epdemoaux
+
+\fnno=15
+
+Some text with a footnote.\footnote{This is a footnote.}
+
+\ex[uniformwrapbaselines=false]
+\begingl
+\gla a{\vrule depth10pt}{\putfnno} b //
+%\glb A{\vrule height20pt} B //
+\glb A B //
+\endgl
+\xe
+
+\footnote{next}
+
+\bye

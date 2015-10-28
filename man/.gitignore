@@ -1,0 +1,8 @@
+*.bak
+*.log
+*.bbl
+*.aux
+*.blg
+*.toc
+*.dat
+*.bat

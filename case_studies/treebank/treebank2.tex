@@ -1,0 +1,72 @@
+% from Anna Vernerova
+
+\documentclass[10pt]{article}
+\usepackage{expex}
+\usepackage{tipa} %for entering IPA characters
+
+\begin{document}
+
+\def\ADJ{$_{\hbox{\tiny\sc ADJ}}$}
+
+\lingset{glstyle=wrap,everyglb=\small\ttfamily}
+
+\ex
+\begingl
+\gla Informa\v{c}n{\'\i}  st\v{r}edisko podpo\v{r}{\'\i} export.//
+\glb \textipa{InfArm2\textteshlig\textltailn{}I:} \textipa{st\textraising{r}e\textbardotlessj{}IskA} \textipa{pAtpA\textraising{r}I:} \textipa{ekspArt}//
+\glb AANS1----1A----  NNNS1-----A----  VB-S---3P-AA---  NNIS4-----A----//
+\glb Atr Sb Pred Obj//
+\glb RSTR ACT PRED PAT//
+\glc information{\ADJ} office {will support} export//
+\glft `An information office will support export.'//
+\endgl
+\xe
+
+\defineglwlevels{w,m,s,t,i}
+% m = morphological, s = syntactic, t = tectogrammatical
+%% The Prague Dependency Treebank actually has four layers - the underlying
+%% source text is called "word layer" or "w-layer" for short,
+%% so \gla would better be changed to \glw
+%% - except that doing so gives me error: "Too many }'s \xe"
+%%\lingset{everyglw=\rmfamily,everyglm=\small\ttfamily,everygls=\small\rmfamily,
+%%   everyglt=\small\ttfamily}
+%% I have changed the font of the t-layer to \small\scshape, because the names
+%% of the tectogrammatical functors are all uppercase anyway (+ it illustrates
+%% that commands other than \??family can be used) - but to get nice smallcaps,
+%% I need to somehow lowercase the names of the functors in the sourcecode and
+%% I do not know how to do that properly)-:
+%%
+%% ... and I have added a line with IPA pronunciation symbols
+\lingset{everyglw=\it,everyglm=\small\ttfamily,everygls=\small\rmfamily,
+   everyglt=\scriptsize\scshape,everygli=\bf\tipaencoding}
+
+\ex[glstyle=wrap]
+\begingl
+\gla Informa\v{c}n{\'\i}  st\v{r}edisko podpo\v{r}{\'\i} export.//
+\gli InfArm2\textteshlig\textltailn{}I: st\textraising{r}e\textbardotlessj{}IskA pAtpA\textraising{r}I: ekspArt//
+\glm AANS1----1A----  NNNS1-----A----  VB-S---3P-AA---  NNIS4-----A----//
+\gls Atr Sb Pred Obj//
+\glt RSTR ACT PRED PAT//
+\glc information{\ADJ} office {will support} export//
+\glft `An information office will support export.'//
+\endgl
+\xe
+
+\ex[glstyle=nlevel]
+\begingl[]
+a[A]
+\endgl
+\xe
+
+\pex[glstyle=nlevel]
+\begingl[glneveryline={\it,\bf\tipaencoding,\small\ttfamily,\small\rmfamily,\scriptsize\scshape}]
+Informa\v{c}n\'\i[InfArm2\textteshlig\textltailn{}I:/AANS1----1A----/Atr/RSTR/information\ADJ]
+st\v{r}edisko[st\textraising{r}e\textbardotlessj{}IskA/NNNS1-----A----/Sb/ACT/office]
+podpo\v{r}\'\i­[pAtpA\textraising{r}I:/VB-S---3P-AA---/Pred/PRED/will support]
+export.[ekspArt/NNIS4-----A----/Obj/PAT/export]
+\glft `An information office will support export.'
+\endgl
+\xe
+
+\end{document}
+
