@@ -58,6 +58,9 @@
       \ProvidesFile{expex.tex}[\ExPexMessage]
       \@addtofilelist{expex.tex}
       \let\it=\itshape
+      \let\sc=\normalfont\scshape % Ivan Kapitonov 2017/05/13 for KOMA compatibility
+      \let\rm=\normalfont\rmfamily % Ivan Kapitonov 2017/05/13 for KOMA compatibility
+      \let\tt=\normalfont\ttfamily % Ivan Kapitonov 2017/05/13 for KOMA compatibility
       \let\pageno=\c@page
 % 2013/07/27
       \g@addto@macro\cl@@ckpt
