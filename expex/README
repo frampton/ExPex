@@ -1,5 +1,5 @@
 
-ExPex Jan 2014
+ExPex May 2017
 
 -------------------------------------------------------------
 ExPex is maintained by John Frampton <j.frampton@neu.edu>
@@ -11,7 +11,7 @@ examples.
 
 -------------------------------------------------------------
 
-COPYRIGHT 2006-2014  by John Frampton <j.frampton@neu.edu>
+COPYRIGHT 2006-2017  by John Frampton <j.frampton@neu.edu>
 
 This program can be redistributed and/or modified under the terms
 of the LaTeX Project Public License, which can be found in the CTAN
@@ -46,5 +46,5 @@ expex.sty, all files needed to run expex-demo should be part of any
 Tex installation.
 
 -------------------------------------------------------------
-John Frampton (Jan 24, 2014)
+John Frampton (May 27, 2017)
 

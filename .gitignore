@@ -11,6 +11,7 @@
 *.ini
 *.idx
 *.zip
+*.bat
 distributions/
 testing/
 web/
