@@ -1,5 +1,5 @@
 
-ExPex May 2017
+ExPex 6/20/2017
 
 -------------------------------------------------------------
 ExPex is maintained by John Frampton <j.frampton@neu.edu>
@@ -19,7 +19,7 @@ archives in directory macros/latex/base/lppl.txt.
 
 -------------------------------------------------------------
 
-The files in this distribution (v 5.0) are:
+The files in this distribution (v 5.1b) are:
 
    README
    expex.tex            Main macro file
@@ -42,9 +42,7 @@ This file contains most of the examples in the documentation.  It is
 intended to facilitate user experimentation with ExPex typesetting.
 Users can easily modify examples and see what the effect is. It can be
 run under either Plain Tex or LaTex.  Except for expex.tex and
-expex.sty, all files needed to run expex-demo should be part of any
-Tex installation.
+expex.sty (if LaTex is used), all files needed to run expex-demo should be part
+of any Tex installation.
 
--------------------------------------------------------------
-John Frampton (May 27, 2017)
 

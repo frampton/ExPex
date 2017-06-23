@@ -1,5 +1,5 @@
 \def\ExPexMessage
-   {5/25/2017 v5.1b ExPex linguistics example formatter (JF)}
+   {6/20/2017 v5.1c ExPex linguistics example formatter (JF)}
 % -------------------------------------------------------
 % jf 2011/12/09  (v4.0a)
 %  1) fixed bug in how exceptional gla items are detected
@@ -58,7 +58,9 @@
 %   2. made \it equivalent to \itshape if the LaTex engine is used
 %   3. fixed bug in \getref in the IJAL style
 % Vanya Kapitinov and jf 5/13/2017  (v5.1b)
-%   define \sc,\rm, and \tt in LaTex for modern LaTex compatibility
+%   define \rm and \tt in LaTex for modern LaTex compatibility
+% jf 6/20/2017 (v5.1c)
+%   restored \tagfilesuffix
 % --------------------------------------------------------
 \edef\resetatcatcode{\catcode`\noexpand\@\the\catcode`\@\relax}
 \catcode`\@=11\relax
@@ -74,8 +76,8 @@
       \@addtofilelist{expex.tex}
       \let\it=\itshape
       \let\sc=\scshape
-      \def\rm{\normalfont\rmfamily}
-      \def\tt{\normalfont\ttfamily}
+      \def\rm{\normalfont\rmfamily}   % VK 5/13/2017
+      \def\tt{\normalfont\ttfamily}   % VK 5/13/2017
       \let\pageno=\c@page
 % 2013/07/27
       \g@addto@macro\cl@@ckpt
@@ -666,17 +668,18 @@
 %------ opening the tag file -----
 \newif\if@g@thertags
 \@g@thertagsfalse
-\newwrite\ling@tagsfile
-\def\write@tags{\write\ling@tagsfile}
+\def\tagfilesuffix#1{\edef\@tagfilename{\jobname#1}}
+\tagfilesuffix{-tag}
+\newwrite\ling@tagsout
+\newread\ling@tagsin
+\def\write@tags{\write\ling@tagsout}
 \def\gathertags{%
    \@setupreadtags
    \@g@thertagstrue
-   \immediate\openout\ling@tagsfile=\jobname-tags\relax
+   \immediate\openout\ling@tagsout=\@tagfilename\relax
    \immediate\write@tags{\noexpand\relax}%
 }
 %------ reading the tag file and defining the tags it encodes -----
-\newif\if@epx@goodtagsfile
-\newread\ling@tagsin
 \gdef\@fd@f#1 #2 {%
    \expandafter\ifx\csname lingtag@#1\endcsname\relax
       \expandafter\gdef\csname lingtag@#1\endcsname{#2}%
@@ -687,10 +690,10 @@
 \def\@setupreadtags{\if@readtags
    \do@readtags \global\@readtagsfalse \fi}
 \def\do@readtags{%
-   \immediate\openin\ling@tagsin=\jobname-tags\relax
+   \immediate\openin\ling@tagsin=\@tagfilename\relax
    \ifeof\ling@tagsin \else
       \closein\ling@tagsin
-      {\catcode`@=11 \input \jobname-tags\relax}%
+      {\catcode`@=11 \input \@tagfilename\relax}%
    \fi
 }
 %!
